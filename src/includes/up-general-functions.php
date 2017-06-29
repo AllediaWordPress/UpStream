@@ -568,6 +568,13 @@ function upstream_admin_email() {
     $option = get_option( 'upstream_general' );
     return isset( $option['admin_email'] ) ? $option['admin_email'] : '';
 }
+function upstream_support_link() {
+   	if( isset( $option['admin_support_link'] ) ) {
+		return isset( $option['admin_support_link'] ) ? $option['admin_support_link'] : '';
+	} else {
+		return isset( $option['admin_email'] ) ? $option['admin_email'] : '';
+	}
+}
 
 /**
  * Check if Milestones are disabled for the current open project.
