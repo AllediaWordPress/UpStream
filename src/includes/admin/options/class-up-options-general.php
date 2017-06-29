@@ -145,6 +145,12 @@ class UpStream_Options_General {
                     'type' => 'text',
                     'desc' => __( 'The email address that clients can use to contact you.', 'upstream' ),
                 ),
+				array(
+					'name' => __( 'Admin Support Link', 'upstream' ),
+                    'id'   => 'admin_support_link',
+                    'type' => 'text',
+                    'desc' => __( 'Link to contact form or knowledgebase to help clients obtain support.', 'upstream' ),'name' => __( 'Admin Support Link', 'upstream' ),
+				),
                 array(
                     'name' => __( 'Disable Bugs', 'upstream' ),
                     'id'   => 'disable_bugs',
