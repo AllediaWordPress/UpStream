@@ -148,7 +148,7 @@ $areFilesDisabledForThisProject = upstream_are_files_disabled();
             <a href="<?php echo $projectsListURL; ?>" data-toggle="tooltip" data-placement="top" title="<?php printf(__('My %s', 'upstream'), $labelProjectPlural); ?>">
                 <i class="fa fa-home"></i>
             </a>
-            <a href="<?php echo esc_url('mailto:' . upstream_admin_email()); ?>" data-toggle="tooltip" data-placement="top" title="<?php _e('Send email to Admin', 'upstream'); ?>">
+            <a href="<?php echo esc_url( upstream_admin_support() ); ?>" data-toggle="tooltip" data-placement="top" title="<?php _e('Support Link', 'upstream'); ?>">
                 <i class="fa fa-envelope-o"></i>
             </a>
             <a href="<?php echo esc_url(upstream_logout_url()); ?>" data-toggle="tooltip" data-placement="top" title="<?php _e('Log Out', 'upstream'); ?>">
