@@ -87,7 +87,7 @@ $pluginOptions = get_option('upstream_general');
 
                         <?php if (!$areMilestonesDisabledForThisProject && !$areMilestonesDisabledAtAll): ?>
                         <li>
-                            <a href="#milestones">
+                            <a href="javascript:void( 0 )" onClick="jQuery( 'html, body' ).animate( { 'scrollTop': jQuery( '#milestones' ).offset().top - 150 }, 500 )">
                                 <i class="fa fa-flag"></i> <?php echo upstream_milestone_label_plural(); ?>
                                 <?php
                                 if (function_exists('countItemsForUserOnProject')) {
@@ -105,7 +105,7 @@ $pluginOptions = get_option('upstream_general');
 
                         <?php if (!$areTasksDisabledForThisProject && !$areTasksDisabledAtAll): ?>
                         <li>
-                            <a href="#tasks">
+                            <a href="javascript:void( 0 )" onClick="jQuery( 'html, body' ).animate( { 'scrollTop': jQuery( '#tasks' ).offset().top - 250 }, 500 )">
                                 <i class="fa fa-wrench"></i> <?php echo $labelTaskPlural; ?>
                                 <?php
                                 if (function_exists('countItemsForUserOnProject')) {
@@ -124,7 +124,7 @@ $pluginOptions = get_option('upstream_general');
 
                         <?php if (!$areBugsDisabledAtAll && !$areBugsDisabledForThisProject): ?>
                         <li>
-                            <a href="#bugs">
+                            <a href="javascript:void( 0 )" onClick="jQuery( 'html, body' ).animate( { 'scrollTop': jQuery( '#bugs' ).offset().top - 250 }, 500 )">
                                 <i class="fa fa-bug"></i> <?php echo $labelBugPlural; ?>
                                 <?php
                                 if (function_exists('countItemsForUserOnProject')) {
@@ -143,7 +143,7 @@ $pluginOptions = get_option('upstream_general');
 
                         <?php if (!$areFilesDisabledForThisProject && !upstream_disable_files()): ?>
                         <li>
-                            <a href="#files">
+                            <a href="javascript:void( 0 )" onClick="jQuery( 'html, body' ).animate( { 'scrollTop': jQuery( '#files' ).offset().top - 150 }, 500 )">
                                 <i class="fa fa-file"></i> <?php echo upstream_file_label_plural(); ?>
                             </a>
                         </li>
