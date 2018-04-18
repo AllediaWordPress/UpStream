@@ -436,7 +436,7 @@ class UpStream_Metaboxes_Projects {
           </div>
           <div class="up-c-filter">
             <label for="<?php echo $prefix . 'assignee'; ?>" class="up-s-mb-2"><?php _e('Assignee', 'upstream'); ?></label>
-            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to" data-placeholder="" multiple>
+            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to][" data-placeholder="" multiple>
               <option></option>
               <option value="<?php echo $currentUserId; ?>"><?php _e('Me', 'upstream'); ?></option>
               <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
@@ -504,7 +504,7 @@ class UpStream_Metaboxes_Projects {
           </div>
           <div class="up-c-filter">
             <label for="<?php echo $prefix . 'assignee'; ?>" class="up-s-mb-2"><?php _e('Assignee', 'upstream'); ?></label>
-            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to" multiple data-placeholder="">
+            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to][" multiple data-placeholder="">
               <option></option>
               <option value="<?php echo $currentUserId; ?>"><?php _e('Me', 'upstream'); ?></option>
               <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
@@ -587,7 +587,7 @@ class UpStream_Metaboxes_Projects {
           </div>
           <div class="up-c-filter">
             <label for="<?php echo $prefix . 'assignee'; ?>" class="up-s-mb-2"><?php _e('Assignee', 'upstream'); ?></label>
-            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to" data-placeholder="" multiple>
+            <select id="<?php echo $prefix . 'assignee'; ?>" class="up-o-filter o-select2" data-column="assigned_to][" data-placeholder="" multiple>
               <option></option>
               <option value="<?php echo $currentUserId; ?>"><?php _e('Me', 'upstream'); ?></option>
               <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
