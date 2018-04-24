@@ -62,7 +62,15 @@ class UpStream_Project_Activity {
 
             // reset our posted variable
             $this->posted = array();
-            $this->posted[$group][0] = $posted;
+            
+            if( !empty( $posted['data'] ) ) {
+
+                $this->posted[$group][0] = $posted['data'];
+                $this->posted[$group][0]['id'] = $posted['id'];
+            }
+            else {
+                $this->posted[$group][0] = $posted;
+            }
 
             if( isset( $posted['action'] ) && $posted['action'] == 'upstream_frontend_delete_item') {
                 $this->posted['frontend'] = 'delete';
@@ -425,7 +433,7 @@ class UpStream_Project_Activity {
                         /*
                          * add an item
                          */
-                        if( $item_id == 'add' ) {
+                        else if( $item_id == 'add' ) {
 
                             $item_added = '';
                             foreach ( $fields as $key => $item ) {
@@ -448,7 +456,11 @@ class UpStream_Project_Activity {
                         /*
                          * edit an item
                          */
-                        if( strlen( $item_id ) > 5 ) {
+                        else if( strlen( $item_id ) > 5 ) {
+                            
+                            if( isset( $fields['data'] ) ) {
+                                $fields = $fields['data'];
+                            }
 
                             foreach ( $fields as $field_id => $field_data ) {
 
@@ -469,7 +481,19 @@ class UpStream_Project_Activity {
 
                                     $field_output .= '<span class="item">' . sprintf( __( 'Edit: %s from %s to %s on %s', 'upstream' ), $field_name, is_array($from) ? count($from) : $from, is_array($to) ? count($to) : $to, '<span class="highlight">' . $title . '</span>' ) . '</span>';
                                 }
+                                
+                                if( $field_id == 'add' ) {
 
+                                    foreach( $field_data as $field_data_id => $field_data_item ) {
+
+                                        $field_name = ucwords( str_replace( $find, $replace, $field_data_id ) );
+                                        $item   = upstream_project_item_by_id( $this->ID, $item_id );
+                                        $title  = isset( $item['title'] ) ? $item['title'] : $item['milestone'];
+                                        $the_val = $this->format_fields( $field_data_id, $field_data_item );
+                                        $field_output .= '<span class="item">' . sprintf( __( 'New: %s - %s on %s', 'upstream' ), $field_name, (is_array($the_val) ? json_encode($the_val) : $the_val), '<span class="highlight">' . $title . '</span>' ) . '</span>';
+                                    }
+                                }
+                                
                                 $group_output = $field_output;
                                 echo wp_kses_post( $group_output );
 
