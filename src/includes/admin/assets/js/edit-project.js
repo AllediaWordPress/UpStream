@@ -30,11 +30,13 @@
 
             // when we do something
             $group
-                .on( 'cmb2_add_row', function( evt ) {
+                .on( 'cmb2_add_row', function( evt, newRow ) {
                     addRow( $group );
+                    resetGroup( newRow );
                 })
-                .on( 'change cmb2_add_row cmb2_shift_rows_complete', function( evt ) {
-                    resetGroup( $group );
+                .on( 'cmb2_shift_rows_complete', function( evt, button, from, goto ) {
+                    resetGroup( from );
+                    resetGroup( goto );
                 })
                 .on('click button.cmb-remove-group-row', function(evt) {
                     if ($(evt.target).hasClass('cmb-remove-group-row')) {
@@ -76,10 +78,34 @@
                 displayMilestoneIcon( $group );
 
                 $group
-                    .on( 'change cmb2_add_row cmb2_shift_rows_complete', function( evt ) {
-                        displayMilestoneProgress( $group );
-                        displayMilestoneIcon( $group );
-                    });
+                    .on(
+                        'cmb2_add_row',
+                        function( evt, newRow ) {
+
+                            displayMilestoneProgress( newRow );
+                            displayMilestoneIcon( newRow );
+                        }
+                    )
+                    .on(
+                        'cmb2_shift_rows_complete',
+                        function( evt, button, from, goto ) {
+
+                            displayMilestoneProgress( from );
+                            displayMilestoneIcon( from );
+                            displayMilestoneProgress( goto );
+                            displayMilestoneIcon( goto );
+                        }
+                    )
+                    .on(
+                        'change',
+                        function( evt ) {
+
+                            var cmbRepeatableGrouping = $( evt.target ).parents( '.cmb-repeatable-grouping' );
+
+                            displayMilestoneProgress( cmbRepeatableGrouping );
+                            displayMilestoneIcon( cmbRepeatableGrouping );
+                        }
+                    );
 
             }
 
@@ -92,12 +118,42 @@
                 displayEndDate( $group );
 
                 $group
-                    .on( 'change cmb2_add_row cmb2_shift_rows_complete', function( evt ) {
-                        displayStatusColor( $group );
-                        displayMilestoneIcon( $group );
-                        displayProgress( $group );
-                        displayEndDate( $group );
-                    });
+                    .on(
+                        'cmb2_add_row',
+                        function( evt, newRow ) {
+
+                            displayStatusColor( newRow );
+                            displayMilestoneIcon( newRow );
+                            displayProgress( newRow );
+                            displayEndDate( newRow );
+                        }
+                    )
+                    .on(
+                        'cmb2_shift_rows_complete',
+                        function( evt, button, from, goto ) {
+
+                            displayStatusColor( from );
+                            displayMilestoneIcon( from );
+                            displayProgress( from );
+                            displayEndDate( from );
+                            displayStatusColor( goto );
+                            displayMilestoneIcon( goto );
+                            displayProgress( goto );
+                            displayEndDate( goto );
+                        }
+                    )
+                    .on(
+                        'change',
+                        function( evt ) {
+
+                            var cmbRepeatableGrouping = $( evt.target ).parents( '.cmb-repeatable-grouping' );
+
+                            displayStatusColor( cmbRepeatableGrouping );
+                            displayMilestoneIcon( cmbRepeatableGrouping );
+                            displayProgress( cmbRepeatableGrouping );
+                            displayEndDate( cmbRepeatableGrouping );
+                        }
+                    );
             }
 
             // bug specific
@@ -107,10 +163,34 @@
                 displayEndDate( $group );
 
                 $group
-                    .on( 'change cmb2_add_row cmb2_shift_rows_complete', function( evt ) {
-                        displayStatusColor( $group );
-                        displayEndDate( $group );
-                    });
+                    .on(
+                        'cmb2_add_row',
+                        function( evt, newRow ) {
+
+                            displayStatusColor( newRow );
+                            displayEndDate( newRow );
+                        }
+                    )
+                    .on(
+                        'cmb2_shift_rows_complete',
+                        function( evt, button, from, goto ) {
+
+                            displayStatusColor( from );
+                            displayEndDate( from );
+                            displayStatusColor( goto );
+                            displayEndDate( goto );
+                        }
+                    )
+                    .on(
+                        'change',
+                        function( evt ) {
+
+                            var cmbRepeatableGrouping = $( evt.target ).parents( '.cmb-repeatable-grouping' );
+
+                            displayStatusColor( cmbRepeatableGrouping );
+                            displayEndDate( cmbRepeatableGrouping );
+                        }
+                    );
             }
 
         });
@@ -198,7 +278,11 @@
      */
     function addAvatars( $group ) {
 
-        $group.find( '.cmb-repeatable-grouping' ).each( function() {
+        if( !$group.hasClass( 'cmb-repeatable-grouping' ) ) {
+            $group = $group.find( '.cmb-repeatable-grouping' );
+        }
+
+        $group.each( function() {
             var $this           = $( this );
             var user_created    = $this.find( '[data-user_created_by]' ).attr( 'data-user_created_by' );
             var av_created      = $this.find( '[data-avatar_created_by]' ).attr( 'data-avatar_created_by' );
@@ -252,7 +336,7 @@
      */
     function replaceTitles( $group ) {
 
-        if( $group && $group.attr( 'id' ) == '_upstream_project_milestones' ) {
+        if( $group && ( $group.attr( 'id' ) == '_upstream_project_milestones' || $group.parents( "#_upstream_project_milestones" ).length > 0 ) ) {
 
             $group.find( '.cmb-group-title' ).each( function() {
                 var $this   = $( this );
@@ -270,7 +354,7 @@
             $group.find( '.cmb-group-title' ).each( function() {
                 var $this       = $( this );
                 var title       = $this.next().find( '[id$="title"]' ).val();
-                var grouptitle  = $group.find( '[data-grouptitle]' ).data( 'grouptitle' );
+                var grouptitle  = $this.parents( '.cmb-repeatable-group' ).find( '[data-grouptitle]' ).data( 'grouptitle' );
                 if ( ! title ) {
                     var $row        = $this.parents( '.cmb-row.cmb-repeatable-grouping' );
                     var rowindex    = $row.data( 'iterator' );
@@ -287,7 +371,7 @@
     };
 
     function titleOnKeyUp( evt ) {
-        var $group  = $( evt.target ).parents( '.cmb2-wrap.form-table' );
+        var $group  = $( evt.target ).parents( '.cmb-repeatable-grouping' );
         replaceTitles( $group );
         addAvatars( $group );
     };
@@ -297,7 +381,12 @@
      * Only used on the Milestones group.
      */
     function displayMilestoneProgress( $group ) {
-        $group.find( '.cmb-repeatable-grouping' ).each( function() {
+        
+        if( !$group.hasClass( 'cmb-repeatable-grouping' ) ) {
+            $group = $group.find( '.cmb-repeatable-grouping' );
+        }
+
+        $group.each( function() {
             var $this       = $( this );
             var title       = $this.find('.cmb-group-title .title').text();
             if( title ) {
@@ -317,7 +406,12 @@
      * Used in tasks and bugs.
      */
     function displayMilestoneIcon( $group ) {
-        $group.find( '.cmb-repeatable-grouping' ).each( function() {
+        
+        if( !$group.hasClass( 'cmb-repeatable-grouping' ) ) {
+            $group = $group.find( '.cmb-repeatable-grouping' );
+        }
+
+        $group.each( function() {
             var $this       = $( this );
             var milestone   = $this.find('[id$="milestone"] option:selected').text();
 
@@ -342,6 +436,7 @@
                 var $parent = $this.parents( '.cmb2-wrap.form-table' );
                 color = $parent.find('ul.statuses li .status:contains(' + status + ')').next().text();
                 color = color ? color : 'transparent';
+                $this.find( 'span.status' ).remove();
                 $this.append( '<span class="status" style="background: ' + color + '">' + status + '</span>' );
             }
         });
@@ -355,6 +450,7 @@
             var $this       = $( this );
             var date        = $this.next().find( '[id$="end_date"], [id$="due_date"]' ).val();
             if( date ){
+                $this.find( 'span.dates' ).remove();
                 $this.append( '<span class="dates">End: ' + date + '</span>' );
             }
         });
@@ -366,7 +462,12 @@
      * Only used on the Tasks group.
      */
     function displayProgress( $group ) {
-        $group.find( '.cmb-repeatable-grouping' ).each( function() {
+        
+        if( !$group.hasClass( 'cmb-repeatable-grouping' ) ) {
+            $group = $group.find( '.cmb-repeatable-grouping' );
+        }
+
+        $group.each( function() {
             var $this       = $( this );
             var progress    = $this.find('[id$="progress"]').val();
             progress = progress ? progress : '0';
