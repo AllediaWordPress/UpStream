@@ -45,7 +45,7 @@ if ( $isSingle ) {
                 <h3>&nbsp;</h3>
                 <ul class="nav side-menu">
                     <li>
-                        <a href="#">
+                        <a href="<?php echo esc_attr( $projectsListUrl ); ?>">
                             <i class="fa fa-home"></i>
                             <?php echo esc_html( $i18n['LB_PROJECTS'] ); ?>
                         </a>
