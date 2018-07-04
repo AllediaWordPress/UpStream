@@ -111,7 +111,6 @@ if ( isset( $currentUser->projects ) ) {
     unset( $currentUser->projects );
 }
 
-//Modified by Ben Travaglione 2018-07-04
 //Sort the projectsList alphabetically by 'slug'
 function cmp($a, $b) {
     return ($a->slug < $b->slug) ? -1 : 1;
