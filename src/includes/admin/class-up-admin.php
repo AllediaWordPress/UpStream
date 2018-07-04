@@ -510,10 +510,11 @@ class UpStream_Admin {
      */
     public function filter_user_attachments( $query = [] ) {
         $user_id = get_current_user_id();
+	/*
         if ( $user_id ) {
             $query['author'] = $user_id;
         }
-
+	*/
         return $query;
     }
 }
