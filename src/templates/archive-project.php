@@ -53,6 +53,7 @@ $projectsList = [];
 if ( isset( $currentUser->projects ) ) {
     if ( is_array( $currentUser->projects ) && count( $currentUser->projects ) > 0 ) {
         foreach ( $currentUser->projects as $project_id => $project ) {
+            if ( $statuses[(string) upstream_project_status( $project_id )]["type"] == "closed" ) continue;
             $data = (object) [
                 'id'                 => $project_id,
                 'author'             => (int) $project->post_author,
