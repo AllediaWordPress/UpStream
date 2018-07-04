@@ -59,6 +59,13 @@ if ( ! upstream_are_tasks_disabled()
 
     $rowset = UpStream_View::getTasks( $projectId );
 
+    //Only show open tasks
+    $new_data = [];
+    foreach ( $rowset as $key => $value ) {
+        if ( $statuses[$value["status"]]["type"] != "closed" ) $new_data[$key] = $value; 
+    }
+    $rowset = $new_data;
+
     $l = [
         'LB_MILESTONE'          => upstream_milestone_label(),
         'LB_TITLE'              => __( 'Title', 'upstream' ),
