@@ -47,6 +47,8 @@ class UpStream_Admin {
 
         add_action( 'cmb2_render_up_timestamp', [ $this, 'renderCmb2TimestampField' ], 10, 5 );
         add_action( 'cmb2_sanitize_up_timestamp', [ $this, 'sanitizeCmb2TimestampField' ], 10, 5 );
+
+        add_action( 'plugin_action_links_' . plugin_basename( 'upstream/upstream.php' ), [ $this, 'plugin_action_links' ], 999 );
     }
 
     /**
@@ -516,6 +518,20 @@ class UpStream_Admin {
         }
 	*/
         return $query;
+    }
+
+    /**
+     * @param $links
+     */
+    public function plugin_action_links( $links ) {
+        $links = array_merge(
+            $links,
+            [
+                '<a href="https://upstreamplugin.com/pricing/" target="_blank" id="upstream-upgrade-link">' . __( 'Upgrade', 'upstream' ) . '</a>',
+            ]
+        );
+
+        return $links;
     }
 }
 

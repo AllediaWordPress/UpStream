@@ -26,6 +26,9 @@ function upstream_load_admin_scripts( $hook ) {
 
     global $pagenow;
 
+    wp_enqueue_script( 'upstream-admin', $assetsDir . 'js/admin.js', ['jquery'], UPSTREAM_VERSION,
+        false );
+
     if ( in_array( $pagenow, [ 'edit.php', 'post.php', 'post-new.php' ] ) ) {
         if ( $postType === 'project' ) {
             global $post_type_object;
@@ -87,19 +90,18 @@ function upstream_load_admin_scripts( $hook ) {
         $postTypesUsingCmb2 = apply_filters( 'upstream:post_types_using_cmb2', [ 'project', 'client' ] );
 
         if ( in_array( $postType, $postTypesUsingCmb2 ) ) {
-            wp_register_style( 'upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION );
-            wp_enqueue_style( 'upstream-admin' );
+            wp_enqueue_style( 'upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION );
         }
     } elseif ( $pagenow === 'admin.php'
                && isset( $_GET['page'] )
                && preg_match( '/^upstream_/i', $_GET['page'] )
     ) {
-        wp_register_style( 'upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION );
-        wp_enqueue_style( 'upstream-admin' );
+        wp_enqueue_style( 'upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION );
     }
 
-    wp_register_style( 'upstream-admin-icon', $assetsDir . 'css/admin-upstream-icon.css', [], UPSTREAM_VERSION );
-    wp_enqueue_style( 'upstream-admin-icon' );
+    wp_enqueue_style( 'upstream-admin-icon', $assetsDir . 'css/admin-upstream-icon.css', [], UPSTREAM_VERSION );
+    wp_enqueue_style( 'upstream-admin-style', $assetsDir . 'css/admin.css', [], UPSTREAM_VERSION );
+    wp_enqueue_style( 'up-fontawesome', UPSTREAM_PLUGIN_URL . 'templates/assets/css/fontawesome.min.css', [], UPSTREAM_VERSION, 'all' );
 }
 
 add_action( 'admin_enqueue_scripts', 'upstream_load_admin_scripts', 100 );

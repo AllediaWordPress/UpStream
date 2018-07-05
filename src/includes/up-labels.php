@@ -48,8 +48,8 @@ function upstream_get_default_labels() {
             'plural'   => isset( $option['file']['plural'] ) ? $option['file']['plural'] : __( 'Files', 'upstream' ),
         ],
         'discussion'      => [
-            'singular' => isset( $option['Discussion']['single'] ) ? $option['Discussion']['single'] : __( 'Discussion', 'upstream' ),
-            'plural'   => isset( $option['Discussion']['plural'] ) ? $option['Discussion']['plural'] : __( 'Discussions', 'upstream' ),
+            'singular' => isset( $option['discussion']['single'] ) ? $option['discussion']['single'] : __( 'Discussion', 'upstream' ),
+            'plural'   => isset( $option['discussion']['plural'] ) ? $option['discussion']['plural'] : __( 'Discussions', 'upstream' ),
         ],
     ];
 

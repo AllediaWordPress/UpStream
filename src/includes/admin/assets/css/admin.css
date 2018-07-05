@@ -1,0 +1,39 @@
+a#upstream-upgrade-link,
+#toplevel_page_upstream_general li.upstream-extensions a {
+    color: #5facd2;
+    font-weight: bold;
+}
+
+#upstream_subscription_ad {
+    background: #fff;
+}
+
+#upstream_subscription_ad img {
+    width: 100%;
+}
+
+#upstream_subscription_ad .content {
+    padding: 15px;
+}
+
+#upstream_subscription_ad .content .error {
+    border: 1px solid #ff606c;
+    background: #f6dbdc;
+}
+
+#upstream_subscription_ad .content input {
+    width: 100%;
+    font-size: 14px;
+    max-width: 100%;
+    padding: 5px;
+}
+
+#upstream_subscription_ad .content button {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#upstream_subscription_ad .control-group {
+    margin-top: 10px;
+}

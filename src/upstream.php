@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.18.4
+ * Version: 1.19.1-beta.1
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -29,6 +29,11 @@ if ( ! class_exists( 'UpStream' ) ) :
          * @since 1.0.0
          */
         protected static $_instance = null;
+
+        /**
+         * @var Twig_Environment
+         */
+        protected $twig;
 
         /**
          * Main UpStream Instance.
@@ -80,6 +85,8 @@ if ( ! class_exists( 'UpStream' ) ) :
                 session_start();
             }
 
+            $this->init_twig();
+
             do_action( 'upstream_loaded' );
         }
 
@@ -100,12 +107,39 @@ if ( ! class_exists( 'UpStream' ) ) :
             add_filter( 'comments_clauses', [ $this, 'filterCommentsOnDashboard' ], 10, 2 );
             add_filter( 'views_dashboard', [ 'UpStream_Admin', 'commentStatusLinks' ], 10, 1 );
 
+            add_action( 'admin_init', [ 'UpStream_Admin_Reviews', 'check_review_notification' ] );
+            add_action( 'admin_init', [ 'UpStream_Admin_Subscription', 'check_ad' ] );
+
             // Render additional update info if needed.
             global $pagenow;
             if ( $pagenow === "plugins.php" ) {
                 add_action( 'in_plugin_update_message-' . UPSTREAM_PLUGIN_BASENAME,
                     [ $this, 'renderAdditionalUpdateInfo' ], 20, 2 );
             }
+        }
+
+        /**
+         * Initialize the twig environment.
+         */
+        private function init_twig() {
+            $loader = new Twig_Loader_Filesystem( __DIR__ . '/twig' );
+            $twig   = new Twig_Environment( $loader );
+
+            $this->twig = $twig;
+        }
+
+        /**
+         * @param       $twig_file
+         * @param array $context
+         *
+         * @throws Twig_Error_Loader
+         * @throws Twig_Error_Runtime
+         * @throws Twig_Error_Syntax
+         *
+         * @return string
+         */
+        public function twig_render( $twig_file, $context = [] ) {
+            return $this->twig->render( $twig_file, $context );
         }
 
         /**
@@ -184,7 +218,7 @@ if ( ! class_exists( 'UpStream' ) ) :
             $this->define( 'UPSTREAM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
             $this->define( 'UPSTREAM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
             $this->define( 'UPSTREAM_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-            $this->define( 'UPSTREAM_VERSION', '1.18.4' );
+            $this->define( 'UPSTREAM_VERSION', '1.19.1-beta.1' );
         }
 
         /**
@@ -223,16 +257,21 @@ if ( ! class_exists( 'UpStream' ) ) :
          * @since  1.0.0
          */
         public function includes() {
-            include_once( 'includes/up-install.php' );
-            include_once( 'includes/class-up-autoloader.php' );
-            include_once( 'includes/class-up-roles.php' );
-            include_once( 'includes/class-up-counts.php' );
-            include_once( 'includes/class-up-project-activity.php' );
-            include_once( 'includes/up-permalinks.php' );
-            include_once( 'includes/up-post-types.php' );
-            include_once( 'includes/up-labels.php' );
-            include_once( 'includes/trait-up-singleton.php' );
-            include_once( 'includes/abs-class-up-struct.php' );
+            // When composer is used in a global scope the folder won't exist here. So we need to check before load it.
+            if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+                require_once __DIR__ . '/vendor/autoload.php';
+            }
+
+            include_once __DIR__ . '/includes/up-install.php';
+            include_once __DIR__ . '/includes/class-up-autoloader.php';
+            include_once __DIR__ . '/includes/class-up-roles.php';
+            include_once __DIR__ . '/includes/class-up-counts.php';
+            include_once __DIR__ . '/includes/class-up-project-activity.php';
+            include_once __DIR__ . '/includes/up-permalinks.php';
+            include_once __DIR__ . '/includes/up-post-types.php';
+            include_once __DIR__ . '/includes/up-labels.php';
+            include_once __DIR__ . '/includes/trait-up-singleton.php';
+            include_once __DIR__ . '/includes/abs-class-up-struct.php';
 
             if ( $this->is_request( 'admin' ) ) {
                 global $pagenow;
@@ -267,32 +306,34 @@ if ( ! class_exists( 'UpStream' ) ) :
                 }
 
                 if ( $loadCmb2 ) {
-                    include_once( 'includes/libraries/cmb2/init.php' );
-                    include_once( 'includes/libraries/cmb2-grid/Cmb2GridPlugin.php' );
+                    include_once __DIR__ . '/includes/libraries/cmb2/init.php';
+                    include_once __DIR__ . '/includes/libraries/cmb2-grid/Cmb2GridPlugin.php';
                 }
 
-                include_once( 'includes/admin/class-up-admin.php' );
-                include_once( 'includes/admin/class-up-admin-tasks-page.php' );
-                include_once( 'includes/admin/class-up-admin-bugs-page.php' );
+                include_once __DIR__ . '/includes/admin/class-up-admin.php';
+                include_once __DIR__ . '/includes/admin/class-up-admin-tasks-page.php';
+                include_once __DIR__ . '/includes/admin/class-up-admin-bugs-page.php';
+                include_once __DIR__ . '/includes/admin/class-up-admin-reviews.php';
+                include_once __DIR__ . '/includes/admin/class-up-admin-subscription.php';
             }
 
             if ( $this->is_request( 'frontend' ) ) {
-                include_once( 'includes/frontend/class-up-template-loader.php' );
-                include_once( 'includes/frontend/class-up-login.php' );
-                include_once( 'includes/frontend/class-up-style-output.php' );
-                include_once( 'includes/frontend/up-enqueues.php' );
-                include_once( 'includes/frontend/up-template-functions.php' );
-                include_once( 'includes/frontend/up-table-functions.php' );
-                include_once( 'includes/frontend/class-up-view.php' );
+                include_once __DIR__ . '/includes/frontend/class-up-template-loader.php';
+                include_once __DIR__ . '/includes/frontend/class-up-login.php';
+                include_once __DIR__ . '/includes/frontend/class-up-style-output.php';
+                include_once __DIR__ . '/includes/frontend/up-enqueues.php';
+                include_once __DIR__ . '/includes/frontend/up-template-functions.php';
+                include_once __DIR__ . '/includes/frontend/up-table-functions.php';
+                include_once __DIR__ . '/includes/frontend/class-up-view.php';
             }
 
-            include_once( 'includes/up-general-functions.php' );
-            include_once( 'includes/up-project-functions.php' );
-            include_once( 'includes/up-client-functions.php' );
-            include_once( 'includes/up-permissions-functions.php' );
-            include_once( 'includes/up-comments-migration.php' );
-            include_once( 'includes/class-up-comments.php' );
-            include_once( 'includes/class-up-comment.php' );
+            include_once __DIR__ . '/includes/up-general-functions.php';
+            include_once __DIR__ . '/includes/up-project-functions.php';
+            include_once __DIR__ . '/includes/up-client-functions.php';
+            include_once __DIR__ . '/includes/up-permissions-functions.php';
+            include_once __DIR__ . '/includes/up-comments-migration.php';
+            include_once __DIR__ . '/includes/class-up-comments.php';
+            include_once __DIR__ . '/includes/class-up-comment.php';
         }
 
         /**

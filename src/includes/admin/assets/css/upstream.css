@@ -846,48 +846,165 @@ body.upstream_page_upstream_extensions #upstream_extensions input[type="submit"]
   display: none;
 }
 
-#installed-extensions-list {
-  display: flex;
-  flex-direction: column;
+/* Extensions */
+
+.upstream_options .col-md-12 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-#installed-extensions-list article {
-  display: flex;
-  flex-direction: row;
+#non-installed-extensions-list .row {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-#installed-extensions-list article + article {
-  margin-top: 25px;
+#non-installed-extensions-list .get-all-button {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
-#installed-extensions-list article > div:first-child {
-  background-color: #3CB3BA;
+#non-installed-extensions-list .get-all-button a.button {
+    line-height: 0px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-#installed-extensions-list article > div:last-child {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.extensions-card {
+    box-sizing: border-box;
 }
 
-#installed-extensions-list article > div + div {
-  margin-left: 10px;
+.extensions-card .card {
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    min-width: 100%;
+    height: 257px;
+    position: relative;
+    padding: 0;
 }
 
-#installed-extensions-list article img {
-  max-width: 360px;
+.extensions-card header {
+    background: #f7f7f7;
+    height: 100px;
+    text-align: center;
+    font-size: 50px;
+    padding-top: 25px;
+    box-sizing: border-box;
 }
 
-#installed-extensions-list article .u-title {
-  margin: 0;
+.extensions-card .body {
+    padding: 10px 25px;
+    position: relative;
+    height: 135px;
 }
 
-#installed-extensions-list article .u-description {
-  margin-top: 5px;
+.extensions-card .body p {
+    max-height: 132px;
+    overflow: auto;
+}
+
+.extensions-card .body a.button {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    line-height: 39px;
+    padding: 0 15px;
+    max-width: 100%;
+}
+
+@media (min-width: 992px) {
+    .extensions-card .card {
+        height: 317px;
+    }
+
+    .extensions-card .body {
+        height: 195px;
+    }
+}
+
+@media (min-width: 1142px) {
+    .extensions-card .card {
+        height: 287px;
+    }
+
+    .extensions-card .body {
+        height: 165px;
+    }
+}
+
+@media (min-width: 1222px) {
+    .extensions-card .card {
+        height: 277px;
+    }
+
+    .extensions-card .body {
+        height: 155px;
+    }
+}
+
+@media (min-width: 1900px) {
+    .extensions-card .card {
+        height: 237px;
+    }
+
+    .extensions-card .body {
+        height: 115px;
+    }
+}
+
+.extensions-card .fa-paint-brush {
+    color: #e2b661;
+}
+
+.extensions-card .fa-envelope {
+    color: #8194c2;
+}
+
+.extensions-card .fa-pencil-square-o {
+    color: #429160;
+}
+
+.extensions-card .fa-align-left {
+    color: #ca89ca;
+}
+
+.extensions-card .fa-clone {
+    color: #da7171;
+}
+
+.extensions-card .fa-calendar {
+    color: #505b6f;
+}
+
+.extensions-card .fa-plus-square-o {
+    color: #a7ce76;
+}
+
+.extensions-card.stack .card {
+    height: 200px;
+    max-width: 100%;
+}
+
+.extensions-card.stack header {
+    display: block;
+    height: 198px;
+    width: 150px;
+    float: left;
+    line-height: 145px;
+}
+
+.extensions-card.stack .body {
+    display: block;
+    height: 200px;
+    padding-left: 180px;
 }
 
 #installed-extensions-list article .u-license-status {
-  margin: 0;
+  margin: 1em;
+  margin-left: 0;
   padding: 5px 0px 5px 8px;
   border-left: 4px solid;
 }
@@ -924,33 +1041,7 @@ body.upstream_page_upstream_extensions #upstream_extensions input[type="submit"]
   border-bottom-color: #95a5a6;
 }
 
-#installed-extensions-list article header {
-  display: flex;
-  flex-direction: column;
-}
-
-#non-installed-extensions-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-#non-installed-extensions-list > article + article {
-  margin: 10px 0;
-}
-
-#non-installed-extensions-list > article {
-  max-width: 360px;
-  background: #F8F8F8;
-  border: 1px solid #BDC3C7;
-  padding: 5px 10px 10px;
-}
-
-#non-installed-extensions-list > article img {
-  max-width: 360px;
-  width: 100%;
-}
+/* Loader */
 
 .u-loader,
 .u-loader:after {

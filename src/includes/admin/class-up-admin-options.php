@@ -141,40 +141,58 @@ if ( ! class_exists( 'UpStream_Admin_Options' ) ) :
             $option_tabs = apply_filters( 'upstream_option_metaboxes', self::option_fields() ); //get all option tabs
             $tab_forms   = [];
 
+            /**
+             * Filter to return a boolean value to say if it should display or not a sidebar.
+             *
+             * @var bool
+             */
+            $show_sidebar = apply_filters( 'upstream_options_show_sidebar', false );
             ?>
-            <div class="wrap upstream_options">
+
+            <div class="wrap upstream_options <?php echo $show_sidebar ? 'upstream_with_sidebar container' : ''; ?>">
 
                 <h2><?php echo $this->title; ?></h2>
 
-                <!-- Options Page Nav Tabs -->
-                <h2 class="nav-tab-wrapper">
-                    <?php foreach ( $option_tabs as $option_tab ) :
-                        $tab_slug = $option_tab['id'];
-                        $nav_class = 'nav-tab';
-                        if ( $tab_slug == $_GET['page'] ) {
-                            $nav_class   .= ' nav-tab-active'; //add active class to current tab
-                            $tab_forms[] = $option_tab; //add current tab to forms to be rendered
-                        }
-                        ?>
-                        <a class="<?php echo esc_attr( $nav_class ); ?>"
-                           href="<?php esc_url( menu_page_url( $tab_slug ) ); ?>"><?php esc_attr_e( $option_tab['title'],
-                                'upstream' ); ?></a>
-                    <?php endforeach; ?>
-                </h2>
-                <!-- End of Nav Tabs -->
+                <div class="row">
+                    <div class="<?php echo $show_sidebar ? 'col-md-8' : 'col-md-12'; ?>">
+                        <!-- Options Page Nav Tabs -->
+                        <h2 class="nav-tab-wrapper">
+                            <?php foreach ( $option_tabs as $option_tab ) :
+                                $tab_slug = $option_tab['id'];
+                                $nav_class = 'nav-tab';
+                                if ( $tab_slug == $_GET['page'] ) {
+                                    $nav_class   .= ' nav-tab-active'; //add active class to current tab
+                                    $tab_forms[] = $option_tab; //add current tab to forms to be rendered
+                                }
+                                ?>
+                                <a class="<?php echo esc_attr( $nav_class ); ?>"
+                                   href="<?php esc_url( menu_page_url( $tab_slug ) ); ?>"><?php esc_attr_e( $option_tab['title'],
+                                        'upstream' ); ?></a>
+                            <?php endforeach; ?>
+                        </h2>
+                        <!-- End of Nav Tabs -->
 
-                <?php foreach ( $tab_forms as $tab_form ) : //render all tab forms (normaly just 1 form) ?>
-                    <div id="<?php esc_attr_e( $tab_form['id'] ); ?>" class="cmb-form group">
-                        <div class="metabox-holder">
-                            <div class="postbox pad">
-                                <h3 class="title"><?php //esc_html_e($tab_form['title'], 'upstream'); ?></h3>
-                                <div class="desc"><?php echo $tab_form['desc'] ?></div>
-                                <?php cmb2_metabox_form( $tab_form, $tab_form['id'] ); ?>
+                        <?php foreach ( $tab_forms as $tab_form ) : //render all tab forms (normaly just 1 form) ?>
+                            <div id="<?php esc_attr_e( $tab_form['id'] ); ?>" class="cmb-form group">
+                                <div class="metabox-holder">
+                                    <div class="postbox pad">
+                                        <h3 class="title"><?php //esc_html_e($tab_form['title'], 'upstream'); ?></h3>
+                                        <div class="desc"><?php echo $tab_form['desc'] ?></div>
+                                        <?php cmb2_metabox_form( $tab_form, $tab_form['id'] ); ?>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
+
+                    <?php if ( $show_sidebar ) : ?>
+                        <div class="col-md-3">
+                            <?php do_action( 'upstream_options_sidebar' ); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
+
             <?php
         }
 

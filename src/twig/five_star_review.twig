@@ -1,0 +1,17 @@
+<div class="notice notice-success">
+    <p>
+        {{ message|format('<b>', '</b>', '<b>', '</b>')|raw }}
+    </p>
+
+    <ul>
+        <li>
+            <a href="{{ link.yes }}" target="_blank">Ok, you deserved it</a>
+        </li>
+        <li>
+            <a href="{{ link.done }}">I already did</a>
+        </li>
+        <li>
+            <a href="{{ link.no }}">No, not good enough for now</a>
+        </li>
+    </ul>
+</div>

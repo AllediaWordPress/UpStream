@@ -31,4 +31,5 @@ How do I submit a good enhancement suggestion?
 ### Pull Requests
 How do I submit a good pull request?
 - Fork the repository (do not submit your own branches to this repo)
+- Submit Pull Requests to the "development" branch. Do not submit to the "master" branch.
 - Fill in the [required template](https://github.com/upstreamplugin/UpStream/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
