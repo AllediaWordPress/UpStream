@@ -185,7 +185,7 @@ msgid "user"
 msgstr ""
 
 #: includes/admin/class-up-admin-options.php:66
-#: includes/admin/class-up-admin.php:305
+#: includes/admin/class-up-admin.php:306
 msgid "UpStream"
 msgstr ""
 
@@ -357,6 +357,12 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
+#: includes/admin/class-up-admin-reviews.php:121
+#: includes/admin/class-up-admin-subscription.php:61
+#, php-format
+msgid "Hey, I noticed you have created 5 or more projects on %sUpStream%s - that's awesome! May I ask you to give it a %s5-star%s rating on WordPress? Just to help us spread the word and boost our motivation."
+msgstr ""
+
 #: includes/admin/class-up-admin-tasks-page.php:46
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:329
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:472
@@ -374,47 +380,47 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: includes/admin/class-up-admin.php:310
+#: includes/admin/class-up-admin.php:311
 msgid "Comment reply notifications"
 msgstr ""
 
-#: includes/admin/class-up-admin.php:316
-#: includes/admin/options/class-up-options-general.php:170
-#: includes/admin/options/class-up-options-general.php:182
-#: includes/admin/options/class-up-options-general.php:223
-#: includes/admin/options/class-up-options-general.php:235
-#: includes/admin/options/class-up-options-general.php:247
-#: includes/admin/options/class-up-options-general.php:259
-#: includes/admin/options/class-up-options-general.php:271
-#: includes/admin/options/class-up-options-general.php:283
-#: includes/admin/options/class-up-options-general.php:302
-#: includes/admin/options/class-up-options-general.php:314
-#: includes/admin/options/class-up-options-general.php:326
-#: includes/admin/options/class-up-options-general.php:338
+#: includes/admin/class-up-admin.php:317
+#: includes/admin/options/class-up-options-general.php:194
+#: includes/admin/options/class-up-options-general.php:206
+#: includes/admin/options/class-up-options-general.php:270
+#: includes/admin/options/class-up-options-general.php:282
+#: includes/admin/options/class-up-options-general.php:294
+#: includes/admin/options/class-up-options-general.php:306
+#: includes/admin/options/class-up-options-general.php:318
+#: includes/admin/options/class-up-options-general.php:330
+#: includes/admin/options/class-up-options-general.php:353
+#: includes/admin/options/class-up-options-general.php:365
+#: includes/admin/options/class-up-options-general.php:377
+#: includes/admin/options/class-up-options-general.php:389
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/class-up-admin.php:321
-#: includes/admin/options/class-up-options-general.php:169
-#: includes/admin/options/class-up-options-general.php:181
-#: includes/admin/options/class-up-options-general.php:222
-#: includes/admin/options/class-up-options-general.php:234
-#: includes/admin/options/class-up-options-general.php:246
-#: includes/admin/options/class-up-options-general.php:258
-#: includes/admin/options/class-up-options-general.php:270
-#: includes/admin/options/class-up-options-general.php:282
-#: includes/admin/options/class-up-options-general.php:301
-#: includes/admin/options/class-up-options-general.php:313
-#: includes/admin/options/class-up-options-general.php:337
+#: includes/admin/class-up-admin.php:322
+#: includes/admin/options/class-up-options-general.php:193
+#: includes/admin/options/class-up-options-general.php:205
+#: includes/admin/options/class-up-options-general.php:269
+#: includes/admin/options/class-up-options-general.php:281
+#: includes/admin/options/class-up-options-general.php:293
+#: includes/admin/options/class-up-options-general.php:305
+#: includes/admin/options/class-up-options-general.php:317
+#: includes/admin/options/class-up-options-general.php:329
+#: includes/admin/options/class-up-options-general.php:352
+#: includes/admin/options/class-up-options-general.php:364
+#: includes/admin/options/class-up-options-general.php:388
 msgid "No"
 msgstr ""
 
-#: includes/admin/class-up-admin.php:327
+#: includes/admin/class-up-admin.php:328
 #, php-format
 msgid "Whether to be notified when someone reply to your comments within %s."
 msgstr ""
 
-#: includes/admin/class-up-admin.php:529
+#: includes/admin/class-up-admin.php:541
 msgid "Upgrade"
 msgstr ""
 
@@ -548,10 +554,10 @@ msgstr ""
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:646
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:738
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:787
-#: includes/admin/options/class-up-options-extensions.php:371
-#: includes/admin/options/class-up-options-extensions.php:379
-#: includes/admin/options/class-up-options-extensions.php:471
-#: includes/admin/options/class-up-options-extensions.php:479
+#: includes/admin/options/class-up-options-extensions.php:391
+#: includes/admin/options/class-up-options-extensions.php:399
+#: includes/admin/options/class-up-options-extensions.php:491
+#: includes/admin/options/class-up-options-extensions.php:499
 #: includes/class-up-comments.php:145 includes/class-up-comments.php:248
 #: includes/class-up-comments.php:360 includes/class-up-comments.php:472
 msgid "You're not allowed to do this."
@@ -563,8 +569,8 @@ msgstr ""
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:742
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:791
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:1797
-#: includes/admin/options/class-up-options-extensions.php:375
-#: includes/admin/options/class-up-options-extensions.php:475
+#: includes/admin/options/class-up-options-extensions.php:395
+#: includes/admin/options/class-up-options-extensions.php:495
 #: includes/class-up-comments.php:118 includes/class-up-comments.php:233
 #: includes/class-up-comments.php:242 includes/class-up-comments.php:327
 #: includes/class-up-comments.php:467 includes/class-up-comments.php:587
@@ -965,105 +971,105 @@ msgstr ""
 msgid "These extensions add extra functionality to the UpStream Project Management plugin."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:93
+#: includes/admin/options/class-up-options-extensions.php:104
 msgid "Adds controls to easily customize the appearance of your projects."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:102
-msgid "Allow you to email project updates to people working on your projects."
+#: includes/admin/options/class-up-options-extensions.php:113
+msgid "Allows you to email project updates to people working on your projects."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:111
+#: includes/admin/options/class-up-options-extensions.php:122
 msgid "Allow users to add and edit items on the frontend."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:119
+#: includes/admin/options/class-up-options-extensions.php:130
 msgid "Add a Gantt style chart to visualize your projects."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:127
-msgid "Allow you to duplicate an UpStream project including all the content and options."
+#: includes/admin/options/class-up-options-extensions.php:138
+msgid "Allows you to duplicate an UpStream project including all the content and options."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:136
-msgid "This calendar display will allow you to easily see everything that’s happening in a project. You’ll be able to see due dates for all the milestones, tasks, and bugs."
+#: includes/admin/options/class-up-options-extensions.php:147
+msgid "This calendar display will allow you to easily see everything that’s happening in a project."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:145
-msgid "This extension will allow you to add more information to tasks and bugs. For example, in a web design project, the bugs could have fields for the browser type, PHP version, and screen size."
+#: includes/admin/options/class-up-options-extensions.php:156
+msgid "This extension allows you to add more information to Project, Milestone, Tasks and Bugs."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:239
-#: includes/admin/options/class-up-options-extensions.php:287
+#: includes/admin/options/class-up-options-extensions.php:250
+#: includes/admin/options/class-up-options-extensions.php:301
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:240
-#: includes/admin/options/class-up-options-extensions.php:292
+#: includes/admin/options/class-up-options-extensions.php:251
+#: includes/admin/options/class-up-options-extensions.php:306
 msgid "Change"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:241
-#: includes/admin/options/class-up-options-extensions.php:299
+#: includes/admin/options/class-up-options-extensions.php:252
+#: includes/admin/options/class-up-options-extensions.php:313
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:242
+#: includes/admin/options/class-up-options-extensions.php:253
 msgid "Deactivating..."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:243
-#: includes/admin/options/class-up-options-extensions.php:283
+#: includes/admin/options/class-up-options-extensions.php:254
+#: includes/admin/options/class-up-options-extensions.php:297
 msgid "Enter your License Key"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:244
-#: includes/admin/options/class-up-options-extensions.php:304
+#: includes/admin/options/class-up-options-extensions.php:255
+#: includes/admin/options/class-up-options-extensions.php:318
 msgid "Your license is not activated yet."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:256
+#: includes/admin/options/class-up-options-extensions.php:268
 msgid "Installed Extensions"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:259
+#: includes/admin/options/class-up-options-extensions.php:272
 msgid "Browse More Extensions"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:290
+#: includes/admin/options/class-up-options-extensions.php:304
 msgid "License Key"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:298
-#: includes/admin/options/class-up-options-extensions.php:438
+#: includes/admin/options/class-up-options-extensions.php:312
+#: includes/admin/options/class-up-options-extensions.php:458
 msgid "Active license key."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:302
-#: includes/admin/options/class-up-options-extensions.php:389
-#: includes/admin/options/class-up-options-extensions.php:435
+#: includes/admin/options/class-up-options-extensions.php:316
+#: includes/admin/options/class-up-options-extensions.php:409
+#: includes/admin/options/class-up-options-extensions.php:455
 msgid "Invalid license key."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:321
+#: includes/admin/options/class-up-options-extensions.php:335
 msgid "Looks like you have acquired all of our currently available extensions."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:323
+#: includes/admin/options/class-up-options-extensions.php:337
 msgid "<strong>Thank you</strong> for your support, and stay tuned for more."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:341
-msgid "Get all the UpStream extensions"
+#: includes/admin/options/class-up-options-extensions.php:344
+msgid "Get all the extensions"
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:384
-#: includes/admin/options/class-up-options-extensions.php:394
-#: includes/admin/options/class-up-options-extensions.php:484
+#: includes/admin/options/class-up-options-extensions.php:404
+#: includes/admin/options/class-up-options-extensions.php:414
+#: includes/admin/options/class-up-options-extensions.php:504
 msgid "Invalid extension."
 msgstr ""
 
-#: includes/admin/options/class-up-options-extensions.php:432
+#: includes/admin/options/class-up-options-extensions.php:452
 msgid "This key is expired and could not be activated."
 msgstr ""
 
@@ -1071,350 +1077,386 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:97
+#: includes/admin/options/class-up-options-general.php:118
 msgid "Labels"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:100
+#: includes/admin/options/class-up-options-general.php:121
 msgid "Here you can change the labels of various items. You could change Client to Customer or Bugs to Issues for example.<br>These labels will change on the frontend as well as in the admin area."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:104
+#: includes/admin/options/class-up-options-general.php:125
 msgid "Project Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:109
+#: includes/admin/options/class-up-options-general.php:130
 msgid "Client Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:114
+#: includes/admin/options/class-up-options-general.php:135
 msgid "Milestone Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:119
+#: includes/admin/options/class-up-options-general.php:140
 msgid "Task Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:124
+#: includes/admin/options/class-up-options-general.php:145
 msgid "Bug Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:129
+#: includes/admin/options/class-up-options-general.php:150
 msgid "File Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:134
+#: includes/admin/options/class-up-options-general.php:155
 msgid "Discussion Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:140
+#: includes/admin/options/class-up-options-general.php:164
 #, php-format
 msgid "%s Area"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:143
+#: includes/admin/options/class-up-options-general.php:167
 #, php-format
 msgid "Various options for the %1s login page and the frontend view. <br>%2s can view their projects by visiting %3s (URL is available after adding a %s)."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:149
+#: includes/admin/options/class-up-options-general.php:173
 msgid "Login Page Heading"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:152
+#: includes/admin/options/class-up-options-general.php:176
 msgid "The heading used on the client login page."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:155
+#: includes/admin/options/class-up-options-general.php:179
 msgid "Login Page Text"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:158
+#: includes/admin/options/class-up-options-general.php:182
 msgid "Text or instructions that can be added below the login form."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:162
+#: includes/admin/options/class-up-options-general.php:186
 msgid "Login Page Client Logo"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:165
+#: includes/admin/options/class-up-options-general.php:189
 msgid "Choose whether Client's Logo should be displayed on login page if available."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:174
+#: includes/admin/options/class-up-options-general.php:198
 msgid "Login Page Project Name"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:177
+#: includes/admin/options/class-up-options-general.php:201
 msgid "Choose whether Project's name should be displayed on login page."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:186
+#: includes/admin/options/class-up-options-general.php:210
 msgid "Admin Email"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:189
+#: includes/admin/options/class-up-options-general.php:213
 msgid "The email address that clients can use to contact you."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:192
+#: includes/admin/options/class-up-options-general.php:216
 msgid "Admin Support Link Label"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:195
+#: includes/admin/options/class-up-options-general.php:219
 msgid "Label that describes the Admin Support Link."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:196
+#: includes/admin/options/class-up-options-general.php:220
 #: includes/up-general-functions.php:715
 msgid "Contact Admin"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:199
+#: includes/admin/options/class-up-options-general.php:223
 msgid "Admin Support Link"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:202
-msgid "Link to contact form or knowledgebase to help clients obtain support."
+#: includes/admin/options/class-up-options-general.php:226
+msgid "Link to contact form or knowledge base to help clients obtain support."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:207
-msgid "Collapse Sections"
+#: includes/admin/options/class-up-options-general.php:234
+msgid "Media"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:210
-msgid "Options to collapse different sections on the client area on frontend."
+#: includes/admin/options/class-up-options-general.php:237
+msgid "Options to configure the list of media attachments."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:215
-msgid "Collapse Project Details box"
+#: includes/admin/options/class-up-options-general.php:241
+msgid "Who can see all the media?"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:218
-msgid "Choose whether to collapse the Project Details box automatically when a user opens a project page."
-msgstr ""
-
-#: includes/admin/options/class-up-options-general.php:227
-msgid "Collapse Project Milestones box"
-msgstr ""
-
-#: includes/admin/options/class-up-options-general.php:230
-msgid "Choose whether to collapse the Milestones box automatically when a user opens a project page."
-msgstr ""
-
-#: includes/admin/options/class-up-options-general.php:239
-msgid "Collapse Project Tasks box"
-msgstr ""
-
-#: includes/admin/options/class-up-options-general.php:242
-msgid "Choose whether to collapse the Tasks box automatically when a user opens a project page."
-msgstr ""
-
-#: includes/admin/options/class-up-options-general.php:251
-msgid "Collapse Project Bugs box"
+#: includes/admin/options/class-up-options-general.php:243
+msgid "For security, UpStream users can normally only access their own media uploads. Select the roles who can see all the entire media library."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:254
+msgid "Collapse Sections"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:257
+msgid "Options to collapse different sections on the client area on frontend."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:262
+msgid "Collapse Project Details box"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:265
+msgid "Choose whether to collapse the Project Details box automatically when a user opens a project page."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:274
+msgid "Collapse Project Milestones box"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:277
+msgid "Choose whether to collapse the Milestones box automatically when a user opens a project page."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:286
+msgid "Collapse Project Tasks box"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:289
+msgid "Choose whether to collapse the Tasks box automatically when a user opens a project page."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:298
+msgid "Collapse Project Bugs box"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:301
 msgid "Choose whether to collapse the Bugs box automatically when a user opens a project page."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:263
+#: includes/admin/options/class-up-options-general.php:310
 msgid "Collapse Project Files box"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:266
+#: includes/admin/options/class-up-options-general.php:313
 msgid "Choose whether to collapse the Files box automatically when a user opens a project page."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:275
+#: includes/admin/options/class-up-options-general.php:322
 msgid "Collapse Project Discussion box"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:278
+#: includes/admin/options/class-up-options-general.php:325
 msgid "Choose whether to collapse the Discussion box automatically when a user opens a project page."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:287
+#: includes/admin/options/class-up-options-general.php:338
 msgid "Toggle Features"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:290
+#: includes/admin/options/class-up-options-general.php:341
 msgid "Options to toggle different sections and features."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:294
+#: includes/admin/options/class-up-options-general.php:345
 msgid "Disable Clients and Client Users"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:297
+#: includes/admin/options/class-up-options-general.php:348
 msgid "Choose whether if Clients and Client Users can be added and used on Projects."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:306
+#: includes/admin/options/class-up-options-general.php:357
 msgid "Disable Projects Categorization"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:309
+#: includes/admin/options/class-up-options-general.php:360
 msgid "Choose whether Projects can be sorted into categories by managers and users."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:318
+#: includes/admin/options/class-up-options-general.php:369
 msgid "Project Progress Icons"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:321
+#: includes/admin/options/class-up-options-general.php:372
 msgid "Choose whether to display the Project Progress Icons section on frontend."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:325
+#: includes/admin/options/class-up-options-general.php:376
 msgid "Do not show"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:330
+#: includes/admin/options/class-up-options-general.php:381
 msgid "Disable Project Details"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:333
+#: includes/admin/options/class-up-options-general.php:384
 msgid "Choose whether to display the Project Details section on frontend."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:342
+#: includes/admin/options/class-up-options-general.php:393
 msgid "Disable Bugs"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:345
+#: includes/admin/options/class-up-options-general.php:396
 msgid "Ticking this box will disable the Bugs section on both the frontend and the admin area."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:349
+#: includes/admin/options/class-up-options-general.php:400
 msgid "Disable the Bugs section?"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:354
+#: includes/admin/options/class-up-options-general.php:405
 msgid "Disable Tasks"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:357
+#: includes/admin/options/class-up-options-general.php:408
 msgid "Ticking this box will disable the Tasks section on both the frontend and the admin area."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:361
+#: includes/admin/options/class-up-options-general.php:412
 msgid "Disable the Tasks section?"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:366
+#: includes/admin/options/class-up-options-general.php:417
 msgid "Disable Milestones"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:369
+#: includes/admin/options/class-up-options-general.php:420
 msgid "Ticking this box will disable the Milestones section on both the frontend and the admin area."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:373
+#: includes/admin/options/class-up-options-general.php:424
 msgid "Disable the Milestones section?"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:378
+#: includes/admin/options/class-up-options-general.php:429
 msgid "Disable Files"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:381
+#: includes/admin/options/class-up-options-general.php:432
 msgid "Ticking this box will disable the Files section on both the frontend and the admin area."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:385
+#: includes/admin/options/class-up-options-general.php:436
 msgid "Disable the Files section?"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:390
+#: includes/admin/options/class-up-options-general.php:441
 msgid "Disable Discussion on Projects"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:393
+#: includes/admin/options/class-up-options-general.php:444
 msgid "Either allow comments on projects on both the frontend and the admin area or hide the section."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:397
+#: includes/admin/options/class-up-options-general.php:448
 msgid "Allow comments on projects"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:398
-#: includes/admin/options/class-up-options-general.php:410
-#: includes/admin/options/class-up-options-general.php:422
-#: includes/admin/options/class-up-options-general.php:434
-#: includes/admin/options/class-up-options-general.php:446
+#: includes/admin/options/class-up-options-general.php:449
+#: includes/admin/options/class-up-options-general.php:461
+#: includes/admin/options/class-up-options-general.php:473
+#: includes/admin/options/class-up-options-general.php:485
+#: includes/admin/options/class-up-options-general.php:497
 msgid "Disable section"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:402
+#: includes/admin/options/class-up-options-general.php:453
 msgid "Disable Discussion on Milestones"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:405
-#: includes/admin/options/class-up-options-general.php:417
-#: includes/admin/options/class-up-options-general.php:429
-#: includes/admin/options/class-up-options-general.php:441
+#: includes/admin/options/class-up-options-general.php:456
+#: includes/admin/options/class-up-options-general.php:468
+#: includes/admin/options/class-up-options-general.php:480
+#: includes/admin/options/class-up-options-general.php:492
 #, php-format
 msgid "Either allow comments on %s or hide the section."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:406
+#: includes/admin/options/class-up-options-general.php:457
 #: includes/up-labels.php:35
 msgid "Milestones"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:409
+#: includes/admin/options/class-up-options-general.php:460
 msgid "Allow comments on Milestones"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:414
+#: includes/admin/options/class-up-options-general.php:465
 msgid "Disable Discussion on Tasks"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:418
+#: includes/admin/options/class-up-options-general.php:469
 #: includes/up-labels.php:40
 msgid "Tasks"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:421
+#: includes/admin/options/class-up-options-general.php:472
 msgid "Allow comments on Tasks"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:426
+#: includes/admin/options/class-up-options-general.php:477
 msgid "Disable Discussion on Bugs"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:430
+#: includes/admin/options/class-up-options-general.php:481
 #: includes/up-labels.php:44
 msgid "Bugs"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:433
+#: includes/admin/options/class-up-options-general.php:484
 msgid "Allow comments on Bugs"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:438
+#: includes/admin/options/class-up-options-general.php:489
 msgid "Disable Discussion on Files"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:442
+#: includes/admin/options/class-up-options-general.php:493
 #: includes/up-labels.php:48
 msgid "Files"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:445
+#: includes/admin/options/class-up-options-general.php:496
 msgid "Allow comments on Files"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:450
+#: includes/admin/options/class-up-options-general.php:505
+msgid "Maintenance"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:509
+msgid "General options for maintenance only. Be careful enabling any of these options."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:512
+msgid "Debug"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:515
+msgid "Ticking this box will enable special debug code and a new menu to inspect the debug information."
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:519
+msgid "Enabled"
+msgstr ""
+
+#: includes/admin/options/class-up-options-general.php:524
 msgid "Remove Data"
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:453
+#: includes/admin/options/class-up-options-general.php:527
 msgid "Ticking this box will delete all UpStream data when plugin is uninstalled."
 msgstr ""
 
-#: includes/admin/options/class-up-options-general.php:457
+#: includes/admin/options/class-up-options-general.php:531
 msgid "Remove all data on uninstall?"
 msgstr ""
 
@@ -1578,6 +1620,70 @@ msgctxt "Comment notification subject"
 msgid "New comment on %s"
 msgstr ""
 
+#: includes/class-up-debug.php:91 includes/class-up-debug.php:132
+msgid "UpStream Debug Log"
+msgstr ""
+
+#: includes/class-up-debug.php:102 includes/class-up-debug.php:103
+msgid "Debug Log"
+msgstr ""
+
+#: includes/class-up-debug.php:133
+msgid "File info"
+msgstr ""
+
+#: includes/class-up-debug.php:134
+msgid "Path"
+msgstr ""
+
+#: includes/class-up-debug.php:135
+msgid "Log content"
+msgstr ""
+
+#: includes/class-up-debug.php:136
+msgid "Size"
+msgstr ""
+
+#: includes/class-up-debug.php:137
+msgid "Created on"
+msgstr ""
+
+#: includes/class-up-debug.php:138
+msgid "Modified on"
+msgstr ""
+
+#: includes/class-up-debug.php:139
+msgid "Delete file"
+msgstr ""
+
+#: includes/class-up-debug.php:140
+msgid "Debug data"
+msgstr ""
+
+#: includes/class-up-debug.php:141
+msgid "Log File"
+msgstr ""
+
+#: includes/class-up-debug.php:144
+msgid "Log file not found."
+msgstr ""
+
+#: includes/class-up-debug.php:145
+msgid "If you see any error or look for information regarding UpStream, please don't hesitate to contact the support team. E-mail us:"
+msgstr ""
+
+#: includes/class-up-debug.php:147
+msgid "Click to delete the log file. Be careful, this operation can not be undone. "
+msgstr ""
+
+#: includes/class-up-debug.php:187
+msgid "Action nonce not found."
+msgstr ""
+
+#: includes/class-up-debug.php:194
+msgid "Invalid action nonce."
+msgstr ""
+
 #: includes/class-up-project-activity.php:380
 #, php-format
 msgid "New: %s"
@@ -1612,7 +1718,7 @@ msgstr ""
 msgid "UpStream Manager"
 msgstr ""
 
-#: includes/class-up-roles.php:64 upstream.php:455
+#: includes/class-up-roles.php:64 upstream.php:502
 msgid "UpStream User"
 msgstr ""
 
@@ -2270,35 +2376,35 @@ msgstr ""
 msgid "invalid milestone"
 msgstr ""
 
-#: upstream.php:380
+#: upstream.php:427
 msgid "View Documentation"
 msgstr ""
 
-#: upstream.php:381
+#: upstream.php:428
 msgid "Docs"
 msgstr ""
 
-#: upstream.php:382
+#: upstream.php:429
 msgid "View Quick Start Guide"
 msgstr ""
 
-#: upstream.php:383
+#: upstream.php:430
 msgid "Quick Start Guide"
 msgstr ""
 
-#: upstream.php:406
+#: upstream.php:453
 msgid "Open Settings Page"
 msgstr ""
 
-#: upstream.php:407
+#: upstream.php:454
 msgid "Settings"
 msgstr ""
 
-#: upstream.php:446
+#: upstream.php:493
 msgid "Update notice:"
 msgstr ""
 
-#: upstream.php:451
+#: upstream.php:498
 #, php-format
 msgctxt "1st %s: plugin version, 2nd %s: capability name, 3rd: UpStream User role"
 msgid "Starting from <strong>%s</strong> <code>%s</code> capability was removed from <code>%s</code> users role."

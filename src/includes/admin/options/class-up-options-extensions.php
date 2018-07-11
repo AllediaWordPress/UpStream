@@ -153,7 +153,7 @@ if ( ! class_exists( 'UpStream_Options_Extensions' ) ) :
                 [
                     'id'               => 'custom-fields',
                     'title'            => 'Custom Fields',
-                    'description'      => __( 'This extension wallow you to add more information to Project, Milestone, Tasks and Bugs.',
+                    'description'      => __( 'This extension allows you to add more information to Project, Milestone, Tasks and Bugs.',
                         'upstream' ),
                     'product_id'       => 8409,
                     'options_key_slug' => 'custom-fields',

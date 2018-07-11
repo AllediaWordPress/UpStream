@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 1.19.0
+Stable tag: 1.19.1
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,22 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.19.1] - 2018-07-11 =
+
+Fixed:
+* Fixed the custom label for Discussions;
+* Added option top select roles which can see all media;
+* Fixed the filter for statuses for tasks;
+* Added the link to the list of projects to the main menu item;
+* Fixed PHP error when project members is not an array;
+
+Changed:
+* Updated the .pot file for translators;
+* Improved some text;
+
+Added:
+* Added option to enable debug and log on UpStream settings for debugging sessions;
 
 = [1.19.0] - 2018-07-04 =
 

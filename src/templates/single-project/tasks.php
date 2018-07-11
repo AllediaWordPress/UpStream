@@ -229,7 +229,7 @@ if ( ! upstream_are_tasks_disabled()
                                         <optgroup label="<?php _e( 'Status', 'upstream' ); ?>">
                                             <?php foreach ( $statuses as $status ): ?>
                                                 <option
-                                                    value="<?php echo $status['name']; ?>"><?php echo $status['name']; ?></option>
+                                                    value="<?php echo esc_attr( $status['id'] ); ?>"><?php echo esc_html( $status['name'] ); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>

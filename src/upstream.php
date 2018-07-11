@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.19.1-beta.1
+ * Version: 1.19.1
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -79,6 +79,11 @@ if ( ! class_exists( 'UpStream' ) ) :
         public function __construct() {
             $this->define_constants();
             $this->includes();
+
+            if ( UpStream_Debug::is_enabled() ) {
+                UpStream_Debug::init();
+            }
+
             $this->init_hooks();
 
             if ( session_status() === PHP_SESSION_NONE ) {
@@ -218,7 +223,7 @@ if ( ! class_exists( 'UpStream' ) ) :
             $this->define( 'UPSTREAM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
             $this->define( 'UPSTREAM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
             $this->define( 'UPSTREAM_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-            $this->define( 'UPSTREAM_VERSION', '1.19.1-beta.1' );
+            $this->define( 'UPSTREAM_VERSION', '1.19.1' );
         }
 
         /**
@@ -262,6 +267,7 @@ if ( ! class_exists( 'UpStream' ) ) :
                 require_once __DIR__ . '/vendor/autoload.php';
             }
 
+            include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/up-install.php';
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';

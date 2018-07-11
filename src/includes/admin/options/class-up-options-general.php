@@ -74,6 +74,22 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
             return self::$instance;
         }
 
+        /**
+         * Get a list of user roles.
+         *
+         * @return array
+         */
+        protected function get_roles() {
+            $list  = [];
+            $roles = get_editable_roles();
+
+            foreach ( $roles as $role => $data ) {
+                $list[ $role ] = $data['name'];
+            }
+
+            return $list;
+        }
+
 
         /**
          * Add the options metabox to the array of metaboxes
@@ -84,6 +100,8 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
 
             $project_url = '<a target="_blank" href="' . home_url( 'projects' ) . '">' . home_url( 'projects' ) . '</a>';
 
+            $roles = $this->get_roles();
+
             $options = apply_filters( $this->id . '_option_fields', [
                     'id'         => $this->id, // upstream_tasks
                     'title'      => $this->title,
@@ -93,6 +111,9 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                     'show_names' => true,
                     'fields'     => [
 
+                        /**
+                         * Labels
+                         */
                         [
                             'name' => __( 'Labels', 'upstream' ),
                             'id'   => 'labels_title',
@@ -136,6 +157,9 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                             'type' => 'labels',
                         ],
 
+                        /**
+                         * Client
+                         */
                         [
                             'name'       => sprintf( __( '%s Area', 'upstream' ), upstream_client_label() ),
                             'id'         => 'client_area_title',
@@ -199,10 +223,33 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                             'name'    => __( 'Admin Support Link', 'upstream' ),
                             'id'      => 'admin_support_link',
                             'type'    => 'text',
-                            'desc'    => __( 'Link to contact form or knowledgebase to help clients obtain support.',
+                            'desc'    => __( 'Link to contact form or knowledge base to help clients obtain support.',
                                 'upstream' ),
                             'default' => 'mailto:' . upstream_admin_email(),
                         ],
+                        /**
+                         * MEDIA
+                         */
+                        [
+                            'name'       => __( 'Media', 'upstream' ),
+                            'id'         => 'media_filter',
+                            'type'       => 'title',
+                            'desc'       => __( 'Options to configure the list of media attachments.', 'upstream' ),
+                            'before_row' => '<hr>',
+                        ],
+                        [
+                            'name'    => __( 'Who can see all the media?', 'upstream' ),
+                            'id'      => 'media_unrestricted_roles',
+                            'desc'    => __( 'For security, UpStream users can normally only access their own media uploads. Select the roles who can see all the entire media library.',
+                                'upstream' ),
+                            'type'    => 'multicheck',
+                            'default' => ['administrator'],
+                            'options' => $roles,
+
+                        ],
+                        /**
+                         * Collapse Sections
+                         */
                         [
                             'name'       => __( 'Collapse Sections', 'upstream' ),
                             'id'         => 'frontend_collapse_sections',
@@ -283,6 +330,10 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                                 1 => __( 'Yes', 'upstream' ),
                             ],
                         ],
+
+                        /**
+                         * Toggle Features
+                         */
                         [
                             'name'       => __( 'Toggle Features', 'upstream' ),
                             'id'         => 'toggle_features',
@@ -446,6 +497,29 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                                 '0' => __( 'Disable section', 'upstream' ),
                             ],
                         ],
+
+                        /**
+                         * Maintenance
+                         */
+                        [
+                            'name' => __( 'Maintenance', 'upstream' ),
+                            'id'   => 'maintenance_title',
+                            'type' => 'title',
+                            'before_row'        => '<hr>',
+                            'desc' => __('General options for maintenance only. Be careful enabling any of these options.', 'upstream'),
+                        ],
+                        [
+                            'name'              => __( 'Debug', 'upstream' ),
+                            'id'                => 'debug',
+                            'type'              => 'multicheck',
+                            'desc'              => __( 'Ticking this box will enable special debug code and a new menu to inspect the debug information.',
+                                'upstream' ),
+                            'default'           => '',
+                            'options'           => [
+                                '1' => __( 'Enabled', 'upstream' ),
+                            ],
+                            'select_all_button' => false,
+                        ],
                         [
                             'name'              => __( 'Remove Data', 'upstream' ),
                             'id'                => 'remove_data',
@@ -457,7 +531,6 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
                                 'yes' => __( 'Remove all data on uninstall?', 'upstream' ),
                             ],
                             'select_all_button' => false,
-                            'before_row'        => '<hr>',
                         ],
 
                     ],
@@ -465,9 +538,7 @@ if ( ! class_exists( 'UpStream_Options_General' ) ) :
             );
 
             return $options;
-
         }
-
     }
 
 

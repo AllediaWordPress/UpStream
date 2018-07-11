@@ -209,7 +209,9 @@ function upstream_user_can_access_project( $user_id, $project_id ) {
     if ( ! $userCanAccessProject && user_can( $user, 'edit_published_projects' ) ) {
         // Check if user is a member of the project.
         $projectMembers = upstream_project_members_ids( $project_id );
-        if ( in_array( $user->ID, $projectMembers ) ) {
+        if ( is_array( $projectMembers ) && in_array( $user->ID, $projectMembers )) {
+            $userCanAccessProject = true;
+        } elseif ( $user->ID == (int) $projectMembers ) {
             $userCanAccessProject = true;
         }
     }

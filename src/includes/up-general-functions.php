@@ -976,7 +976,7 @@ function upstream_are_comments_disabled( $post_id = 0 ) {
     $pluginOptions = get_option( 'upstream_general' );
     $disabled      = isset( $pluginOptions['disable_project_comments'] ) && (bool) $pluginOptions['disable_project_comments'] === false;
 
-    if ($disabled) {
+    if ( $disabled ) {
         return true;
     }
 
@@ -1545,4 +1545,10 @@ function getBugsSeverities() {
     }
 
     return $data;
+}
+
+function upstream_media_unrestricted_roles() {
+    $option = get_option( 'upstream_general' );
+
+    return isset( $option['media_unrestricted_roles'] ) ? $option['media_unrestricted_roles'] : ['administrator'];
 }

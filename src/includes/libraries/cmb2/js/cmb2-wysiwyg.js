@@ -46,6 +46,8 @@ window.CMB2.wysiwyg = window.CMB2.wysiwyg || {};
 			toBeDestroyed.splice( toBeDestroyed.indexOf( id ), 1 );
 			wysiwyg.destroy( id );
 		} );
+                
+                toBeDestroyed = [];
 	}
 
 	/**

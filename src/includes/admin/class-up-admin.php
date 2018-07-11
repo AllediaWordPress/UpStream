@@ -48,7 +48,8 @@ class UpStream_Admin {
         add_action( 'cmb2_render_up_timestamp', [ $this, 'renderCmb2TimestampField' ], 10, 5 );
         add_action( 'cmb2_sanitize_up_timestamp', [ $this, 'sanitizeCmb2TimestampField' ], 10, 5 );
 
-        add_action( 'plugin_action_links_' . plugin_basename( 'upstream/upstream.php' ), [ $this, 'plugin_action_links' ], 999 );
+        add_action( 'plugin_action_links_' . plugin_basename( 'upstream/upstream.php' ),
+            [ $this, 'plugin_action_links' ], 999 );
     }
 
     /**
@@ -511,12 +512,22 @@ class UpStream_Admin {
      *
      */
     public function filter_user_attachments( $query = [] ) {
-        $user_id = get_current_user_id();
-	/*
-        if ( $user_id ) {
-            $query['author'] = $user_id;
+        $user  = wp_get_current_user();
+        $roles = upstream_media_unrestricted_roles();
+
+        // Get the user's role
+        $match = array_intersect( $user->roles, $roles );
+
+        // If the user's has a role selected as unrestricted, we do not filter the attachments.
+        if ( ! empty( $match ) ) {
+            return $query;
         }
-	*/
+
+        // The user should only see its own attachments.
+        if ( is_object( $user ) && isset( $user->ID ) && ! empty( $user->ID ) ) {
+            $query['author'] = $user->ID;
+        }
+
         return $query;
     }
 
@@ -527,7 +538,8 @@ class UpStream_Admin {
         $links = array_merge(
             $links,
             [
-                '<a href="https://upstreamplugin.com/pricing/" target="_blank" id="upstream-upgrade-link">' . __( 'Upgrade', 'upstream' ) . '</a>',
+                '<a href="https://upstreamplugin.com/pricing/" target="_blank" id="upstream-upgrade-link">' . __( 'Upgrade',
+                    'upstream' ) . '</a>',
             ]
         );
 

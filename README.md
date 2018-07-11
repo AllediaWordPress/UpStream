@@ -1,25 +1,28 @@
-# UpStream - Project Management for WordPress
+# UpStream - WordPress Project Management
 
-UpStream is a free project management plugin that allows you to manage any type of project from inside your WordPress site.
+## Welcome to the UpStream GitHub repository
 
-## Table of contents
-- [About](https://github.com/upstreamplugin/UpStream#upstream---project-management-for-wordpress)
-- [Requirements](https://github.com/upstreamplugin/UpStream#requirements)
-- [Contributing](https://github.com/upstreamplugin/UpStream#contributing)
-- [Versioning](https://github.com/upstreamplugin/UpStream#versioning)
-- [License](https://github.com/upstreamplugin/UpStream#license)
+While the UpStream's [documentation](https://upstreamplugin.com/documentation/) can be found on [UpStreamPlugin.com](https://upstreamplugin.com/), here you can browse the source, find and discuss open issues or even [contribute yourself](https://github.com/AllediaWordPress/UpStream/blob/master/CONTRIBUTING.md).
+
+We recommend all developers to follow the [UpStream blog](https://upstreamplugin.com/blog/) to stay up to date about everything happening in the project. You can also follow [@upstreamplugin](https://twitter.com/upstreamplugin) on Twitter.
+
+If you are not a developer, please use the [UpStream plugin page](https://wordpress.org/plugins/upstream/) on WordPress.org.
+
 
 ## Requirements
-- PHP 5.4+ or newer
-- WordPress 4.0 or newer
+- PHP 5.6+ or newer
+- WordPress 4.5 or newer
 
-## Contributing
-Hey, that's awesome!
+## Contributions
+You are very welcome to contribute to UpStream. Please, checkout out the [contributing guidelines](https://github.com/AllediaWordPress/UpStream/blob/master/CONTRIBUTING.md) to this repository.
 
-Check out our [contributing guidelines](https://github.com/upstreamplugin/UpStream/blob/master/CONTRIBUTING.md).
+There are various ways you can contribute:
+
+* [Create a new issue](https://github.com/AllediaWordPress/UpStream/issues) on GitHub.
+* Send us a Pull Request with your bug fixes or new features.
 
 ## Versioning
 UpStream versioning system is maintained using the [Semantic Versioning Specification (SemVer)](http://semver.org).
 
 ## License
-Check out our [license file](https://github.com/upstreamplugin/UpStream/blob/master/LICENSE).
+Check out our [license file](https://github.com/AllediaWordPress/UpStream/blob/master/LICENSE).
