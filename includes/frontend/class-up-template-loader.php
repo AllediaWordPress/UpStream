@@ -44,9 +44,14 @@ class UpStream_Template_Loader {
             $user_id    = get_current_user_id();
             $project_id = upstream_post_id();
 
-            if ( ! upstream_user_can_access_project( $user_id, $project_id ) ) {
-                wp_redirect( get_post_type_archive_link( 'project' ) );
-                exit;
+            if( !is_user_logged_in() ) {
+                wp_redirect( site_url() . '/wp-login.php?redirect_to=' . urlencode( $_SERVER['REQUEST_URI'] ) );
+            }
+            else {
+                if ( ! upstream_user_can_access_project( $user_id, $project_id ) ) {
+                    wp_redirect( get_post_type_archive_link( 'project' ) );
+                    exit;
+                }
             }
         }
 
