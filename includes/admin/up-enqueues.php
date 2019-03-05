@@ -23,7 +23,7 @@ function upstream_load_admin_scripts($hook)
 
     $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
 
     global $pagenow;
 
