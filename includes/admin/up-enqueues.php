@@ -136,8 +136,7 @@ function upstream_load_admin_scripts($hook)
                 'MSG_NO_DATA_FOUND'        => __('No data found.', 'upstream'),
                 'MSG_MANAGING_PERMISSIONS' => __("Managing %s\'s Permissions", 'upstream'),
             ]);
-        } elseif ($postType === $milestonePostType)
-        {
+        } elseif ($postType === $milestonePostType) {
             $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
             wp_enqueue_style(
                 'up-select2',
@@ -156,8 +155,9 @@ function upstream_load_admin_scripts($hook)
             unset($globalAssetsPath);
         }
 
-        $milestonePostType =
-        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2', ['project', 'client', ]);
+        $milestoneInstance  = \UpStream\Milestones::getInstance();
+        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2',
+            ['project', 'client', $milestoneInstance->getPostType()]);
 
         if (in_array($postType, $postTypesUsingCmb2)) {
             wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);

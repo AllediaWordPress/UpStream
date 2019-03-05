@@ -9,6 +9,8 @@ if ( ! defined('ABSPATH')) {
 /**
  * Permission checks for the frontend are always run through here.
  * Return true if they are allowed.
+ *
+ * @deprecated Use current_user_can
  */
 function upstream_permissions($capability = null, $item_id = null)
 {

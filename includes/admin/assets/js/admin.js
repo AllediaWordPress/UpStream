@@ -182,7 +182,7 @@
             }
         });
 
-        $('.upstream-milestone-assigned-to select').select2({
+        $('#upstream_mimlestone_data select').select2({
             allowClear: true
         });
     });

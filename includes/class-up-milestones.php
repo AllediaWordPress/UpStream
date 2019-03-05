@@ -138,10 +138,25 @@ class Milestones
      * Render the metabox for data.
      *
      * @since 1.24.0
+     *
+     * @param \WP_Post $post
+     *
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function renderMetaBox($post)
     {
         $upstream = \UpStream::instance();
+
+        // Projects
+        $projectsInstances = get_posts(['post_type' => 'project', 'posts_per_page' => 0]);
+        $projects          = [];
+        if ( ! empty($projectsInstances)) {
+            foreach ($projectsInstances as $project) {
+                $projects[$project->ID] = $project->post_title;
+            }
+        }
 
         // Start date
         $startDate = strtotime(get_post_meta($post->ID, 'upst_start_date', true));
@@ -154,11 +169,13 @@ class Milestones
         $context = [
             'field_prefix' => '_upstream_milestone_',
             'members'      => (array)upstream_project_users_dropdown(),
+            'projects'     => $projects,
             'permissions'  => [
-                'edit_assigned_to' => upstream_permissions('milestone_assigned_to_field'),
-                'edit_start_date'  => upstream_permissions('milestone_start_date_field'),
-                'edit_end_date'    => upstream_permissions('milestone_end_date_field'),
-                'edit_notes'       => upstream_permissions('milestone_notes_field'),
+                'edit_assigned_to' => current_user_can('milestone_assigned_to_field'),
+                'edit_start_date'  => current_user_can('milestone_start_date_field'),
+                'edit_end_date'    => current_user_can('milestone_end_date_field'),
+                'edit_notes'       => current_user_can('milestone_notes_field'),
+                'edit_project'     => current_user_can('edit_projects'),
             ],
             'labels'       => [
                 'assigned_to' => __('Assigned To', 'upstream'),
@@ -169,10 +186,11 @@ class Milestones
                 'project'     => __('Project', 'upstream'),
             ],
             'data'         => [
-                'assigned_to' => get_post_meta($post->ID, 'upst_assigned_to', true),
+                'assigned_to' => get_post_meta($post->ID, 'upst_assigned_to', false),
                 'start_date'  => $startDate,
                 'end_date'    => $endDate,
                 'notes'       => get_post_meta($post->ID, 'upst_notes', true),
+                'project_id'  => get_post_meta($post->ID, 'upst_project_id', false),
             ],
         ];
 
@@ -192,8 +210,19 @@ class Milestones
 
         $data = $_POST['milestone_data'];
 
+        // Project
+        $projectIdFieldName = 'project_id';
+        $projectId          = (int)$data[$projectIdFieldName];
+        update_post_meta($postId, 'upst_project_id', $projectId);
+
         // Assigned to
-        update_post_meta($postId, 'upst_assigned_to', array_map('intval', (array)$data['assigned_to']));
+        $assignedTo = array_map('intval', (array)$data['assigned_to']);
+        foreach ($assignedTo as $userId) {
+            $metaKey = 'upst_assigned_to';
+
+            delete_post_meta($postId, $metaKey);
+            add_post_meta($postId, $metaKey, $userId, false);
+        }
 
         // Start date
         $startDateFieldName = 'start_date';

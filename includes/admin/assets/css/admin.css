@@ -28,6 +28,6 @@ a#upstream-upgrade-link,
     width: 100%;
 }
 
-select#_upstream_milestone_assigned_to {
+#upstream_mimlestone_data select {
     width: 100%;
 }
