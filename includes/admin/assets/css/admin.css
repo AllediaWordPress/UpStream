@@ -27,3 +27,7 @@ a#upstream-upgrade-link,
     display: block;
     width: 100%;
 }
+
+select#_upstream_milestone_assigned_to {
+    width: 100%;
+}
