@@ -64,6 +64,7 @@ class Comments
 
         add_filter('comment_notification_subject', [self::$namespace, 'defineNotificationHeader'], 10, 2);
         add_filter('comment_notification_recipients', [self::$namespace, 'defineNotificationRecipients'], 10, 2);
+        add_filter('comment_notification_text', [self::$namespace, 'addItemTitleToNotification'], 10, 2);
 
         add_filter('upstream_allowed_tags_in_comments', [self::$namespace, 'filter_allowed_tags']);
         add_filter(
@@ -291,6 +292,8 @@ class Comments
 
             $comment_content = stripslashes($_POST['content']);
 
+            $item_title = isset($_POST['item_title']) ? sanitize_text_field($_POST['item_title']) : '';
+
             $comment = new Comment($comment_content, $project_id, $user_id);
 
             $comment->created_by->ip    = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
@@ -302,6 +305,9 @@ class Comments
 
             if ($commentTargetItemType !== "project") {
                 update_comment_meta($comment->id, 'id', $item_id);
+                // We store the item title here because of the project's data structure.
+                // It is faster to retrieve from metadata then seek item by item from a project.
+                update_comment_meta($comment->id, 'title', $item_title);
             }
 
             wp_new_comment_notify_moderator($comment->id);
@@ -1191,6 +1197,42 @@ class Comments
         $subject = apply_filters('upstream:comment_notification.subject', $subject, $comment, $project);
 
         return $subject;
+    }
+
+    /**
+     * @param $commentText
+     * @param $commentId
+     *
+     * @return mixed
+     */
+    public function addItemTitleToNotification($commentText, $commentId)
+    {
+        // Check if the comment has item_title in the metadata.
+        $itemTitle = get_comment_meta($commentId, 'title', true);
+        $itemType  = get_comment_meta($commentId, 'type', true);
+
+        if ( ! empty($itemTitle)) {
+            if ($itemType === 'milestone') {
+                // Get the milestone's title.
+                $milestones = getMilestonesTitles();
+
+                if (isset($milestones[$itemTitle])) {
+                    $itemTitle = $milestones[$itemTitle];
+                }
+            }
+
+            $commentText = __('Item Title: ', 'upstream') . $itemTitle . "\r\n\r\n" . $commentText;
+        }
+
+        if ( ! empty($itemType)) {
+            $labels = upstream_get_default_labels();
+
+            $itemTypeLabel = $labels[$itemType . 's']['singular'];
+
+            $commentText = __('Item Type: ', 'upstream') . $itemTypeLabel . "\r\n" . $commentText;
+        }
+
+        return $commentText;
     }
 
     /**

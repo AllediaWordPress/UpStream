@@ -3,7 +3,40 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
-$isSingle = is_single();
+$pluginOptions     = get_option('upstream_general');
+$siteUrl           = get_bloginfo('url');
+$pageTitle         = get_bloginfo('name');
+$currentUser       = (object)upstream_user_data();
+$projectsListUrl   = get_post_type_archive_link('project');
+$isSingle          = is_single();
+$supportUrl        = upstream_admin_support($pluginOptions);
+$logOutUrl         = upstream_logout_url();
+$areClientsEnabled = ! is_clients_disabled();
+
+$i18n = [
+    'LB_PROJECT'        => upstream_project_label(),
+    'LB_PROJECTS'       => upstream_project_label_plural(),
+    'LB_TASKS'          => upstream_task_label_plural(),
+    'LB_BUGS'           => upstream_bug_label_plural(),
+    'LB_LOGOUT'         => __('Log Out', 'upstream'),
+    'LB_ENDS_AT'        => __('Ends at', 'upstream'),
+    'MSG_SUPPORT'       => upstream_admin_support_label($pluginOptions),
+    'LB_TITLE'          => __('Title', 'upstream'),
+    'LB_TOGGLE_FILTERS' => __('Toggle Filters', 'upstream'),
+    'LB_EXPORT'         => __('Export', 'upstream'),
+    'LB_PLAIN_TEXT'     => __('Plain Text', 'upstream'),
+    'LB_CSV'            => __('CSV', 'upstream'),
+    'LB_CLIENT'         => upstream_client_label(),
+    'LB_CLIENTS'        => upstream_client_label_plural(),
+    'LB_STATUS'         => __('Status', 'upstream'),
+    'LB_STATUSES'       => __('Statuses', 'upstream'),
+    'LB_CATEGORIES'     => __('Categories'),
+    'LB_PROGRESS'       => __('Progress', 'upstream'),
+    'LB_NONE_UCF'       => __('None', 'upstream'),
+    'LB_NONE'           => __('none', 'upstream'),
+    'LB_COMPLETE'       => __('%s Complete', 'upstream'),
+];
+
 if ($isSingle) {
     $areMilestonesDisabledAtAll          = upstream_disable_milestones();
     $areMilestonesDisabledForThisProject = upstream_are_milestones_disabled();

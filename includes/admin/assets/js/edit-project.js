@@ -1130,10 +1130,11 @@
             });
         });
 
-        function sendNewCommentRequest (self, content, nonce, item_type, item_id, item_index, editor_id, commentsWrapper) {
+        function sendNewCommentRequest (self, content, nonce, item_type, item_id, item_index, editor_id, commentsWrapper, item_title) {
             item_type = typeof item_type === 'undefined' ? 'project' : item_type;
             item_id = typeof item_id === 'undefined' ? null : item_id;
             item_index = typeof item_index === 'undefined' ? null : item_index;
+            item_title = typeof item_title === 'undefined' ? null : item_title;
 
             $.ajax({
                 type: 'POST',
@@ -1145,6 +1146,7 @@
                     item_type: item_type,
                     item_index: item_index,
                     item_id: item_id,
+                    item_title: item_title,
                     content: content
                 },
                 beforeSend: function () {
@@ -1427,6 +1429,13 @@
 
                     var item_type_plural = group_id.replace('_upstream_project_', '');
                     var item_id = $('#' + prefix + '_id').val();
+                    var item_title = '';
+
+                    if (item_type_plural === 'milestones') {
+                        item_title = $('#' + prefix + '_milestone').val();
+                    } else {
+                        item_title = $('#' + prefix + '_title').val();
+                    }
 
                     sendNewCommentRequest(
                         self,
@@ -1436,7 +1445,8 @@
                         item_id,
                         itemWrapper.attr('data-iterator'),
                         editor_id,
-                        $('.c-comments', itemWrapper)
+                        $('.c-comments', itemWrapper),
+                        item_title
                     );
                 });
 

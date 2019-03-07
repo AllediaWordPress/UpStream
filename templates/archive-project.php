@@ -16,11 +16,6 @@ if (function_exists('set_time_limit')) {
 }
 
 $pluginOptions     = get_option('upstream_general');
-$pageTitle         = get_bloginfo('name');
-$siteUrl           = get_bloginfo('url');
-$projectsListUrl   = get_post_type_archive_link('project');
-$supportUrl        = upstream_admin_support($pluginOptions);
-$logOutUrl         = upstream_logout_url();
 $areClientsEnabled = ! is_clients_disabled();
 
 $archiveClosedItems = upstream_archive_closed_items();
@@ -146,7 +141,7 @@ if (isset($currentUser->projects)) {
 $projectsListCount = count($projectsList);
 
 upstream_get_template_part('global/header.php');
-include_once 'global/sidebar.php';
+upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
 
 $categories = (array)get_terms([
@@ -558,4 +553,4 @@ if ( ! empty($ordering)) {
 <?php
 do_action('upstream_after_project_list_content');
 
-include_once 'global/footer.php';
+upstream_get_template_part('global/footer.php');
