@@ -27,4 +27,13 @@ class UnitCest
     {
         Monkey\tearDown();
     }
+
+    protected function getProtectedProperty($object, $property)
+    {
+        $reflection = new \ReflectionClass($object);
+        $property   = $reflection->getProperty($property);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
+    }
 }
