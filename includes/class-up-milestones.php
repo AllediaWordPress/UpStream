@@ -19,11 +19,6 @@ class Milestones
     use Singleton;
 
     /**
-     * The post type;
-     */
-    const DEFAULT_POST_TYPE = 'upst_milestone';
-
-    /**
      * Class constructor.
      *
      * @since   1.24.0
@@ -43,6 +38,11 @@ class Milestones
         add_action('before_upstream_init', [$this, 'createPostType']);
         add_action('add_meta_boxes', [$this, 'addMetaBox']);
         add_action('save_post', [$this, 'savePost']);
+
+        $postType = $this->getPostType();
+
+        add_filter('manage_' . $postType . '_posts_columns', [$this, 'manage_posts_columns'], 10);
+        add_action('manage_' . $postType . '_posts_custom_column', [$this, 'render_post_columns'], 10, 2);
     }
 
     /**
@@ -53,7 +53,7 @@ class Milestones
      */
     public function getPostType()
     {
-        return self::DEFAULT_POST_TYPE;
+        return Milestone::POST_TYPE;
     }
 
     /**
@@ -158,13 +158,7 @@ class Milestones
             }
         }
 
-        // Start date
-        $startDate = strtotime(get_post_meta($post->ID, 'upst_start_date', true));
-        $startDate = upstream_format_date($startDate);
-
-        // End date
-        $endDate = strtotime(get_post_meta($post->ID, 'upst_end_date', true));
-        $endDate = upstream_format_date($endDate);
+        $milestone = Factory::getMilestone($post->ID);
 
         $context = [
             'field_prefix' => '_upstream_milestone_',
@@ -187,10 +181,10 @@ class Milestones
             ],
             'data'         => [
                 'assigned_to' => get_post_meta($post->ID, 'upst_assigned_to', false),
-                'start_date'  => $startDate,
-                'end_date'    => $endDate,
-                'notes'       => get_post_meta($post->ID, 'upst_notes', true),
-                'project_id'  => get_post_meta($post->ID, 'upst_project_id', false),
+                'start_date'  => $milestone->getStartDate('upstream'),
+                'end_date'    => $milestone->getEndDate('upstream'),
+                'notes'       => $milestone->getNotes(),
+                'project_id'  => $milestone->getProjectId(),
             ],
         ];
 
@@ -213,39 +207,71 @@ class Milestones
         // Project
         $projectIdFieldName = 'project_id';
         $projectId          = (int)$data[$projectIdFieldName];
-        update_post_meta($postId, 'upst_project_id', $projectId);
 
         // Assigned to
         $assignedTo = array_map('intval', (array)$data['assigned_to']);
-        foreach ($assignedTo as $userId) {
-            $metaKey = 'upst_assigned_to';
-
-            delete_post_meta($postId, $metaKey);
-            add_post_meta($postId, $metaKey, $userId, false);
-        }
 
         // Start date
         $startDateFieldName = 'start_date';
         $startDate          = ! empty($data[$startDateFieldName]) ? sanitize_text_field($data[$startDateFieldName]) : '';
-        if ( ! empty($startDate)) {
-            $startDate = upstream_date_unixtime($startDate);
-            $startDate = upstream_format_date($startDate, 'Y-m-d');
-        }
-
-        update_post_meta($postId, 'upst_start_date', $startDate);
 
         // End date
         $endDateFieldName = 'end_date';
         $endDate          = ! empty($data[$endDateFieldName]) ? sanitize_text_field($data[$endDateFieldName]) : '';
-        if ( ! empty($endDate)) {
-            $endDate = upstream_date_unixtime($endDate);
-            $endDate = upstream_format_date($endDate, 'Y-m-d');
-        }
-
-        update_post_meta($postId, 'upst_end_date', $endDate);
 
         // Notes
         $notes = wp_kses_post($data['notes']);
-        update_post_meta($postId, 'upst_notes', $notes);
+
+        // Store the values
+        Factory::getMilestone($postId)
+               ->setProjectId($projectId)
+               ->setAssignedTo($assignedTo)
+               ->setStartDate($startDate)
+               ->setEndDate($endDate)
+               ->setNotes($notes);
+    }
+
+    /**
+     * @param $columns
+     *
+     * @since 1.24.0
+     *
+     * @return array
+     */
+    public function manage_posts_columns($columns)
+    {
+        $columns['project']     = __('Project', 'upstream');
+        $columns['assigned_to'] = __('Assigned To', 'upstream');
+        $columns['start_date']  = __('Start Date', 'upstream');
+        $columns['end_date']    = __('End Date', 'upstream');
+
+        return $columns;
+    }
+
+    /**
+     * @param $column
+     * @param $postId
+     *
+     * @since 1.24.0
+     */
+    public function render_post_columns($column, $postId)
+    {
+        if ($column === 'project') {
+            $projectId = get_post_meta($postId, 'upst_project_id', true);
+
+            if (empty($projectId)) {
+                return;
+            }
+
+            $project = get_post($projectId);
+
+            echo $project->post_title;
+        } elseif ($column === 'assigned_to') {
+            $usersId = get_post_meta($postId, 'upst_assigned_to', false);
+
+            if ( ! empty($usersId)) {
+
+            }
+        }
     }
 }

@@ -356,6 +356,8 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/trait-up-singleton.php';
             include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-milestones.php';
+            include_once __DIR__ . '/includes/class-up-milestone.php';
+            include_once __DIR__ . '/includes/class-up-factory.php';
 
             if ($this->is_request('admin')) {
                 global $pagenow;
