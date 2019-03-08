@@ -176,3 +176,5 @@ function upstream_load_admin_scripts($hook)
 }
 
 add_action('admin_enqueue_scripts', 'upstream_load_admin_scripts', 100);
+
+do_action('upstream_admin_enqueue');

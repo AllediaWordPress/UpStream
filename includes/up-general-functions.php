@@ -855,7 +855,14 @@ function upstream_are_files_disabled($post_id = 0)
 function upstream_tinymce_quicktags_settings($tinyMCE)
 {
     if (preg_match('/^(?:_upstream_project_|description|notes|new_message)/i', $tinyMCE['id'])) {
-        $tinyMCE['buttons'] = 'strong,em,link,del,ul,ol,li,close';
+        $buttons = 'strong,em,link,del,ul,ol,li,close';
+
+        /**
+         * @param array $buttons
+         */
+        $buttons = apply_filters('upstream_tinymce_buttons', $buttons);
+
+        $tinyMCE['buttons'] = $buttons;
     }
 
     return $tinyMCE;
@@ -868,10 +875,28 @@ function upstream_tinymce_before_init_setup_toolbar($tinyMCE)
     }
 
     if (preg_match('/_upstream_project_|#description|#notes|#new_message|#upstream/i', $tinyMCE['selector'])) {
-        $tinyMCE['toolbar1'] = 'bold,italic,underline,strikethrough,bullist,numlist,link';
-        $tinyMCE['toolbar2'] = '';
-        $tinyMCE['toolbar3'] = '';
-        $tinyMCE['toolbar4'] = '';
+        /**
+         * @param string $buttons
+         * @param string $toolbar
+         */
+        $tinyMCE['toolbar1'] = apply_filters(
+            'upstream_tinymce_toolbar',
+            'bold,italic,underline,strikethrough,bullist,numlist,link',
+            'toolbar1'
+        );
+
+        /**
+         * This filter is documented above.
+         */
+        $tinyMCE['toolbar2'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar2');
+        /**
+         * This filter is documented above.
+         */
+        $tinyMCE['toolbar3'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar3');
+        /**
+         * This filter is documented above.
+         */
+        $tinyMCE['toolbar4'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar4');
     }
 
     return $tinyMCE;
@@ -902,6 +927,11 @@ function upstream_tinymce_before_init($tinyMCE)
 
             $pluginsList       = explode(',', $tinyMCE['plugins']);
             $pluginsListUnique = array_unique(array_merge($pluginsList, $pluginsToBeAdded));
+
+            /**
+             * @param array $pluginsList
+             */
+            $pluginsListUnique = apply_filters('upstream_tinymce_plugins', $pluginsListUnique);
 
             $tinyMCE['plugins'] = implode(',', $pluginsListUnique);
         }
