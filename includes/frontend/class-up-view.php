@@ -29,50 +29,7 @@ class UpStream_View
 
     public static function getMilestones($projectId = 0)
     {
-        $project = self::getProject($projectId);
-
-        if (count(self::$milestones) === 0) {
-            $data = [];
-
-            $milestones    = \UpStream\Milestones::getInstance();
-            $milestoneList = $milestones->getMilestonesFromProject($projectId);
-
-            foreach ($milestoneList as $milestone) {
-                $milestone = \UpStream\Factory::getMilestone($milestone);
-
-                $assignees = $milestone->getAssignedTo();
-
-                $row = [
-                    'id'              => $milestone->getId(),
-                    'milestone'       => $milestone->getName(),
-                    'milestone_order' => $milestone->getOrder(),
-                    'created_by'      => $milestone->getCreatedBy(),
-                    'created_time'    => $milestone->getCreatedOn('unix'),
-                    'assigned_to'     => $assignees,
-                    'progress'        => $milestone->getProgress(),
-                    'notes'           => $milestone->getNotes(),
-                    'start_date'      => $milestone->getStartDate('unix'),
-                    'end_date'        => $milestone->getEndDate('unix'),
-                    'task_count'      => 0,
-                    'task_open'       => 0,
-                ];
-
-                if ( ! empty($assignees)) {
-                    // Get the name of assignees to fix ordering.
-                    $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
-                }
-
-                $data[$row['id']] = $row;
-            }
-
-            $data = apply_filters('upstream_project_milestones', $data, $projectId);
-
-            self::$milestones = $data;
-        } else {
-            $data = self::$milestones;
-        }
-
-        return $data;
+        return \UpStream\Milestones::getInstance()->getMilestonesAsRowset($projectId);
     }
 
     public static function getProject($id = 0)

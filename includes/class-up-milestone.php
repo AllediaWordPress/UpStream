@@ -777,4 +777,35 @@ class Milestone extends Struct
 
         return $this;
     }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function convertToLegacyRowset()
+    {
+        $assignees = $this->getAssignedTo();
+
+        $row = [
+            'id'              => $this->getId(),
+            'milestone'       => $this->getName(),
+            'milestone_order' => $this->getOrder(),
+            'created_by'      => $this->getCreatedBy(),
+            'created_time'    => $this->getCreatedOn('unix'),
+            'assigned_to'     => $assignees,
+            'progress'        => $this->getProgress(),
+            'notes'           => $this->getNotes(),
+            'start_date'      => $this->getStartDate('unix'),
+            'end_date'        => $this->getEndDate('unix'),
+            'task_count'      => 0,
+            'task_open'       => 0,
+        ];
+
+        if ( ! empty($assignees)) {
+            // Get the name of assignees to fix ordering.
+            $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+        }
+
+        return $row;
+    }
 }

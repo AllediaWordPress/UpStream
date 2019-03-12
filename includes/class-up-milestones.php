@@ -337,4 +337,31 @@ class Milestones
 
         return count($posts) > 0;
     }
+
+    /**
+     * @param $projectId
+     *
+     * @return array|mixed|null
+     *
+     * @throws Exception
+     */
+    public function getMilestonesAsRowset($projectId)
+    {
+        $projectMilestones = $this->getMilestonesFromProject($projectId);
+        $data              = [];
+
+        if ( ! empty($projectMilestones)) {
+            foreach ($projectMilestones as $milestone) {
+                $milestone = \UpStream\Factory::getMilestone($milestone);
+
+                $row = $milestone->convertToLegacyRowset();
+
+                $data[$row['id']] = $row;
+            }
+
+            $data = apply_filters('upstream_project_milestones', $data, $projectId);
+        }
+
+        return $data;
+    }
 }
