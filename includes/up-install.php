@@ -237,32 +237,6 @@ function upstream_add_default_options()
         update_option('upstream_projects', $projects);
     }
 
-    // milestone options
-    $milestones = get_option('upstream_milestones');
-    if ( ! $milestones || empty($milestones)) {
-        $milestones['milestones'][0]['title'] = 'Wireframe';
-        $milestones['milestones'][0]['color'] = '#3ca9c4';
-        $milestones['milestones'][0]['id']    = $generateRandomId();
-
-        $milestones['milestones'][1]['title'] = 'Development';
-        $milestones['milestones'][1]['color'] = '#1e73be';
-        $milestones['milestones'][1]['id']    = $generateRandomId();
-
-        $milestones['milestones'][2]['title'] = 'Design';
-        $milestones['milestones'][2]['color'] = '#21c6e0';
-        $milestones['milestones'][2]['id']    = $generateRandomId();
-
-        $milestones['milestones'][3]['title'] = 'Testing';
-        $milestones['milestones'][3]['color'] = '#146791';
-        $milestones['milestones'][3]['id']    = $generateRandomId();
-
-        $milestones['milestones'][4]['title'] = 'Launch';
-        $milestones['milestones'][4]['color'] = '#1fc1b1';
-        $milestones['milestones'][4]['id']    = $generateRandomId();
-
-        update_option('upstream_milestones', $milestones);
-    }
-
     // task options
     $tasks = get_option('upstream_tasks');
     if ( ! $tasks || empty($tasks)) {
@@ -453,5 +427,94 @@ function upstream_update_data($old_version, $new_version)
         delete_option('upstream:created_bugs_args_ids');
 
         UpStream_Options_Bugs::createBugsStatusesIds();
+    }
+
+    $hasFinishedMigration = get_option('_upstream_migration_finished_1.24.0', null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.0', '<')) {
+        // If we have projects, create new milestones based on current ones.
+        $projects = get_posts(
+            [
+                'post_type'   => 'project',
+                'post_status' => 'publish',
+                'meta_query'  => [
+                    'relation' => 'OR',
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'compare' => 'NOT EXISTS',
+                    ],
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'value'   => 1,
+                        'compare' => '!=',
+                    ],
+                ],
+            ]
+        );
+
+        if ( ! empty($projects)) {
+            // Migrate the milestones.
+            $defaultMilestones = get_option('upstream_milestones', []);
+
+            if ( ! empty($defaultMilestones)) {
+                $defaultMilestones = $defaultMilestones['milestones'];
+                $legacyMilestones  = [];
+
+                // Organize the milestones by id
+                foreach ($defaultMilestones as $milestoneData) {
+                    $legacyMilestones[$milestoneData['id']] = $milestoneData;
+                }
+
+                global $wpdb;
+
+                foreach ($projects as $project) {
+                    // Get the project's milestones to convert them into the new post types.
+                    $projectMilestones = get_post_meta($project->ID, '_upstream_project_milestones', true);
+                    $projectTasks      = get_post_meta($project->ID, '_upstream_project_tasks', true);
+
+                    $wpdb->query('START TRANSACTION');
+
+                    if ( ! empty($projectMilestones)) {
+                        foreach ($projectMilestones as $projectMilestone) {
+
+                            $data         = $legacyMilestones[$projectMilestone['milestone']];
+                            $updatedTasks = false;
+
+                            $milestone = \UpStream\Factory::createMilestone($data['title'])
+                                                          ->setLegacyId($projectMilestone['id'])
+                                                          ->setLegacyMilestoneCode($projectMilestone['milestone'])
+                                                          ->setStartDate($projectMilestone['start_date'])
+                                                          ->setEndDate($projectMilestone['end_date'])
+                                                          ->setAssignedTo($projectMilestone['assigned_to'])
+                                                          ->setNotes($projectMilestone['notes'])
+                                                          ->setCreatedTimeInUtc((int)$projectMilestone['notes'] === 1)
+                                                          ->setProgress((float)$projectMilestone['progress'])
+                                                          ->setTaskCount((int)$projectMilestone['task_count'])
+                                                          ->setTaskOpen((int)$projectMilestone['task_open'])
+                                                          ->setProjectId($project->ID);
+
+                            // Look for all the tasks to convert the milestone ID.
+                            foreach ($projectTasks as &$task) {
+                                if ($task['milestone'] === $milestone->getLegacyId()) {
+                                    $task['milestone'] = $milestone->getId();
+
+                                    $updatedTasks = true;
+                                }
+                            }
+                        }
+                    }
+
+                    update_post_meta($project->ID, '_upstream_milestones_migrated', 1);
+
+                    // Update the tasks in the project
+                    if ($updatedTasks) {
+                        update_post_meta($project->ID, '_upstream_project_tasks', $projectTasks);
+                    }
+
+                    $wpdb->query('COMMIT');
+                }
+            }
+        }
+
+        update_option('_upstream_migration_finished_1.24.0', true);
     }
 }

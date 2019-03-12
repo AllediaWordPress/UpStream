@@ -335,6 +335,8 @@ class Milestone extends Struct
 
     /**
      * @param string $notes
+     *
+     * @return Milestone
      */
     public function setNotes($notes)
     {
@@ -350,5 +352,7 @@ class Milestone extends Struct
             ]
         );
         add_action('save_post', [$milestones, 'savePost']);
+
+        return $this;
     }
 }

@@ -109,6 +109,8 @@ function upstream_setup_post_types()
         'supports'           => apply_filters('upstream_client_supports', ['title', 'revisions']),
     ];
     register_post_type('client', apply_filters('upstream_client_post_type_args', $client_args));
+
+    \UpStream\Milestones::getInstance()->createPostType();
 }
 
 add_action('init', 'upstream_setup_post_types', 1);

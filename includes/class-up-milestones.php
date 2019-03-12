@@ -19,6 +19,11 @@ class Milestones
     use Singleton;
 
     /**
+     *
+     */
+    protected $postTypeCreated = false;
+
+    /**
      * Class constructor.
      *
      * @since   1.24.0
@@ -63,6 +68,10 @@ class Milestones
      */
     public function createPostType()
     {
+        if ($this->postTypeCreated) {
+            return;
+        }
+
         $singularLabel = upstream_milestone_label();
         $pluralLabel   = upstream_milestone_label_plural();
 
@@ -105,10 +114,12 @@ class Milestones
             'capability_type'    => 'post',
             'has_archive'        => true,
             'hierarchical'       => false,
-            'supports'           => ['title', 'comments', 'custom-fields'],
+            'supports'           => ['title', 'comments'],
         ];
 
         register_post_type($this->getPostType(), $args);
+
+        $this->postTypeCreated = true;
     }
 
     /**
@@ -273,5 +284,20 @@ class Milestones
 
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAnyMilestone()
+    {
+        $posts = get_posts(
+            [
+                'post_type'   => Milestone::POST_TYPE,
+                'post_status' => 'publish',
+            ]
+        );
+
+        return count($posts) > 0;
     }
 }

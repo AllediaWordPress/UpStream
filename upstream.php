@@ -343,9 +343,10 @@ if ( ! class_exists('UpStream')) :
                 require_once __DIR__ . '/vendor/autoload.php';
             }
 
+            include_once __DIR__ . '/includes/trait-up-singleton.php';
+            include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/class-up-container.php';
-            include_once __DIR__ . '/includes/up-install.php';
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';
             include_once __DIR__ . '/includes/class-up-counts.php';
@@ -353,11 +354,10 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/up-permalinks.php';
             include_once __DIR__ . '/includes/up-post-types.php';
             include_once __DIR__ . '/includes/up-labels.php';
-            include_once __DIR__ . '/includes/trait-up-singleton.php';
-            include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-milestones.php';
             include_once __DIR__ . '/includes/class-up-milestone.php';
             include_once __DIR__ . '/includes/class-up-factory.php';
+            include_once __DIR__ . '/includes/up-install.php';
 
             if ($this->is_request('admin')) {
                 global $pagenow;
