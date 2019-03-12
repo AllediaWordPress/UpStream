@@ -13,13 +13,14 @@ if ( ! defined('ABSPATH')) {
 class Factory
 {
     /**
-     * @param $postId
+     * @param int|\WP_Post $post
      *
      * @return Milestone
+     * @throws \Exception
      */
-    public static function getMilestone($postId)
+    public static function getMilestone($post)
     {
-        return new Milestone($postId);
+        return new Milestone($post);
     }
 
     /**
