@@ -5,9 +5,78 @@ use Codeception\Stub;
 
 class MilestoneCest extends UnitCest
 {
+    const MILESTONE_CLASS = '\\UpStream\\Milestone';
+
     public function _before(\UnitTester $I)
     {
         parent::_before($I);
+    }
+
+    /**
+     * @covers \UpStream\Milestone::__construct
+     */
+    public function tryToBuildWithValidInteger(\UnitTester $I)
+    {
+        $expectedId   = 3;
+        $expectedPost = new stdClass();
+
+        Functions\expect('get_post')
+            ->once()
+            ->andReturn($expectedPost);
+
+        $milestone = Stub::construct(self::MILESTONE_CLASS, [$expectedId]);
+
+        $actualId = $this->getProtectedProperty($milestone, 'postId');
+        $I->assertEquals($expectedId, $actualId);
+
+        $actuaPost = $this->getProtectedProperty($milestone, 'post');
+        $I->assertEquals($expectedPost, $actuaPost);
+    }
+
+    /**
+     * @covers \UpStream\Milestone::__construct
+     */
+    public function tryToBuildWithObjectWithValidPostType(\UnitTester $I)
+    {
+        $expectedId              = 3;
+        $expectedPost            = new stdClass();
+        $expectedPost->post_type = \UpStream\Milestone::POST_TYPE;
+        $expectedPost->ID        = $expectedId;
+
+        Functions\expect('get_post')
+            ->never();
+
+        $milestone = Stub::construct(self::MILESTONE_CLASS, [$expectedPost]);
+
+        $actualId = $this->getProtectedProperty($milestone, 'postId');
+        $I->assertEquals($expectedId, $actualId);
+
+        $actuaPost = $this->getProtectedProperty($milestone, 'post');
+        $I->assertEquals($expectedPost, $actuaPost);
+    }
+
+    /**
+     * @covers \UpStream\Milestone::__construct
+     */
+    public function tryToBuildWithInvalidParam(\UnitTester $I)
+    {
+        $I->expectThrowable(\UpStream\Exception::class, function () {
+            Stub::construct(self::MILESTONE_CLASS, [false]);
+        });
+    }
+
+    /**
+     * @covers \UpStream\Milestone::__construct
+     */
+    public function tryToBuildWithObjectOfWrongClass(\UnitTester $I)
+    {
+        $I->expectThrowable(\UpStream\Exception::class, function () {
+            $mock            = new stdClass();
+            $mock->post_type = 'post';
+            $mock->ID        = 4;
+
+            Stub::construct(self::MILESTONE_CLASS, [$mock]);
+        });
     }
 
     /**
@@ -25,7 +94,7 @@ class MilestoneCest extends UnitCest
             ->never();
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'postId' => 1,
                 'post'   => $stubPost1,
@@ -50,7 +119,7 @@ class MilestoneCest extends UnitCest
             ->justReturn($stubPost1);
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'postId' => 1,
             ]
@@ -68,7 +137,7 @@ class MilestoneCest extends UnitCest
         $I->expectTo('receive the cached ID, not a null value, and the get_post_meta function should not be called.');
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId' => 2,
             ]
@@ -89,7 +158,7 @@ class MilestoneCest extends UnitCest
         $I->expectTo('receive the project ID found in the meta data.');
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone'
+            self::MILESTONE_CLASS
         );
 
         Functions\expect('get_post_meta')
@@ -107,7 +176,7 @@ class MilestoneCest extends UnitCest
         $I->expect('to see the update_post_meta function called and the projectId attribute correctly set');
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId' => 2,
             ]
@@ -131,7 +200,7 @@ class MilestoneCest extends UnitCest
         $I->expect('to see the projectId argument sanitized to integer and properly stored in the metadata');
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId' => 2,
             ]
@@ -155,7 +224,7 @@ class MilestoneCest extends UnitCest
         $I->expect('to get the data stored in the metadata');
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId'  => 2,
                 'assignedTo' => null,
@@ -184,7 +253,7 @@ class MilestoneCest extends UnitCest
         $expected = [3, 6];
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId'  => 2,
                 'assignedTo' => $expected,
@@ -211,7 +280,7 @@ class MilestoneCest extends UnitCest
 
         // Mock the instance with a no expected value in the assignedTo attribute.
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId'  => 2,
                 'assignedTo' => [5],
@@ -243,7 +312,7 @@ class MilestoneCest extends UnitCest
 
         // Mock the instance with a no expected value in the assignedTo attribute.
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId'  => 2,
                 'assignedTo' => [5],
@@ -276,7 +345,7 @@ class MilestoneCest extends UnitCest
 
         // Mock the instance with a no expected value in the assignedTo attribute.
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'projectId'  => 2,
                 'assignedTo' => [5, 7, 3],
@@ -308,7 +377,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => $expected,
             ]
@@ -332,7 +401,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => $expected,
             ]
@@ -360,7 +429,7 @@ class MilestoneCest extends UnitCest
         $expected = 1546300800;
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => '2019-01-01',
             ]
@@ -381,7 +450,7 @@ class MilestoneCest extends UnitCest
         $expected = 'Jan 01 st, 2019';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => '2019-01-01',
             ]
@@ -406,7 +475,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => $expected,
             ]
@@ -430,7 +499,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => $expected,
             ]
@@ -458,7 +527,7 @@ class MilestoneCest extends UnitCest
         $expected = 1546300800;
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => '2019-01-01',
             ]
@@ -479,7 +548,7 @@ class MilestoneCest extends UnitCest
         $expected = 'Jan 01 st, 2019';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => '2019-01-01',
             ]
@@ -504,7 +573,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => null,
             ]
@@ -534,7 +603,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => null,
             ]
@@ -564,7 +633,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'startDate' => null,
             ]
@@ -597,7 +666,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => null,
             ]
@@ -627,7 +696,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => null,
             ]
@@ -657,7 +726,7 @@ class MilestoneCest extends UnitCest
         $expected = '2019-01-01';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'endDate' => null,
             ]
@@ -688,7 +757,7 @@ class MilestoneCest extends UnitCest
         $expected = 'This is the note we want to see.';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'notes' => $expected,
             ]
@@ -710,7 +779,7 @@ class MilestoneCest extends UnitCest
         $expected = 'This is the note we want to see.';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'notes'   => null,
                 'getPost' => function () use ($expected) {
@@ -738,7 +807,7 @@ class MilestoneCest extends UnitCest
         $expected = 'This is the note we want to see.';
 
         $milestone = Stub::make(
-            '\\UpStream\\Milestone',
+            self::MILESTONE_CLASS,
             [
                 'notes'                 => 'Not what we want to see.',
                 'getPost'               => function () use ($expected) {
@@ -766,5 +835,41 @@ class MilestoneCest extends UnitCest
 
         $actual = $this->getProtectedProperty($milestone, 'notes');
         $I->assertEquals($expected, $actual, 'The protected attribute was set.');
+    }
+
+    public function tryToGetOrderFromCache(\UnitTester $I)
+    {
+        $expected = 3;
+
+        $milestone = Stub::make(
+            self::MILESTONE_CLASS,
+            [
+                'notes'                 => 'Not what we want to see.',
+                'getPost'               => function () use ($expected) {
+                    $post               = new stdClass();
+                    $post->post_content = $expected;
+
+                    return $post;
+                },
+                'getMilestonesInstance' => function () {
+                    return new stdClass();
+                },
+            ]
+        );
+    }
+
+    public function tryToGetOrderFromMetadata(\UnitTester $I)
+    {
+        return $I->fail('Not implemented');
+    }
+
+    public function tryToSetSpecificPosition(\UnitTester $I)
+    {
+        return $I->fail('Not implemented');
+    }
+
+    public function tryToCreateMilestoneAndUpdateOrder(\UnitTester $I)
+    {
+        return $I->fail('Not implemented');
     }
 }
