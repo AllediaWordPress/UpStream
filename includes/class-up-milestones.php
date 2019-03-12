@@ -40,6 +40,10 @@ class Milestones
      */
     private function attachHooks()
     {
+        if (upstream_disable_milestones()) {
+            return;
+        }
+
         add_action('before_upstream_init', [$this, 'createPostType']);
         add_action('add_meta_boxes', [$this, 'addMetaBox']);
         add_action('save_post', [$this, 'savePost']);
@@ -267,23 +271,56 @@ class Milestones
      */
     public function render_post_columns($column, $postId)
     {
+        $milestone = Factory::getMilestone($postId);
+
         if ($column === 'project') {
-            $projectId = get_post_meta($postId, 'upst_project_id', true);
-
-            if (empty($projectId)) {
-                return;
-            }
-
-            $project = get_post($projectId);
+            $project = get_post($milestone->getProjectId());
 
             echo $project->post_title;
         } elseif ($column === 'assigned_to') {
-            $usersId = get_post_meta($postId, 'upst_assigned_to', false);
+            $usersId = $milestone->getAssignedTo();
 
-            if ( ! empty($usersId)) {
+            if (empty($usersId)) {
+                echo '<span><i class="text-muted">' . __('none', 'upstream') . '</i></span>';
 
+                return;
+            }
+
+            $users = [];
+
+            foreach ($usersId as $id) {
+                $users[] = get_user_by('id', $id)->display_name;
+            }
+
+            echo implode(', ', $users);
+        }
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return array
+     */
+    public function getMilestonesFromProject($projectId)
+    {
+        $posts = get_posts(
+            [
+                'post_type'   => Milestone::POST_TYPE,
+                'post_status' => 'publish',
+                'meta_key'    => Milestone::META_PROJECT_ID,
+                'meta_value'  => $projectId,
+            ]
+        );
+
+        $milestones = [];
+
+        if ( ! empty($posts)) {
+            foreach ($posts as $post) {
+                $milestones[$post->ID] = $post;
             }
         }
+
+        return $milestones;
     }
 
     /**

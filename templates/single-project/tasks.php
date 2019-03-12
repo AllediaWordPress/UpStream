@@ -43,36 +43,10 @@ if ( ! upstream_are_tasks_disabled()
     $areCommentsEnabled = upstreamAreCommentsEnabledOnTasks();
 
     $areMilestonesEnabled = ! upstream_are_milestones_disabled() && ! upstream_disable_milestones();
-    $milestonesColors     = [];
     $milestones           = [];
 
     if ($areMilestonesEnabled) {
-        $milestonesList = getMilestones();
-        foreach ($milestonesList as $milestoneId => $milestone) {
-            $milestonesColors[$milestoneId] = $milestone['color'];
-        }
-
-        $meta = (array)get_post_meta($projectId, '_upstream_project_milestones', true);
-        foreach ($meta as $data) {
-            if ( ! isset($data['id'])
-                 || ! isset($data['created_by'])
-                 || ! isset($data['milestone'])
-            ) {
-                continue;
-            }
-
-            $milestones[$data['id']] = [
-                'id'    => $data['id'],
-                'title' => '',
-                'color' => '',
-            ];
-
-            $milestone = isset($milestonesList[$data['milestone']]) ? $milestonesList[$data['milestone']] : null;
-            if ($milestone !== null) {
-                $milestones[$data['id']]['title'] = $milestone['title'];
-                $milestones[$data['id']]['color'] = $milestone['color'];
-            }
-        }
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($projectId);
     }
 
     $rowset = UpStream_View::getTasks($projectId);
@@ -162,7 +136,8 @@ if ( ! upstream_are_tasks_disabled()
                                        data-toggle="collapse" aria-expanded="false" aria-controls="tasks-filters">
                                         <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
                                     </a>
-                                    <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
+                                    <button type="button"
+                                            class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
@@ -195,7 +170,8 @@ if ( ! upstream_are_tasks_disabled()
                                     <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
                                 </a>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
+                                    <button type="button"
+                                            class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
@@ -293,9 +269,10 @@ if ( ! upstream_are_tasks_disabled()
                                             <option value></option>
                                             <option value="__none__"><?php _e('None', 'upstream'); ?></option>
                                             <optgroup label="<?php echo upstream_milestone_label_plural(); ?>">
-                                                <?php foreach ($milestones as $milestone_id => $milestone): ?>
+                                                <?php foreach ($milestones as $milestone): ?>
+                                                    <?php $milestone = \UpStream\Factory::getMilestone($milestone); ?>
                                                     <option
-                                                            value="<?php echo $milestone_id; ?>"><?php echo $milestone['title']; ?></option>
+                                                            value="<?php echo $milestone->getId(); ?>"><?php echo $milestone->getName(); ?></option>
                                                 <?php endforeach; ?>
                                             </optgroup>
                                         </select>

@@ -2,6 +2,9 @@
 
 namespace UpStream\Frontend;
 
+use UpStream\Factory;
+use UpStream\Milestones;
+
 function arrayToAttrs($data)
 {
     $attrs = [];
@@ -15,25 +18,13 @@ function arrayToAttrs($data)
 
 function getMilestonesFields($areCommentsEnabled = null)
 {
-    $milestones = getMilestonesTitles();
-
     $schema = [
         'milestone'   => [
             'type'           => 'custom',
             'isOrderable'    => true,
             'label'          => upstream_milestone_label(),
-            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) use (
-                &
-                $milestones
-            ) {
-                $milestone = ! isset($milestones[$columnValue])
-                    ? '<span title="' . __(
-                        "This Milestone doesn't exist anymore.",
-                        'upstream'
-                    ) . '">' . $columnValue . ' <small><i class="fa fa-ban"></i></small></span>'
-                    : $milestones[$columnValue];
-
-                return $milestone;
+            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
+                return $row['name'];
             },
         ],
         'assigned_to' => [
@@ -164,29 +155,16 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
             ) {
                 if (strlen($columnValue) > 0) {
                     if ($milestones === null) {
-                        $milestones = [];
-                        $meta       = (array)get_post_meta(upstream_post_id(), '_upstream_project_milestones', true);
-                        foreach ($meta as $data) {
-                            if ( ! isset($data['id'])
-                                 || ! isset($data['created_by'])
-                                 || ! isset($data['milestone'])
-                            ) {
-                                continue;
-                            }
-
-                            $milestones[$data['id']] = [
-                                'title' => $data['milestone'],
-                                'color' => $milestonesColors[$data['milestone']],
-                                'id'    => $data['id'],
-                            ];
-                        }
+                        $milestones = Milestones::getInstance()->getMilestonesFromProject(upstream_post_id);
                     }
 
                     if (isset($milestones[$columnValue])) {
+                        $milestone = Factory::getMilestone($columnValue);
+
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $milestones[$columnValue]['color'],
-                            $milestones[$columnValue]['title']
+                            $milestone->getColor(),
+                            $milestone->getName()
                         );
                     } else {
                         $columnValue = sprintf(

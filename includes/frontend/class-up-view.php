@@ -32,36 +32,35 @@ class UpStream_View
         $project = self::getProject($projectId);
 
         if (count(self::$milestones) === 0) {
-            $data   = [];
-            $rowset = array_filter((array)$project->get_meta('milestones'));
+            $data = [];
 
-            $milestones = getMilestones();
+            $milestones    = \UpStream\Milestones::getInstance();
+            $milestoneList = $milestones->getMilestonesFromProject($projectId);
 
-            foreach ($rowset as $row) {
-                $row['milestone_order'] = @$milestones[$row['milestone']]['order'];
+            foreach ($milestoneList as $milestone) {
+                $milestone = \UpStream\Factory::getMilestone($milestone);
 
-                $row['created_by']   = (int)$row['created_by'];
-                $row['created_time'] = isset($row['created_time']) ? (int)$row['created_time'] : 0;
+                $assignees = $milestone->getAssignedTo();
 
-                $assignees = [];
-                if (isset($row['assigned_to'])) {
-                    $assignees = array_map(
-                        'intval',
-                        ! is_array($row['assigned_to']) ? (array)$row['assigned_to'] : $row['assigned_to']
-                    );
-                }
-
-                $row['assigned_to'] = $assignees;
+                $row = [
+                    'id'              => $milestone->getId(),
+                    'milestone'       => $milestone->getName(),
+                    'milestone_order' => $milestone->getOrder(),
+                    'created_by'      => $milestone->getCreatedBy(),
+                    'created_time'    => $milestone->getCreatedOn('unix'),
+                    'assigned_to'     => $assignees,
+                    'progress'        => $milestone->getProgress(),
+                    'notes'           => $milestone->getNotes(),
+                    'start_date'      => $milestone->getStartDate('unix'),
+                    'end_date'        => $milestone->getEndDate('unix'),
+                    'task_count'      => 0,
+                    'task_open'       => 0,
+                ];
 
                 if ( ! empty($assignees)) {
                     // Get the name of assignees to fix ordering.
                     $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
                 }
-
-                $row['progress']   = isset($row['progress']) ? (float)$row['progress'] : 0.00;
-                $row['notes']      = isset($row['notes']) ? (string)$row['notes'] : '';
-                $row['start_date'] = ! isset($row['start_date']) || ! is_numeric($row['start_date']) || $row['start_date'] < 0 ? 0 : (int)$row['start_date'];
-                $row['end_date']   = ! isset($row['end_date']) || ! is_numeric($row['end_date']) || $row['end_date'] < 0 ? 0 : (int)$row['end_date'];
 
                 $data[$row['id']] = $row;
             }
