@@ -490,6 +490,7 @@ function upstream_update_data($old_version, $new_version)
                                                           ->setProgress((float)$projectMilestone['progress'])
                                                           ->setTaskCount((int)$projectMilestone['task_count'])
                                                           ->setTaskOpen((int)$projectMilestone['task_open'])
+                                                          ->setColor($data['color'])
                                                           ->setProjectId($project->ID);
 
                             // Look for all the tasks to convert the milestone ID.
