@@ -496,6 +496,8 @@ function upstream_update_data($old_version, $new_version)
                             foreach ($projectTasks as &$task) {
                                 if ($task['milestone'] === $milestone->getLegacyId()) {
                                     $task['milestone'] = $milestone->getId();
+                                    // Keep the legacy reference for a while.
+                                    $task['milestone_legacy'] = $milestone->getLegacyId();
 
                                     $updatedTasks = true;
                                 }
