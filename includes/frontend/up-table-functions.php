@@ -20,12 +20,10 @@ function getMilestonesFields($areCommentsEnabled = null)
 {
     $schema = [
         'milestone'   => [
-            'type'           => 'custom',
-            'isOrderable'    => true,
-            'label'          => upstream_milestone_label(),
-            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
-                return $row['name'];
-            },
+            'type'        => 'raw',
+            'isOrderable' => true,
+            'label'       => upstream_milestone_label(),
+
         ],
         'assigned_to' => [
             'type'        => 'user',
