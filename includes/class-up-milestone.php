@@ -516,6 +516,29 @@ class Milestone extends Struct
     }
 
     /**
+     * @param string $notes
+     *
+     * @return Milestone
+     */
+    public function setName($newName)
+    {
+        $this->post->post_title = $newName;
+
+        $milestones = $this->getMilestonesInstance();
+
+        remove_action('save_post', [$milestones, 'savePost']);
+        wp_update_post(
+            [
+                'ID'         => $this->postId,
+                'post_title' => $newName,
+            ]
+        );
+        add_action('save_post', [$milestones, 'savePost']);
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getOrder()
