@@ -199,17 +199,23 @@ class UpStream_Project
      *
      * @param string $id the id of the milestone
      *
-     * @return array|null
+     * @return array|void|null
      */
     public function get_item_by_id($item_id, $type)
     {
         if ( ! $item_id) {
             return;
         }
+
+        if ($type === 'milestones') {
+            return \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+        }
+
         $data = $this->get_meta($type);
         if ( ! $data) {
             return;
         }
+
         foreach ($data as $key => $item) {
             if ($item_id == $item['id']) {
                 return $item;
