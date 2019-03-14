@@ -176,9 +176,11 @@ function upstream_project_description($projectId = 0)
 
 function upstream_project_milestones($id = 0)
 {
-    if ($id > 0) {
-        $result = \UpStream\Milestones::getInstance()->getMilestonesAsRowset($id);
+    if (empty($id)) {
+        $id = get_the_ID();
     }
+
+    $result = \UpStream\Milestones::getInstance()->getMilestonesAsRowset($id);
 
     return apply_filters('upstream_project_milestones', $result, $id);
 }
