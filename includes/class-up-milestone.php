@@ -4,6 +4,8 @@ namespace UpStream;
 
 // Prevent direct access.
 
+use UpStream\Traits\PostMetadata;
+
 if ( ! defined('ABSPATH')) {
     exit;
 }
@@ -13,10 +15,7 @@ if ( ! defined('ABSPATH')) {
  */
 class Milestone extends Struct
 {
-    /**
-     * @var int
-     */
-    protected $postId;
+    use PostMetadata;
 
     /**
      * @var \WP_Post
@@ -264,17 +263,6 @@ class Milestone extends Struct
     }
 
     /**
-     * @param      $metaKey
-     * @param bool $single
-     *
-     * @return mixed
-     */
-    protected function getMetadata($metaKey, $single = false)
-    {
-        return get_post_meta($this->postId, $metaKey, $single);
-    }
-
-    /**
      * @return int
      */
     public function getProjectId()
@@ -295,7 +283,7 @@ class Milestone extends Struct
     {
         $this->projectId = (int)$projectId;
 
-        update_post_meta($this->postId, self::META_PROJECT_ID, $projectId);
+        $this->updateMetadata([self::META_PROJECT_ID => $projectId]);
 
         return $this;
     }
@@ -313,6 +301,37 @@ class Milestone extends Struct
     }
 
     /**
+     * @param array $array
+     *
+     * @return array $array
+     */
+    protected function removeEmptyValuesFromArray($array)
+    {
+        if ( ! empty($array)) {
+            $array = array_unique($array);
+            $array = array_filter($array);
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array array
+     */
+    protected function sanitizeArrayOfIds($array)
+    {
+        if ( ! empty($array)) {
+            $array = array_map('intval', $array);
+
+            $array = $this->removeEmptyValuesFromArray($array);
+        }
+
+        return $array;
+    }
+
+    /**
      * @param array $assignedTo
      *
      * @return Milestone
@@ -323,20 +342,9 @@ class Milestone extends Struct
             $assignedTo = [];
         }
 
-        $assignedTo = array_map('intval', $assignedTo);
+        $this->assignedTo = $this->sanitizeArrayOfIds($assignedTo);
 
-        delete_post_meta($this->postId, self::META_ASSIGNED_TO);
-
-        $this->assignedTo = [];
-
-        foreach ($assignedTo as $userId) {
-            if (empty($userId)) {
-                continue;
-            }
-
-            $this->assignedTo[] = $userId;
-            add_post_meta($this->postId, self::META_ASSIGNED_TO, $userId, false);
-        }
+        $this->updateNonUniqueMetadata(self::META_ASSIGNED_TO, $this->assignedTo);
 
         return $this;
     }
@@ -367,7 +375,7 @@ class Milestone extends Struct
         $this->startDate = $startDate;
 
         // Assume it is on MySQL date format.
-        update_post_meta($this->postId, self::META_START_DATE, $startDate);
+        $this->updateMetadata([self::META_START_DATE => $startDate]);
 
         return $this;
     }
@@ -463,7 +471,7 @@ class Milestone extends Struct
         $this->endDate = $endDate;
 
         // Assume it is on MySQL date format.
-        update_post_meta($this->postId, self::META_END_DATE, $endDate);
+        $this->updateMetadata([self::META_END_DATE => $endDate]);
 
         return $this;
     }
@@ -564,7 +572,7 @@ class Milestone extends Struct
         $this->$order = $order;
 
         // Assume it is on MySQL date format.
-        update_post_meta($this->postId, self::META_ORDER, $order);
+        $this->updateMetadata([self::META_ORDER => $order]);
 
         return $this;
     }
@@ -642,7 +650,7 @@ class Milestone extends Struct
     {
         $this->color = sanitize_text_field($newColor);
 
-        update_post_meta($this->postId, self::META_COLOR, $newColor);
+        $this->updateMetadata([self::META_COLOR => $newColor]);
 
         return $this;
     }
@@ -670,7 +678,7 @@ class Milestone extends Struct
     {
         $this->legacyId = sanitize_text_field($newLegacyId);
 
-        update_post_meta($this->postId, self::META_LEGACY_ID, $newLegacyId);
+        $this->updateMetadata([self::META_LEGACY_ID => $newLegacyId]);
 
         return $this;
     }
@@ -698,7 +706,7 @@ class Milestone extends Struct
     {
         $this->legacyMilestoneCode = sanitize_text_field($newLegacyMilestoneCode);
 
-        update_post_meta($this->postId, self::META_LEGACY_MILESTONE_CODE, $newLegacyMilestoneCode);
+        $this->updateMetadata([self::META_LEGACY_MILESTONE_CODE => $newLegacyMilestoneCode]);
 
         return $this;
     }
@@ -726,7 +734,7 @@ class Milestone extends Struct
     {
         $this->createdTimeInUtc = sanitize_text_field($newCreatedTimeInUtc);
 
-        update_post_meta($this->postId, self::META_CREATED_TIME_IN_UTC, $newCreatedTimeInUtc);
+        $this->updateMetadata([self::META_CREATED_TIME_IN_UTC => $this->createdTimeInUtc]);
 
         return $this;
     }
@@ -754,7 +762,7 @@ class Milestone extends Struct
     {
         $this->taskCount = sanitize_text_field($newTaskCount);
 
-        update_post_meta($this->postId, self::META_TASK_COUNT, $newTaskCount);
+        $this->updateMetadata([self::META_TASK_COUNT => $newTaskCount]);
 
         return $this;
     }
@@ -782,7 +790,7 @@ class Milestone extends Struct
     {
         $this->taskOpen = sanitize_text_field($newTaskOpen);
 
-        update_post_meta($this->postId, self::META_TASK_OPEN, $newTaskOpen);
+        $this->updateMetadata([self::META_TASK_OPEN => $newTaskOpen]);
 
         return $this;
     }
@@ -796,7 +804,7 @@ class Milestone extends Struct
     {
         $this->progress = (float)$newProgress;
 
-        update_post_meta($this->postId, self::META_PROGRESS, $newProgress);
+        $this->updateMetadata([self::META_PROGRESS => $newProgress]);
 
         return $this;
     }
