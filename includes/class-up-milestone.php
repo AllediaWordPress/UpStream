@@ -839,4 +839,46 @@ class Milestone extends Struct
 
         return $row;
     }
+
+    /**
+     * Delete the milestone.
+     */
+    public function delete()
+    {
+        global $wpdb;
+
+        try {
+            $wpdb->query('START TRANSACTION');
+
+            $projectId = $this->getProjectId();
+
+
+            // TODO: Refator this after migrating tasks to another architecture.
+            $tasks = (array)get_post_meta($projectId, '_upstream_project_tasks', true);
+            if (count($tasks) > 0) {
+                $updated = false;
+
+                foreach ($tasks as &$task) {
+                    if (isset($task['milestone']) && $task['milestone'] === $this->getId()) {
+                        $task['milestone'] = '';
+
+                        $updated = true;
+                    }
+                }
+
+                if ($updated) {
+                    update_post_meta($projectId, '_upstream_project_tasks', $tasks);
+                }
+            }
+
+            wp_trash_post($this->getId());
+
+            upstream_add_project_activity($projectId, '_upstream_project_milestones', 'remove',
+                $this->convertToLegacyRowset());
+
+            $wpdb->query('COMMIT');
+        } catch (Exception $e) {
+            $wpdb->query('ROLLBACK');
+        }
+    }
 }

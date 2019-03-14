@@ -1685,3 +1685,31 @@ function upstream_convert_UTC_date_to_timezone($subject, $includeTime = true)
         return false;
     }
 }
+
+/**
+ * @param int    $projectId
+ * @param string $metaName
+ * @param        $action
+ * @param mixed  $item
+ */
+function upstream_add_project_activity($projectId, $metaName, $action, $item)
+{
+    // Update Project activity.
+    $activity = (array)get_post_meta($projectId, '_upstream_project_activity', true);
+
+    $log = [
+        'fields'  => [
+            'group' => [
+                $metaName => [
+                    $action => [$item],
+                ],
+            ],
+        ],
+        'user_id' => get_current_user_id(),
+    ];
+
+    $now            = time();
+    $activity[$now] = $log;
+
+    update_post_meta($projectId, '_upstream_project_activity', $activity);
+}
