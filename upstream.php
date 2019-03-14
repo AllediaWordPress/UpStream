@@ -344,6 +344,7 @@ if ( ! class_exists('UpStream')) :
             }
 
             include_once __DIR__ . '/includes/trait-up-singleton.php';
+            include_once __DIR__ . '/includes/trait-up-post-metadata.php';
             include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/class-up-container.php';
