@@ -820,8 +820,8 @@ class Milestone extends Struct
             'notes'           => $this->getNotes(),
             'start_date'      => $this->getStartDate('unix'),
             'end_date'        => $this->getEndDate('unix'),
-            'task_count'      => 0,
-            'task_open'       => 0,
+            'task_count'      => $this->getTaskCount(),
+            'task_open'       => $this->getTaskOpen(),
         ];
 
         if ( ! empty($assignees)) {
