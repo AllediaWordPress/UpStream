@@ -343,6 +343,7 @@ if ( ! class_exists('UpStream')) :
                 require_once __DIR__ . '/vendor/autoload.php';
             }
 
+            include_once __DIR__ . '/includes/class-up-exception.php';
             include_once __DIR__ . '/includes/trait-up-singleton.php';
             include_once __DIR__ . '/includes/trait-up-post-metadata.php';
             include_once __DIR__ . '/includes/abs-class-up-struct.php';

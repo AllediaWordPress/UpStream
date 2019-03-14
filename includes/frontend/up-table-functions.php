@@ -2,8 +2,8 @@
 
 namespace UpStream\Frontend;
 
+use UpStream\Exception;
 use UpStream\Factory;
-use UpStream\Milestones;
 
 function arrayToAttrs($data)
 {
@@ -147,16 +147,10 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
             'type'           => 'custom',
             'isOrderable'    => true,
             'label'          => upstream_milestone_label(),
-            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) use (
-                &
-                $milestones
-            ) {
-                if (strlen($columnValue) > 0) {
-                    if ($milestones === null) {
-                        $milestones = Milestones::getInstance()->getMilestonesFromProject(upstream_post_id);
-                    }
+            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
 
-                    if (isset($milestones[$columnValue])) {
+                if ( ! empty($columnValue)) {
+                    try {
                         $milestone = Factory::getMilestone($columnValue);
 
                         $columnValue = sprintf(
@@ -164,7 +158,7 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
                             $milestone->getColor(),
                             $milestone->getName()
                         );
-                    } else {
+                    } catch (Exception $e) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Milestone doesn't exist anymore.", 'upstream'),
