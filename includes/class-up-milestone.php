@@ -873,7 +873,8 @@ class Milestone extends Struct
 
             wp_trash_post($this->getId());
 
-            upstream_add_project_activity($projectId, '_upstream_project_milestones', 'remove',
+            $activity = Factory::getActivity();
+            $activity->add_activity($projectId, '_upstream_project_milestones', 'remove',
                 $this->convertToLegacyRowset());
 
             $wpdb->query('COMMIT');

@@ -197,9 +197,11 @@ class UpStream_Project
      *
      * @since 1.0.0
      *
-     * @param string $id the id of the milestone
+     * @param $item_id
+     * @param $type
      *
-     * @return array|void|null
+     * @return array|null
+     * @throws Exception
      */
     public function get_item_by_id($item_id, $type)
     {
@@ -207,8 +209,20 @@ class UpStream_Project
             return;
         }
 
+        if (is_array($type)) {
+            $type = reset($type);
+        }
+
         if ($type === 'milestones') {
-            return \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+            try {
+                $milestone = \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+            } catch (\UpStream\Exception $e) {
+                $milestone = null;
+            }
+
+            $milestone['type'] = $type;
+
+            return $milestone;
         }
 
         $data = $this->get_meta($type);
@@ -218,6 +232,7 @@ class UpStream_Project
 
         foreach ($data as $key => $item) {
             if ($item_id == $item['id']) {
+                $item['type'] = $type;
                 return $item;
             }
         }

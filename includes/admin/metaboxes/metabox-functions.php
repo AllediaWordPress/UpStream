@@ -261,10 +261,9 @@ function upstream_activity_buttons($field_args, $field)
  */
 function upstream_output_activity($field_args, $field)
 {
-    $activity = new UpStream_Project_Activity();
-    $data     = $activity->get_activity($field->object_id);
+    $activity = \UpStream\Factory::getActivity();
 
-    return $data;
+    return $activity->get_activity($field->object_id);
 }
 
 /* ======================================================================================

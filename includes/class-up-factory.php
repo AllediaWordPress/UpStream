@@ -39,4 +39,9 @@ class Factory
 
         return self::getMilestone($postId);
     }
+
+    public static function getActivity()
+    {
+        return \UpStream_Project_Activity::getInstance();
+    }
 }
