@@ -549,43 +549,6 @@ function renderTableHeader($columns = [], $itemType = null)
     echo $html;
 }
 
-/**
- * @param array $users
- *
- * @return string
- */
-function getUsersDisplayName($users)
-{
-    $html = 0;
-
-    $usersIds   = array_filter(array_unique($users));
-    $usersCount = count($usersIds);
-
-    if ($usersCount > 1) {
-        $users = get_users([
-            'include' => $usersIds,
-        ]);
-
-        $columnValue = [];
-        foreach ($users as $user) {
-            $columnValue[] = $user->display_name;
-        }
-        unset($user, $users);
-
-        $html = implode(',<br>', $columnValue);
-    } elseif ($usersCount === 1) {
-        $user = get_user_by('id', $usersIds[0]);
-
-        $html = $user->display_name;
-
-        unset($user);
-    }
-
-    unset($usersCount, $usersIds);
-
-    return $html;
-}
-
 function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowType, $projectId)
 {
     $isHidden = isset($column['isHidden']) && (bool)$column['isHidden'] === true;
@@ -603,7 +566,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $columnValue = (array)$columnValue;
         }
 
-        $html = getUsersDisplayName($columnValue);
+        $html = upstream_get_users_display_name($columnValue);
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {

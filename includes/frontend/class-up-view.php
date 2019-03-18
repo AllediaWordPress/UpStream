@@ -71,7 +71,7 @@ class UpStream_View
 
                 if ( ! empty($assignees)) {
                     // Get the name of assignees to fix ordering.
-                    $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+                    $row['assigned_to_order'] = upstream_get_users_display_name($assignees);
                 }
 
                 $row['status_order'] = isset($row['status']) ? @$statuses[$row['status']]['order'] : '0';
@@ -123,7 +123,7 @@ class UpStream_View
 
             if ( ! empty($assignees)) {
                 // Get the name of assignees to fix ordering.
-                $data['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+                $data['assigned_to_order'] = upstream_get_users_display_name($assignees);
             }
 
             $data['description']    = isset($data['description']) ? (string)$data['description'] : '';

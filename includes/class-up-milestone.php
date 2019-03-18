@@ -834,7 +834,7 @@ class Milestone extends Struct
 
         if ( ! empty($assignees)) {
             // Get the name of assignees to fix ordering.
-            $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+            $row['assigned_to_order'] = upstream_get_users_display_name($assignees);
         }
 
         return $row;
