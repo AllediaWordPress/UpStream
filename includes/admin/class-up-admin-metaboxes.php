@@ -24,6 +24,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
         {
             if (upstreamShouldRunCmb2()) {
                 add_action('cmb2_admin_init', [$this, 'register_metaboxes']);
+                add_filter('cmb2_override_meta_value', [$this, 'getProjectMilestones'], 10, 3);
             }
 
             UpStream_Metaboxes_Clients::attachHooks();
@@ -36,7 +37,6 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
          */
         public function register_metaboxes()
         {
-
             /**
              * Load the metaboxes for project post type
              */
@@ -45,6 +45,26 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
             // Load all Client metaboxes (post_type="client").
             UpStream_Metaboxes_Clients::instantiate();
+        }
+
+        public function getProjectMilestones($data, $id, $field)
+        {
+            // Override the milestone data for the metaboxes.
+            if ($field['field_id'] === '_upstream_project_milestones') {
+                $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($id);
+
+                $data = [];
+
+                if ( ! empty($milestones)) {
+                    foreach ($milestones as $milestone) {
+                        $milestone = \UpStream\Factory::getMilestone($milestone);
+
+                        $data[] = $milestone->convertToLegacyRowset();
+                    }
+                }
+            }
+
+            return $data;
         }
     }
 

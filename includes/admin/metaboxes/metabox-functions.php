@@ -270,74 +270,58 @@ function upstream_output_activity($field_args, $field)
                                         MILESTONES
    ====================================================================================== */
 /**
- * Returns the milestone types as set in the options.
- * Used in the Type dropdown within a milestone.
- *
- * @return
- */
-function upstream_admin_get_options_milestones()
-{
-    $option     = get_option('upstream_milestones');
-    $milestones = isset($option['milestones']) ? $option['milestones'] : '';
-    $array      = [];
-    if ($milestones) {
-        foreach ($milestones as $milestone) {
-            $array[$milestone['id']] = $milestone['title'];
-        }
-    }
-
-    return $array;
-}
-
-/**
  * Outputs some hidden data in the metabox so we can use it dynamically
  *
  * @return
  */
 function upstream_admin_output_milestone_hidden_data($field_args, $field)
 {
-    $option     = get_option('upstream_milestones');
-    $milestones = isset($option['milestones']) ? $option['milestones'] : '';
+    global $post;
 
-    if ($milestones) {
+    // get the current saved milestones
+    $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($post->ID);
 
-        // get the current saved milestones
-        $saved = get_post_meta($field->object_id, '_upstream_project_milestones', true);
-        if ( ! $saved) {
-            $progress = '0';
-        } else {
-            $progress = wp_list_pluck($saved, 'progress', 'milestone');
+    echo '<ul class="hidden milestones">';
+    foreach ($milestones as $milestone) {
+        $milestone = \UpStream\Factory::getMilestone($milestone);
+
+        echo '<li>
+            <span class="title">' . esc_html($milestone->getName()) . '</span>
+            <span class="color">' . esc_html($milestone->getColor()) . '</span>';
+
+        $progress = $milestone->getProgress();
+        if ( ! empty($progress)) {
+            // if we have progress
+            echo '<span class="m-progress">' . $progress . '</span>';
         }
-        echo '<ul class="hidden milestones">';
-        foreach ($milestones as $milestone) {
-            echo '<li>
-                <span class="title">' . esc_html($milestone['title']) . '</span>
-                <span class="color">' . esc_html($milestone['color']) . '</span>';
-            if (isset($progress[$milestone['title']])) { // if we have progress
-                echo '<span class="m-progress">' . $progress[$milestone['title']] . '</span>';
-            }
-            echo '</li>';
-        }
-        echo '</ul>';
+        echo '</li>';
+
+        unset($milestone);
     }
+    echo '</ul>';
 }
 
 /**
  * Returns the current saved milestones.
  * For use in dropdowns.
+ *
+ * @param $field
+ *
+ * @return array
  */
 function upstream_admin_get_project_milestones($field)
 {
-    $milestonesTitles  = getMilestonesTitles();
-    $projectMilestones = (array)get_post_meta((int)$field->object_id, '_upstream_project_milestones', true);
+    $projectMilestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($field->object_id);
 
     $data = [];
 
     if (count($projectMilestones) > 0) {
         foreach ($projectMilestones as $milestone) {
-            if (isset($milestone['milestone'])) {
-                $data[$milestone['id']] = isset($milestonesTitles[$milestone['milestone']]) ? $milestonesTitles[$milestone['milestone']] : $milestone['milestone'];
-            }
+            $milestone = \UpStream\Factory::getMilestone($milestone);
+
+            $data[$milestone->getId()] = $milestone->getName();
+
+            unset($milestone);
         }
     }
 
