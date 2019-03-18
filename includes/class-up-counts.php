@@ -102,7 +102,7 @@ class Upstream_Counts
                 $meta = get_post_meta($project->ID, '_upstream_project_' . $type, true);
                 if ($meta && is_array($meta)) {
                     foreach ($meta as $key => $value) {
-                        array_push($items, $value);
+                        $items[] = $value;
                     }
                 }
             };

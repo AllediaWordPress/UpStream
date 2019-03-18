@@ -351,7 +351,7 @@ function upstream_admin_get_project_milestones($field)
  * Returns the task status names as set in the options.
  * Used in the Status dropdown within a task.
  *
- * @return
+ * @return array
  */
 function upstream_admin_get_task_statuses()
 {
@@ -1005,7 +1005,7 @@ function upstream_admin_get_all_clients_users($field, $client_id = 0)
         $clientUsersIdsList = [];
         foreach ($clientUsersList as $clientUser) {
             if ( ! empty($clientUser)) {
-                array_push($clientUsersIdsList, $clientUser['user_id']);
+                $clientUsersIdsList[] = $clientUser['user_id'];
             }
         }
 
@@ -1045,7 +1045,7 @@ function upstream_get_all_client_users($client_id = 0)
         $clientUsersIdsList = [];
         foreach ($clientUsersList as $clientUser) {
             if ( ! empty($clientUser)) {
-                array_push($clientUsersIdsList, $clientUser['user_id']);
+                $clientUsersIdsList[] = $clientUser['user_id'];
             }
         }
 

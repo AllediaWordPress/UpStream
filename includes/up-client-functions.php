@@ -105,7 +105,7 @@ function upstream_get_client_users($client_id)
         $usersIdsList = [];
         foreach ($clientUsersList as $clientUser) {
             if (isset($clientUser['user_id'])) {
-                array_push($usersIdsList, (int)$clientUser['user_id']);
+                $usersIdsList[] = (int)$clientUser['user_id'];
             }
         }
 
