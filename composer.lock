@@ -65,16 +65,16 @@
         },
         {
             "name": "alledia/wordpress-plugin-framework",
-            "version": "0.6.2",
+            "version": "0.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/upstreamplugin/WordPress-Plugin-Framework.git",
-                "reference": "7ad87c3d5cae1be39fa45a078c2ca32b4711d55f"
+                "reference": "9f6c9a7efeb709c9e42ffcda50d3de141af46e4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/upstreamplugin/WordPress-Plugin-Framework/zipball/7ad87c3d5cae1be39fa45a078c2ca32b4711d55f",
-                "reference": "7ad87c3d5cae1be39fa45a078c2ca32b4711d55f",
+                "url": "https://api.github.com/repos/upstreamplugin/WordPress-Plugin-Framework/zipball/9f6c9a7efeb709c9e42ffcda50d3de141af46e4c",
+                "reference": "9f6c9a7efeb709c9e42ffcda50d3de141af46e4c",
                 "shasum": ""
             },
             "require": {
@@ -111,7 +111,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2019-03-14T17:34:05+00:00"
+            "time": "2019-03-15T21:12:54+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -493,16 +493,16 @@
         },
         {
             "name": "brain/monkey",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brain-WP/BrainMonkey.git",
-                "reference": "ed9e0698bc1292f33698719da8ca1aa2e18acc51"
+                "reference": "326a537bf518edd61bc57ab275e8b075ebb8a1a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/ed9e0698bc1292f33698719da8ca1aa2e18acc51",
-                "reference": "ed9e0698bc1292f33698719da8ca1aa2e18acc51",
+                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/326a537bf518edd61bc57ab275e8b075ebb8a1a9",
+                "reference": "326a537bf518edd61bc57ab275e8b075ebb8a1a9",
                 "shasum": ""
             },
             "require": {
@@ -553,7 +553,7 @@
                 "test",
                 "testing"
             ],
-            "time": "2017-12-01T16:32:09+00:00"
+            "time": "2019-03-15T13:42:24+00:00"
         },
         {
             "name": "codeception/codeception",
