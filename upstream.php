@@ -478,7 +478,6 @@ if ( ! class_exists('UpStream')) :
             }
 
             UpStream_Options_Projects::createProjectsStatusesIds();
-            UpStream_Options_Milestones::createMilestonesIds();
             UpStream_Options_Tasks::createTasksStatusesIds();
             UpStream_Options_Bugs::createBugsStatusesIds();
 
