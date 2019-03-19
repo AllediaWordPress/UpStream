@@ -866,6 +866,7 @@ class Milestone extends Struct
                         $updated = true;
                     }
                 }
+                unset($task);
 
                 if ($updated) {
                     update_post_meta($projectId, '_upstream_project_tasks', $tasks);
