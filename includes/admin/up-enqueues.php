@@ -23,11 +23,12 @@ function upstream_load_admin_scripts($hook)
 
     $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
 
     global $pagenow;
 
     wp_enqueue_style('wp-color-picker');
+
     wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
@@ -58,7 +59,9 @@ function upstream_load_admin_scripts($hook)
         $milestoneInstance = \UpStream\Milestones::getInstance();
         $milestonePostType = $milestoneInstance->getPostType();
 
-        if ($postType === 'project') {
+        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'milestone']);
+
+        if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
 
             $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
