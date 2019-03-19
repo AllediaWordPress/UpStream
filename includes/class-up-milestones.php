@@ -297,11 +297,12 @@ class Milestones
     }
 
     /**
-     * @param int $projectId
+     * @param int  $projectId
+     * @param bool $asLegacyDataset
      *
      * @return array
      */
-    public function getMilestonesFromProject($projectId)
+    public function getMilestonesFromProject($projectId, $asLegacyDataset = false)
     {
         $posts = get_posts(
             [
@@ -316,7 +317,13 @@ class Milestones
 
         if ( ! empty($posts)) {
             foreach ($posts as $post) {
-                $milestones[$post->ID] = $post;
+                if ($asLegacyDataset) {
+                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                } else {
+                    $data = $post;
+                }
+
+                $milestones[$post->ID] = $data;
             }
         }
 

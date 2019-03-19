@@ -60,7 +60,9 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                     foreach ($milestones as $milestone) {
                         $milestone = \UpStream\Factory::getMilestone($milestone);
 
-                        $data[] = $milestone->convertToLegacyRowset();
+                        $milestoneData = $milestone->convertToLegacyRowset();
+
+                        $data[] = $milestoneData;
                     }
                 }
             }

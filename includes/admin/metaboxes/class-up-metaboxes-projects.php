@@ -1878,11 +1878,16 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 $itemsTypes = ['milestones', 'tasks', 'bugs', 'files'];
                 foreach ($itemsTypes as $itemType) {
                     $itemTypeSingular = rtrim($itemType, 's');
-                    $rowset           = array_filter((array)get_post_meta(
-                        $project_id,
-                        '_upstream_project_' . $itemType,
-                        true
-                    ));
+
+                    if ($itemType === 'milestones') {
+                        $rowset = \UpStream\Milestones::getInstance()->getMilestonesFromProject($project_id, true);
+                    } else {
+                        $rowset           = array_filter((array)get_post_meta(
+                            $project_id,
+                            '_upstream_project_' . $itemType,
+                            true
+                        ));
+                    }
                     if (count($rowset) > 0) {
                         foreach ($rowset as $row) {
                             if ( ! is_array($row)

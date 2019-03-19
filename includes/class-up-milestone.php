@@ -882,4 +882,29 @@ class Milestone extends Struct
             $wpdb->query('ROLLBACK');
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getComments()
+    {
+        $comments = get_comments([
+            'post_id'    => $this->getProjectId(),
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key'     => 'type',
+                    'value'   => 'milestone',
+                    'compare' => '=',
+                ],
+                [
+                    'key'     => 'id',
+                    'value'   => $this->getId(),
+                    'compare' => '=',
+                ],
+            ],
+        ]);
+
+        return $comments;
+    }
 }
