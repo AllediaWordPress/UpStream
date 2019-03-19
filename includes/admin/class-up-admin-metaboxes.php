@@ -24,7 +24,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
         {
             if (upstreamShouldRunCmb2()) {
                 add_action('cmb2_admin_init', [$this, 'register_metaboxes']);
-                add_filter('cmb2_override_meta_value', [$this, 'getProjectMilestones'], 10, 3);
+                add_filter('cmb2_override_meta_value', [$this, 'getProjectMeta'], 10, 3);
+                add_filter('cmb2_override_meta_save', [$this, 'setProjectMeta'], 10, 3);
             }
 
             UpStream_Metaboxes_Clients::attachHooks();
@@ -47,7 +48,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
             UpStream_Metaboxes_Clients::instantiate();
         }
 
-        public function getProjectMilestones($data, $id, $field)
+        public function getProjectMeta($data, $id, $field)
         {
             // Override the milestone data for the metaboxes.
             if ($field['field_id'] === '_upstream_project_milestones') {
@@ -65,6 +66,59 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
             }
 
             return $data;
+        }
+
+        public function setProjectMeta($check, $object, $form)
+        {
+            if ($object['field_id'] === '_upstream_project_milestones') {
+                if (isset($object['value']) && is_array($object['value'])) {
+                    foreach ($object['value'] as $milestoneData) {
+                        // If doesn't have an id, we create the milestone.
+                        if ( ! isset($milestoneData['id']) || EMPTY($milestoneData['id'])) {
+                            $milestone = \UpStream\Factory::createMilestone($milestoneData['milestone']);
+
+                            $milestone->setProjectId($object['id']);
+                        } else {
+                            // Update the milestone.
+                            $milestone = \UpStream\Factory::getMilestone($milestoneData['id']);
+
+                            $milestone->setName($milestoneData['milestone']);
+                        }
+
+                        if (empty($milestone)) {
+                            continue;
+                        }
+
+                        if (isset($milestoneData['assigned_to'])) {
+                            $milestone->setAssignedTo($milestoneData['assigned_to']);
+                        } else {
+                            $milestone->setAssignedTo(0);
+                        }
+
+                        if (isset($milestoneData['start_date'])) {
+                            $milestone->setStartDate($milestoneData['start_date']);
+                        } else {
+                            $milestone->setStartDate('');
+                        }
+
+                        if (isset($milestoneData['end_date'])) {
+                            $milestone->setEndDate($milestoneData['end_date']);
+                        } else {
+                            $milestone->setEndDate('');
+                        }
+
+                        if (isset($milestoneData['notes'])) {
+                            $milestone->setNotes($milestoneData['notes']);
+                        } else {
+                            $milestone->setNotes('');
+                        }
+                    }
+
+                    $check = true;
+                }
+            }
+
+            return $check;
         }
     }
 
