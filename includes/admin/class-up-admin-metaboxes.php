@@ -114,6 +114,12 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         } else {
                             $milestone->setNotes('');
                         }
+
+                        if (isset($milestoneData['color'])) {
+                            $milestone->setColor($milestoneData['color']);
+                        } else {
+                            $milestone->setColor('');
+                        }
                     }
 
                     $check = true;

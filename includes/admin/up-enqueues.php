@@ -27,10 +27,11 @@ function upstream_load_admin_scripts($hook)
 
     global $pagenow;
 
+    wp_enqueue_style('wp-color-picker');
     wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
-        ['jquery', 'allex'],
+        ['jquery', 'wp-color-picker', 'allex', 'up-select2'],
         UPSTREAM_VERSION,
         false
     );

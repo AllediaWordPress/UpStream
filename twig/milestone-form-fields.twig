@@ -82,6 +82,17 @@
 
     {{ doAction('upstream.frontend-edit:renderAfter.project.items.end_dates', 'milestones') }}
 
+    <div class="row upstream-milestone-color">
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+            <label for="">{{ labels.color }}</label>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+            <input class="color-field" type="text" name="milestone_data[color]" value="{{ data.color }}"/>
+        </div>
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+    </div>
+
     {% if permissions.edit_notes %}
         <div class="row upstream-milestone-notes">
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>

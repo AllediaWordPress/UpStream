@@ -830,6 +830,7 @@ class Milestone extends Struct
             'end_date'        => $this->getEndDate('unix'),
             'task_count'      => $this->getTaskCount(),
             'task_open'       => $this->getTaskOpen(),
+            'color'           => $this->getColor(),
         ];
 
         if ( ! empty($assignees)) {

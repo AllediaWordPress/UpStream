@@ -185,5 +185,7 @@
         $('#upstream_mimlestone_data select').select2({
             allowClear: true
         });
+
+        $('.color-field').wpColorPicker();
     });
 })(jQuery);

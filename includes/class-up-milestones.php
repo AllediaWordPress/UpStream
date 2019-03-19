@@ -193,6 +193,7 @@ class Milestones
                 'end_date'    => __('End Date', 'upstream'),
                 'notes'       => __('Notes', 'upstream'),
                 'project'     => __('Project', 'upstream'),
+                'color'       => __('Color', 'upstream'),
             ],
             'data'         => [
                 'assigned_to' => get_post_meta($post->ID, 'upst_assigned_to', false),
@@ -200,6 +201,7 @@ class Milestones
                 'end_date'    => $milestone->getEndDate('upstream'),
                 'notes'       => $milestone->getNotes(),
                 'project_id'  => $milestone->getProjectId(),
+                'color'       => $milestone->getColor(),
             ],
         ];
 
@@ -237,13 +239,16 @@ class Milestones
         // Notes
         $notes = wp_kses_post($data['notes']);
 
+        $color = sanitize_text_field($data['color']);
+
         // Store the values
         Factory::getMilestone($postId)
                ->setProjectId($projectId)
                ->setAssignedTo($assignedTo)
                ->setStartDate($startDate)
                ->setEndDate($endDate)
-               ->setNotes($notes);
+               ->setNotes($notes)
+               ->setColor($color);
     }
 
     /**
