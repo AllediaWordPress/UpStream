@@ -157,7 +157,17 @@ if ( ! class_exists('UpStream_Options_General')) :
                                 1 => __('Yes', 'upstream'),
                             ],
                         ],
-
+                        [
+                            'name'    => __('Project Users Roles', 'upstream'),
+                            'id'      => 'project_user_roles',
+                            'desc'    => __(
+                                'Select the user roles that should be used to filter the list of users on projects.',
+                                'upstream'
+                            ),
+                            'type'    => 'multicheck',
+                            'default' => ['administrator', 'upstream_manager', 'upstream_user'],
+                            'options' => $roles,
+                        ],
 
                         /**
                          * Labels

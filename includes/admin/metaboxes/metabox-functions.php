@@ -900,6 +900,29 @@ function upstream_admin_get_project_statuses()
     return $array;
 }
 
+/**
+ * Return the array of user roles
+ *
+ * @return array
+ */
+function upstream_get_project_roles()
+{
+    $options = (array)get_option('upstream_general');
+
+    if ( ! isset($options['project_user_roles']) || empty($options['project_user_roles'])) {
+        $roles = [
+            'upstream_manager',
+            'upstream_user',
+            'administrator',
+        ];
+    } else {
+        $roles = (array)$options['project_user_roles'];
+    }
+
+    $roles = apply_filters('upstream_user_roles_for_projects', $roles);
+
+    return $roles;
+}
 
 /**
  * Returns all users with select roles.
@@ -925,18 +948,16 @@ function upstream_admin_get_all_project_users()
         }
     }
 
-    $args = apply_filters('upstream_user_roles_for_projects', [
-        'fields'   => ['ID', 'display_name'],
-        'role__in' => [
-            'upstream_manager',
-            'upstream_user',
-            'administrator',
-        ],
-    ]);
+    $roles = upstream_get_project_roles();
 
-    $users = [];
+    $args = [
+        'fields'   => ['ID', 'display_name'],
+        'role__in' => $roles,
+    ];
 
     $systemUsers = get_users($args);
+
+    $users = [];
 
     $rowset = array_merge($systemUsers, $projectClientUsers);
     if (count($rowset) > 0) {
