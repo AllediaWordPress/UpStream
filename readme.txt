@@ -142,6 +142,11 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= UNRELEASED =
+
+* Added option field to select the user roles that can be active inside projects. Those users can be assigned Milestones, Tasks and Bugs and own projects.
+* Added hooks allowing to customize the editor buttons;
+
 = [1.23.2] - 2019-03-07 =
 
 * Fixed how we load the sidebar template in the frontend, allowing themes to provide a custom template;
