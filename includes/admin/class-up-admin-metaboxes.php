@@ -126,6 +126,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                 }
             }
 
+            do_action('upstream_save_metabox_field', $object);
+
             return $check;
         }
     }

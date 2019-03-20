@@ -53,7 +53,6 @@ function upstream_load_admin_scripts($hook)
         'datepickerDateFormat'              => upstreamGetDateFormatForJsDatepicker(),
     ]);
 
-
     if (in_array($pagenow, ['edit.php', 'post.php', 'post-new.php'])) {
 
         $milestoneInstance = \UpStream\Milestones::getInstance();

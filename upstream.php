@@ -160,7 +160,10 @@ if ( ! class_exists('UpStream')) :
 
 
             $doActionFunc = new Twig_SimpleFunction('doAction', function ($action, $context) {
-                do_action($action, $context);
+                $args = func_get_args();
+
+                call_user_func_array('do_action', $args);
+//                do_action($action, $context);
             });
             $twigEnvironment->addFunction($doActionFunc);
 

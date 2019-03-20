@@ -202,6 +202,7 @@ class Milestones
                 'notes'       => $milestone->getNotes(),
                 'project_id'  => $milestone->getProjectId(),
                 'color'       => $milestone->getColor(),
+                'id'          => $milestone->getId(),
             ],
         ];
 
@@ -249,6 +250,12 @@ class Milestones
                ->setEndDate($endDate)
                ->setNotes($notes)
                ->setColor($color);
+
+        /**
+         * @param int   $projectId
+         * @param array $data
+         */
+        do_action('upstream_save_milestone', $postId, $data);
     }
 
     /**
