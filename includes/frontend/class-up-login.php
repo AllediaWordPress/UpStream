@@ -128,11 +128,13 @@ final class UpStream_Login
                 throw new \Exception(__("Invalid email address and/or password.", 'upstream'));
             }
 
-            $userRoles = (array)$user->roles;
+            $userRoles    = (array)$user->roles;
+            $projectRoles = array_merge(['administrator',], upstream_get_project_roles());
+
             // Check if this user has a valid UpStream Role to log in.
             if (count(array_intersect(
                     $userRoles,
-                    ['administrator', 'upstream_manager', 'upstream_user', 'upstream_client_user']
+                    $projectRoles
                 )) === 0) {
                 throw new \Exception(__("You don't have enough permissions to log in here.", 'upstream'));
             }
