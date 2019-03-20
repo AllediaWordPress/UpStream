@@ -306,7 +306,6 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     'type'        => 'text',
                     'permissions' => 'milestone_milestone_field',
                     'before'      => 'upstream_add_field_attributes',
-                    'options_cb'  => 'upstream_admin_get_options_milestones',
                     'attributes'  => [
                         'class' => 'milestone',
                     ],

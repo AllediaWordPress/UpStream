@@ -1722,3 +1722,12 @@ function upstream_get_users_display_name($users)
 
     return $html;
 }
+
+/**
+ * @return array
+ * @deprecated
+ */
+function upstream_admin_get_options_milestones()
+{
+    return upstream_project_milestones();
+}
