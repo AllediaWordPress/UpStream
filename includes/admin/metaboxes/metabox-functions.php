@@ -942,13 +942,21 @@ function upstream_admin_get_all_project_users()
         }
     }
 
-    $args = apply_filters('upstream_user_roles_for_projects', [
-        'fields'   => ['ID', 'display_name'],
-        'role__in' => [
+    $options = (array)get_option('upstream_general');
+
+    if ( ! isset($options['project_user_roles']) || empty($options['project_user_roles'])) {
+        $roles = [
             'upstream_manager',
             'upstream_user',
             'administrator',
-        ],
+        ];
+    } else {
+        $roles = (array)$options['project_user_roles'];
+    }
+
+    $args = apply_filters('upstream_user_roles_for_projects', [
+        'fields'   => ['ID', 'display_name'],
+        'role__in' => $roles,
     ]);
 
     $users = [];
