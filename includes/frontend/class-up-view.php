@@ -83,8 +83,6 @@ class UpStream_View
                 $data[$row['id']] = $row;
             }
 
-            $data = apply_filters('upstream_project_milestones', $data, $projectId);
-
             self::$tasks = $data;
         } else {
             $data = self::$tasks;
