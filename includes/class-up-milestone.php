@@ -171,6 +171,11 @@ class Milestone extends Struct
     const META_TASK_OPEN = 'upst_task_open';
 
     /**
+     * The default color.
+     */
+    const DEFAULT_COLOR = '#cccccc';
+
+    /**
      * Milestone constructor.
      *
      * @param int|\WP_Post|string $post
@@ -637,6 +642,10 @@ class Milestone extends Struct
         }
 
         $this->color = $this->getMetadata(self::META_COLOR, true);
+
+        if (empty($this->color)) {
+            $this->color = self::DEFAULT_COLOR;
+        }
 
         return $this->color;
     }
