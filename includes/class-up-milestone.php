@@ -838,6 +838,11 @@ class Milestone extends Struct
             $row['assigned_to_order'] = upstream_get_users_display_name($assignees);
         }
 
+        /**
+         * @param array $row
+         */
+        $row = apply_filters('upstream_milestone_converting_legacy_rowset', $row);
+
         return $row;
     }
 
