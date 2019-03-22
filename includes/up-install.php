@@ -457,25 +457,25 @@ function upstream_update_data($old_version, $new_version)
             if (is_object($role)) {
                 $capabilities = [
                     // Post type
-                    "edit_milestone",
-                    "read_milestone",
-                    "delete_milestone",
-                    "edit_milestones",
-                    "edit_others_milestones",
-                    "publish_milestones",
-                    "read_private_milestones",
-                    "delete_milestones",
-                    "delete_private_milestones",
-                    "delete_published_milestones",
-                    "delete_others_milestones",
-                    "edit_private_milestones",
-                    "edit_published_milestones",
+                    'edit_milestone',
+                    'read_milestone',
+                    'delete_milestone',
+                    'edit_milestones',
+                    'edit_others_milestones',
+                    'publish_milestones',
+                    'read_private_milestones',
+                    'delete_milestones',
+                    'delete_private_milestones',
+                    'delete_published_milestones',
+                    'delete_others_milestones',
+                    'edit_private_milestones',
+                    'edit_published_milestones',
 
                     // Terms
-                    "manage_milestone_terms",
-                    "edit_milestone_terms",
-                    "delete_milestone_terms",
-                    "assign_milestone_terms",
+                    'manage_milestone_terms',
+                    'edit_milestone_terms',
+                    'delete_milestone_terms',
+                    'assign_milestone_terms',
                 ];
 
                 foreach ($capabilities as $capability) {
