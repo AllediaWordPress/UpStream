@@ -186,18 +186,20 @@ function upstream_add_default_options()
     // general options
     $general = get_option('upstream_general');
     if ( ! $general || empty($general)) {
-        $general['project']['single']   = 'Project';
-        $general['project']['plural']   = 'Projects';
-        $general['client']['single']    = 'Client';
-        $general['client']['plural']    = 'Clients';
-        $general['milestone']['single'] = 'Milestone';
-        $general['milestone']['plural'] = 'Milestones';
-        $general['task']['single']      = 'Task';
-        $general['task']['plural']      = 'Tasks';
-        $general['bug']['single']       = 'Bug';
-        $general['bug']['plural']       = 'Bugs';
-        $general['file']['single']      = 'File';
-        $general['file']['plural']      = 'Files';
+        $general['project']['single']       = 'Project';
+        $general['project']['plural']       = 'Projects';
+        $general['client']['single']        = 'Client';
+        $general['client']['plural']        = 'Clients';
+        $general['milestone']['single']     = 'Milestone';
+        $general['milestone']['plural']     = 'Milestones';
+        $general['milestone_tag']['single'] = 'Milestone Tag';
+        $general['milestone_tag']['plural'] = 'Milestone Tags';
+        $general['task']['single']          = 'Task';
+        $general['task']['plural']          = 'Tasks';
+        $general['bug']['single']           = 'Bug';
+        $general['bug']['plural']           = 'Bugs';
+        $general['file']['single']          = 'File';
+        $general['file']['plural']          = 'Files';
 
         $general['login_heading'] = 'Project Login';
         $general['admin_email']   = get_bloginfo('admin_email');
@@ -431,6 +433,16 @@ function upstream_update_data($old_version, $new_version)
 
     $hasFinishedMigration = get_option('_upstream_migration_finished_1.24.0', null);
     if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.0', '<')) {
+        $this->upstreamMilestoneTags();
+
+        // Default labels for Milestone Tags
+        $general = get_option('upstream_general');
+
+        $general['milestone_tag']['single'] = 'Milestone Tag';
+        $general['milestone_tag']['plural'] = 'Milestone Tags';
+
+        update_option('upstream_general', $general);
+
         // If we have projects, create new milestones based on current ones.
         $projects = get_posts(
             [

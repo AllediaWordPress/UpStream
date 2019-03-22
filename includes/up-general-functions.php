@@ -962,6 +962,15 @@ function upstream_disable_milestones()
     return $areMilestonesDisabled;
 }
 
+function upstream_disable_milestone_tags()
+{
+    $options = get_option('upstream_general');
+
+    $disable = isset($options['disable_milestone_tags']) ? (array)$options['disable_milestone_tags'] : ['no'];
+
+    return $disable[0] === 'yes';
+}
+
 function upstream_disable_files()
 {
     $options = get_option('upstream_general');

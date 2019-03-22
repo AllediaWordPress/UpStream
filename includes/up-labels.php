@@ -47,6 +47,16 @@ function upstream_get_default_labels()
                 'upstream'
             ),
         ],
+        'milestone_tags' => [
+            'singular' => isset($option['milestone_tag']['single']) ? $option['milestone_tag']['single'] : __(
+                'Milestone Tag',
+                'upstream'
+            ),
+            'plural'   => isset($option['milestone_tag']['plural']) ? $option['milestone_tag']['plural'] : __(
+                'Milestone Tags',
+                'upstream'
+            ),
+        ],
         'tasks'      => [
             'singular' => isset($option['task']['single']) ? $option['task']['single'] : __('Task', 'upstream'),
             'plural'   => isset($option['task']['plural']) ? $option['task']['plural'] : __('Tasks', 'upstream'),
@@ -147,6 +157,33 @@ function upstream_milestone_label_plural($lowercase = false)
     $defaults = upstream_get_default_labels();
 
     $label = ($lowercase) ? strtolower($defaults['milestones']['plural']) : $defaults['milestones']['plural'];
+
+    return __($label, 'upstream');
+}
+
+/**
+ * Get Milestone Tag Label
+ *
+ * @since 1.0.0
+ *
+ * @param bool $lowercase
+ *
+ * @return string $defaults['singular'] Singular label
+ */
+function upstream_milestone_tag_label($lowercase = false)
+{
+    $defaults = upstream_get_default_labels();
+
+    $label = ($lowercase) ? strtolower($defaults['milestone_tag']['singular']) : $defaults['milestone_tag']['singular'];
+
+    return __($label, 'upstream');
+}
+
+function upstream_milestone_tag_label_plural($lowercase = false)
+{
+    $defaults = upstream_get_default_labels();
+
+    $label = ($lowercase) ? strtolower($defaults['milestone_tags']['plural']) : $defaults['milestone_tags']['plural'];
 
     return __($label, 'upstream');
 }

@@ -198,6 +198,11 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'type' => 'labels',
                         ],
                         [
+                            'name' => __('Milestone Tags Label', 'upstream'),
+                            'id'   => 'milestone_tags',
+                            'type' => 'labels',
+                        ],
+                        [
                             'name' => __('Task Label', 'upstream'),
                             'id'   => 'task',
                             'type' => 'labels',
@@ -552,6 +557,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'default'           => '',
                             'options'           => [
                                 'yes' => __('Disable the Milestones section?', 'upstream'),
+                            ],
+                            'select_all_button' => false,
+                        ],
+                        [
+                            'name'    => __('Disable Milestone Tags', 'upstream'),
+                            'id'      => 'disable_milestone_tags',
+                            'type'    => 'multicheck',
+                            'desc'    => __(
+                                'Ticking this box will disable the Milestone Tags section on both the frontend and the admin area.',
+                                'upstream'
+                            ),
+                            'default' => 'yes',
+                            'options' => [
+                                'yes' => __('Disable the Milestone Tags?', 'upstream'),
                             ],
                             'select_all_button' => false,
                         ],
