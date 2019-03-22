@@ -193,6 +193,10 @@ function upstream_project_milestone_by_id($id = 0, $milestone_id = 0)
     return apply_filters('upstream_project_milestone_by_id', $result, $id, $milestone_id);
 }
 
+/**
+ * @return mixed|void
+ * @deprecated
+ */
 function upstream_project_milestone_colors()
 {
     $option = get_option('upstream_milestones');
