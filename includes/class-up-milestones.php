@@ -115,7 +115,7 @@ class Milestones
             'show_ui'            => true,
             'show_in_menu'       => 'edit.php?post_type=project',
             'rewrite'            => ['slug' => strtolower($singularLabel)],
-            'capability_type'    => 'post',
+            'capability_type'    => 'milestone',
             'has_archive'        => true,
             'hierarchical'       => false,
             'supports'           => ['title', 'comments'],
