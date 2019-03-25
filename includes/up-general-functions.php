@@ -905,6 +905,9 @@ function upstream_tinymce_before_init($tinyMCE)
 
             $tinyMCE['plugins'] = implode(',', $pluginsListUnique);
         }
+
+        $externalPlugins             = apply_filters('upstream_tinymce_external_plugins', []);
+        $tinyMCE['external_plugins'] = implode(',', $externalPlugins);
     }
 
     return $tinyMCE;
