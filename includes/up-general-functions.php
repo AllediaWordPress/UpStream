@@ -67,9 +67,8 @@ function upstream_disable_bugs()
 {
     $options      = get_option('upstream_general');
     $disable_bugs = isset($options['disable_bugs']) ? $options['disable_bugs'] : ['no'];
-    if ($disable_bugs[0] == 'yes') {
-        return true;
-    }
+
+    return $disable_bugs[0] == 'yes';
 }
 
 
