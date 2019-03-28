@@ -31,3 +31,7 @@ a#upstream-upgrade-link,
 #upstream_mimlestone_data select {
     width: 100%;
 }
+
+.cmb2-wrap .row {
+    margin-top: 15px;
+}
