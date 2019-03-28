@@ -2,6 +2,9 @@
 
 namespace UpStream\Frontend;
 
+use UpStream\Exception;
+use UpStream\Factory;
+
 function arrayToAttrs($data)
 {
     $attrs = [];
@@ -15,26 +18,12 @@ function arrayToAttrs($data)
 
 function getMilestonesFields($areCommentsEnabled = null)
 {
-    $milestones = getMilestonesTitles();
-
     $schema = [
         'milestone'   => [
-            'type'           => 'custom',
-            'isOrderable'    => true,
-            'label'          => upstream_milestone_label(),
-            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) use (
-                &
-                $milestones
-            ) {
-                $milestone = ! isset($milestones[$columnValue])
-                    ? '<span title="' . __(
-                        "This Milestone doesn't exist anymore.",
-                        'upstream'
-                    ) . '">' . $columnValue . ' <small><i class="fa fa-ban"></i></small></span>'
-                    : $milestones[$columnValue];
+            'type'        => 'raw',
+            'isOrderable' => true,
+            'label'       => upstream_milestone_label(),
 
-                return $milestone;
-            },
         ],
         'assigned_to' => [
             'type'        => 'user',
@@ -158,37 +147,18 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
             'type'           => 'custom',
             'isOrderable'    => true,
             'label'          => upstream_milestone_label(),
-            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) use (
-                &
-                $milestones
-            ) {
-                if (strlen($columnValue) > 0) {
-                    if ($milestones === null) {
-                        $milestones = [];
-                        $meta       = (array)get_post_meta(upstream_post_id(), '_upstream_project_milestones', true);
-                        foreach ($meta as $data) {
-                            if ( ! isset($data['id'])
-                                 || ! isset($data['created_by'])
-                                 || ! isset($data['milestone'])
-                            ) {
-                                continue;
-                            }
+            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
 
-                            $milestones[$data['id']] = [
-                                'title' => $data['milestone'],
-                                'color' => $milestonesColors[$data['milestone']],
-                                'id'    => $data['id'],
-                            ];
-                        }
-                    }
+                if ( ! empty($columnValue)) {
+                    try {
+                        $milestone = Factory::getMilestone($columnValue);
 
-                    if (isset($milestones[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $milestones[$columnValue]['color'],
-                            $milestones[$columnValue]['title']
+                            $milestone->getColor(),
+                            $milestone->getName()
                         );
-                    } else {
+                    } catch (Exception $e) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Milestone doesn't exist anymore.", 'upstream'),
@@ -579,43 +549,6 @@ function renderTableHeader($columns = [], $itemType = null)
     echo $html;
 }
 
-/**
- * @param array $users
- *
- * @return string
- */
-function getUsersDisplayName($users)
-{
-    $html = 0;
-
-    $usersIds   = array_filter(array_unique($users));
-    $usersCount = count($usersIds);
-
-    if ($usersCount > 1) {
-        $users = get_users([
-            'include' => $usersIds,
-        ]);
-
-        $columnValue = [];
-        foreach ($users as $user) {
-            $columnValue[] = $user->display_name;
-        }
-        unset($user, $users);
-
-        $html = implode(',<br>', $columnValue);
-    } elseif ($usersCount === 1) {
-        $user = get_user_by('id', $usersIds[0]);
-
-        $html = $user->display_name;
-
-        unset($user);
-    }
-
-    unset($usersCount, $usersIds);
-
-    return $html;
-}
-
 function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowType, $projectId)
 {
     $isHidden = isset($column['isHidden']) && (bool)$column['isHidden'] === true;
@@ -633,7 +566,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $columnValue = (array)$columnValue;
         }
 
-        $html = getUsersDisplayName($columnValue);
+        $html = upstream_get_users_display_name($columnValue);
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {

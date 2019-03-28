@@ -32,7 +32,6 @@ $i18n = [
     'LB_TOGGLE_FILTERS' => __('Toggle Filters', 'upstream'),
     'LB_EXPORT'         => __('Export', 'upstream'),
     'LB_PLAIN_TEXT'     => __('Plain Text', 'upstream'),
-    'LB_PLAIN_TEXT'     => __('Plain Text', 'upstream'),
     'LB_CSV'            => __('CSV', 'upstream'),
     'LB_CLIENT'         => upstream_client_label(),
     'LB_CLIENTS'        => upstream_client_label_plural(),

@@ -39,8 +39,8 @@ Before creating enhancement suggestions, please check our [issues list](https://
 
 #### How do I submit a good pull request?
 
-- Fork the repository (do not submit your own branches to this repo).
-- Create a new branch for each problem you are trying to solve. Make sure it starts off our "development" branch.
-- Create one pull request for each problem you are fixing. You can mention multiple issues, but they have to be related somehow. Different problems have to be fixed on different pull requests.
-- **Do not submit to the master branch**. Always submit pull requests to the "development" or other branch.
+- Fork the repository (do not submit your own branches to this repo)
+- Create a new branch for each problem you are trying to solve. Make sure it starts off our "development" branch
+- Create one pull request for each problem you are fixing. You can mention multiple issues, but they have to be related somehow. Different problems have to be fixed on different pull requests
+- **Do not submit to the master branch**. Always submit pull requests to the "development" or other branch
 - Fill in the [required template](https://github.com/AllediaWordPress/UpStream/blob/master/.github/PULL_REQUEST_TEMPLATE.md)

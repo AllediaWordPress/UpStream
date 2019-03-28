@@ -1685,3 +1685,49 @@ function upstream_convert_UTC_date_to_timezone($subject, $includeTime = true)
         return false;
     }
 }
+
+/**
+ * @param array $users
+ *
+ * @return string
+ */
+function upstream_get_users_display_name($users)
+{
+    $html = 0;
+
+    $usersIds   = array_filter(array_unique($users));
+    $usersCount = count($usersIds);
+
+    if ($usersCount > 1) {
+        $users = get_users([
+            'include' => $usersIds,
+        ]);
+
+        $columnValue = [];
+        foreach ($users as $user) {
+            $columnValue[] = $user->display_name;
+        }
+        unset($user, $users);
+
+        $html = implode(',<br>', $columnValue);
+    } elseif ($usersCount === 1) {
+        $user = get_user_by('id', $usersIds[0]);
+
+        $html = $user->display_name;
+
+        unset($user);
+    }
+
+    unset($usersCount, $usersIds);
+
+    return $html;
+}
+
+/**
+ * @return array
+ * @deprecated
+ */
+function upstream_admin_get_options_milestones()
+{
+    return upstream_project_milestones();
+}

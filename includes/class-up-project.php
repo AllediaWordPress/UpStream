@@ -197,21 +197,42 @@ class UpStream_Project
      *
      * @since 1.0.0
      *
-     * @param string $id the id of the milestone
+     * @param $item_id
+     * @param $type
      *
      * @return array|null
+     * @throws Exception
      */
     public function get_item_by_id($item_id, $type)
     {
         if ( ! $item_id) {
             return;
         }
+
+        if (is_array($type)) {
+            $type = reset($type);
+        }
+
+        if ($type === 'milestones') {
+            try {
+                $milestone = \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+            } catch (\UpStream\Exception $e) {
+                $milestone = null;
+            }
+
+            $milestone['type'] = $type;
+
+            return $milestone;
+        }
+
         $data = $this->get_meta($type);
         if ( ! $data) {
             return;
         }
+
         foreach ($data as $key => $item) {
             if ($item_id == $item['id']) {
+                $item['type'] = $type;
                 return $item;
             }
         }
@@ -444,7 +465,7 @@ class UpStream_Project
     public function update_tasks_milestones()
     {
         $tasks      = $this->get_meta('tasks');
-        $milestones = $this->get_meta('milestones');
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
 
         $i      = 0;
         $totals = [];
@@ -454,8 +475,9 @@ class UpStream_Project
         }
 
         // loop through each milestone
-        foreach ($milestones as &$m) {
+        foreach ($milestones as $milestone) {
             //     ^ add reference to make changes
+            $milestone = \UpStream\Factory::getMilestone($milestone);
 
             $sum   = 0;
             $count = 0;
@@ -465,7 +487,7 @@ class UpStream_Project
                 // loop through each task
                 foreach ($tasks as $task) {
                     // if a milestone has a task assigned to it
-                    if (isset($task['milestone']) && $task['milestone'] === $m['id']) { // if it matches
+                    if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
                         $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
                         $count++; // count
 
@@ -479,23 +501,23 @@ class UpStream_Project
 
             // maths to work out total percentage of this milestone
             $percentage      = $count > 0 ? $sum / ($count * 100) * 100 : 0;
-            $m['progress']   = round($percentage, 1); // add the percentage into our new progress key
-            $m['task_count'] = $count; // add the number of tasks in this milestone
+
+            $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
+            $milestone->setTaskCount($count); // add the number of tasks in this milestone
 
             if (isset($open)) {
-                $m['task_open'] = $open++;
+                $milestone->setTaskOpen($open++);
             } // add the number of open tasks in this milestone
 
             // make sure the milestone has at lea   st 1 task assigned otherwise it doesn't count
             if ($count > 0) {
-                $totals[$m['milestone']]['count']    = $count;
-                $totals[$m['milestone']]['progress'] = $percentage;
+                $totals[$milestone->getId()]['count']    = $count;
+                $totals[$milestone->getId()]['progress'] = $percentage;
             }
 
             $i++;
         }
 
-        update_post_meta($this->ID, '_upstream_project_milestones', $milestones);
         update_post_meta($this->ID, '_upstream_project_tasks', $tasks);
 
         // maths for the total project progress

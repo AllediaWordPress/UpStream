@@ -27,3 +27,7 @@ a#upstream-upgrade-link,
     display: block;
     width: 100%;
 }
+
+#upstream_mimlestone_data select {
+    width: 100%;
+}

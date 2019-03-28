@@ -9,7 +9,7 @@
             var label = $btn.text();
             var buttonSlug = $btn.data('slug');
 
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_RESET_CAPABILITIES)) {
+            if (!confirm(upstreamAdmin.MSG_CONFIRM_RESET_CAPABILITIES)) {
                 return;
             }
 
@@ -22,11 +22,11 @@
                     role: buttonSlug
                 },
                 beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_RESETTING);
+                    $btn.text(upstreamAdmin.LB_RESETTING);
                     $btn.prop('disabled', true);
                 },
                 error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_CAPABILITIES_ERROR + '</span>');
+                    $msg = $('<span>' + upstreamAdmin.MSG_CAPABILITIES_ERROR + '</span>');
                     $msg.addClass('upstream_float_error');
 
                     $btn.after($msg);
@@ -36,7 +36,7 @@
                     }, 4000);
                 },
                 success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_CAPABILITIES_RESETED + '</span>');
+                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_CAPABILITIES_RESETED + '</span>');
                     $msg.addClass('upstream_float_success');
 
                     $btn.parent().append($msg);
@@ -60,7 +60,7 @@
             var $btn = $(event.target);
             var label = $btn.text();
 
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_REFRESH_PROJECTS_META)) {
+            if (!confirm(upstreamAdmin.MSG_CONFIRM_REFRESH_PROJECTS_META)) {
                 return;
             }
 
@@ -72,11 +72,11 @@
                     nonce: $btn.data('nonce')
                 },
                 beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_REFRESHING);
+                    $btn.text(upstreamAdmin.LB_REFRESHING);
                     $btn.prop('disabled', true);
                 },
                 error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_PROJECTS_META_ERROR + '</span>');
+                    $msg = $('<span>' + upstreamAdmin.MSG_PROJECTS_META_ERROR + '</span>');
                     $msg.addClass('upstream_float_error');
 
                     $btn.after($msg);
@@ -86,7 +86,7 @@
                     }, 4000);
                 },
                 success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_PROJECTS_SUCCESS + '</span>');
+                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
                     $msg.addClass('upstream_float_success');
 
                     $btn.parent().append($msg);
@@ -110,7 +110,7 @@
             var $btn = $(event.target);
             var label = $btn.text();
 
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_CLEANUP_UPDATE_CACHE)) {
+            if (!confirm(upstreamAdmin.MSG_CONFIRM_CLEANUP_UPDATE_CACHE)) {
                 return;
             }
 
@@ -122,11 +122,11 @@
                     nonce: $btn.data('nonce')
                 },
                 beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_REFRESHING);
+                    $btn.text(upstreamAdmin.LB_REFRESHING);
                     $btn.prop('disabled', true);
                 },
                 error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_CLEANUP_UPDATE_DATA_ERROR + '</span>');
+                    $msg = $('<span>' + upstreamAdmin.MSG_CLEANUP_UPDATE_DATA_ERROR + '</span>');
                     $msg.addClass('upstream_float_error');
 
                     $btn.after($msg);
@@ -136,7 +136,7 @@
                     }, 4000);
                 },
                 success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_PROJECTS_SUCCESS + '</span>');
+                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
                     $msg.addClass('upstream_float_success');
 
                     $btn.parent().append($msg);
@@ -155,5 +155,37 @@
                 }
             });
         };
+
+        $('.o-datepicker').datepicker({
+            todayBtn: 'linked',
+            clearBtn: true,
+            autoclose: true,
+            keyboardNavigation: false,
+            format: upstreamAdmin.datepickerDateFormat
+        }).on('change', function (e) {
+            var self = $(this);
+
+            var value = self.datepicker('getDate');
+            /*
+            if (value) {
+              value /= 1000;
+            }
+            */
+
+            if (value) {
+                value = (+new Date(value)) / 1000;
+            }
+
+            var hiddenField = $('#' + self.attr('id') + '_timestamp');
+            if (hiddenField.length > 0) {
+                hiddenField.val(value);
+            }
+        });
+
+        $('#upstream_mimlestone_data select').select2({
+            allowClear: true
+        });
+
+        $('.color-field').wpColorPicker();
     });
 })(jQuery);

@@ -192,7 +192,7 @@ class UpStream_Roles
     {
         $capabilities = [];
 
-        $capability_types = ['project', 'client'];
+        $capability_types = ['project', 'client', 'milestone'];
 
         foreach ($capability_types as $capability_type) {
             $capabilities[$capability_type] = [
@@ -302,6 +302,12 @@ class UpStream_Roles
             'project_end_date_field',
             // "project_description_field",
 
+            'edit_milestone',
+            'read_milestone',
+            'edit_milestones',
+            'edit_others_milestones',
+            'read_private_milestones',
+            'edit_private_milestones',
             // individual milestone fields
             'milestone_milestone_field',
             'milestone_assigned_to_field',

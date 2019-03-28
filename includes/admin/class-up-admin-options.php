@@ -257,8 +257,8 @@ if ( ! class_exists('UpStream_Admin_Options')) :
             $project_options        = new UpStream_Options_Projects();
             $this->option_metabox[] = $project_options->options();
 
-            $milestone_options      = new UpStream_Options_Milestones();
-            $this->option_metabox[] = $milestone_options->options();
+//            $milestone_options      = new UpStream_Options_Milestones();
+//            $this->option_metabox[] = $milestone_options->options();
 
             if ( ! upstream_disable_tasks()) {
                 $task_options           = new UpStream_Options_Tasks();

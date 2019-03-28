@@ -23,19 +23,21 @@ function upstream_load_admin_scripts($hook)
 
     $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
 
     global $pagenow;
+
+    wp_enqueue_style('wp-color-picker');
 
     wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
-        ['jquery', 'allex'],
+        ['jquery', 'wp-color-picker', 'allex', 'up-select2'],
         UPSTREAM_VERSION,
         false
     );
 
-    wp_localize_script('upstream-admin', 'upstreamAdminStrings', [
+    wp_localize_script('upstream-admin', 'upstreamAdmin', [
         'LB_RESETTING'                      => __('Resetting...', 'upstream'),
         'LB_REFRESHING'                     => __('Refreshing...', 'upstream'),
         'MSG_CONFIRM_RESET_CAPABILITIES'    => __('Are you sure you want to reset the capabilities?', 'upstream'),
@@ -48,11 +50,17 @@ function upstream_load_admin_scripts($hook)
         'MSG_PROJECTS_SUCCESS'              => __('Success!', 'upstream'),
         'MSG_PROJECTS_META_ERROR'           => __('Error!', 'upstream'),
         'MSG_CLEANUP_UPDATE_DATA_ERROR'     => __('Error cleaning up the cached data!', 'upstream'),
+        'datepickerDateFormat'              => upstreamGetDateFormatForJsDatepicker(),
     ]);
 
-
     if (in_array($pagenow, ['edit.php', 'post.php', 'post-new.php'])) {
-        if ($postType === 'project') {
+
+        $milestoneInstance = \UpStream\Milestones::getInstance();
+        $milestonePostType = $milestoneInstance->getPostType();
+
+        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'milestone']);
+
+        if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
 
             $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
@@ -131,9 +139,28 @@ function upstream_load_admin_scripts($hook)
                 'MSG_NO_DATA_FOUND'        => __('No data found.', 'upstream'),
                 'MSG_MANAGING_PERMISSIONS' => __("Managing %s\'s Permissions", 'upstream'),
             ]);
+        } elseif ($postType === $milestonePostType) {
+            $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
+            wp_enqueue_style(
+                'up-select2',
+                $globalAssetsPath . 'css/vendor/select2.min.css',
+                [],
+                UPSTREAM_VERSION,
+                'all'
+            );
+            wp_enqueue_script(
+                'up-select2',
+                $globalAssetsPath . 'js/vendor/select2.full.min.js',
+                [],
+                UPSTREAM_VERSION,
+                true
+            );
+            unset($globalAssetsPath);
         }
 
-        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2', ['project', 'client']);
+        $milestoneInstance  = \UpStream\Milestones::getInstance();
+        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2',
+            ['project', 'client', $milestoneInstance->getPostType()]);
 
         if (in_array($postType, $postTypesUsingCmb2)) {
             wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
