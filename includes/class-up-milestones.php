@@ -289,7 +289,9 @@ class Milestones
             $project = get_post($milestone->getProjectId());
 
             echo $project->post_title;
-        } elseif ($column === 'assigned_to') {
+        }
+
+        if ($column === 'assigned_to') {
             $usersId = $milestone->getAssignedTo();
 
             if (empty($usersId)) {
@@ -305,6 +307,14 @@ class Milestones
             }
 
             echo implode(', ', $users);
+        }
+
+        if ($column === 'start_date') {
+            echo $milestone->getStartDate('upstream');
+        }
+
+        if ($column === 'end_date') {
+            echo $milestone->getEndDate('upstream');
         }
     }
 
