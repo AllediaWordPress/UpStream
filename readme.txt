@@ -146,6 +146,8 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 * Added option field to select the user roles that can be active inside projects. Those users can be assigned Milestones, Tasks and Bugs and own projects;
 * Added hooks allowing to customize the editor buttons;
+* Added custom Milestones per project. They are not set globally anymore;
+* Removed the global Milestone list from the settings tabs;
 * Updated Twig and Polyfill-ctype libraries;
 
 = [1.23.2] - 2019-03-07 =
