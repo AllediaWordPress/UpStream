@@ -1,4 +1,8 @@
 (function ($, $data) {
+    $('#upstream_mimlestone_data select').select2({
+        allowClear: true
+    });
+
     function initProject () {
         var $box = $(document.getElementById('post-body'));
 

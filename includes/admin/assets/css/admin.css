@@ -31,3 +31,11 @@ a#upstream-upgrade-link,
 #upstream_mimlestone_data select {
     width: 100%;
 }
+
+.upstream-option-subpanel {
+    width: 100%;
+    background: #000;
+    min-height: 200px;
+    margin-top: 10px;
+    border: 1px solid #bfbebe;
+}
