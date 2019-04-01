@@ -32,7 +32,7 @@ function upstream_load_admin_scripts($hook)
     wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
-        ['jquery', 'wp-color-picker', 'allex', 'up-select2'],
+        ['jquery', 'wp-color-picker', 'allex'],
         UPSTREAM_VERSION,
         false
     );
