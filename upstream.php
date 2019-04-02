@@ -676,3 +676,5 @@ function UpStream()
 }
 
 UpStream();
+
+do_action('upstream_run');
