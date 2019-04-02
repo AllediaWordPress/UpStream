@@ -211,7 +211,7 @@ if ( ! class_exists('UpStream_Admin_Options')) :
                         </h2>
                         <!-- End of Nav Tabs -->
 
-                        <?php foreach ($tab_forms as $tab_form) : //render all tab forms (normaly just 1 form)?>
+                        <?php foreach ($tab_forms as $tab_form) : //render all tab forms (normally just 1 form)?>
                             <div id="<?php esc_attr_e($tab_form['id']); ?>" class="cmb-form group">
                                 <div class="metabox-holder">
                                     <div class="postbox pad">

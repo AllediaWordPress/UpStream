@@ -37,9 +37,17 @@ function upstream_load_admin_scripts($hook)
         UPSTREAM_VERSION, 'screen');
 
     wp_enqueue_script(
+        'terminal',
+        $assetsDir . 'js/jquery.terminal.min.js',
+        ['jquery'],
+        UPSTREAM_VERSION,
+        false
+    );
+
+    wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
-        ['jquery', 'wp-color-picker', 'allex', 'up-select2'],
+        ['jquery', 'wp-color-picker', 'allex', 'terminal'],
         UPSTREAM_VERSION,
         false
     );
@@ -178,6 +186,7 @@ function upstream_load_admin_scripts($hook)
         wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
     }
 
+    wp_enqueue_style('terminal', $assetsDir . 'css/jquery.terminal.min.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-icon', $assetsDir . 'css/admin-upstream-icon.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-style', $assetsDir . 'css/admin.css', ['allex'], UPSTREAM_VERSION);
     wp_enqueue_style('up-fontawesome', UPSTREAM_PLUGIN_URL . 'templates/assets/css/fontawesome.min.css', [],
