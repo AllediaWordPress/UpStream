@@ -281,14 +281,15 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
         /**
          * Renders all Extensions Page's HTML.
          *
+         * @param \CMB2_Field $field      The current CMB2_Field object.
+         * @param string      $value      The field value passed through the escaping filter.
+         * @param mixed       $object_id  The object id.
+         * @param string      $objectType The type of object being handled.
+         * @param \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
+         *
          * @since   1.11.0
          * @static
          *
-         * @param   \CMB2_Field $field      The current CMB2_Field object.
-         * @param   string      $value      The field value passed through the escaping filter.
-         * @param   mixed       $object_id  The object id.
-         * @param   string      $objectType The type of object being handled.
-         * @param   \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
          */
         public static function renderExtensionsWrapper($field, $value, $object_id, $objectType, $fieldType)
         {
@@ -296,7 +297,7 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
         }
 
         /**
-         * @param string  $ad_link
+         * @param string $ad_link
          * @param string $plugin_name
          *
          * @return array
@@ -313,9 +314,9 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
         /**
          * Add the options metabox to the array of metaboxes.
          *
+         * @return  array
          * @since   0.1.0
          *
-         * @return  array
          */
         public function getOptions()
         {
