@@ -204,16 +204,16 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                     'icon_class'  => 'fa fa-plus-square',
                     'edd_id'      => 8409,
                 ],
-                'upstream-reports'             => [
-                    'slug'        => 'upstream-reports',
-                    'title'       => __('Reports', 'upstream'),
-                    'description' => __(
-                        'Allow users to see or print reports.',
-                        'upstream'
-                    ),
-                    'icon_class'  => 'fa fa-file-text',
-                    'edd_id'      => 16229,
-                ],
+                //                'upstream-reports'             => [
+                //                    'slug'        => 'upstream-reports',
+                //                    'title'       => __('Reports', 'upstream'),
+                //                    'description' => __(
+                //                        'Allow users to see or print reports.',
+                //                        'upstream'
+                //                    ),
+                //                    'icon_class'  => 'fa fa-file-text',
+                //                    'edd_id'      => 16229,
+                //                ],
             ];
 
             return $addons;
