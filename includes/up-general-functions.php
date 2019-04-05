@@ -858,6 +858,8 @@ function upstream_tinymce_quicktags_settings($tinyMCE)
         $tinyMCE['buttons'] = 'strong,em,link,del,ul,ol,li,close';
     }
 
+    $tinyMCE['buttons'] = apply_filters('upstream_tinymce_buttons', $tinyMCE['buttons']);
+
     return $tinyMCE;
 }
 
@@ -868,10 +870,11 @@ function upstream_tinymce_before_init_setup_toolbar($tinyMCE)
     }
 
     if (preg_match('/_upstream_project_|#description|#notes|#new_message|#upstream/i', $tinyMCE['selector'])) {
-        $tinyMCE['toolbar1'] = 'bold,italic,underline,strikethrough,bullist,numlist,link';
-        $tinyMCE['toolbar2'] = '';
-        $tinyMCE['toolbar3'] = '';
-        $tinyMCE['toolbar4'] = '';
+        $tinyMCE['toolbar1'] = apply_filters('upstream_tinymce_toolbar',
+            'bold,italic,underline,strikethrough,bullist,numlist,link', 'toolbar1');
+        $tinyMCE['toolbar2'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar2');
+        $tinyMCE['toolbar3'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar3');
+        $tinyMCE['toolbar4'] = apply_filters('upstream_tinymce_toolbar', '', 'toolbar4');
     }
 
     return $tinyMCE;
@@ -907,7 +910,7 @@ function upstream_tinymce_before_init($tinyMCE)
         }
 
         $externalPlugins             = apply_filters('upstream_tinymce_external_plugins', []);
-        $tinyMCE['external_plugins'] = implode(',', $externalPlugins);
+        $tinyMCE['external_plugins'] = wp_json_encode($externalPlugins);
     }
 
     return $tinyMCE;
