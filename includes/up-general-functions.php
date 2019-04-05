@@ -448,11 +448,11 @@ function upstream_users_name($id = 0, $show_email = false)
 /**
  * Retrieve all projects where the user has access to.
  *
- * @since   1.12.2
- *
- * @param   numeric/WP_User     $user    The user to be checked.
+ * @param numeric/WP_User     $user    The user to be checked.
  *
  * @return  array
+ * @since   1.12.2
+ *
  */
 function upstream_get_users_projects($user)
 {
@@ -699,13 +699,13 @@ function upstream_admin_email()
 /**
  * Retrieve the `admin_support_link` option value.
  *
+ * @param array $option Array of options. If provided, there's no need to fetch everything again from DB.
+ *
+ * @return  string
  * @since   1.12.0
  *
  * @see     https://github.com/upstreamplugin/UpStream/issues/81
  *
- * @param   array $option Array of options. If provided, there's no need to fetch everything again from DB.
- *
- * @return  string
  */
 function upstream_admin_support($option)
 {
@@ -723,13 +723,13 @@ function upstream_admin_support($option)
 /**
  * Retrieve the `admin_support_link_label` option value.
  *
+ * @param array $option Array of options. If provided, there's no need to fetch everything again from DB.
+ *
+ * @return  string
  * @since   1.12.0
  *
  * @see     https://github.com/upstreamplugin/UpStream/issues/81
  *
- * @param   array $option Array of options. If provided, there's no need to fetch everything again from DB.
- *
- * @return  string
  */
 function upstream_admin_support_label($option)
 {
@@ -748,11 +748,11 @@ function upstream_admin_support_label($option)
  * Check if Milestones are disabled for the current open project.
  * If no ID is passed, this function tries to guess it by checking $_GET/$_POST vars.
  *
- * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
+ * @param int $post_id The project ID to be checked
  *
  * @return  bool
+ * @since   1.8.0
+ *
  */
 function upstream_are_milestones_disabled($post_id = 0)
 {
@@ -775,11 +775,11 @@ function upstream_are_milestones_disabled($post_id = 0)
  * Check if Tasks are disabled for the current open project.
  * If no ID is passed, this function tries to guess it by checking $_GET/$_POST vars.
  *
- * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
+ * @param int $post_id The project ID to be checked
  *
  * @return  bool
+ * @since   1.8.0
+ *
  */
 function upstream_are_tasks_disabled($post_id = 0)
 {
@@ -802,11 +802,11 @@ function upstream_are_tasks_disabled($post_id = 0)
  * Check if Bugs are disabled for the current open project.
  * If no ID is passed, this function tries to guess it by checking $_GET/$_POST vars.
  *
- * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
+ * @param int $post_id The project ID to be checked
  *
  * @return  bool
+ * @since   1.8.0
+ *
  */
 function upstream_are_bugs_disabled($post_id = 0)
 {
@@ -829,11 +829,11 @@ function upstream_are_bugs_disabled($post_id = 0)
  * Check if Files are disabled for the current open project.
  * If no ID is passed, this function tries to guess it by checking $_GET/$_POST vars.
  *
- * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
+ * @param int $post_id The project ID to be checked
  *
  * @return  bool
+ * @since   1.8.0
+ *
  */
 function upstream_are_files_disabled($post_id = 0)
 {
@@ -950,17 +950,17 @@ function upstream_disable_files()
  * Apply OEmbed filters to a given string in an attempt to render potential embeddable content.
  * This function is called as a callback from CMB2 field method 'escape_cb'.
  *
- * @since   1.10.0
+ * @param mixed       $content    The unescaped content to be analyzed.
+ * @param array       $field_args Array of field arguments.
+ * @param \CMB2_Field $field      The field instance.
  *
+ * @return  mixed                   Escaped value to be displayed.
  * @see     https://github.com/CMB2/CMB2/wiki/Field-Parameters#escape_cb
  *
  * @uses    $wp_embed
  *
- * @param   mixed       $content    The unescaped content to be analyzed.
- * @param   array       $field_args Array of field arguments.
- * @param   \CMB2_Field $field      The field instance.
+ * @since   1.10.0
  *
- * @return  mixed                   Escaped value to be displayed.
  */
 function applyOEmbedFiltersToWysiwygEditorContent($content, $field_args, $field)
 {
@@ -982,11 +982,11 @@ function applyOEmbedFiltersToWysiwygEditorContent($content, $field_args, $field)
  * Check if Comments/Discussion are disabled for the current open project.
  * If no ID is passed, this function tries to guess it by checking $_GET/$_POST vars.
  *
- * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
+ * @param int $post_id The project ID to be checked
  *
  * @return  bool
+ * @since   1.8.0
+ *
  */
 function upstream_are_comments_disabled($post_id = 0)
 {
@@ -1017,9 +1017,9 @@ function upstream_are_comments_disabled($post_id = 0)
 /**
  * Check if Projects Categorization is currently disabled.
  *
+ * @return  bool
  * @since   1.12.0
  *
- * @return  bool
  */
 function is_project_categorization_disabled()
 {
@@ -1033,9 +1033,9 @@ function is_project_categorization_disabled()
 /**
  * Check if Clients feature is disabled.
  *
+ * @return  bool
  * @since   1.12.0
  *
- * @return  bool
  */
 function is_clients_disabled()
 {
@@ -1063,11 +1063,11 @@ function select_users_by_default()
 /**
  * Retrieve the avatar URL from a given user.
  *
- * @since   1.12.0
- *
- * @param   int $user_id The user ID.
+ * @param int $user_id The user ID.
  *
  * @return  string|bool
+ * @since   1.12.0
+ *
  */
 function getUserAvatarURL($user_id)
 {
@@ -1137,9 +1137,9 @@ function getUserAvatarURL($user_id)
 /**
  * Check if the current user is either administrator or UpStream Manager.
  *
+ * @return  bool
  * @since   1.12.0
  *
- * @return  bool
  */
 function isUserEitherManagerOrAdmin($user = null)
 {
@@ -1157,12 +1157,12 @@ function isUserEitherManagerOrAdmin($user = null)
 /**
  * Generates a random string of custom length.
  *
- * @since   1.12.2
- *
- * @param   int    $length    The length of the random string.
- * @param   string $charsPool The characters that might compose the string.
+ * @param int    $length    The length of the random string.
+ * @param string $charsPool The characters that might compose the string.
  *
  * @return  string
+ * @since   1.12.2
+ *
  */
 function upstreamGenerateRandomString(
     $length,
@@ -1181,9 +1181,9 @@ function upstreamGenerateRandomString(
 /**
  * Check if comments are allowed on projects.
  *
+ * @return  bool
  * @since   1.13.0
  *
- * @return  bool
  */
 function upstreamAreProjectCommentsEnabled()
 {
@@ -1234,9 +1234,9 @@ function upstreamAreProjectCommentsEnabled()
 /**
  * Check if comments are allowed on milestones.
  *
+ * @return  bool
  * @since   1.13.0
  *
- * @return  bool
  */
 function upstreamAreCommentsEnabledOnMilestones()
 {
@@ -1252,9 +1252,9 @@ function upstreamAreCommentsEnabledOnMilestones()
 /**
  * Check if comments are allowed on tasks.
  *
+ * @return  bool
  * @since   1.13.0
  *
- * @return  bool
  */
 function upstreamAreCommentsEnabledOnTasks()
 {
@@ -1270,9 +1270,9 @@ function upstreamAreCommentsEnabledOnTasks()
 /**
  * Check if comments are allowed on bugs.
  *
+ * @return  bool
  * @since   1.13.0
  *
- * @return  bool
  */
 function upstreamAreCommentsEnabledOnBugs()
 {
@@ -1288,9 +1288,9 @@ function upstreamAreCommentsEnabledOnBugs()
 /**
  * Check if comments are allowed on files.
  *
+ * @return  bool
  * @since   1.13.0
  *
- * @return  bool
  */
 function upstreamAreCommentsEnabledOnFiles()
 {
@@ -1306,11 +1306,11 @@ function upstreamAreCommentsEnabledOnFiles()
 /**
  * Slighted modification of PHP's native nl2br function.
  *
- * @since   1.13.1
- *
- * @param   string $subject String to be processed.
+ * @param string $subject String to be processed.
  *
  * @return  string
+ * @since   1.13.1
+ *
  */
 function upstream_nl2br($subject)
 {
@@ -1464,9 +1464,9 @@ function userCanReceiveCommentRepliesNotification($user_id = 0)
 /**
  * Retrieve a list of Milestones available on this instance.
  *
+ * @return  array
  * @since   1.17.0
  *
- * @return  array
  */
 function getMilestones()
 {
@@ -1489,9 +1489,9 @@ function getMilestones()
 /**
  * Retrieve a list of Milestones titles available on this instance.
  *
+ * @return  array
  * @since   1.17.0
  *
- * @return  array
  */
 function getMilestonesTitles()
 {
@@ -1510,9 +1510,9 @@ function getMilestonesTitles()
 /**
  * Retrieve a list of Tasks available on this instance.
  *
+ * @return  array
  * @since   1.17.0
  *
- * @return  array
  */
 function getTasksStatuses()
 {
@@ -1535,9 +1535,9 @@ function getTasksStatuses()
 /**
  * Retrieve a list of Task statuses titles available on this instance.
  *
+ * @return  array
  * @since   1.17.0
  *
- * @return  array
  */
 function getTasksStatusesTitles()
 {
@@ -1606,10 +1606,10 @@ function upstream_media_unrestricted_roles()
  * Retrieve a DateTimeZone object of the current WP's timezone.
  * This function falls back to UTC in case of an invalid/empty timezone option.
  *
- * @since   1.12.3
+ * @return  \DateTimeZone
  * @deprecated
  *
- * @return  \DateTimeZone
+ * @since   1.12.3
  */
 function upstreamGetTimeZone()
 {
@@ -1627,12 +1627,12 @@ function upstreamGetTimeZone()
 /**
  * Convert a given date (UTC)/timestamp to the instance's timezone.
  *
+ * @param int|string $subject The date to be converted. If int, assume it's a timestamp.
+ *
+ * @return  string|false                The converted string or false in case of failure.
  * @since   1.11.0
  * @deprecated
  *
- * @param   int|string $subject The date to be converted. If int, assume it's a timestamp.
- *
- * @return  string|false                The converted string or false in case of failure.
  */
 function upstream_convert_UTC_date_to_timezone($subject, $includeTime = true)
 {
