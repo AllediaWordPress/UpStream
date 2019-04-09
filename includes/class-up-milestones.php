@@ -92,6 +92,12 @@ class Milestones
 
             try {
                 if ( ! empty($projectMilestones)) {
+                    // Move the milestones to a backup register, temporarily.
+                    $legacyMilestonesBackup = get_post_meta($projectId, '_upstream_project_milestones_legacy', true);
+                    if (empty($legacyMilestonesBackup)) {
+                        update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
+                    }
+
                     $wpdb->query('START TRANSACTION');
 
                     $updatedTasks = false;
@@ -139,12 +145,6 @@ class Milestones
                                 }
                             }
                         }
-                    }
-
-                    // Move the milestones to a backup register, temporarily.
-                    $legacyMilestonesBackup = get_post_meta($projectId, '_upstream_project_milestones_legacy', true);
-                    if (empty($legacyMilestonesBackup)) {
-                        update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
                     }
 
                     update_post_meta($projectId, '_upstream_milestones_migrated', 1);
