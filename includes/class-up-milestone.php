@@ -288,7 +288,17 @@ class Milestone extends Struct
     {
         $this->projectId = (int)$projectId;
 
+        // Update the metadata
         $this->updateMetadata([self::META_PROJECT_ID => $projectId]);
+
+        // Update the post parent so we can use it to filter and group project items.
+        $this->post->post_parent = $projectId;
+        wp_update_post(
+            [
+                'ID'          => $this->getId(),
+                'post_parent' => $projectId,
+            ]
+        );
 
         return $this;
     }
