@@ -74,6 +74,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
         {
             if ($object['field_id'] === '_upstream_project_milestones') {
                 if (isset($object['value']) && is_array($object['value'])) {
+                    $currentMilestoneIds = [];
+
                     foreach ($object['value'] as $milestoneData) {
                         // If doesn't have an id, we create the milestone.
                         if ( ! isset($milestoneData['id']) || EMPTY($milestoneData['id'])) {
@@ -119,6 +121,17 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                             $milestone->setColor($milestoneData['color']);
                         } else {
                             $milestone->setColor('');
+                        }
+
+                        $currentMilestoneIds[] = $milestone->getId();
+                    }
+
+                    // Check if we need to delete any Milestone. If it is not found on the post, it was removed.
+                    $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($object['id']);
+                    foreach ($milestones as $milestone) {
+                        if ( ! in_array($milestone->ID, $currentMilestoneIds)) {
+                            $milestone = \UpStream\Factory::getMilestone($milestone);
+                            $milestone->delete();
                         }
                     }
 
