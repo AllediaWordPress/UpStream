@@ -108,9 +108,10 @@ class Milestones
 
                         // Check if we already have this milestone in the project.
                         $migratedMilestone = get_posts([
-                            'post_type'  => Milestone::POST_TYPE,
-                            'meta_key'   => Milestone::META_LEGACY_MILESTONE_CODE,
-                            'meta_value' => $projectMilestone['milestone'],
+                            'post_type'   => Milestone::POST_TYPE,
+                            'post_parent' => $projectId,
+                            'meta_key'    => Milestone::META_LEGACY_MILESTONE_CODE,
+                            'meta_value'  => $projectMilestone['milestone'],
                         ]);
 
                         // If the milestone already exists, abort
