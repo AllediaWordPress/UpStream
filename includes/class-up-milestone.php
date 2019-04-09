@@ -340,7 +340,7 @@ class Milestone extends Struct
             $projectId = $this->getProjectId();
 
 
-            // TODO: Refator this after migrating tasks to another architecture.
+            // TODO: Refactor this after migrating tasks to another architecture.
             $tasks = (array)get_post_meta($projectId, '_upstream_project_tasks', true);
             if (count($tasks) > 0) {
                 $updated = false;
