@@ -37,7 +37,7 @@ body, .left_col, .nav_title, .sidebar-footer a:hover {
 }
 
 .nav.side-menu > li.active > a, .sidebar-footer a, .nav-md ul.nav.child_menu li::before, .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover, .top_nav .nav .open > a, .top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover, .top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover {
-    box-shadow: 0 0px 0 30px rgba(0, 0, 0, 0.05) inset; /* dark */
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .pagination .active a {
