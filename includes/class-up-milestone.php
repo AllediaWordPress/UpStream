@@ -546,7 +546,7 @@ class Milestone extends Struct
     {
         $order = (int)$order;
 
-        $this->$order = $order;
+        $this->order = $order;
 
         // Assume it is on MySQL date format.
         $this->updateMetadata([self::META_ORDER => $order]);
