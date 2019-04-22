@@ -215,12 +215,11 @@ class UpStream_Project
 
         if ($type === 'milestones') {
             try {
-                $milestone = \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+                $milestone         = \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+                $milestone['type'] = $type;
             } catch (\UpStream\Exception $e) {
                 $milestone = null;
             }
-
-            $milestone['type'] = $type;
 
             return $milestone;
         }
