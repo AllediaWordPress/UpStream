@@ -150,6 +150,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Removed the global Milestone list from the settings tabs;
 * Updated Twig and Polyfill-ctype libraries;
 * Added new hooks to filter Tinymce plugins, external plugins and toolbar buttons, allowing to add custom buttons to the editors;
+* Fixed white line displayed in the project title when title has more than one line;
 
 = [1.23.2] - 2019-03-07 =
 
