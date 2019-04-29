@@ -21,58 +21,72 @@ class Milestone extends Struct
      * The Post Type for milestones.
      */
     const POST_TYPE = 'upst_milestone';
+
     /**
      * Project ID meta key.
      */
     const META_PROJECT_ID = 'upst_project_id';
+
     /**
      * Assigned To meta key.
      */
     const META_ASSIGNED_TO = 'upst_assigned_to';
+
     /**
      * Start date meta key.
      */
     const META_START_DATE = 'upst_start_date';
+
     /**
      * End date meta key.
      */
     const META_END_DATE = 'upst_end_date';
+
     /**
      * Order meta key.
      */
     const META_ORDER = 'upst_order';
+
     /**
      * Progress meta key.
      */
     const META_PROGRESS = 'upst_progress';
+
     /**
      * Color meta key.
      */
     const META_COLOR = 'upst_color';
+
     /**
      * Legacy ID meta key.
      */
     const META_LEGACY_ID = 'upst_legacy_id';
+
     /**
      * Legacy code used to link tasks to milestones.
      */
     const META_LEGACY_MILESTONE_CODE = 'upst_legacy_milestone_code';
+
     /**
      * Legacy flag for when the created time was set in UTC.
      */
     const META_CREATED_TIME_IN_UTC = 'upst_created_time_in_utc';
+
     /**
      * Task count meta key.
      */
     const META_TASK_COUNT = 'upst_task_count';
+
     /**
      * Task open meta key.
      */
     const META_TASK_OPEN = 'upst_task_open';
+
     /**
      * The default color.
      */
     const DEFAULT_COLOR = '#cccccc';
+
     /**
      * @var \WP_Post
      */
