@@ -258,6 +258,14 @@ class Milestone extends Struct
     }
 
     /**
+     * @return \UpStream\Milestones
+     */
+    protected function getMilestonesInstance()
+    {
+        return Milestones::getInstance();
+    }
+
+    /**
      * @return string|null
      */
     public function getLegacyId()
@@ -409,14 +417,18 @@ class Milestone extends Struct
         // Update the metadata
         $this->updateMetadata([self::META_PROJECT_ID => $projectId]);
 
+        $milestones = $this->getMilestonesInstance();
+
         // Update the post parent so we can use it to filter and group project items.
         $this->post->post_parent = $projectId;
+        remove_action('save_post', [$milestones, 'savePost']);
         wp_update_post(
             [
                 'ID'          => $this->getId(),
                 'post_parent' => $projectId,
             ]
         );
+        add_action('save_post', [$milestones, 'savePost']);
 
         return $this;
     }
@@ -494,37 +506,6 @@ class Milestone extends Struct
         $this->updateNonUniqueMetadata(self::META_ASSIGNED_TO, $this->assignedTo);
 
         return $this;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return array array
-     */
-    protected function sanitizeArrayOfIds($array)
-    {
-        if ( ! empty($array)) {
-            $array = array_map('intval', $array);
-
-            $array = $this->removeEmptyValuesFromArray($array);
-        }
-
-        return $array;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return array $array
-     */
-    protected function removeEmptyValuesFromArray($array)
-    {
-        if ( ! empty($array)) {
-            $array = array_unique($array);
-            $array = array_filter($array);
-        }
-
-        return $array;
     }
 
     /**
@@ -695,14 +676,6 @@ class Milestone extends Struct
     }
 
     /**
-     * @return \UpStream\Milestones
-     */
-    protected function getMilestonesInstance()
-    {
-        return Milestones::getInstance();
-    }
-
-    /**
      * @param string $format mysql, unix, upstream
      *
      * @return string
@@ -731,48 +704,6 @@ class Milestone extends Struct
         $this->updateMetadata([self::META_START_DATE => $startDate]);
 
         return $this;
-    }
-
-    /**
-     * @param mixed $date
-     *
-     * @return false|mixed|string
-     */
-    protected function getMySQLDate($date)
-    {
-        if ( ! $this->dateIsMySQLDateFormat($date)) {
-            if ( ! $this->dateIsUnixTime($date)) {
-                // Convert to unix time.
-                $date = upstream_date_unixtime($date);
-            }
-
-            // Assume it is in unix time format and convert to MySQL date format.
-            if ( ! empty($date)) {
-                $date = date('Y-m-d', $date);
-            }
-        }
-
-        return $date;
-    }
-
-    /**
-     * @param int|string $date
-     *
-     * @return bool
-     */
-    protected function dateIsMySQLDateFormat($date)
-    {
-        return preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date);
-    }
-
-    /**
-     * @param $date
-     *
-     * @return bool
-     */
-    protected function dateIsUnixTime($date)
-    {
-        return preg_match('/^\d+$/', $date);
     }
 
     /**
@@ -878,6 +809,79 @@ class Milestone extends Struct
         }
 
         return $this->color;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array array
+     */
+    protected function sanitizeArrayOfIds($array)
+    {
+        if ( ! empty($array)) {
+            $array = array_map('intval', $array);
+
+            $array = $this->removeEmptyValuesFromArray($array);
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array $array
+     */
+    protected function removeEmptyValuesFromArray($array)
+    {
+        if ( ! empty($array)) {
+            $array = array_unique($array);
+            $array = array_filter($array);
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param mixed $date
+     *
+     * @return false|mixed|string
+     */
+    protected function getMySQLDate($date)
+    {
+        if ( ! $this->dateIsMySQLDateFormat($date)) {
+            if ( ! $this->dateIsUnixTime($date)) {
+                // Convert to unix time.
+                $date = upstream_date_unixtime($date);
+            }
+
+            // Assume it is in unix time format and convert to MySQL date format.
+            if ( ! empty($date)) {
+                $date = date('Y-m-d', $date);
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * @param int|string $date
+     *
+     * @return bool
+     */
+    protected function dateIsMySQLDateFormat($date)
+    {
+        return preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date);
+    }
+
+    /**
+     * @param $date
+     *
+     * @return bool
+     */
+    protected function dateIsUnixTime($date)
+    {
+        return preg_match('/^\d+$/', $date);
     }
 
     /**
