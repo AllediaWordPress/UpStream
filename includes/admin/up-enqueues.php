@@ -73,7 +73,7 @@ function upstream_load_admin_scripts($hook)
         $milestoneInstance = \UpStream\Milestones::getInstance();
         $milestonePostType = $milestoneInstance->getPostType();
 
-        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'milestone']);
+        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'upst_milestone']);
 
         if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
@@ -101,6 +101,7 @@ function upstream_load_admin_scripts($hook)
                 UPSTREAM_VERSION,
                 false
             );
+
             wp_enqueue_script('upstream-project');
             wp_localize_script('upstream-project', 'upstream_project', apply_filters('upstream_project_script_vars', [
                 'version' => UPSTREAM_VERSION,
@@ -132,6 +133,17 @@ function upstream_load_admin_scripts($hook)
                     'MSG_NO_RESULTS'                    => __('No results', 'upstream'),
                 ],
             ]));
+
+            if ($postType === 'upst_milestone') {
+                wp_enqueue_script(
+                    'upstream-milestone',
+                    $assetsDir . 'js/edit-milestone.js',
+                    ['jquery', 'up-select2'],
+                    UPSTREAM_VERSION,
+                    false
+                );
+            }
+
         } elseif ($postType === 'client') {
             wp_enqueue_script(
                 'up-metabox-client',
