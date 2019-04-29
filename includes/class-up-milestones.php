@@ -282,7 +282,7 @@ class Milestones
 
         $context = [
             'field_prefix' => '_upstream_milestone_',
-            'members'      => (array)upstream_project_users_dropdown(),
+            'members'      => (array)$this->projectUsersDropdown(),
             'projects'     => $projects,
             'permissions'  => [
                 'edit_assigned_to' => current_user_can('milestone_assigned_to_field'),
@@ -497,5 +497,22 @@ class Milestones
         }
 
         return $milestones;
+    }
+
+    /**
+     * Returns all users with select roles.
+     * For use in dropdowns.
+     */
+    protected function projectUsersDropdown()
+    {
+        $options = [
+            '' => __('None', 'upstream'),
+        ];
+
+        $projectUsers = upstream_admin_get_all_project_users();
+
+        $options += $projectUsers;
+
+        return $options;
     }
 }
