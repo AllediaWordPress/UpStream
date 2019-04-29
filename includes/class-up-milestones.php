@@ -45,7 +45,7 @@ class Milestones
         }
 
         add_action('before_upstream_init', [$this, 'createPostType']);
-        add_action('add_meta_boxes', [$this, 'addMetaBox']);
+        add_action('add_meta_boxes', [$this, 'addMetaBox'], 8);
         add_action('save_post', [$this, 'savePost']);
 
         $postType = $this->getPostType();
