@@ -112,6 +112,15 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
                 } else {
                     $areCategoriesEnabled = ! is_project_categorization_disabled();
                     $areClientsEnabled    = ! is_clients_disabled();
+                    $milestonesEnabled    = ! upstream_disable_milestones();
+
+                    if ($milestonesEnabled) {
+                        $submenuMilestones = $searchSubmenuItem('^edit\.php\?post_type=upst_milestone');
+                        if ($submenuMilestones !== null) {
+                            $newUpStreamSubmenu[] = $submenuMilestones;
+                        }
+                        unset($submenuMilestones);
+                    }
 
                     $submenuTasks = $searchSubmenuItem('^tasks$');
                     if ($submenuTasks !== null) {

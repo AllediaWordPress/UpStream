@@ -1,0 +1,114 @@
+<div class="cmb2-wrap">
+    {% if permissions.edit_project %}
+        <div class="row upstream-milestone-project">
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                <label for="{{ field_prefix }}project_id">{{ labels.project }}</label>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                <select id="{{ field_prefix }}project_id"
+                        name="milestone_data[project_id]" class="form-control"
+                        data-placeholder="{{ labels.none }}">
+                    {% for projectId,projectName in projects %}
+                        {% if projectId %}
+                            <option value="{{ projectId }}" {% if projectId in data.project_id %}selected{% endif %}>{{ projectName }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        </div>
+    {% endif %}
+
+    {% if permissions.edit_assigned_to %}
+        <div class="row upstream-milestone-assigned-to">
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                <label for="{{ field_prefix }}assigned_to">{{ labels.assigned_to }}</label>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                <select id="{{ field_prefix }}assigned_to"
+                        name="milestone_data[assigned_to][]" class="form-control"
+                        data-placeholder="{{ labels.none }}" multiple>
+                    <option></option>
+                    {% for userId,userName in members %}
+                        {% if userId %}
+                            <option value="{{ userId }}" {% if userId in data.assigned_to %}selected{% endif %}>{{ userName }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        </div>
+    {% endif %}
+
+
+    {% if permissions.edit_start_date %}
+        <div class="row upstream-milestone-start-date">
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                <label for="{{ field_prefix }}start_date">{{ labels.start_date }}</label>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                <input type="text" id="{{ field_prefix }}start_date"
+                       name="milestone_data[start_date]" class="form-control o-datepicker"
+                       placeholder="{{ labels.none }}" data-elt="end_date"
+                       autocomplete="off" value="{{ data.start_date }}">
+                <input type="hidden" id="{{ field_prefix }}start_date_timestamp'; ?>"
+                       data-name="start_date">
+            </div>
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        </div>
+    {% endif %}
+
+    {% if permissions.edit_end_date %}
+        <div class="row upstream-milestone-end-date">
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                <label for="{{ field_prefix }}end_date">{{ labels.end_date }}</label>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                <input type="text" id="{{ field_prefix }}end_date"
+                       name="milestone_data[end_date]" class="form-control o-datepicker"
+                       placeholder="{{ labels.none }}" data-egt="start_date"
+                       autocomplete="off" value="{{ data.end_date }}">
+                <input type="hidden" id="{{ field_prefix }}end_date_timestamp"
+                       data-name="end_date">
+            </div>
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        </div>
+    {% endif %}
+
+
+    {{ doAction('upstream.frontend-edit:renderAfter.project.items.end_dates', 'milestones') }}
+
+    <div class="row upstream-milestone-color">
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+            <label for="">{{ labels.color }}</label>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+            <input class="color-field" type="text" name="milestone_data[color]" value="{{ data.color }}"/>
+        </div>
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+    </div>
+
+    {% if permissions.edit_notes %}
+        <div class="row upstream-milestone-notes">
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                <label for="">{{ labels.notes }}</label>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+            {{ wpEditor(data.notes, field_prefix ~ 'notes', {
+                'media_buttons': true,
+                'textarea_rows': 5,
+                'textarea_name': 'milestone_data[notes]'
+            }) }}
+        </div>
+            <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+        </div>
+    {% endif %}
+
+    {{ doAction('upstream.frontend-edit:renderAdditionalFields', 'milestone', data) }}
+</div>

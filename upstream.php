@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.23.3.beta.1
+ * Version: 1.24.0
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -156,9 +156,23 @@ if ( ! class_exists('UpStream')) :
         private function init_twig()
         {
             $loader = new Twig_Loader_Filesystem(__DIR__ . '/twig');
-            $twig   = new Twig_Environment($loader);
+            $twigEnvironment   = new Twig_Environment($loader);
 
-            $this->twig = $twig;
+
+            $doActionFunc = new Twig_SimpleFunction('doAction', function ($action, $context) {
+                $args = func_get_args();
+
+                call_user_func_array('do_action', $args);
+//                do_action($action, $context);
+            });
+            $twigEnvironment->addFunction($doActionFunc);
+
+            $wpEditorFunc = new Twig_SimpleFunction('wpEditor', function ($content, $editorId, $settings = []) {
+                wp_editor($content, $editorId, $settings);
+            });
+            $twigEnvironment->addFunction($wpEditorFunc);
+
+            $this->twig = $twigEnvironment;
         }
 
         /**
@@ -170,10 +184,25 @@ if ( ! class_exists('UpStream')) :
          * @throws Twig_Error_Syntax
          *
          * @return string
+         * @deprecated
          */
         public function twig_render($twig_file, $context = [])
         {
-            return $this->twig->render($twig_file, $context);
+            return $this->twigRender($twig_file, $context);
+        }
+
+        /**
+         * @param       $twigFile
+         * @param array $context
+         *
+         * @return string
+         * @throws Twig_Error_Loader
+         * @throws Twig_Error_Runtime
+         * @throws Twig_Error_Syntax
+         */
+        public function twigRender($twigFile, $context = [])
+        {
+            return $this->twig->render($twigFile, $context);
         }
 
         /**
@@ -317,9 +346,12 @@ if ( ! class_exists('UpStream')) :
                 require_once __DIR__ . '/vendor/autoload.php';
             }
 
+            include_once __DIR__ . '/includes/class-up-exception.php';
+            include_once __DIR__ . '/includes/trait-up-singleton.php';
+            include_once __DIR__ . '/includes/trait-up-post-metadata.php';
+            include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/class-up-container.php';
-            include_once __DIR__ . '/includes/up-install.php';
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';
             include_once __DIR__ . '/includes/class-up-counts.php';
@@ -327,8 +359,10 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/up-permalinks.php';
             include_once __DIR__ . '/includes/up-post-types.php';
             include_once __DIR__ . '/includes/up-labels.php';
-            include_once __DIR__ . '/includes/trait-up-singleton.php';
-            include_once __DIR__ . '/includes/abs-class-up-struct.php';
+            include_once __DIR__ . '/includes/class-up-milestones.php';
+            include_once __DIR__ . '/includes/class-up-milestone.php';
+            include_once __DIR__ . '/includes/class-up-factory.php';
+            include_once __DIR__ . '/includes/up-install.php';
 
             if ($this->is_request('admin')) {
                 global $pagenow;
@@ -403,6 +437,9 @@ if ( ! class_exists('UpStream')) :
          */
         public function init()
         {
+            // Load the classes
+            UpStream\Milestones::instantiate();
+
             // Before init action.
             do_action('before_upstream_init');
             // Set up localisation.
@@ -444,7 +481,6 @@ if ( ! class_exists('UpStream')) :
             }
 
             UpStream_Options_Projects::createProjectsStatusesIds();
-            UpStream_Options_Milestones::createMilestonesIds();
             UpStream_Options_Tasks::createTasksStatusesIds();
             UpStream_Options_Bugs::createBugsStatusesIds();
 
@@ -463,7 +499,7 @@ if ( ! class_exists('UpStream')) :
          */
         public function load_plugin_textdomain()
         {
-            load_plugin_textdomain( 'upstream', false, UPSTREAM_PLUGIN_RELATIVE_PATH . '/languages/' );
+            load_plugin_textdomain('upstream', false, UPSTREAM_PLUGIN_RELATIVE_PATH . '/languages/');
         }
 
 
@@ -640,3 +676,5 @@ function UpStream()
 }
 
 UpStream();
+
+do_action('upstream_run');

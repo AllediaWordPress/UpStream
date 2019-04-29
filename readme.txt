@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 1.23.2
+Stable tag: 1.24.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,16 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.24.0] - 2018-04-29 =
+
+* Added option field to select the user roles that can be active inside projects. Those users can be assigned Milestones, Tasks and Bugs and own projects;
+* Added hooks allowing to customize the editor buttons;
+* Added custom Milestones per project. They are not set globally anymore;
+* Removed the global Milestone list from the settings tabs;
+* Updated Twig and Polyfill-ctype libraries;
+* Added new hooks to filter Tinymce plugins, external plugins and toolbar buttons, allowing to add custom buttons to the editors;
+* Fixed white line displayed in the project title when title has more than one line;
 
 = [1.23.2] - 2019-03-07 =
 

@@ -151,7 +151,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 $columnsList = [];
 
                 if ( ! $areMilestonesDisabled && ! $areMilestonesDisabledAtAll) {
-                    array_push($columnsList, $metabox->add_field([
+                    $columnsList[] = $metabox->add_field([
                         'name'  => '<span>' . upstream_count_total(
                                 'milestones',
                                 upstream_post_id()
@@ -159,7 +159,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         'id'    => $this->prefix . 'milestones',
                         'type'  => 'title',
                         'after' => 'upstream_output_overview_counts',
-                    ]));
+                    ]);
                 }
 
                 if ( ! upstream_disable_tasks()) {
@@ -174,7 +174,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                             'type'  => 'title',
                             'after' => 'upstream_output_overview_counts',
                         ]);
-                        array_push($columnsList, $grid2);
+                        $columnsList[] = $grid2;
                     }
                 }
 
@@ -189,7 +189,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         'type'  => 'title',
                         'after' => 'upstream_output_overview_counts',
                     ]);
-                    array_push($columnsList, $grid3);
+                    $columnsList[] = $grid3;
                 }
 
                 //Create now a Grid of group fields
@@ -303,12 +303,9 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 $fields[10] = [
                     'name'        => esc_html($label),
                     'id'          => 'milestone',
-                    'type'        => 'select',
-                    //'show_option_none' => true, // ** IMPORTANT - enforce a value in this field.
-                    // An row with no value here is considered to be a deleted row.
+                    'type'        => 'text',
                     'permissions' => 'milestone_milestone_field',
                     'before'      => 'upstream_add_field_attributes',
-                    'options_cb'  => 'upstream_admin_get_options_milestones',
                     'attributes'  => [
                         'class' => 'milestone',
                     ],
@@ -1880,11 +1877,16 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 $itemsTypes = ['milestones', 'tasks', 'bugs', 'files'];
                 foreach ($itemsTypes as $itemType) {
                     $itemTypeSingular = rtrim($itemType, 's');
-                    $rowset           = array_filter((array)get_post_meta(
-                        $project_id,
-                        '_upstream_project_' . $itemType,
-                        true
-                    ));
+
+                    if ($itemType === 'milestones') {
+                        $rowset = \UpStream\Milestones::getInstance()->getMilestonesFromProject($project_id, true);
+                    } else {
+                        $rowset           = array_filter((array)get_post_meta(
+                            $project_id,
+                            '_upstream_project_' . $itemType,
+                            true
+                        ));
+                    }
                     if (count($rowset) > 0) {
                         foreach ($rowset as $row) {
                             if ( ! is_array($row)

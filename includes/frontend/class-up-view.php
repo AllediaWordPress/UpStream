@@ -29,51 +29,7 @@ class UpStream_View
 
     public static function getMilestones($projectId = 0)
     {
-        $project = self::getProject($projectId);
-
-        if (count(self::$milestones) === 0) {
-            $data   = [];
-            $rowset = array_filter((array)$project->get_meta('milestones'));
-
-            $milestones = getMilestones();
-
-            foreach ($rowset as $row) {
-                $row['milestone_order'] = @$milestones[$row['milestone']]['order'];
-
-                $row['created_by']   = (int)$row['created_by'];
-                $row['created_time'] = isset($row['created_time']) ? (int)$row['created_time'] : 0;
-
-                $assignees = [];
-                if (isset($row['assigned_to'])) {
-                    $assignees = array_map(
-                        'intval',
-                        ! is_array($row['assigned_to']) ? (array)$row['assigned_to'] : $row['assigned_to']
-                    );
-                }
-
-                $row['assigned_to'] = $assignees;
-
-                if ( ! empty($assignees)) {
-                    // Get the name of assignees to fix ordering.
-                    $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
-                }
-
-                $row['progress']   = isset($row['progress']) ? (float)$row['progress'] : 0.00;
-                $row['notes']      = isset($row['notes']) ? (string)$row['notes'] : '';
-                $row['start_date'] = ! isset($row['start_date']) || ! is_numeric($row['start_date']) || $row['start_date'] < 0 ? 0 : (int)$row['start_date'];
-                $row['end_date']   = ! isset($row['end_date']) || ! is_numeric($row['end_date']) || $row['end_date'] < 0 ? 0 : (int)$row['end_date'];
-
-                $data[$row['id']] = $row;
-            }
-
-            $data = apply_filters('upstream_project_milestones', $data, $projectId);
-
-            self::$milestones = $data;
-        } else {
-            $data = self::$milestones;
-        }
-
-        return $data;
+        return \UpStream\Milestones::getInstance()->getMilestonesAsRowset($projectId);
     }
 
     public static function getProject($id = 0)
@@ -115,7 +71,7 @@ class UpStream_View
 
                 if ( ! empty($assignees)) {
                     // Get the name of assignees to fix ordering.
-                    $row['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+                    $row['assigned_to_order'] = upstream_get_users_display_name($assignees);
                 }
 
                 $row['status_order'] = isset($row['status']) ? @$statuses[$row['status']]['order'] : '0';
@@ -126,8 +82,6 @@ class UpStream_View
 
                 $data[$row['id']] = $row;
             }
-
-            $data = apply_filters('upstream_project_milestones', $data, $projectId);
 
             self::$tasks = $data;
         } else {
@@ -167,7 +121,7 @@ class UpStream_View
 
             if ( ! empty($assignees)) {
                 // Get the name of assignees to fix ordering.
-                $data['assigned_to_order'] = \UpStream\Frontend\getUsersDisplayName($assignees);
+                $data['assigned_to_order'] = upstream_get_users_display_name($assignees);
             }
 
             $data['description']    = isset($data['description']) ? (string)$data['description'] : '';

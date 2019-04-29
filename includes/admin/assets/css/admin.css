@@ -27,3 +27,19 @@ a#upstream-upgrade-link,
     display: block;
     width: 100%;
 }
+
+#upstream_mimlestone_data select {
+    width: 100%;
+}
+
+.cmb2-wrap .row {
+    margin-top: 15px;
+}
+
+.upstream-option-subpanel {
+    width: 100%;
+    background: #000;
+    min-height: 200px;
+    margin-top: 10px;
+    border: 1px solid #bfbebe;
+}

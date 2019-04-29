@@ -315,8 +315,8 @@ final class UpStream_Metaboxes_Clients
                     $user['assigned_at'] = $clientUser['assigned_at'];
                     $user['assigned_by'] = $users[$clientUser['assigned_by']]['name'];
 
-                    array_push($clientUsersList, (object)$user);
-                    array_push($clientUsersIdsList, $clientUser['user_id']);
+                    $clientUsersList[] = (object)$user;
+                    $clientUsersIdsList[] = $clientUser['user_id'];
                 }
             }
         }
@@ -557,7 +557,7 @@ final class UpStream_Metaboxes_Clients
                 foreach ($meta[0] as $clientUser) {
                     if ( ! empty($clientUser) && is_array($clientUser)) {
                         if ((int)$clientUser['user_id'] !== $userId) {
-                            array_push($newClientUsersList, $clientUser);
+                            $newClientUsersList[] = $clientUser;
                         }
                     }
                 }
@@ -610,7 +610,7 @@ final class UpStream_Metaboxes_Clients
             $excludeTheseIds = [get_current_user_id()];
             if (count($clientUsers) > 0) {
                 foreach ($clientUsers as $clientUser) {
-                    array_push($excludeTheseIds, $clientUser->id);
+                    $excludeTheseIds[] = $clientUser->id;
                 }
             }
 
@@ -630,7 +630,7 @@ final class UpStream_Metaboxes_Clients
                     'email'    => $row->user_email,
                 ];
 
-                array_push($response['data'], $user);
+                $response['data'][] = $user;
             }
 
             $response['success'] = true;
@@ -689,11 +689,11 @@ final class UpStream_Metaboxes_Clients
             foreach ($usersIdsList as $user_id) {
                 $user_id = (int)$user_id;
                 if ($user_id > 0) {
-                    array_push($clientUsersList, [
+                    $clientUsersList[] = [
                         'user_id'     => $user_id,
                         'assigned_by' => $currentUser->ID,
                         'assigned_at' => $now,
-                    ]);
+                    ];
                 }
             }
 
@@ -717,13 +717,13 @@ final class UpStream_Metaboxes_Clients
             $assignedAt = upstream_format_date($now);
 
             foreach ($rowset as $user) {
-                array_push($response['data'], [
+                $response['data'][] = [
                     'id'          => (int)$user->ID,
                     'name'        => $user->display_name,
                     'email'       => $user->user_email,
                     'assigned_by' => $currentUser->display_name,
                     'assigned_at' => $assignedAt,
-                ]);
+                ];
             }
 
             $response['success'] = true;

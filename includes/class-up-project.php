@@ -110,11 +110,11 @@ class UpStream_Project
     /**
      * Given the project data, let's set the variables
      *
-     * @since  1.0.0
-     *
-     * @param  object $project The Project Object
+     * @param object $project The Project Object
      *
      * @return bool             If the setup was successful or not
+     * @since  1.0.0
+     *
      */
     public function setup_project($project)
     {
@@ -157,8 +157,8 @@ class UpStream_Project
     /**
      * Get the clients name
      *
-     * @since 1.0.0
      * @return string|null
+     * @since 1.0.0
      */
     public function get_client_name()
     {
@@ -176,11 +176,11 @@ class UpStream_Project
     /**
      * Get a meta value
      *
-     * @since 1.0.0
-     *
      * @param string $meta the meta field (without prefix)
      *
      * @return mixed
+     * @since 1.0.0
+     *
      */
     public function get_meta($meta)
     {
@@ -195,23 +195,44 @@ class UpStream_Project
     /**
      * Get an item (milestone, task or bug) by it's id
      *
-     * @since 1.0.0
-     *
-     * @param string $id the id of the milestone
+     * @param $item_id
+     * @param $type
      *
      * @return array|null
+     * @throws Exception
+     * @since 1.0.0
+     *
      */
     public function get_item_by_id($item_id, $type)
     {
         if ( ! $item_id) {
             return;
         }
+
+        if (is_array($type)) {
+            $type = reset($type);
+        }
+
+        if ($type === 'milestones') {
+            try {
+                $milestone         = \UpStream\Factory::getMilestone($item_id)->convertToLegacyRowset();
+                $milestone['type'] = $type;
+            } catch (\UpStream\Exception $e) {
+                $milestone = null;
+            }
+
+            return $milestone;
+        }
+
         $data = $this->get_meta($type);
         if ( ! $data) {
             return;
         }
+
         foreach ($data as $key => $item) {
             if ($item_id == $item['id']) {
+                $item['type'] = $type;
+
                 return $item;
             }
         }
@@ -249,11 +270,11 @@ class UpStream_Project
     /**
      * Get the current count of statuses for a particular item type
      *
-     * @since 1.0.0
-     *
      * @param string $type the type of item (milestone, task or bug)
      *
      * @return array|null
+     * @since 1.0.0
+     *
      */
     public function get_statuses_counts($type)
     {
@@ -269,11 +290,11 @@ class UpStream_Project
     /**
      * Get the current statuses used in the project for a particular item type
      *
-     * @since 1.0.0
-     *
      * @param string $type the type of item (milestone, task or bug)
      *
      * @return array|null
+     * @since 1.0.0
+     *
      */
     public function get_statuses($type)
     {
@@ -322,8 +343,8 @@ class UpStream_Project
     /**
      * Update a project with various missing meta values (this runs from admin only via wp_insert_post action)
      *
-     * @since 1.0.0
      * @return null
+     * @since 1.0.0
      */
     public function update_project_meta_admin($post_id, $post, $update)
     {
@@ -346,11 +367,11 @@ class UpStream_Project
      * Loop through the meta keys and update with missing meta values
      * This runs from admin and is also called directly if updating via frontend
      *
-     * @since 1.0.0
-     *
      * @param $posted_data array the posted data from the front end
      *
      * @return null
+     * @since 1.0.0
+     *
      */
     public function update_project_meta($frontend = null)
     {
@@ -377,11 +398,11 @@ class UpStream_Project
      * Update our missing meta data
      * Ran on every project update & when items are added/edited
      *
-     * @since 1.0.0
-     *
      * @param string|array $data either a meta_key or an array of POSTed data (from frontend)
      *
      * @return array|null
+     * @since 1.0.0
+     *
      */
     public function update_missing_meta($meta_key, $frontend = null)
     {
@@ -444,7 +465,7 @@ class UpStream_Project
     public function update_tasks_milestones()
     {
         $tasks      = $this->get_meta('tasks');
-        $milestones = $this->get_meta('milestones');
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
 
         $i      = 0;
         $totals = [];
@@ -454,8 +475,9 @@ class UpStream_Project
         }
 
         // loop through each milestone
-        foreach ($milestones as &$m) {
+        foreach ($milestones as $milestone) {
             //     ^ add reference to make changes
+            $milestone = \UpStream\Factory::getMilestone($milestone);
 
             $sum   = 0;
             $count = 0;
@@ -465,12 +487,12 @@ class UpStream_Project
                 // loop through each task
                 foreach ($tasks as $task) {
                     // if a milestone has a task assigned to it
-                    if (isset($task['milestone']) && $task['milestone'] === $m['id']) { // if it matches
+                    if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
                         $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
                         $count++; // count
 
                         // add open tasks count to the milestone
-                        if ((!isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
+                        if (( ! isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
                             $open++;
                         }
                     }
@@ -478,24 +500,24 @@ class UpStream_Project
             }
 
             // maths to work out total percentage of this milestone
-            $percentage      = $count > 0 ? $sum / ($count * 100) * 100 : 0;
-            $m['progress']   = round($percentage, 1); // add the percentage into our new progress key
-            $m['task_count'] = $count; // add the number of tasks in this milestone
+            $percentage = $count > 0 ? $sum / ($count * 100) * 100 : 0;
+
+            $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
+            $milestone->setTaskCount($count); // add the number of tasks in this milestone
 
             if (isset($open)) {
-                $m['task_open'] = $open++;
+                $milestone->setTaskOpen($open++);
             } // add the number of open tasks in this milestone
 
             // make sure the milestone has at lea   st 1 task assigned otherwise it doesn't count
             if ($count > 0) {
-                $totals[$m['milestone']]['count']    = $count;
-                $totals[$m['milestone']]['progress'] = $percentage;
+                $totals[$milestone->getId()]['count']    = $count;
+                $totals[$milestone->getId()]['progress'] = $percentage;
             }
 
             $i++;
         }
 
-        update_post_meta($this->ID, '_upstream_project_milestones', $milestones);
         update_post_meta($this->ID, '_upstream_project_tasks', $tasks);
 
         // maths for the total project progress

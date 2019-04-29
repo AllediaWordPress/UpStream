@@ -21,21 +21,38 @@ function upstream_load_admin_scripts($hook)
         $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
     }
 
-    $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $assetsDir        = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
 
     global $pagenow;
 
+    wp_enqueue_style('wp-color-picker');
+
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui-datepicker', $assetsDir . '/css/jquery.ui.datepicker.css',
+        ['wp-jquery-ui-dialog'], UPSTREAM_VERSION, 'screen');
+    wp_enqueue_style('jquery-ui-theme', $assetsDir . '/css/jquery.ui.theme.css', false,
+        UPSTREAM_VERSION, 'screen');
+
     wp_enqueue_script(
-        'upstream-admin',
-        $assetsDir . 'js/admin.js',
-        ['jquery', 'allex'],
+        'terminal',
+        $assetsDir . 'js/jquery.terminal.min.js',
+        ['jquery'],
         UPSTREAM_VERSION,
         false
     );
 
-    wp_localize_script('upstream-admin', 'upstreamAdminStrings', [
+    wp_enqueue_script(
+        'upstream-admin',
+        $assetsDir . 'js/admin.js',
+        ['jquery', 'wp-color-picker', 'allex', 'terminal'],
+        UPSTREAM_VERSION,
+        false
+    );
+
+    wp_localize_script('upstream-admin', 'upstreamAdmin', [
         'LB_RESETTING'                      => __('Resetting...', 'upstream'),
         'LB_REFRESHING'                     => __('Refreshing...', 'upstream'),
         'MSG_CONFIRM_RESET_CAPABILITIES'    => __('Are you sure you want to reset the capabilities?', 'upstream'),
@@ -48,14 +65,19 @@ function upstream_load_admin_scripts($hook)
         'MSG_PROJECTS_SUCCESS'              => __('Success!', 'upstream'),
         'MSG_PROJECTS_META_ERROR'           => __('Error!', 'upstream'),
         'MSG_CLEANUP_UPDATE_DATA_ERROR'     => __('Error cleaning up the cached data!', 'upstream'),
+        'datepickerDateFormat'              => upstreamGetDateFormatForJsDatepicker(),
     ]);
 
-
     if (in_array($pagenow, ['edit.php', 'post.php', 'post-new.php'])) {
-        if ($postType === 'project') {
+
+        $milestoneInstance = \UpStream\Milestones::getInstance();
+        $milestonePostType = $milestoneInstance->getPostType();
+
+        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'milestone']);
+
+        if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
 
-            $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
             wp_enqueue_style(
                 'up-select2',
                 $globalAssetsPath . 'css/vendor/select2.min.css',
@@ -131,9 +153,28 @@ function upstream_load_admin_scripts($hook)
                 'MSG_NO_DATA_FOUND'        => __('No data found.', 'upstream'),
                 'MSG_MANAGING_PERMISSIONS' => __("Managing %s\'s Permissions", 'upstream'),
             ]);
+        } elseif ($postType === $milestonePostType) {
+            $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
+            wp_enqueue_style(
+                'up-select2',
+                $globalAssetsPath . 'css/vendor/select2.min.css',
+                [],
+                UPSTREAM_VERSION,
+                'all'
+            );
+            wp_enqueue_script(
+                'up-select2',
+                $globalAssetsPath . 'js/vendor/select2.full.min.js',
+                [],
+                UPSTREAM_VERSION,
+                true
+            );
+            unset($globalAssetsPath);
         }
 
-        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2', ['project', 'client']);
+        $milestoneInstance  = \UpStream\Milestones::getInstance();
+        $postTypesUsingCmb2 = apply_filters('upstream:post_types_using_cmb2',
+            ['project', 'client', $milestoneInstance->getPostType()]);
 
         if (in_array($postType, $postTypesUsingCmb2)) {
             wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
@@ -145,6 +186,7 @@ function upstream_load_admin_scripts($hook)
         wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
     }
 
+    wp_enqueue_style('terminal', $assetsDir . 'css/jquery.terminal.min.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-icon', $assetsDir . 'css/admin-upstream-icon.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-style', $assetsDir . 'css/admin.css', ['allex'], UPSTREAM_VERSION);
     wp_enqueue_style('up-fontawesome', UPSTREAM_PLUGIN_URL . 'templates/assets/css/fontawesome.min.css', [],
@@ -152,3 +194,5 @@ function upstream_load_admin_scripts($hook)
 }
 
 add_action('admin_enqueue_scripts', 'upstream_load_admin_scripts', 100);
+
+do_action('upstream_admin_enqueue');

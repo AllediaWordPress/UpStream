@@ -1,159 +1,316 @@
-(function ($) {
-    $(function () {
-        // Highlight the extensions submenu.
-        var allex = new Allex('upstream');
-        allex.highlight_submenu('admin.php?page=upstream_extensions');
+jQuery(function ($) {
+    // Highlight the extensions submenu.
+    var allex = new Allex('upstream');
+    allex.highlight_submenu('admin.php?page=upstream_extensions');
 
-        window.upstream_reset_capabilities = function (event) {
-            var $btn = $(event.target);
-            var label = $btn.text();
-            var buttonSlug = $btn.data('slug');
+    window.upstream_reset_capabilities = function (event) {
+        var $btn = $(event.target);
+        var label = $btn.text();
+        var buttonSlug = $btn.data('slug');
 
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_RESET_CAPABILITIES)) {
-                return;
-            }
+        if (!confirm(upstreamAdmin.MSG_CONFIRM_RESET_CAPABILITIES)) {
+            return;
+        }
 
-            $.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    action: 'upstream_admin_reset_capabilities',
-                    nonce: $btn.data('nonce'),
-                    role: buttonSlug
-                },
-                beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_RESETTING);
-                    $btn.prop('disabled', true);
-                },
-                error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_CAPABILITIES_ERROR + '</span>');
-                    $msg.addClass('upstream_float_error');
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            data: {
+                action: 'upstream_admin_reset_capabilities',
+                nonce: $btn.data('nonce'),
+                role: buttonSlug
+            },
+            beforeSend: function () {
+                $btn.text(upstreamAdmin.LB_RESETTING);
+                $btn.prop('disabled', true);
+            },
+            error: function (response) {
+                $msg = $('<span>' + upstreamAdmin.MSG_CAPABILITIES_ERROR + '</span>');
+                $msg.addClass('upstream_float_error');
 
-                    $btn.after($msg);
+                $btn.after($msg);
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_CAPABILITIES_RESETED + '</span>');
-                    $msg.addClass('upstream_float_success');
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            success: function (response) {
+                $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_CAPABILITIES_RESETED + '</span>');
+                $msg.addClass('upstream_float_success');
 
-                    $btn.parent().append($msg);
+                $btn.parent().append($msg);
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                complete: function (jqXHR, textStatus) {
-                    if (textStatus !== 'success') {
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            complete: function (jqXHR, textStatus) {
+                if (textStatus !== 'success') {
 
-                    }
-
-                    $btn.text(label);
-                    $btn.prop('disabled', false);
                 }
-            });
-        };
 
-        window.upstream_refresh_projects_meta = function (event) {
-            var $btn = $(event.target);
-            var label = $btn.text();
-
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_REFRESH_PROJECTS_META)) {
-                return;
+                $btn.text(label);
+                $btn.prop('disabled', false);
             }
+        });
+    };
 
-            $.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    action: 'upstream_admin_refresh_projects_meta',
-                    nonce: $btn.data('nonce')
-                },
-                beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_REFRESHING);
-                    $btn.prop('disabled', true);
-                },
-                error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_PROJECTS_META_ERROR + '</span>');
-                    $msg.addClass('upstream_float_error');
+    window.upstream_refresh_projects_meta = function (event) {
+        var $btn = $(event.target);
+        var label = $btn.text();
 
-                    $btn.after($msg);
+        if (!confirm(upstreamAdmin.MSG_CONFIRM_REFRESH_PROJECTS_META)) {
+            return;
+        }
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_PROJECTS_SUCCESS + '</span>');
-                    $msg.addClass('upstream_float_success');
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            data: {
+                action: 'upstream_admin_refresh_projects_meta',
+                nonce: $btn.data('nonce')
+            },
+            beforeSend: function () {
+                $btn.text(upstreamAdmin.LB_REFRESHING);
+                $btn.prop('disabled', true);
+            },
+            error: function (response) {
+                $msg = $('<span>' + upstreamAdmin.MSG_PROJECTS_META_ERROR + '</span>');
+                $msg.addClass('upstream_float_error');
 
-                    $btn.parent().append($msg);
+                $btn.after($msg);
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                complete: function (jqXHR, textStatus) {
-                    if (textStatus !== 'success') {
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            success: function (response) {
+                $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
+                $msg.addClass('upstream_float_success');
 
-                    }
+                $btn.parent().append($msg);
 
-                    $btn.text(label);
-                    $btn.prop('disabled', false);
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            complete: function (jqXHR, textStatus) {
+                if (textStatus !== 'success') {
+
                 }
-            });
-        };
 
-        window.upstream_cleanup_update_cache = function (event) {
-            var $btn = $(event.target);
-            var label = $btn.text();
-
-            if (!confirm(upstreamAdminStrings.MSG_CONFIRM_CLEANUP_UPDATE_CACHE)) {
-                return;
+                $btn.text(label);
+                $btn.prop('disabled', false);
             }
+        });
+    };
 
-            $.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    action: 'upstream_admin_cleanup_update_cache',
-                    nonce: $btn.data('nonce')
-                },
-                beforeSend: function () {
-                    $btn.text(upstreamAdminStrings.LB_REFRESHING);
-                    $btn.prop('disabled', true);
-                },
-                error: function (response) {
-                    $msg = $('<span>' + upstreamAdminStrings.MSG_CLEANUP_UPDATE_DATA_ERROR + '</span>');
-                    $msg.addClass('upstream_float_error');
+    window.upstream_cleanup_update_cache = function (event) {
+        var $btn = $(event.target);
+        var label = $btn.text();
 
-                    $btn.after($msg);
+        if (!confirm(upstreamAdmin.MSG_CONFIRM_CLEANUP_UPDATE_CACHE)) {
+            return;
+        }
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                success: function (response) {
-                    $msg = $('<span class="allex-success-message">' + upstreamAdminStrings.MSG_PROJECTS_SUCCESS + '</span>');
-                    $msg.addClass('upstream_float_success');
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            data: {
+                action: 'upstream_admin_cleanup_update_cache',
+                nonce: $btn.data('nonce')
+            },
+            beforeSend: function () {
+                $btn.text(upstreamAdmin.LB_REFRESHING);
+                $btn.prop('disabled', true);
+            },
+            error: function (response) {
+                $msg = $('<span>' + upstreamAdmin.MSG_CLEANUP_UPDATE_DATA_ERROR + '</span>');
+                $msg.addClass('upstream_float_error');
 
-                    $btn.parent().append($msg);
+                $btn.after($msg);
 
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
-                },
-                complete: function (jqXHR, textStatus) {
-                    if (textStatus !== 'success') {
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            success: function (response) {
+                $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
+                $msg.addClass('upstream_float_success');
 
-                    }
+                $btn.parent().append($msg);
 
-                    $btn.text(label);
-                    $btn.prop('disabled', false);
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            complete: function (jqXHR, textStatus) {
+                if (textStatus !== 'success') {
+
                 }
-            });
-        };
+
+                $btn.text(label);
+                $btn.prop('disabled', false);
+            }
+        });
+    };
+
+    $('.o-datepicker').datepicker({
+        todayBtn: 'linked',
+        clearBtn: true,
+        autoclose: true,
+        keyboardNavigation: false,
+        format: upstreamAdmin.datepickerDateFormat
+    }).on('change', function (e) {
+        var self = $(this);
+
+        var value = self.datepicker('getDate');
+        /*
+        if (value) {
+          value /= 1000;
+        }
+        */
+
+        if (value) {
+            value = (+new Date(value)) / 1000;
+        }
+
+        var hiddenField = $('#' + self.attr('id') + '_timestamp');
+        if (hiddenField.length > 0) {
+            hiddenField.val(value);
+        }
     });
-})(jQuery);
+
+    $('.color-field').wpColorPicker();
+
+    window.upstream_migrate_milestones = function (event) {
+        $('.upstream-option-subpanel').remove();
+
+        /**
+         * Prepare the terminal for output the migration data.
+         */
+        var $fieldWrapper = $('.cmb2-id-migrate-milestones .cmb-td');
+        var $migrationWrapper = $('<div>').addClass('upstream-option-subpanel');
+        var $btn = $(event.target);
+        var promptString = '';
+
+        $fieldWrapper.append($migrationWrapper);
+
+        /**
+         * Initialize the terminal.
+         */
+        var terminal = $($migrationWrapper).terminal(
+            function (command) {
+                error('Please, just wait until the process finish.');
+            },
+            {
+                greetings: '======================================================\nUpStream - Legacy Milestone Migration\n======================================================',
+                name: 'upstream_milestone_migration',
+                prompt: promptString
+            }
+        ).disable();
+
+        var echo = function (text) {
+            terminal.echo(promptString + text);
+        };
+
+        var error = function (text) {
+            terminal.error(text);
+        };
+
+        var call = function (args) {
+            var data = args.data;
+            data.action = args.action;
+            data.nonce = $btn.data('nonce');
+
+            $.ajax({
+                url: ajaxurl,
+                type: args.type,
+                data: data,
+                beforeSend: function () {
+                    $btn.prop('disabled', true);
+
+                    if (typeof args.before !== 'undefined') {
+                        args.before();
+                    }
+                },
+                error: function (response) {
+                    error('Sorry, something is wrong...');
+                    error(response.status + ' ' + response.statusText);
+                },
+                success: function (response) {
+                    if (typeof args.after !== 'undefined') {
+                        args.after(response);
+                    }
+                },
+                complete: function (jqXHR, textStatus) {
+                    $btn.prop('disabled', false);
+                }
+            });
+        };
+
+        var migrateProject = function (projects, i) {
+            var project = projects[i];
+
+            call({
+                action: 'upstream_admin_migrate_milestones_for_project',
+                type: 'post',
+                data: {
+                    projectId: project.id
+                },
+                before: function () {
+                    echo('[' + (i + 1) + '] Migrating milestones for ' + project.title);
+                },
+                after: function (response) {
+                    response = JSON.parse(response);
+
+                    if (typeof response.success === 'undefined' || !response.success) {
+                        error('Error found while migrating the milestones for the project ' + project.title + '\n');
+                    } else {
+                        echo('Success\n');
+                    }
+
+                    // Call the migration for the next project, if exists.
+                    if (projects.length > i + 1) {
+                        migrateProject(projects, i + 1);
+                    } else {
+                        echo('\nDone.');
+                    }
+                }
+            });
+        };
+
+        // Check how many projects with milestones we have
+        call({
+            action: 'upstream_admin_migrate_milestones_get_projects',
+            type: 'get',
+            data: {},
+            before: function () {
+                echo('Please, wait... we are looking for legacy milestones on all projects');
+            },
+            after: function (response) {
+                response = JSON.parse(response);
+
+                if (response.length > 0) {
+                    echo(response.length + ' projects with legacy milestones found:\n');
+                    var data;
+
+                    // Display the found projects
+                    for (var i = 0; i < response.length; i++) {
+                        data = response[i];
+
+                        echo('  ' + (i + 1) + '. ' + data.title + ' (' + data.count + ')');
+                    }
+
+                    echo('');
+                    echo('Starting the migration process for each project\n');
+
+                    // Trigger the migration for each project
+                    migrateProject(response, 0);
+                } else {
+                    echo('\nDone. No legacy milestones found.');
+                }
+            }
+        });
+    };
+});

@@ -261,35 +261,14 @@ function upstream_activity_buttons($field_args, $field)
  */
 function upstream_output_activity($field_args, $field)
 {
-    $activity = new UpStream_Project_Activity();
-    $data     = $activity->get_activity($field->object_id);
+    $activity = \UpStream\Factory::getActivity();
 
-    return $data;
+    return $activity->get_activity($field->object_id);
 }
 
 /* ======================================================================================
                                         MILESTONES
    ====================================================================================== */
-/**
- * Returns the milestone types as set in the options.
- * Used in the Type dropdown within a milestone.
- *
- * @return
- */
-function upstream_admin_get_options_milestones()
-{
-    $option     = get_option('upstream_milestones');
-    $milestones = isset($option['milestones']) ? $option['milestones'] : '';
-    $array      = [];
-    if ($milestones) {
-        foreach ($milestones as $milestone) {
-            $array[$milestone['id']] = $milestone['title'];
-        }
-    }
-
-    return $array;
-}
-
 /**
  * Outputs some hidden data in the metabox so we can use it dynamically
  *
@@ -297,48 +276,52 @@ function upstream_admin_get_options_milestones()
  */
 function upstream_admin_output_milestone_hidden_data($field_args, $field)
 {
-    $option     = get_option('upstream_milestones');
-    $milestones = isset($option['milestones']) ? $option['milestones'] : '';
+    global $post;
 
-    if ($milestones) {
+    // get the current saved milestones
+    $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($post->ID);
 
-        // get the current saved milestones
-        $saved = get_post_meta($field->object_id, '_upstream_project_milestones', true);
-        if ( ! $saved) {
-            $progress = '0';
-        } else {
-            $progress = wp_list_pluck($saved, 'progress', 'milestone');
+    echo '<ul class="hidden milestones">';
+    foreach ($milestones as $milestone) {
+        $milestone = \UpStream\Factory::getMilestone($milestone);
+
+        echo '<li>
+            <span class="title">' . esc_html($milestone->getName()) . '</span>
+            <span class="color">' . esc_html($milestone->getColor()) . '</span>';
+
+        $progress = $milestone->getProgress();
+        if ( ! empty($progress)) {
+            // if we have progress
+            echo '<span class="m-progress">' . $progress . '</span>';
         }
-        echo '<ul class="hidden milestones">';
-        foreach ($milestones as $milestone) {
-            echo '<li>
-                <span class="title">' . esc_html($milestone['title']) . '</span>
-                <span class="color">' . esc_html($milestone['color']) . '</span>';
-            if (isset($progress[$milestone['title']])) { // if we have progress
-                echo '<span class="m-progress">' . $progress[$milestone['title']] . '</span>';
-            }
-            echo '</li>';
-        }
-        echo '</ul>';
+        echo '</li>';
+
+        unset($milestone);
     }
+    echo '</ul>';
 }
 
 /**
  * Returns the current saved milestones.
  * For use in dropdowns.
+ *
+ * @param $field
+ *
+ * @return array
  */
 function upstream_admin_get_project_milestones($field)
 {
-    $milestonesTitles  = getMilestonesTitles();
-    $projectMilestones = (array)get_post_meta((int)$field->object_id, '_upstream_project_milestones', true);
+    $projectMilestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($field->object_id);
 
     $data = [];
 
     if (count($projectMilestones) > 0) {
         foreach ($projectMilestones as $milestone) {
-            if (isset($milestone['milestone'])) {
-                $data[$milestone['id']] = isset($milestonesTitles[$milestone['milestone']]) ? $milestonesTitles[$milestone['milestone']] : $milestone['milestone'];
-            }
+            $milestone = \UpStream\Factory::getMilestone($milestone);
+
+            $data[$milestone->getId()] = $milestone->getName();
+
+            unset($milestone);
         }
     }
 
@@ -352,7 +335,7 @@ function upstream_admin_get_project_milestones($field)
  * Returns the task status names as set in the options.
  * Used in the Status dropdown within a task.
  *
- * @return
+ * @return array
  */
 function upstream_admin_get_task_statuses()
 {
@@ -917,6 +900,29 @@ function upstream_admin_get_project_statuses()
     return $array;
 }
 
+/**
+ * Return the array of user roles
+ *
+ * @return array
+ */
+function upstream_get_project_roles()
+{
+    $options = (array)get_option('upstream_general');
+
+    if ( ! isset($options['project_user_roles']) || empty($options['project_user_roles'])) {
+        $roles = [
+            'upstream_manager',
+            'upstream_user',
+            'administrator',
+        ];
+    } else {
+        $roles = (array)$options['project_user_roles'];
+    }
+
+    $roles = apply_filters('upstream_user_roles_for_projects', $roles);
+
+    return $roles;
+}
 
 /**
  * Returns all users with select roles.
@@ -942,18 +948,16 @@ function upstream_admin_get_all_project_users()
         }
     }
 
-    $args = apply_filters('upstream_user_roles_for_projects', [
-        'fields'   => ['ID', 'display_name'],
-        'role__in' => [
-            'upstream_manager',
-            'upstream_user',
-            'administrator',
-        ],
-    ]);
+    $roles = upstream_get_project_roles();
 
-    $users = [];
+    $args = [
+        'fields'   => ['ID', 'display_name'],
+        'role__in' => $roles,
+    ];
 
     $systemUsers = get_users($args);
+
+    $users = [];
 
     $rowset = array_merge($systemUsers, $projectClientUsers);
     if (count($rowset) > 0) {
@@ -1006,7 +1010,7 @@ function upstream_admin_get_all_clients_users($field, $client_id = 0)
         $clientUsersIdsList = [];
         foreach ($clientUsersList as $clientUser) {
             if ( ! empty($clientUser)) {
-                array_push($clientUsersIdsList, $clientUser['user_id']);
+                $clientUsersIdsList[] = $clientUser['user_id'];
             }
         }
 
@@ -1046,7 +1050,7 @@ function upstream_get_all_client_users($client_id = 0)
         $clientUsersIdsList = [];
         foreach ($clientUsersList as $clientUser) {
             if ( ! empty($clientUser)) {
-                array_push($clientUsersIdsList, $clientUser['user_id']);
+                $clientUsersIdsList[] = $clientUser['user_id'];
             }
         }
 

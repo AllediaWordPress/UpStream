@@ -12,6 +12,7 @@ if ( ! defined('ABSPATH')) {
  */
 class UpStream_Project_Activity
 {
+    use \UpStream\Traits\Singleton;
 
     /**
      * The project ID
@@ -48,7 +49,6 @@ class UpStream_Project_Activity
      */
     public function init_update($data, $postarr)
     {
-
         //working out frontend or backend posting
         $this->posted = $postarr ? $postarr : $_POST;
         $this->ID     = isset($this->posted['post_id']) ? $this->posted['post_id'] : $this->posted['ID'];
@@ -265,7 +265,7 @@ class UpStream_Project_Activity
 
     /**
      * Helper function to find matching strings
-     * $needla can be a string or an array with multiple strings
+     * $needle can be a string or an array with multiple strings
      */
     public function match($haystack, $needle)
     {
@@ -349,8 +349,6 @@ class UpStream_Project_Activity
 
         $activity = array_slice($activity, 0, $this->number_of_items(), true);
 
-        $milestones = getMilestonesTitles();
-
         // loop through each timestamp
         foreach ($activity as $time => $update) {
 
@@ -401,14 +399,18 @@ class UpStream_Project_Activity
                         if ($item_id == 'remove') {
                             $item_removed = '';
                             foreach ($fields as $key => $item) {
-
                                 // skip empty files
                                 if ((isset($item['file_id']) && $item['file_id'] == '0') && (isset($item['title']) && empty($item['title']))) {
                                     $group_name = '';
                                     continue;
                                 }
 
-                                $title        = isset($item['title']) ? $item['title'] : (isset($item['milestone']) ? $milestones[$item['milestone']] : "");
+                                if ($group_id === '_upstream_project_milestones') {
+                                    $title = $item['milestone'];
+                                } else {
+                                    $title = $item['title'];
+                                }
+
                                 $item_removed .= '<span class="item">' . sprintf(
                                         __('Deleted: %s', 'upstream'),
                                         '<span class="highlight">' . $title . '</span>'
@@ -425,14 +427,18 @@ class UpStream_Project_Activity
                         if ($item_id == 'add') {
                             $item_added = '';
                             foreach ($fields as $key => $item) {
-
                                 // skip empty files
                                 if ((isset($item['file_id']) && $item['file_id'] == '0') && (isset($item['title']) && empty($item['title']))) {
                                     $group_name = '';
                                     continue;
                                 }
 
-                                $title      = isset($item['title']) ? $item['title'] : (isset($item['milestone']) ? $milestones[$item['milestone']] : "");
+                                if ($group_id === '_upstream_project_milestones') {
+                                    $title = $item['data']['milestone'];
+                                } else {
+                                    $title = $item['title'];
+                                }
+
                                 $item_added .= '<span class="item">' . sprintf(
                                         __('New Item: %s', 'upstream'),
                                         '<span class="highlight">' . $title . '</span>'
@@ -451,8 +457,8 @@ class UpStream_Project_Activity
                                 $field_name   = ucwords(str_replace($find, $replace, $field_id));
                                 $field_output = '';
                                 if (isset($field_data['add'])) {
-                                    $item         = upstream_project_item_by_id($this->ID, $item_id);
-                                    $title        = isset($item['title']) ? $item['title'] : $milestones[$item['milestone']];
+                                    $item = upstream_project_item_by_id($this->ID, $item_id);
+
                                     $the_val      = $this->format_fields($field_id, $field_data['add']);
                                     $field_output .= '<span class="item">' . sprintf(
                                             __(
@@ -461,15 +467,14 @@ class UpStream_Project_Activity
                                             ),
                                             $field_name,
                                             (is_array($the_val) ? json_encode($the_val) : $the_val),
-                                            '<span class="highlight">' . $title . '</span>'
+                                            '<span class="highlight">' . $item['title'] . '</span>'
                                         ) . '</span>';
                                 }
 
                                 if (isset($field_data['from'])) {
-                                    $item  = upstream_project_item_by_id($this->ID, $item_id);
-                                    $title = isset($item['title']) ? $item['title'] : $milestones[$item['milestone']];
-                                    $from  = $this->format_fields($field_id, $field_data['from']);
-                                    $to    = $this->format_fields($field_id, $field_data['to']);
+                                    $item = upstream_project_item_by_id($this->ID, $item_id);
+                                    $from = $this->format_fields($field_id, $field_data['from']);
+                                    $to   = $this->format_fields($field_id, $field_data['to']);
 
                                     $field_output .= '<span class="item">' . sprintf(
                                             __(
@@ -479,7 +484,7 @@ class UpStream_Project_Activity
                                             $field_name,
                                             is_array($from) ? count($from) : $from,
                                             is_array($to) ? count($to) : $to,
-                                            '<span class="highlight">' . $title . '</span>'
+                                            '<span class="highlight">' . $item['title'] . '</span>'
                                         ) . '</span>';
                                 }
 
@@ -494,6 +499,34 @@ class UpStream_Project_Activity
 
             echo '</div>';
         } // end items
+    }
+
+    /**
+     * @param int    $projectId
+     * @param string $metaName
+     * @param        $action
+     * @param mixed  $item
+     */
+    function add_activity($projectId, $metaName, $action, $item)
+    {
+        // Update Project activity.
+        $activity = (array)get_post_meta($projectId, '_upstream_project_activity', true);
+
+        $log = [
+            'fields'  => [
+                'group' => [
+                    $metaName => [
+                        $action => [$item],
+                    ],
+                ],
+            ],
+            'user_id' => get_current_user_id(),
+        ];
+
+        $now            = time();
+        $activity[$now] = $log;
+
+        update_post_meta($projectId, '_upstream_project_activity', $activity);
     }
 
     /**

@@ -1,4 +1,8 @@
 (function ($, $data) {
+    $('#upstream_mimlestone_data select').select2({
+        allowClear: true
+    });
+
     function initProject () {
         var $box = $(document.getElementById('post-body'));
 
@@ -254,7 +258,7 @@
         if ($group && $group.attr('id') == '_upstream_project_milestones') {
             $group.find('.cmb-group-title').each(function () {
                 var $this = $(this);
-                var title = $this.next().find('[id$="milestone"] option[selected]').text();
+                var title = $this.next().find('[id$="milestone"]').val();
                 var start = $this.next().find('[id$="start_date"]').val();
                 var end = $this.next().find('[id$="end_date"]').val();
                 var dates = '<div class="dates">' + start + ' - ' + end + '</div>';
@@ -285,7 +289,7 @@
     };
 
     function titleOnKeyUp (evt) {
-        var $group = $(evt.target).parents('.cmb2-wrap.form-table');
+        var $group = $(evt.target).parents('.cmb2-postbox');
         replaceTitles($group);
         addAvatars($group);
     };
@@ -316,7 +320,7 @@
     function displayMilestoneIcon ($group) {
         $group.find('.cmb-repeatable-grouping').each(function () {
             var $this = $(this);
-            var milestone = $this.find('[id$="milestone"] option:selected').text();
+            var milestone = $this.find('[id$="milestone"]').val();
 
             if (milestone) {
                 $this.find('.on-title.dashicons').remove();

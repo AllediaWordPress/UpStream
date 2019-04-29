@@ -14,14 +14,14 @@ if ( ! defined('ABSPATH')) {
  * pages. After successful install, the user is redirected to the UpStream Welcome
  * screen.
  *
- * @since 1.0
- * @global      $wpdb
+ * @param bool  $network_side If the plugin is being network-activated
+ *
+ * @return void
  * @global      $upstream_options
  * @global      $wp_version
  *
- * @param  bool $network_side If the plugin is being network-activated
- *
- * @return void
+ * @since 1.0
+ * @global      $wpdb
  */
 
 /**
@@ -101,8 +101,8 @@ add_action('upstream_update_data', 'upstream_update_data', 10, 2);
 /**
  * Run the UpStream Install process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_install()
 {
@@ -150,8 +150,8 @@ function upstream_run_install()
 /**
  * Run the fresh UpStream Install process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_fresh_install()
 {
@@ -163,8 +163,8 @@ function upstream_run_fresh_install()
 /**
  * Run the UpStream Reinstall process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_reinstall()
 {
@@ -237,32 +237,6 @@ function upstream_add_default_options()
         update_option('upstream_projects', $projects);
     }
 
-    // milestone options
-    $milestones = get_option('upstream_milestones');
-    if ( ! $milestones || empty($milestones)) {
-        $milestones['milestones'][0]['title'] = 'Wireframe';
-        $milestones['milestones'][0]['color'] = '#3ca9c4';
-        $milestones['milestones'][0]['id']    = $generateRandomId();
-
-        $milestones['milestones'][1]['title'] = 'Development';
-        $milestones['milestones'][1]['color'] = '#1e73be';
-        $milestones['milestones'][1]['id']    = $generateRandomId();
-
-        $milestones['milestones'][2]['title'] = 'Design';
-        $milestones['milestones'][2]['color'] = '#21c6e0';
-        $milestones['milestones'][2]['id']    = $generateRandomId();
-
-        $milestones['milestones'][3]['title'] = 'Testing';
-        $milestones['milestones'][3]['color'] = '#146791';
-        $milestones['milestones'][3]['id']    = $generateRandomId();
-
-        $milestones['milestones'][4]['title'] = 'Launch';
-        $milestones['milestones'][4]['color'] = '#1fc1b1';
-        $milestones['milestones'][4]['id']    = $generateRandomId();
-
-        update_option('upstream_milestones', $milestones);
-    }
-
     // task options
     $tasks = get_option('upstream_tasks');
     if ( ! $tasks || empty($tasks)) {
@@ -332,16 +306,16 @@ function upstream_add_default_options()
 /**
  * When a new Blog is created in multisite, see if UpStream is network activated, and run the installer
  *
- * @since  1.0.0
- *
- * @param  int    $blog_id The Blog ID created
- * @param  int    $user_id The User ID set as the admin
- * @param  string $domain  The URL
- * @param  string $path    Site Path
- * @param  int    $site_id The Site ID
- * @param  array  $meta    Blog Meta
+ * @param int    $blog_id The Blog ID created
+ * @param int    $user_id The User ID set as the admin
+ * @param string $domain  The URL
+ * @param string $path    Site Path
+ * @param int    $site_id The Site ID
+ * @param array  $meta    Blog Meta
  *
  * @return void
+ * @since  1.0.0
+ *
  */
 function upstream_new_blog_created($blog_id, $user_id, $domain, $path, $site_id, $meta)
 {
@@ -361,8 +335,8 @@ add_action('wpmu_new_blog', 'upstream_new_blog_created', 10, 6);
  * Runs just after plugin installation and exposes the
  * upstream_after_install hook.
  *
- * @since 1.0.0
  * @return void
+ * @since 1.0.0
  */
 function upstream_after_install()
 {
@@ -453,5 +427,81 @@ function upstream_update_data($old_version, $new_version)
         delete_option('upstream:created_bugs_args_ids');
 
         UpStream_Options_Bugs::createBugsStatusesIds();
+    }
+
+    $hasFinishedMigration = get_option('_upstream_migration_finished_1.24.0', null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.0', '<')) {
+        // Make sure administrator and managers are able to work with the new milestones.
+        $roles = [
+            'upstream_manager',
+            'administrator',
+            'upstream_user',
+        ];
+
+        foreach ($roles as $role) {
+            $role = get_role($role);
+
+            if (is_object($role)) {
+                $capabilities = [
+                    // Post type
+                    "edit_milestone",
+                    "read_milestone",
+                    "delete_milestone",
+                    "edit_milestones",
+                    "edit_others_milestones",
+                    "publish_milestones",
+                    "read_private_milestones",
+                    "delete_milestones",
+                    "delete_private_milestones",
+                    "delete_published_milestones",
+                    "delete_others_milestones",
+                    "edit_private_milestones",
+                    "edit_published_milestones",
+
+                    // Terms
+                    "manage_milestone_terms",
+                    "edit_milestone_terms",
+                    "delete_milestone_terms",
+                    "assign_milestone_terms",
+                ];
+
+                foreach ($capabilities as $capability) {
+                    $role->add_cap($capability, true);
+                }
+            }
+        }
+
+        // If we have projects, create new milestones based on current ones.
+        $projects = get_posts(
+            [
+                'post_type'   => 'project',
+                'post_status' => 'publish',
+                'meta_query'  => [
+                    'relation' => 'OR',
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'compare' => 'NOT EXISTS',
+                    ],
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'value'   => 1,
+                        'compare' => '!=',
+                    ],
+                ],
+            ]
+        );
+
+        if ( ! empty($projects)) {
+            // Migrate the milestones.
+            $defaultMilestones = get_option('upstream_milestones', []);
+
+            if ( ! empty($defaultMilestones)) {
+                foreach ($projects as $project) {
+                    \UpStream\Milestones::migrateLegacyMilestonesForProject($project->ID);
+                }
+            }
+        }
+
+        update_option('_upstream_migration_finished_1.24.0', true);
     }
 }
