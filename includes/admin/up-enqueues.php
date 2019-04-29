@@ -21,13 +21,20 @@ function upstream_load_admin_scripts($hook)
         $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
     }
 
-    $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $assetsDir        = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
 
     $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
 
     global $pagenow;
 
     wp_enqueue_style('wp-color-picker');
+
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui-datepicker', $assetsDir . '/css/jquery.ui.datepicker.css',
+        ['wp-jquery-ui-dialog'], UPSTREAM_VERSION, 'screen');
+    wp_enqueue_style('jquery-ui-theme', $assetsDir . '/css/jquery.ui.theme.css', false,
+        UPSTREAM_VERSION, 'screen');
 
     wp_enqueue_script(
         'terminal',
@@ -71,7 +78,6 @@ function upstream_load_admin_scripts($hook)
         if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
 
-            $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
             wp_enqueue_style(
                 'up-select2',
                 $globalAssetsPath . 'css/vendor/select2.min.css',

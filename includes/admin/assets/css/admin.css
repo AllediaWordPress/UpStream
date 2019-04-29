@@ -32,6 +32,10 @@ a#upstream-upgrade-link,
     width: 100%;
 }
 
+.cmb2-wrap .row {
+    margin-top: 15px;
+}
+
 .upstream-option-subpanel {
     width: 100%;
     background: #000;

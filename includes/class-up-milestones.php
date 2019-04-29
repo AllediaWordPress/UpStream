@@ -91,21 +91,27 @@ class Milestones
             $projectTasks      = get_post_meta($projectId, '_upstream_project_tasks', true);
 
             try {
-
-                $wpdb->query('START TRANSACTION');
-
-                $updatedTasks = false;
-
                 if ( ! empty($projectMilestones)) {
+                    // Move the milestones to a backup register, temporarily.
+                    $legacyMilestonesBackup = get_post_meta($projectId, '_upstream_project_milestones_legacy', true);
+                    if (empty($legacyMilestonesBackup)) {
+                        update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
+                    }
+
+                    $wpdb->query('START TRANSACTION');
+
+                    $updatedTasks = false;
+
                     foreach ($projectMilestones as $projectMilestone) {
 
                         $data = $legacyMilestones[$projectMilestone['milestone']];
 
                         // Check if we already have this milestone in the project.
                         $migratedMilestone = get_posts([
-                            'post_type'  => Milestone::POST_TYPE,
-                            'meta_key'   => Milestone::META_LEGACY_MILESTONE_CODE,
-                            'meta_value' => $projectMilestone['milestone'],
+                            'post_type'   => Milestone::POST_TYPE,
+                            'post_parent' => $projectId,
+                            'meta_key'    => Milestone::META_LEGACY_MILESTONE_CODE,
+                            'meta_value'  => $projectMilestone['milestone'],
                         ]);
 
                         // If the milestone already exists, abort
@@ -115,18 +121,18 @@ class Milestones
 
                         // The milestone doesn't exist. Let's create it.
                         $milestone = Factory::createMilestone($data['title'])
-                                                      ->setLegacyId($projectMilestone['id'])
-                                                      ->setLegacyMilestoneCode($projectMilestone['milestone'])
-                                                      ->setStartDate($projectMilestone['start_date'])
-                                                      ->setEndDate($projectMilestone['end_date'])
-                                                      ->setAssignedTo($projectMilestone['assigned_to'])
-                                                      ->setNotes($projectMilestone['notes'])
-                                                      ->setCreatedTimeInUtc((int)$projectMilestone['notes'] === 1)
-                                                      ->setProgress((float)$projectMilestone['progress'])
-                                                      ->setTaskCount((int)$projectMilestone['task_count'])
-                                                      ->setTaskOpen((int)$projectMilestone['task_open'])
-                                                      ->setColor($data['color'])
-                                                      ->setProjectId($projectId);
+                                            ->setLegacyId($projectMilestone['id'])
+                                            ->setLegacyMilestoneCode($projectMilestone['milestone'])
+                                            ->setStartDate($projectMilestone['start_date'])
+                                            ->setEndDate($projectMilestone['end_date'])
+                                            ->setAssignedTo($projectMilestone['assigned_to'])
+                                            ->setNotes($projectMilestone['notes'])
+                                            ->setCreatedTimeInUtc((int)$projectMilestone['notes'] === 1)
+                                            ->setProgress((float)$projectMilestone['progress'])
+                                            ->setTaskCount((int)$projectMilestone['task_count'])
+                                            ->setTaskOpen((int)$projectMilestone['task_open'])
+                                            ->setColor($data['color'])
+                                            ->setProjectId($projectId);
 
                         // Look for all the tasks to convert the milestone ID.
                         if ( ! empty($projectTasks)) {
@@ -141,23 +147,23 @@ class Milestones
                             }
                         }
                     }
+
+                    update_post_meta($projectId, '_upstream_milestones_migrated', 1);
+
+                    // Remove the legacy Milestones
+                    delete_post_meta($projectId, '_upstream_project_milestones');
+
+                    // Update the tasks in the project
+                    if ($updatedTasks) {
+                        update_post_meta($projectId, '_upstream_project_tasks', $projectTasks);
+                    }
+
+                    $wpdb->query('COMMIT');
                 }
-
-                update_post_meta($projectId, '_upstream_milestones_migrated', 1);
-                // Move the milestones to a backup register, temporarily.
-                update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
-                // Remove the legacy Milestones
-                delete_post_meta($projectId, '_upstream_project_milestones');
-
-                // Update the tasks in the project
-                if ($updatedTasks) {
-                    update_post_meta($projectId, '_upstream_project_tasks', $projectTasks);
-                }
-
-                $wpdb->query('COMMIT');
             } catch (\Exception $e) {
                 $wpdb->query('ROLLBACK');
-                throw new Exception('Error found while migrating a milestone.');
+
+                throw new Exception('Error found while migrating a milestone. ' . $e->getMessage());
             }
         }
 
@@ -388,7 +394,9 @@ class Milestones
             $project = get_post($milestone->getProjectId());
 
             echo $project->post_title;
-        } elseif ($column === 'assigned_to') {
+        }
+
+        if ($column === 'assigned_to') {
             $usersId = $milestone->getAssignedTo();
 
             if (empty($usersId)) {
@@ -404,6 +412,14 @@ class Milestones
             }
 
             echo implode(', ', $users);
+        }
+
+        if ($column === 'start_date') {
+            echo $milestone->getStartDate('upstream');
+        }
+
+        if ($column === 'end_date') {
+            echo $milestone->getEndDate('upstream');
         }
     }
 
