@@ -24,7 +24,7 @@ function upstream_load_admin_scripts($hook)
     $assetsDir        = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
     $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
 
     global $pagenow;
 
@@ -97,7 +97,7 @@ function upstream_load_admin_scripts($hook)
             wp_register_script(
                 'upstream-project',
                 $assetsDir . 'js/edit-project.js',
-                $admin_deps,
+                array_merge($admin_deps, ['up-select2']),
                 UPSTREAM_VERSION,
                 false
             );
