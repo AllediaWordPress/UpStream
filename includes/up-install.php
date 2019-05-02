@@ -474,9 +474,10 @@ function upstream_update_data($old_version, $new_version)
         // If we have projects, create new milestones based on current ones.
         $projects = get_posts(
             [
-                'post_type'   => 'project',
-                'post_status' => 'publish',
-                'meta_query'  => [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+                'meta_query'     => [
                     'relation' => 'OR',
                     [
                         'key'     => '_upstream_milestones_migrated',
@@ -510,9 +511,10 @@ function upstream_update_data($old_version, $new_version)
         // If we have unpublished projects, create new milestones based on current ones.
         $projects = get_posts(
             [
-                'post_type'   => 'project',
-                'post_status' => ['draft', 'auto-draft', 'trash'],
-                'meta_query'  => [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+                'meta_query'     => [
                     'relation' => 'OR',
                     [
                         'key'     => '_upstream_milestones_migrated',

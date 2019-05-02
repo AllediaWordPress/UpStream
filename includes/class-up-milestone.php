@@ -217,10 +217,11 @@ class Milestone extends Struct
                 $this->post = get_post($this->postId);
             } else {
                 $posts = get_posts([
-                    'post_type'  => Milestone::POST_TYPE,
-                    'status'     => 'publish',
-                    'meta_key'   => self::META_LEGACY_ID,
-                    'meta_value' => sanitize_text_field($legacyId),
+                    'post_type'      => Milestone::POST_TYPE,
+                    'status'         => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_key'       => self::META_LEGACY_ID,
+                    'meta_value'     => sanitize_text_field($legacyId),
                 ]);
 
                 if ( ! empty($posts)) {

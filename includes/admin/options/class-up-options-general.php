@@ -874,9 +874,10 @@ if ( ! class_exists('UpStream_Options_General')) :
             $return = [];
 
             $projects = get_posts([
-                'post_type'   => 'project',
-                'post_status' => ['publish', 'draft', 'auto-draft', 'trash'],
-                'meta_key'    => '_upstream_project_milestones',
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'meta_key'       => '_upstream_project_milestones',
+                'posts_per_page' => -1,
             ]);
 
             if ( ! empty($projects)) {
