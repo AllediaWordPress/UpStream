@@ -893,7 +893,9 @@ function upstream_admin_get_project_statuses()
     $array    = [];
     if ($statuses) {
         foreach ($statuses as $status) {
-            $array[$status['id']] = $status['name'];
+            if (isset($status['type'])) {
+               $array[$status['id']] = $status['name'];
+            }
         }
     }
 
