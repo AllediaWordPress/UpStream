@@ -105,7 +105,7 @@ class Upstream_Counts
                 // If milestones, don't use the metadata, but the milestone classes instead
                 if ('milestones' === $type) {
                     $milestonesUtil = \UpStream\Milestones::getInstance();
-                    $dataSet = $milestonesUtil->getMilestonesFromProject($project->ID, true);
+                    $dataSet        = $milestonesUtil->getMilestonesFromProject($project->ID, true);
                 } else {
                     $dataSet = get_post_meta($project->ID, '_upstream_project_' . $type, true);
                 }
@@ -169,7 +169,7 @@ class Upstream_Counts
     /**
      * Returns the count of OPEN tasks for the current user
      *
-     * @return array
+     * @return int
      */
     public function assigned_to_open($type)
     {
@@ -197,9 +197,15 @@ class Upstream_Counts
             if ( ! isset($item['assigned_to'])) {
                 continue;
             }
-            if ($item['assigned_to'] != $this->user['id']) {
+
+            if (is_array($item['assigned_to'])) {
+                $item['assigned_to'] = [$item['assigned_to']];
+            }
+
+            if ( ! in_array($this->user['id'], $item['assigned_to'])) {
                 continue;
             }
+
             $item_status = isset($item['status']) ? $item['status'] : '';
 
             if ((isset($types[$item_status]) && $types[$item_status] == 'open') || $item_status === "") {

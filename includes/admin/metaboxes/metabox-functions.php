@@ -158,9 +158,9 @@ function upstream_output_overview_counts($field_args, $field)
     $countMine = 0;
     $countOpen = 0;
 
-    $counter = new Upstream_Counts($project_id);
+    $counter = new Upstream_Counter($project_id);
 
-    $rowset = $counter->get_items($itemType);
+    $rowset = $counter->getItemsOfType($itemType);
 
     if ($itemType === "milestones") {
         if ( ! empty($rowset)) {
