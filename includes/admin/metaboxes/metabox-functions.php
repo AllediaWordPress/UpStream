@@ -186,8 +186,15 @@ function upstream_output_overview_counts($field_args, $field)
         $statuses = wp_list_pluck($statuses, 'type', 'id');
 
         foreach ($rowset as $row) {
-            if (isset($row['assigned_to']) && (int)$row['assigned_to'] === $user_id) {
-                $countMine++;
+            if (isset($row['assigned_to'])) {
+                $assignedTo = $row['assigned_to'];
+
+                if (
+                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                    && ((int)$row['assigned_to'] === $user_id)
+                ) {
+                    $countMine++;
+                }
             }
 
             if (
