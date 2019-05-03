@@ -158,14 +158,22 @@ function upstream_output_overview_counts($field_args, $field)
     $countMine = 0;
     $countOpen = 0;
 
-    $rowset = get_post_meta($project_id, $itemTypeMetaPrefix . $itemType);
-    $rowset = ! empty($rowset) ? $rowset[0] : [];
+    $counter = new Upstream_Counts($project_id);
+
+    $rowset = $counter->get_items($itemType);
 
     if ($itemType === "milestones") {
         if ( ! empty($rowset)) {
             foreach ($rowset as $row) {
-                if (isset($row['assigned_to']) && (int)$row['assigned_to'] === $user_id) {
-                    $countMine++;
+                if (isset($row['assigned_to'])) {
+                    $assignedTo = $row['assigned_to'];
+
+                    if (
+                        (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                        && ((int)$row['assigned_to'] === $user_id)
+                    ) {
+                        $countMine++;
+                    }
                 }
             }
         }
@@ -894,7 +902,7 @@ function upstream_admin_get_project_statuses()
     if ($statuses) {
         foreach ($statuses as $status) {
             if (isset($status['type'])) {
-               $array[$status['id']] = $status['name'];
+                $array[$status['id']] = $status['name'];
             }
         }
     }

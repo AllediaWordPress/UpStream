@@ -19,18 +19,20 @@ if ($areMilestonesEnabled) {
         'total'    => 0,
     ];
 
-    $milestones = get_post_meta($project_id, '_upstream_project_milestones');
-    $milestones = ! empty($milestones) ? (array)$milestones[0] : [];
-
-    if (isset($milestones[0]) && ! isset($milestones[0]['id'])) {
-        $milestones = (array)$milestones[0];
-    }
+    $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($project_id, true);
 
     $milestonesCounts['total'] = count($milestones);
     if ($milestonesCounts['total'] > 0) {
         foreach ($milestones as $milestone) {
-            if (isset($milestone['assigned_to']) && (int)$milestone['assigned_to'] === $user_id) {
-                $milestonesCounts['mine']++;
+            if (isset($milestone['assigned_to'])) {
+                $assignedTo = $milestone['assigned_to'];
+
+                if (
+                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                    && ((int)$milestone['assigned_to'] === $user_id)
+                ) {
+                    $milestonesCounts['mine']++;
+                }
             }
 
             $progress = isset($milestone['progress']) ? (float)$milestone['progress'] : 0;

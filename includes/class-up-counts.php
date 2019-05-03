@@ -99,9 +99,16 @@ class Upstream_Counts
                     continue;
                 }
 
-                $meta = get_post_meta($project->ID, '_upstream_project_' . $type, true);
-                if ($meta && is_array($meta)) {
-                    foreach ($meta as $key => $value) {
+                // If milestones, don't use the metadata, but the milestone classes instead
+                if ('milestones' === $type) {
+                    $milestonesUtil = \UpStream\Milestones::getInstance();
+                    $dataSet = $milestonesUtil->getMilestonesFromProject($project->ID, true);
+                } else {
+                    $dataSet = get_post_meta($project->ID, '_upstream_project_' . $type, true);
+                }
+
+                if ( ! empty($dataSet) && is_array($dataSet)) {
+                    foreach ($dataSet as $value) {
                         $items[] = $value;
                     }
                 }
@@ -126,11 +133,11 @@ class Upstream_Counts
     /**
      * Get the count of items assigned to the current user.
      *
-     * @since   1.0.0
-     *
-     * @param   string $itemType The item type to be searched. I.e.: tasks, bugs, etc.
+     * @param string $itemType The item type to be searched. I.e.: tasks, bugs, etc.
      *
      * @return  integer
+     * @since   1.0.0
+     *
      */
     public function assigned_to($itemType)
     {
