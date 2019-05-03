@@ -5,10 +5,13 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
-
+/**
+ * Class Upstream_Counts
+ *
+ * @deprecated User Upstream_Counter instead
+ */
 class Upstream_Counts
 {
-
     // private $columns = array();
     public $projects = null;
     public $user = null;

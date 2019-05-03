@@ -155,15 +155,15 @@ if ( ! class_exists('UpStream')) :
          */
         private function init_twig()
         {
-            $loader = new Twig_Loader_Filesystem(__DIR__ . '/twig');
-            $twigEnvironment   = new Twig_Environment($loader);
+            $loader          = new Twig_Loader_Filesystem(__DIR__ . '/twig');
+            $twigEnvironment = new Twig_Environment($loader);
 
 
             $doActionFunc = new Twig_SimpleFunction('doAction', function ($action, $context) {
                 $args = func_get_args();
 
                 call_user_func_array('do_action', $args);
-//                do_action($action, $context);
+                //                do_action($action, $context);
             });
             $twigEnvironment->addFunction($doActionFunc);
 
@@ -179,11 +179,11 @@ if ( ! class_exists('UpStream')) :
          * @param       $twig_file
          * @param array $context
          *
-         * @throws Twig_Error_Loader
+         * @return string
          * @throws Twig_Error_Runtime
          * @throws Twig_Error_Syntax
          *
-         * @return string
+         * @throws Twig_Error_Loader
          * @deprecated
          */
         public function twig_render($twig_file, $context = [])
@@ -249,9 +249,10 @@ if ( ! class_exists('UpStream')) :
         /**
          * Hide some toolbar items from Client Users.
          *
+         * @param \WP_Admin_Bar $wp_admin_bar
+         *
          * @since   1.11.0
          *
-         * @param   \WP_Admin_Bar $wp_admin_bar
          */
         public function limitClientUsersToolbarItems($wp_admin_bar)
         {
@@ -305,10 +306,11 @@ if ( ! class_exists('UpStream')) :
         /**
          * Define constant if not already set.
          *
+         * @param string      $name
+         * @param string|bool $value
+         *
          * @since  1.0.0
          *
-         * @param  string      $name
-         * @param  string|bool $value
          */
         private function define($name, $value)
         {
@@ -321,8 +323,8 @@ if ( ! class_exists('UpStream')) :
          * What type of request is this?
          * string $type frontend or admin.
          *
-         * @since  1.0.0
          * @return bool
+         * @since  1.0.0
          */
         private function is_request($type)
         {
@@ -355,6 +357,7 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';
             include_once __DIR__ . '/includes/class-up-counts.php';
+            include_once __DIR__ . '/includes/class-up-counter.php';
             include_once __DIR__ . '/includes/class-up-project-activity.php';
             include_once __DIR__ . '/includes/up-permalinks.php';
             include_once __DIR__ . '/includes/up-post-types.php';
@@ -506,8 +509,8 @@ if ( ! class_exists('UpStream')) :
         /**
          * Show row meta on the plugin screen.
          *
-         * @param   mixed $links Plugin Row Meta
-         * @param   mixed $file  Plugin Base file
+         * @param mixed $links Plugin Row Meta
+         * @param mixed $file  Plugin Base file
          *
          * @return  array
          */
@@ -534,12 +537,12 @@ if ( ! class_exists('UpStream')) :
         /**
          * Callback called to setup the links to display on the plugins page, besides active/deactivate links.
          *
+         * @param array $links The list of links to be displayed.
+         *
+         * @return  array
          * @since   1.11.1
          * @static
          *
-         * @param   array $links The list of links to be displayed.
-         *
-         * @return  array
          */
         public static function handleActionLinks($links)
         {
@@ -556,14 +559,14 @@ if ( ! class_exists('UpStream')) :
         /**
          * Ensures the plugins update API's host is whitelisted to WordPress external requests.
          *
+         * @param boolean $isAllowed
+         * @param string  $host
+         * @param string  $url
+         *
+         * @return  boolean
          * @since   1.11.1
          * @static
          *
-         * @param   boolean $isAllowed
-         * @param   string  $host
-         * @param   string  $url
-         *
-         * @return  boolean
          */
         public static function allowExternalUpdateHost($isAllowed, $host, $url)
         {
@@ -577,13 +580,14 @@ if ( ! class_exists('UpStream')) :
         /**
          * Render additional update info if needed.
          *
+         * @param array  $pluginData Plugin metadata.
+         * @param object $response   Metadata about the available plugin update.
+         *
          * @since   1.12.5
          * @static
          *
          * @see     https://developer.wordpress.org/reference/hooks/in_plugin_update_message-file
          *
-         * @param   array  $pluginData Plugin metadata.
-         * @param   object $response   Metadata about the available plugin update.
          */
         public static function renderAdditionalUpdateInfo($pluginData, $response)
         {
@@ -611,15 +615,15 @@ if ( ! class_exists('UpStream')) :
          * Make sure Recent Comments section on admin Dashboard display only comments
          * current user is allowed to see from projects he's allowed to access.
          *
+         * @param array              $queryArgs Query clauses.
+         * @param WP_Comment_Query   $query     Current query instance.
+         *
+         * @return  array   $queryArgs
+         * @global                   $pagenow   , $wpdb
+         *
          * @since   1.13.0
          * @static
          *
-         * @global                   $pagenow   , $wpdb
-         *
-         * @param   array            $queryArgs Query clauses.
-         * @param   WP_Comment_Query $query     Current query instance.
-         *
-         * @return  array   $queryArgs
          */
         public static function filterCommentsOnDashboard($queryArgs, $query)
         {
@@ -667,8 +671,8 @@ endif;
  *
  * Returns the main instance of UpStream to prevent the need to use globals.
  *
- * @since  1.0.0
  * @return UpStream
+ * @since  1.0.0
  */
 function UpStream()
 {
