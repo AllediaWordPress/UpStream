@@ -149,6 +149,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed a PHP warning for old corrupted milestone data;
 * Fixed the list of available users in the Client Users page;
 * Fixed the total numbers in the project's summary;
+* Lock Twig version on 1.38.4;
 
 = [1.24.0] - 2018-04-29 =
 
