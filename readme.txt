@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 1.24.0
+Stable tag: 1.24.1
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,14 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.24.1] - 2018-05-06 =
+
+* Fixed the migration of existent legacy milestones making sure all projects are migrated;
+* Fixed the state of the Start Migration button in the settings page during a migration;
+* Fixed a PHP warning for old corrupted milestone data;
+* Fixed the list of available users in the Client Users page;
+* Fixed the total numbers in the project's summary;
 
 = [1.24.0] - 2018-04-29 =
 

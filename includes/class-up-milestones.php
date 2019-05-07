@@ -92,9 +92,10 @@ class Milestones
 
             try {
                 if ( ! empty($projectMilestones)) {
-                    // Move the milestones to a backup register, temporarily.
+                    // Check if the backup register doesn't exist.
                     $legacyMilestonesBackup = get_post_meta($projectId, '_upstream_project_milestones_legacy', true);
                     if (empty($legacyMilestonesBackup)) {
+                        // Move the milestones to a backup register, temporarily.
                         update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
                     }
 
@@ -110,6 +111,7 @@ class Milestones
                         $migratedMilestone = get_posts([
                             'post_type'   => Milestone::POST_TYPE,
                             'post_parent' => $projectId,
+                            'post_status' => 'publish',
                             'meta_key'    => Milestone::META_LEGACY_MILESTONE_CODE,
                             'meta_value'  => $projectMilestone['milestone'],
                         ]);
@@ -159,6 +161,8 @@ class Milestones
                     }
 
                     $wpdb->query('COMMIT');
+                } else {
+                    update_post_meta($projectId, '_upstream_project_milestones_legacy', []);
                 }
             } catch (\Exception $e) {
                 $wpdb->query('ROLLBACK');
@@ -270,7 +274,7 @@ class Milestones
         $upstream = \UpStream::instance();
 
         // Projects
-        $projectsInstances = get_posts(['post_type' => 'project', 'posts_per_page' => 0]);
+        $projectsInstances = get_posts(['post_type' => 'project', 'posts_per_page' => -1]);
         $projects          = [];
         if ( ! empty($projectsInstances)) {
             foreach ($projectsInstances as $project) {
@@ -312,6 +316,23 @@ class Milestones
         ];
 
         echo $upstream->twigRender('milestone-form-fields.twig', $context);
+    }
+
+    /**
+     * Returns all users with select roles.
+     * For use in dropdowns.
+     */
+    protected function projectUsersDropdown()
+    {
+        $options = [
+            '' => __('None', 'upstream'),
+        ];
+
+        $projectUsers = upstream_admin_get_all_project_users();
+
+        $options += $projectUsers;
+
+        return $options;
     }
 
     /**
@@ -430,8 +451,9 @@ class Milestones
     {
         $posts = get_posts(
             [
-                'post_type'   => Milestone::POST_TYPE,
-                'post_status' => 'publish',
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
             ]
         );
 
@@ -467,18 +489,19 @@ class Milestones
 
     /**
      * @param int  $projectId
-     * @param bool $asLegacyDataset
+     * @param bool $returnAsLegacyDataset
      *
      * @return array
      */
-    public function getMilestonesFromProject($projectId, $asLegacyDataset = false)
+    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
     {
         $posts = get_posts(
             [
-                'post_type'   => Milestone::POST_TYPE,
-                'post_status' => 'publish',
-                'meta_key'    => Milestone::META_PROJECT_ID,
-                'meta_value'  => $projectId,
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => Milestone::META_PROJECT_ID,
+                'meta_value'     => $projectId,
             ]
         );
 
@@ -486,7 +509,7 @@ class Milestones
 
         if ( ! empty($posts)) {
             foreach ($posts as $post) {
-                if ($asLegacyDataset) {
+                if ($returnAsLegacyDataset) {
                     $data = Factory::getMilestone($post)->convertToLegacyRowset();
                 } else {
                     $data = $post;
@@ -497,22 +520,5 @@ class Milestones
         }
 
         return $milestones;
-    }
-
-    /**
-     * Returns all users with select roles.
-     * For use in dropdowns.
-     */
-    protected function projectUsersDropdown()
-    {
-        $options = [
-            '' => __('None', 'upstream'),
-        ];
-
-        $projectUsers = upstream_admin_get_all_project_users();
-
-        $options += $projectUsers;
-
-        return $options;
     }
 }

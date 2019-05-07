@@ -64,10 +64,11 @@ class UpStream_Admin
     /**
      * Filter comments for Comments.php page.
      *
+     * @param array $query Query args array.
+     *
      * @since   1.13.0
      * @static
      *
-     * @param   array $query Query args array.
      */
     public static function preGetComments($query)
     {
@@ -92,7 +93,8 @@ class UpStream_Admin
             } else {
                 // Hide Projects comments from other user types.
                 $projects = get_posts([
-                    'post_type'      => "project",
+                    'post_type'      => 'project',
+                    'post_status'    => 'any',
                     'posts_per_page' => -1,
                 ]);
 
@@ -109,12 +111,12 @@ class UpStream_Admin
     /**
      * Set up WP-Table filters links.
      *
+     * @param array $links Associative array of table filters.
+     *
+     * @return  array   $links
      * @since   1.13.0
      * @static
      *
-     * @param   array $links Associative array of table filters.
-     *
-     * @return  array   $links
      */
     public static function commentStatusLinks($links)
     {
@@ -250,14 +252,15 @@ class UpStream_Admin
      * Render a modified 'text_date_timestamp' that will always use
      * its date's time being as 12:00:00 AM.
      *
+     * @param \CMB2_Field $field      The current CMB2_Field object.
+     * @param string      $value      The field value passed through the escaping filter.
+     * @param mixed       $objectId   The object id.
+     * @param string      $objectType The type of object being handled.
+     * @param \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
+     *
      * @since   1.15.1
      * @static
      *
-     * @param   \CMB2_Field $field      The current CMB2_Field object.
-     * @param   string      $value      The field value passed through the escaping filter.
-     * @param   mixed       $objectId   The object id.
-     * @param   string      $objectType The type of object being handled.
-     * @param   \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
      */
     public static function renderCmb2TimestampField($field, $value, $objectId, $objectType, $fieldType)
     {
@@ -267,16 +270,16 @@ class UpStream_Admin
     /**
      * Ensure 'up_timestamp' fields date's time are set to 12:00:00 AM before it is stored AS GMT/UTC.
      *
+     * @param null            $overrideValue Sanitization override value to return.
+     * @param mixed           $value         The actual field value.
+     * @param mixed           $objectId      The object id.
+     * @param string          $objectType    The type of object being handled.
+     * @param \CMB2_Sanitizer $sanitizer     Sanitizer's instance.
+     *
+     * @return  mixed
      * @since   1.15.1
      * @static
      *
-     * @param   null            $overrideValue Sanitization override value to return.
-     * @param   mixed           $value         The actual field value.
-     * @param   mixed           $objectId      The object id.
-     * @param   string          $objectType    The type of object being handled.
-     * @param   \CMB2_Sanitizer $sanitizer     Sanitizer's instance.
-     *
-     * @return  mixed
      */
     public static function sanitizeCmb2TimestampField($overrideValue, $value, $objectId, $fieldArgs, $sanitizer)
     {
@@ -374,14 +377,14 @@ class UpStream_Admin
      * Create id for newly added project/bugs/tasks statuses.
      * This method is called right before field data is saved to db.
      *
+     * @param array       $value Array of the new data set.
+     * @param array       $args  Field arguments.
+     * @param \CMB2_Field $field The field object.
+     *
+     * @return  array           $value
      * @since   1.17.0
      * @static
      *
-     * @param   array       $value Array of the new data set.
-     * @param   array       $args  Field arguments.
-     * @param   \CMB2_Field $field The field object.
-     *
-     * @return  array           $value
      */
     public static function onBeforeSave($value, $args, $field)
     {
@@ -395,12 +398,12 @@ class UpStream_Admin
     /**
      * Create missing id in a rowset.
      *
+     * @param array $rowset Data array;
+     *
+     * @return  array
      * @since   1.17.0
      * @static
      *
-     * @param   array $rowset Data array;
-     *
-     * @return  array
      */
     public static function createMissingIdsInSet($rowset)
     {
@@ -526,7 +529,7 @@ class UpStream_Admin
     /**
      * Adds one or more classes to the body tag in the dashboard.
      *
-     * @param  String $classes Current body classes.
+     * @param String $classes Current body classes.
      *
      * @return String          Altered body classes.
      */

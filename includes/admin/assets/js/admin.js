@@ -218,6 +218,8 @@ jQuery(function ($) {
             terminal.error(text);
         };
 
+        $btn.prop('disabled', true);
+
         var call = function (args) {
             var data = args.data;
             data.action = args.action;
@@ -228,8 +230,6 @@ jQuery(function ($) {
                 type: args.type,
                 data: data,
                 beforeSend: function () {
-                    $btn.prop('disabled', true);
-
                     if (typeof args.before !== 'undefined') {
                         args.before();
                     }
@@ -242,9 +242,6 @@ jQuery(function ($) {
                     if (typeof args.after !== 'undefined') {
                         args.after(response);
                     }
-                },
-                complete: function (jqXHR, textStatus) {
-                    $btn.prop('disabled', false);
                 }
             });
         };
@@ -275,6 +272,8 @@ jQuery(function ($) {
                         migrateProject(projects, i + 1);
                     } else {
                         echo('\nDone.');
+
+                        $btn.prop('disabled', false);
                     }
                 }
             });
@@ -299,7 +298,7 @@ jQuery(function ($) {
                     for (var i = 0; i < response.length; i++) {
                         data = response[i];
 
-                        echo('  ' + (i + 1) + '. ' + data.title + ' (' + data.count + ')');
+                        echo('  ' + (i + 1) + '. ' + data.id + ': ' + data.title + ' (' + data.count + ')');
                     }
 
                     echo('');
