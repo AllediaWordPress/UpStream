@@ -70,6 +70,14 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
             return $data;
         }
 
+        /**
+         * @param $check
+         * @param $object
+         * @param $form
+         *
+         * @return bool
+         * @throws \UpStream\Exception
+         */
         public function setProjectMeta($check, $object, $form)
         {
             if ($object['field_id'] === '_upstream_project_milestones') {
@@ -92,6 +100,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         if (empty($milestone)) {
                             continue;
                         }
+
+                        $milestone->setOrder($milestone->getName());
 
                         if (isset($milestoneData['assigned_to'])) {
                             $milestone->setAssignedTo($milestoneData['assigned_to']);
