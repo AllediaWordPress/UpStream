@@ -64,6 +64,21 @@ $user = upstream_user_data();
 $options                = (array)get_option('upstream_general');
 $displayOverviewSection = ! isset($options['disable_project_overview']) || (bool)$options['disable_project_overview'] === false;
 $displayDetailsSection  = ! isset($options['disable_project_details']) || (bool)$options['disable_project_details'] === false;
+
+/**
+ * @param bool $displayOverviewSection
+ *
+ * @return bool
+ */
+$displayOverviewSection = apply_filters('upstream_display_overview_section', $displayOverviewSection);
+
+/**
+ * @param bool $displayDetailsSection
+ *
+ * @return bool
+ */
+$displayDetailsSection = apply_filters('upstream_display_details_section', $displayDetailsSection);
+
 unset($options);
 
 /*
