@@ -45,7 +45,7 @@ class Milestones
         }
 
         add_action('before_upstream_init', [$this, 'createPostType']);
-        add_action('add_meta_boxes', [$this, 'addMetaBox']);
+        add_action('add_meta_boxes', [$this, 'addMetaBox'], 8);
         add_action('save_post', [$this, 'savePost']);
 
         $postType = $this->getPostType();
@@ -63,6 +63,150 @@ class Milestones
     public function getPostType()
     {
         return Milestone::POST_TYPE;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public static function migrateLegacyMilestonesForProject($projectId)
+    {
+        // Migrate the milestones.
+        $defaultMilestones = get_option('upstream_milestones', []);
+
+        if ( ! empty($defaultMilestones)) {
+            $defaultMilestones = $defaultMilestones['milestones'];
+            $legacyMilestones  = [];
+
+            // Organize the milestones by id
+            foreach ($defaultMilestones as $milestoneData) {
+                $legacyMilestones[$milestoneData['id']] = $milestoneData;
+            }
+
+            global $wpdb;
+
+            // Get the project's milestones to convert them into the new post types.
+            $projectMilestones = get_post_meta($projectId, '_upstream_project_milestones', true);
+            $projectTasks      = get_post_meta($projectId, '_upstream_project_tasks', true);
+
+            try {
+                if ( ! empty($projectMilestones)) {
+                    // Check if the backup register doesn't exist.
+                    $legacyMilestonesBackup = get_post_meta($projectId, '_upstream_project_milestones_legacy', true);
+                    if (empty($legacyMilestonesBackup)) {
+                        // Move the milestones to a backup register, temporarily.
+                        update_post_meta($projectId, '_upstream_project_milestones_legacy', $projectMilestones);
+                    }
+
+                    $wpdb->query('START TRANSACTION');
+
+                    $updatedTasks = false;
+
+                    foreach ($projectMilestones as $projectMilestone) {
+
+                        $data = $legacyMilestones[$projectMilestone['milestone']];
+
+                        // Check if we already have this milestone in the project.
+                        $migratedMilestone = get_posts([
+                            'post_type'   => Milestone::POST_TYPE,
+                            'post_parent' => $projectId,
+                            'post_status' => 'publish',
+                            'meta_key'    => Milestone::META_LEGACY_MILESTONE_CODE,
+                            'meta_value'  => $projectMilestone['milestone'],
+                        ]);
+
+                        // If the milestone already exists, abort
+                        if ( ! empty($migratedMilestone)) {
+                            continue;
+                        }
+
+                        // The milestone doesn't exist. Let's create it.
+                        $milestone = Factory::createMilestone($data['title'])
+                                            ->setLegacyId($projectMilestone['id'])
+                                            ->setLegacyMilestoneCode($projectMilestone['milestone'])
+                                            ->setStartDate($projectMilestone['start_date'])
+                                            ->setEndDate($projectMilestone['end_date'])
+                                            ->setAssignedTo($projectMilestone['assigned_to'])
+                                            ->setNotes($projectMilestone['notes'])
+                                            ->setCreatedTimeInUtc((int)$projectMilestone['notes'] === 1)
+                                            ->setProgress((float)$projectMilestone['progress'])
+                                            ->setTaskCount((int)$projectMilestone['task_count'])
+                                            ->setTaskOpen((int)$projectMilestone['task_open'])
+                                            ->setColor($data['color'])
+                                            ->setOrder($data['title'])
+                                            ->setProjectId($projectId);
+
+                        // Look for all the tasks to convert the milestone ID.
+                        if ( ! empty($projectTasks)) {
+                            foreach ($projectTasks as &$task) {
+                                if ($task['milestone'] === $milestone->getLegacyId()) {
+                                    $task['milestone'] = $milestone->getId();
+                                    // Keep the legacy reference for a while.
+                                    $task['milestone_legacy'] = $milestone->getLegacyId();
+
+                                    $updatedTasks = true;
+                                }
+                            }
+                        }
+                    }
+
+                    update_post_meta($projectId, '_upstream_milestones_migrated', 1);
+
+                    // Remove the legacy Milestones
+                    delete_post_meta($projectId, '_upstream_project_milestones');
+
+                    // Update the tasks in the project
+                    if ($updatedTasks) {
+                        update_post_meta($projectId, '_upstream_project_tasks', $projectTasks);
+                    }
+
+                    $wpdb->query('COMMIT');
+                } else {
+                    update_post_meta($projectId, '_upstream_project_milestones_legacy', []);
+                }
+            } catch (\Exception $e) {
+                $wpdb->query('ROLLBACK');
+
+                throw new Exception('Error found while migrating a milestone. ' . $e->getMessage());
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public static function fixMilestoneOrdersOnProject($projectId)
+    {
+        try {
+            $projectMilestones = self::getInstance()->getMilestonesFromProject($projectId);
+
+            if ( ! empty($projectMilestones)) {
+                global $wpdb;
+
+                $wpdb->query('START TRANSACTION');
+
+                foreach ($projectMilestones as $projectMilestone) {
+                    $milestone = Factory::getMilestone($projectMilestone);
+
+                    $milestone->setOrder($milestone->getName());
+                }
+
+                $wpdb->query('COMMIT');
+            }
+        } catch (\Exception $e) {
+            $wpdb->query('ROLLBACK');
+
+            throw new Exception('Error found while fixing the order on a milestone. ' . $e->getMessage());
+        }
+
+        return true;
     }
 
     /**
@@ -152,20 +296,20 @@ class Milestones
     /**
      * Render the metabox for data.
      *
-     * @since 1.24.0
-     *
      * @param \WP_Post $post
      *
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @since 1.24.0
+     *
      */
     public function renderMetaBox($post)
     {
         $upstream = \UpStream::instance();
 
         // Projects
-        $projectsInstances = get_posts(['post_type' => 'project', 'posts_per_page' => 0]);
+        $projectsInstances = get_posts(['post_type' => 'project', 'posts_per_page' => -1]);
         $projects          = [];
         if ( ! empty($projectsInstances)) {
             foreach ($projectsInstances as $project) {
@@ -177,7 +321,7 @@ class Milestones
 
         $context = [
             'field_prefix' => '_upstream_milestone_',
-            'members'      => (array)upstream_project_users_dropdown(),
+            'members'      => (array)$this->projectUsersDropdown(),
             'projects'     => $projects,
             'permissions'  => [
                 'edit_assigned_to' => current_user_can('milestone_assigned_to_field'),
@@ -207,6 +351,23 @@ class Milestones
         ];
 
         echo $upstream->twigRender('milestone-form-fields.twig', $context);
+    }
+
+    /**
+     * Returns all users with select roles.
+     * For use in dropdowns.
+     */
+    protected function projectUsersDropdown()
+    {
+        $options = [
+            '' => __('None', 'upstream'),
+        ];
+
+        $projectUsers = upstream_admin_get_all_project_users();
+
+        $options += $projectUsers;
+
+        return $options;
     }
 
     /**
@@ -261,9 +422,9 @@ class Milestones
     /**
      * @param $columns
      *
+     * @return array
      * @since 1.24.0
      *
-     * @return array
      */
     public function manage_posts_columns($columns)
     {
@@ -289,7 +450,9 @@ class Milestones
             $project = get_post($milestone->getProjectId());
 
             echo $project->post_title;
-        } elseif ($column === 'assigned_to') {
+        }
+
+        if ($column === 'assigned_to') {
             $usersId = $milestone->getAssignedTo();
 
             if (empty($usersId)) {
@@ -306,40 +469,14 @@ class Milestones
 
             echo implode(', ', $users);
         }
-    }
 
-    /**
-     * @param int  $projectId
-     * @param bool $asLegacyDataset
-     *
-     * @return array
-     */
-    public function getMilestonesFromProject($projectId, $asLegacyDataset = false)
-    {
-        $posts = get_posts(
-            [
-                'post_type'   => Milestone::POST_TYPE,
-                'post_status' => 'publish',
-                'meta_key'    => Milestone::META_PROJECT_ID,
-                'meta_value'  => $projectId,
-            ]
-        );
-
-        $milestones = [];
-
-        if ( ! empty($posts)) {
-            foreach ($posts as $post) {
-                if ($asLegacyDataset) {
-                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
-                } else {
-                    $data = $post;
-                }
-
-                $milestones[$post->ID] = $data;
-            }
+        if ($column === 'start_date') {
+            echo $milestone->getStartDate('upstream');
         }
 
-        return $milestones;
+        if ($column === 'end_date') {
+            echo $milestone->getEndDate('upstream');
+        }
     }
 
     /**
@@ -349,8 +486,9 @@ class Milestones
     {
         $posts = get_posts(
             [
-                'post_type'   => Milestone::POST_TYPE,
-                'post_status' => 'publish',
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
             ]
         );
 
@@ -382,5 +520,41 @@ class Milestones
         }
 
         return $data;
+    }
+
+    /**
+     * @param int  $projectId
+     * @param bool $returnAsLegacyDataset
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+    {
+        $posts = get_posts(
+            [
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => Milestone::META_PROJECT_ID,
+                'meta_value'     => $projectId,
+            ]
+        );
+
+        $milestones = [];
+
+        if ( ! empty($posts)) {
+            foreach ($posts as $post) {
+                if ($returnAsLegacyDataset) {
+                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                } else {
+                    $data = $post;
+                }
+
+                $milestones[$post->ID] = $data;
+            }
+        }
+
+        return $milestones;
     }
 }

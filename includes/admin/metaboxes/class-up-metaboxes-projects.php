@@ -164,7 +164,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                 if ( ! upstream_disable_tasks()) {
                     if ( ! $areTasksDisabled) {
-                        $grid2 = $metabox->add_field([
+                        $grid2         = $metabox->add_field([
                             'name'  => '<span>' . upstream_count_total(
                                     'tasks',
                                     upstream_post_id()
@@ -179,7 +179,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 }
 
                 if ( ! $areBugsDisabled) {
-                    $grid3 = $metabox->add_field([
+                    $grid3         = $metabox->add_field([
                         'name'  => '<span>' . upstream_count_total(
                                 'bugs',
                                 upstream_post_id()
@@ -435,10 +435,10 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Return HTML of all admin filters for Milestones.
          *
+         * @return  string
          * @since   1.15.0
          * @access  private
          *
-         * @return  string
          */
         private function getMilestonesFiltersHtml()
         {
@@ -494,10 +494,10 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Return HTML of all admin filters for Tasks.
          *
+         * @return  string
          * @since   1.15.0
          * @access  private
          *
-         * @return  string
          */
         private function getTasksFiltersHtml()
         {
@@ -509,8 +509,8 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
             $projectId     = upstream_post_id();
 
             $milestones = [];
-            $meta       = (array)get_post_meta($projectId, '_upstream_project_milestones', true);
-            foreach ($meta as $data) {
+            $rowset     = \UpStream\Milestones::getInstance()->getMilestonesFromProject($projectId, true);
+            foreach ($rowset as $data) {
                 if ( ! isset($data['id'])
                      || ! isset($data['created_by'])
                      || ! isset($data['milestone'])
@@ -520,7 +520,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                 $milestones[$data['id']] = $data['milestone'];
             }
-            unset($data, $meta);
+            unset($data, $rowset);
 
             ob_start(); ?>
             <div class="up-c-filters">
@@ -604,10 +604,10 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Return HTML of all admin filters for Bugs.
          *
+         * @return  string
          * @since   1.15.0
          * @access  private
          *
-         * @return  string
          */
         private function getBugsFiltersHtml()
         {
@@ -695,10 +695,10 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Return HTML of all admin filters for Files.
          *
+         * @return  string
          * @since   1.15.0
          * @access  private
          *
-         * @return  string
          */
         private function getFilesFiltersHtml()
         {
@@ -1732,7 +1732,8 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     'type'         => 'wysiwyg',
                     'permissions'  => 'publish_project_discussion',
                     'before'       => 'upstream_add_field_attributes',
-                    'after_field'  => '<p class="u-text-right"><button class="button button-primary" type="button" data-action="comments.add_comment" data-nonce="' . wp_create_nonce('upstream:project.add_comment') . '">' . __('Add Comment', 'upstream') . '</button></p></div></div>',
+                    'after_field'  => '<p class="u-text-right"><button class="button button-primary" type="button" data-action="comments.add_comment" data-nonce="' . wp_create_nonce('upstream:project.add_comment') . '">' . __('Add Comment',
+                            'upstream') . '</button></p></div></div>',
                     'after_row'    => 'upstreamRenderCommentsBox',
                     'options'      => [
                         'media_buttons' => true,
@@ -1881,7 +1882,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     if ($itemType === 'milestones') {
                         $rowset = \UpStream\Milestones::getInstance()->getMilestonesFromProject($project_id, true);
                     } else {
-                        $rowset           = array_filter((array)get_post_meta(
+                        $rowset = array_filter((array)get_post_meta(
                             $project_id,
                             '_upstream_project_' . $itemType,
                             true
@@ -1975,14 +1976,15 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Define select2 CMB2 field settings.
          *
+         * @param \CMB2_Field $field      Current CMB2_Field object.
+         * @param string      $value      Current escaped field value.
+         * @param int         $object_id  Project ID.
+         * @param string      $objectType Current object type.
+         * @param \CMB2_Types $fieldType  Current field type object.
+         *
          * @since   1.16.0
          * @static
          *
-         * @param   \CMB2_Field $field      Current CMB2_Field object.
-         * @param   string      $value      Current escaped field value.
-         * @param   int         $object_id  Project ID.
-         * @param   string      $objectType Current object type.
-         * @param   \CMB2_Types $fieldType  Current field type object.
          */
         public static function renderSelect2Field($field, $value, $object_id, $objectType, $fieldType)
         {
@@ -2023,14 +2025,15 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
         /**
          * Sanitizes select2 fields before they're saved.
          *
+         * @param mixed          $overrideValue Sanitization override value to return.
+         * @param mixed          $value         Actual field value.
+         * @param int            $object_id     Project ID.
+         * @param string         $object_type   Current object type.
+         * @param \CMB2_Sanitize $sanitizer     Current sanitization object.
+         *
          * @since   1.16.0
          * @static
          *
-         * @param   mixed          $overrideValue Sanitization override value to return.
-         * @param   mixed          $value         Actual field value.
-         * @param   int            $object_id     Project ID.
-         * @param   string         $object_type   Current object type.
-         * @param   \CMB2_Sanitize $sanitizer     Current sanitization object.
          */
         public static function sanitizeSelect2Field($overrideValue, $value, $object_id, $object_type, $sanitizer)
         {

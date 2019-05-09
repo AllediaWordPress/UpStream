@@ -21,18 +21,33 @@ function upstream_load_admin_scripts($hook)
         $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
     }
 
-    $assetsDir = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $assetsDir        = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
+    $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
 
-    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker', 'up-select2'];
+    $admin_deps = ['jquery', 'cmb2-scripts', 'allex', 'jquery-ui-datepicker'];
 
     global $pagenow;
 
     wp_enqueue_style('wp-color-picker');
 
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui-datepicker', $assetsDir . '/css/jquery.ui.datepicker.css',
+        ['wp-jquery-ui-dialog'], UPSTREAM_VERSION, 'screen');
+    wp_enqueue_style('jquery-ui-theme', $assetsDir . '/css/jquery.ui.theme.css', false,
+        UPSTREAM_VERSION, 'screen');
+
+    wp_enqueue_script(
+        'terminal',
+        $assetsDir . 'js/jquery.terminal.min.js',
+        ['jquery'],
+        UPSTREAM_VERSION,
+        false
+    );
+
     wp_enqueue_script(
         'upstream-admin',
         $assetsDir . 'js/admin.js',
-        ['jquery', 'wp-color-picker', 'allex', 'up-select2'],
+        ['jquery', 'wp-color-picker', 'allex', 'terminal'],
         UPSTREAM_VERSION,
         false
     );
@@ -58,12 +73,11 @@ function upstream_load_admin_scripts($hook)
         $milestoneInstance = \UpStream\Milestones::getInstance();
         $milestonePostType = $milestoneInstance->getPostType();
 
-        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'milestone']);
+        $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'upst_milestone']);
 
         if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
 
-            $globalAssetsPath = UPSTREAM_PLUGIN_URL . 'templates/assets/';
             wp_enqueue_style(
                 'up-select2',
                 $globalAssetsPath . 'css/vendor/select2.min.css',
@@ -83,10 +97,11 @@ function upstream_load_admin_scripts($hook)
             wp_register_script(
                 'upstream-project',
                 $assetsDir . 'js/edit-project.js',
-                $admin_deps,
+                array_merge($admin_deps, ['up-select2']),
                 UPSTREAM_VERSION,
                 false
             );
+
             wp_enqueue_script('upstream-project');
             wp_localize_script('upstream-project', 'upstream_project', apply_filters('upstream_project_script_vars', [
                 'version' => UPSTREAM_VERSION,
@@ -118,6 +133,17 @@ function upstream_load_admin_scripts($hook)
                     'MSG_NO_RESULTS'                    => __('No results', 'upstream'),
                 ],
             ]));
+
+            if ($postType === 'upst_milestone') {
+                wp_enqueue_script(
+                    'upstream-milestone',
+                    $assetsDir . 'js/edit-milestone.js',
+                    ['jquery', 'up-select2'],
+                    UPSTREAM_VERSION,
+                    false
+                );
+            }
+
         } elseif ($postType === 'client') {
             wp_enqueue_script(
                 'up-metabox-client',
@@ -172,6 +198,7 @@ function upstream_load_admin_scripts($hook)
         wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
     }
 
+    wp_enqueue_style('terminal', $assetsDir . 'css/jquery.terminal.min.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-icon', $assetsDir . 'css/admin-upstream-icon.css', [], UPSTREAM_VERSION);
     wp_enqueue_style('upstream-admin-style', $assetsDir . 'css/admin.css', ['allex'], UPSTREAM_VERSION);
     wp_enqueue_style('up-fontawesome', UPSTREAM_PLUGIN_URL . 'templates/assets/css/fontawesome.min.css', [],

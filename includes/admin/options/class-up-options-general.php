@@ -65,6 +65,10 @@ if ( ! class_exists('UpStream_Options_General')) :
             add_action('wp_ajax_upstream_admin_reset_capabilities', [$this, 'reset_capabilities']);
             add_action('wp_ajax_upstream_admin_refresh_projects_meta', [$this, 'refresh_projects_meta']);
             add_action('wp_ajax_upstream_admin_cleanup_update_cache', [$this, 'cleanup_update_cache']);
+            add_action('wp_ajax_upstream_admin_migrate_milestones_get_projects',
+                [$this, 'migrate_milestones_get_projects']);
+            add_action('wp_ajax_upstream_admin_migrate_milestones_for_project',
+                [$this, 'migrate_milestones_for_project']);
         }
 
         /**
@@ -707,6 +711,18 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'nonce'   => wp_create_nonce('upstream_refresh_projects_meta'),
                         ],
                         [
+                            'name'    => __('Migrate Legacy Milestones', 'upstream'),
+                            'id'      => 'migrate_milestones',
+                            'type'    => 'button',
+                            'label'   => __('Start migration', 'upstream'),
+                            'desc'    => __(
+                                'Clicking this button will force to migrate again all the legacy milestones (project meta data) to the new post type. Only do this if you had any issue with the migrated data after updating to the version 1.24.0. This can\'t be undone and can take some time if you have many projects.',
+                                'upstream'
+                            ),
+                            'onclick' => 'upstream_migrate_milestones(event);',
+                            'nonce'   => wp_create_nonce('upstream_migrate_milestones'),
+                        ],
+                        [
                             'name'    => __('Cleanup Plugin\'s Update Cache', 'upstream'),
                             'id'      => 'cleanup_update_cache',
                             'type'    => 'button',
@@ -790,7 +806,7 @@ if ( ! class_exists('UpStream_Options_General')) :
             }
 
             echo wp_json_encode($return);
-            wp_die();
+            exit();
         }
 
         public function refresh_projects_meta()
@@ -827,7 +843,7 @@ if ( ! class_exists('UpStream_Options_General')) :
             }
 
             echo wp_json_encode($return);
-            wp_die();
+            exit();
         }
 
         public function cleanup_update_cache()
@@ -858,9 +874,69 @@ if ( ! class_exists('UpStream_Options_General')) :
             }
 
             echo wp_json_encode($return);
-            wp_die();
+            exit();
+        }
+
+        /**
+         * Migrate the project milestones
+         */
+        public function migrate_milestones_get_projects()
+        {
+            if ( ! isset($_GET['nonce'])) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            if ( ! wp_verify_nonce($_GET['nonce'], 'upstream_migrate_milestones')) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            $return = [];
+
+            $projects = get_posts([
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'meta_key'       => '_upstream_project_milestones',
+                'posts_per_page' => -1,
+            ]);
+
+            if ( ! empty($projects)) {
+                foreach ($projects as $project) {
+                    $milestones = get_post_meta($project->ID, '_upstream_project_milestones', true);
+
+                    $return[] = [
+                        'id'    => $project->ID,
+                        'title' => $project->post_title,
+                        'count' => count($milestones),
+                    ];
+                }
+            }
+
+            echo wp_json_encode($return);
+            exit();
+        }
+
+        public function migrate_milestones_for_project()
+        {
+            if ( ! isset($_POST['nonce'])) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            if ( ! wp_verify_nonce($_POST['nonce'], 'upstream_migrate_milestones')) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            $return = [];
+
+            if ( ! isset($_POST['projectId']) || empty((int)($_POST['projectId']))) {
+                wp_die(__('Invalid project id'), 'Project not found', ['response' => 400]);
+            }
+
+            $projectId = (int)$_POST['projectId'];
+
+            $return['success'] = \UpStream\Milestones::migrateLegacyMilestonesForProject($projectId);
+
+            echo wp_json_encode($return);
+            exit();
         }
     }
-
-
 endif;

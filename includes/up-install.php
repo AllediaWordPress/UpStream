@@ -14,14 +14,14 @@ if ( ! defined('ABSPATH')) {
  * pages. After successful install, the user is redirected to the UpStream Welcome
  * screen.
  *
- * @since 1.0
- * @global      $wpdb
+ * @param bool  $network_side If the plugin is being network-activated
+ *
+ * @return void
  * @global      $upstream_options
  * @global      $wp_version
  *
- * @param  bool $network_side If the plugin is being network-activated
- *
- * @return void
+ * @since 1.0
+ * @global      $wpdb
  */
 
 /**
@@ -101,8 +101,8 @@ add_action('upstream_update_data', 'upstream_update_data', 10, 2);
 /**
  * Run the UpStream Install process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_install()
 {
@@ -150,8 +150,8 @@ function upstream_run_install()
 /**
  * Run the fresh UpStream Install process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_fresh_install()
 {
@@ -163,8 +163,8 @@ function upstream_run_fresh_install()
 /**
  * Run the UpStream Reinstall process
  *
- * @since  2.5
  * @return void
+ * @since  2.5
  */
 function upstream_run_reinstall()
 {
@@ -308,16 +308,16 @@ function upstream_add_default_options()
 /**
  * When a new Blog is created in multisite, see if UpStream is network activated, and run the installer
  *
- * @since  1.0.0
- *
- * @param  int    $blog_id The Blog ID created
- * @param  int    $user_id The User ID set as the admin
- * @param  string $domain  The URL
- * @param  string $path    Site Path
- * @param  int    $site_id The Site ID
- * @param  array  $meta    Blog Meta
+ * @param int    $blog_id The Blog ID created
+ * @param int    $user_id The User ID set as the admin
+ * @param string $domain  The URL
+ * @param string $path    Site Path
+ * @param int    $site_id The Site ID
+ * @param array  $meta    Blog Meta
  *
  * @return void
+ * @since  1.0.0
+ *
  */
 function upstream_new_blog_created($blog_id, $user_id, $domain, $path, $site_id, $meta)
 {
@@ -337,8 +337,8 @@ add_action('wpmu_new_blog', 'upstream_new_blog_created', 10, 6);
  * Runs just after plugin installation and exposes the
  * upstream_after_install hook.
  *
- * @since 1.0.0
  * @return void
+ * @since 1.0.0
  */
 function upstream_after_install()
 {
@@ -487,9 +487,10 @@ function upstream_update_data($old_version, $new_version)
         // If we have projects, create new milestones based on current ones.
         $projects = get_posts(
             [
-                'post_type'   => 'project',
-                'post_status' => 'publish',
-                'meta_query'  => [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+                'meta_query'     => [
                     'relation' => 'OR',
                     [
                         'key'     => '_upstream_milestones_migrated',
@@ -509,68 +510,71 @@ function upstream_update_data($old_version, $new_version)
             $defaultMilestones = get_option('upstream_milestones', []);
 
             if ( ! empty($defaultMilestones)) {
-                $defaultMilestones = $defaultMilestones['milestones'];
-                $legacyMilestones  = [];
-
-                // Organize the milestones by id
-                foreach ($defaultMilestones as $milestoneData) {
-                    $legacyMilestones[$milestoneData['id']] = $milestoneData;
-                }
-
-                global $wpdb;
-
                 foreach ($projects as $project) {
-                    // Get the project's milestones to convert them into the new post types.
-                    $projectMilestones = get_post_meta($project->ID, '_upstream_project_milestones', true);
-                    $projectTasks      = get_post_meta($project->ID, '_upstream_project_tasks', true);
-
-                    $wpdb->query('START TRANSACTION');
-
-                    if ( ! empty($projectMilestones)) {
-                        foreach ($projectMilestones as $projectMilestone) {
-
-                            $data         = $legacyMilestones[$projectMilestone['milestone']];
-                            $updatedTasks = false;
-
-                            $milestone = \UpStream\Factory::createMilestone($data['title'])
-                                                          ->setLegacyId($projectMilestone['id'])
-                                                          ->setLegacyMilestoneCode($projectMilestone['milestone'])
-                                                          ->setStartDate($projectMilestone['start_date'])
-                                                          ->setEndDate($projectMilestone['end_date'])
-                                                          ->setAssignedTo($projectMilestone['assigned_to'])
-                                                          ->setNotes($projectMilestone['notes'])
-                                                          ->setCreatedTimeInUtc((int)$projectMilestone['notes'] === 1)
-                                                          ->setProgress((float)$projectMilestone['progress'])
-                                                          ->setTaskCount((int)$projectMilestone['task_count'])
-                                                          ->setTaskOpen((int)$projectMilestone['task_open'])
-                                                          ->setColor($data['color'])
-                                                          ->setProjectId($project->ID);
-
-                            // Look for all the tasks to convert the milestone ID.
-                            foreach ($projectTasks as &$task) {
-                                if ($task['milestone'] === $milestone->getLegacyId()) {
-                                    $task['milestone'] = $milestone->getId();
-                                    // Keep the legacy reference for a while.
-                                    $task['milestone_legacy'] = $milestone->getLegacyId();
-
-                                    $updatedTasks = true;
-                                }
-                            }
-                        }
-                    }
-
-                    update_post_meta($project->ID, '_upstream_milestones_migrated', 1);
-
-                    // Update the tasks in the project
-                    if ($updatedTasks) {
-                        update_post_meta($project->ID, '_upstream_project_tasks', $projectTasks);
-                    }
-
-                    $wpdb->query('COMMIT');
+                    \UpStream\Milestones::migrateLegacyMilestonesForProject($project->ID);
                 }
             }
         }
 
         update_option('_upstream_migration_finished_1.24.0', true);
+    }
+
+    $hasFinishedMigration = get_option('_upstream_migration_finished_1.24.1', null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.1', '<')) {
+        // If we have unpublished projects, create new milestones based on current ones.
+        $projects = get_posts(
+            [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+                'meta_query'     => [
+                    'relation' => 'OR',
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'compare' => 'NOT EXISTS',
+                    ],
+                    [
+                        'key'     => '_upstream_milestones_migrated',
+                        'value'   => 1,
+                        'compare' => '!=',
+                    ],
+                ],
+            ]
+        );
+
+        if ( ! empty($projects)) {
+            // Migrate the milestones.
+            $defaultMilestones = get_option('upstream_milestones', []);
+
+            if ( ! empty($defaultMilestones)) {
+                foreach ($projects as $project) {
+                    \UpStream\Milestones::migrateLegacyMilestonesForProject($project->ID);
+                }
+            }
+        }
+
+        update_option('_upstream_migration_finished_1.24.1', true);
+    }
+
+    $version              = '1.24.2';
+    $migrationOption      = '_upstream_migration_finished_' . $version;
+    $hasFinishedMigration = get_option($migrationOption, null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, $version, '<')) {
+        // If we have unpublished projects, create new milestones based on current ones.
+        $projects = get_posts(
+            [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+            ]
+        );
+
+        if ( ! empty($projects)) {
+            foreach ($projects as $project) {
+                \UpStream\Milestones::fixMilestoneOrdersOnProject($project->ID);
+            }
+        }
+
+        update_option($migrationOption, true);
     }
 }

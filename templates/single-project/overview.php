@@ -8,6 +8,7 @@ $user_id          = (int)get_current_user_id();
 $project_id       = (int)upstream_post_id();
 $progressValue    = upstream_project_progress();
 $currentTimestamp = time();
+$counter          = \UpStream\Factory::getProjectCounter($project_id);
 
 $areMilestonesEnabled = ! upstream_are_milestones_disabled() && ! upstream_disable_milestones();
 if ($areMilestonesEnabled) {
@@ -19,24 +20,18 @@ if ($areMilestonesEnabled) {
         'total'    => 0,
     ];
 
-    $milestones = get_post_meta($project_id, '_upstream_project_milestones');
-    $milestones = ! empty($milestones) ? (array)$milestones[0] : [];
+    $all = $counter->getItemsOfType('milestones');
 
-    if (isset($milestones[0]) && ! isset($milestones[0]['id'])) {
-        $milestones = (array)$milestones[0];
-    }
+    $milestonesCounts['total'] = count($all);
 
-    $milestonesCounts['total'] = count($milestones);
     if ($milestonesCounts['total'] > 0) {
-        foreach ($milestones as $milestone) {
-            if (isset($milestone['assigned_to']) && (int)$milestone['assigned_to'] === $user_id) {
-                $milestonesCounts['mine']++;
-            }
+        $milestonesCounts['mine'] = $counter->getTotalAssignedToCurrentUserOfType('milestones');
+        $milestonesCounts['open'] = $counter->getTotalOpenItemsOfType('milestones');
 
+        foreach ($all as $milestone) {
             $progress = isset($milestone['progress']) ? (float)$milestone['progress'] : 0;
-            if ($progress < 100) {
-                $milestonesCounts['open']++;
 
+            if ($progress < 100) {
                 if (isset($milestone['end_date'])
                     && (int)$milestone['end_date'] > 0
                     && (int)$milestone['end_date'] < $currentTimestamp
@@ -77,8 +72,15 @@ if ($areTasksEnabled) {
     $tasksCounts['total'] = count($tasks);
     if ($tasksCounts['total'] > 0) {
         foreach ($tasks as $task) {
-            if (isset($task['assigned_to']) && (int)$task['assigned_to'] === $user_id) {
-                $tasksCounts['mine']++;
+            if (isset($task['assigned_to'])) {
+                $assignedTo = $task['assigned_to'];
+
+                if (
+                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                    && ((int)$task['assigned_to'] === $user_id)
+                ) {
+                    $tasksCounts['mine']++;
+                }
             }
 
             $progress = isset($task['progress']) ? (float)$task['progress'] : 0;
@@ -132,8 +134,15 @@ if ($areBugsEnabled) {
     $bugsCounts['total'] = count($bugs);
     if ($bugsCounts['total'] > 0) {
         foreach ($bugs as $bug) {
-            if (isset($bug['assigned_to']) && (int)$bug['assigned_to'] === $user_id) {
-                $bugsCounts['mine']++;
+            if (isset($bug['assigned_to'])) {
+                $assignedTo = $bug['assigned_to'];
+
+                if (
+                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                    && ((int)$bug['assigned_to'] === $user_id)
+                ) {
+                    $bugsCounts['mine']++;
+                }
             }
 
             if (isset($bug['status'])

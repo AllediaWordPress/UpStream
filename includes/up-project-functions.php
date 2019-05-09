@@ -380,11 +380,11 @@ function upstream_count_assigned_to_open($type, $id = 0)
 /**
  * Retrieve details from a given project.
  *
- * @since   1.12.0
- *
- * @param   int $project_id The project ID.
+ * @param int $project_id The project ID.
  *
  * @return  object
+ * @since   1.12.0
+ *
  */
 function getUpStreamProjectDetailsById($project_id)
 {
@@ -507,8 +507,15 @@ function countItemsForUserOnProject($itemType, $user_id, $project_id)
 
     if (is_array($metas) && count($metas) > 0) {
         foreach ($metas as $meta) {
-            if (isset($meta['assigned_to']) && (int)$meta['assigned_to'] === $user_id) {
-                $count++;
+            if (isset($meta['assigned_to'])) {
+                $assignedTo = $meta['assigned_to'];
+
+                if (
+                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
+                    && ((int)$meta['assigned_to'] === $user_id)
+                ) {
+                    $count++;
+                }
             }
         }
     }
@@ -519,11 +526,11 @@ function countItemsForUserOnProject($itemType, $user_id, $project_id)
 /**
  * Retrieve the number of approved comments within a given project.
  *
- * @since   1.13.0
- *
- * @param   int $project_id The project ID.
+ * @param int $project_id The project ID.
  *
  * @return  int
+ * @since   1.13.0
+ *
  */
 function getProjectCommentsCount($project_id)
 {
