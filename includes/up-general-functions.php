@@ -968,9 +968,9 @@ function upstream_disable_milestone_categories()
 {
     $options = get_option('upstream_general');
 
-    $disable = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : ['no'];
+    $checked = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : 0;
 
-    return $disable[0] === 'yes';
+    return $checked[0] == 1;
 }
 
 function upstream_disable_files()
@@ -1022,10 +1022,10 @@ function applyOEmbedFiltersToWysiwygEditorContent($content, $field_args, $field)
  *
  * @param int $post_id The project ID to be checked
  *
+ * @param int $post_id The project ID to be checked
+ *
  * @return  bool
  * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
  *
  */
 function upstream_are_comments_disabled($post_id = 0)

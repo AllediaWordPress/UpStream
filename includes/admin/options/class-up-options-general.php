@@ -565,16 +565,17 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
-                            'name'    => __('Disable Milestone Categories', 'upstream'),
-                            'id'      => 'disable_milestone_categories',
-                            'type'    => 'multicheck',
-                            'desc'    => __(
+                            'name'              => __('Disable Milestone Categories', 'upstream'),
+                            'id'                => 'disable_milestone_categories',
+                            'type'              => 'radio_inline',
+                            'desc'              => __(
                                 'Ticking this box will disable the Milestone Categories section on both the frontend and the admin area.',
                                 'upstream'
                             ),
-                            'default' => 'yes',
-                            'options' => [
-                                'yes' => __('Disable the Milestone Categories?', 'upstream'),
+                            'default'           => '1',
+                            'options'           => [
+                                0 => __('No', 'upstream'),
+                                1 => __('Yes', 'upstream'),
                             ],
                             'select_all_button' => false,
                         ],
