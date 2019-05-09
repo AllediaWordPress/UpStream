@@ -9,15 +9,15 @@ if ( ! defined('ABSPATH')) {
 /**
  * Get Default Labels
  *
- * @since 1.0.0
  * @return array $defaults Default labels
+ * @since 1.0.0
  */
 function upstream_get_default_labels()
 {
     $option = get_option('upstream_general');
 
     $defaults = [
-        'projects'   => [
+        'projects'             => [
             'singular' => isset($option['project']['single']) ? $option['project']['single'] : __(
                 'Project',
                 'upstream'
@@ -27,7 +27,7 @@ function upstream_get_default_labels()
                 'upstream'
             ),
         ],
-        'clients'    => [
+        'clients'              => [
             'singular' => isset($option['client']['single']) ? $option['client']['single'] : __(
                 'Client',
                 'upstream'
@@ -37,7 +37,7 @@ function upstream_get_default_labels()
                 'upstream'
             ),
         ],
-        'milestones' => [
+        'milestones'           => [
             'singular' => isset($option['milestone']['single']) ? $option['milestone']['single'] : __(
                 'Milestone',
                 'upstream'
@@ -57,19 +57,19 @@ function upstream_get_default_labels()
                 'upstream'
             ),
         ],
-        'tasks'      => [
+        'tasks'                => [
             'singular' => isset($option['task']['single']) ? $option['task']['single'] : __('Task', 'upstream'),
             'plural'   => isset($option['task']['plural']) ? $option['task']['plural'] : __('Tasks', 'upstream'),
         ],
-        'bugs'       => [
+        'bugs'                 => [
             'singular' => isset($option['bug']['single']) ? $option['bug']['single'] : __('Bug', 'upstream'),
             'plural'   => isset($option['bug']['plural']) ? $option['bug']['plural'] : __('Bugs', 'upstream'),
         ],
-        'files'      => [
+        'files'                => [
             'singular' => isset($option['file']['single']) ? $option['file']['single'] : __('File', 'upstream'),
             'plural'   => isset($option['file']['plural']) ? $option['file']['plural'] : __('Files', 'upstream'),
         ],
-        'discussion' => [
+        'discussion'           => [
             'singular' => isset($option['discussion']['single']) ? $option['discussion']['single'] : __('Discussion',
                 'upstream'),
             'plural'   => isset($option['discussion']['plural']) ? $option['discussion']['plural'] : __('Discussions',
@@ -83,11 +83,11 @@ function upstream_get_default_labels()
 /**
  * Get Project Labels
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_project_label($lowercase = false)
 {
@@ -110,11 +110,11 @@ function upstream_project_label_plural($lowercase = false)
 /**
  * Get Client Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_client_label($lowercase = false)
 {
@@ -137,11 +137,11 @@ function upstream_client_label_plural($lowercase = false)
 /**
  * Get Milestone Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_milestone_label($lowercase = false)
 {
@@ -164,11 +164,11 @@ function upstream_milestone_label_plural($lowercase = false)
 /**
  * Get Milestone Category Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_milestone_category_label($lowercase = false)
 {
@@ -191,11 +191,11 @@ function upstream_milestone_category_label_plural($lowercase = false)
 /**
  * Get Task Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_task_label($lowercase = false)
 {
@@ -218,11 +218,11 @@ function upstream_task_label_plural($lowercase = false)
 /**
  * Get Bug Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_bug_label($lowercase = false)
 {
@@ -245,11 +245,11 @@ function upstream_bug_label_plural($lowercase = false)
 /**
  * Get file Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_file_label($lowercase = false)
 {
@@ -272,11 +272,11 @@ function upstream_file_label_plural($lowercase = false)
 /**
  * Get discussion Label
  *
- * @since 1.0.0
- *
  * @param bool $lowercase
  *
  * @return string $defaults['singular'] Singular label
+ * @since 1.0.0
+ *
  */
 function upstream_discussion_label($lowercase = false)
 {
@@ -299,11 +299,11 @@ function upstream_discussion_label_plural($lowercase = false)
 /**
  * Change default "Enter title here" input
  *
- * @since 1.0.0
- *
  * @param string $title Default title placeholder text
  *
  * @return string $title New placeholder text
+ * @since 1.0.0
+ *
  */
 function upstream_change_default_title($title)
 {
@@ -329,11 +329,11 @@ add_filter('enter_title_here', 'upstream_change_default_title');
 /**
  * Get the singular and plural labels for a project taxonomy
  *
- * @since  1.0.0
- *
- * @param  string $taxonomy The Taxonomy to get labels for
+ * @param string $taxonomy The Taxonomy to get labels for
  *
  * @return array            Associative array of labels (name = plural)
+ * @since  1.0.0
+ *
  */
 function upstream_get_taxonomy_labels($taxonomy = 'project_category')
 {
@@ -365,11 +365,11 @@ function upstream_get_taxonomy_labels($taxonomy = 'project_category')
  *
  * Returns an array of with all updated messages.
  *
- * @since   1.0.0
- *
- * @param   array $messages Post updated message
+ * @param array $messages Post updated message
  *
  * @return  array $messages New post updated messages
+ * @since   1.0.0
+ *
  */
 function upstream_updated_messages($messages)
 {
@@ -431,12 +431,12 @@ add_filter('post_updated_messages', 'upstream_updated_messages');
 /**
  * Updated bulk messages
  *
- * @since 2.3
- *
- * @param   array $bulk_messages Post updated messages
- * @param   array $bulk_counts   Post counts
+ * @param array $bulk_messages Post updated messages
+ * @param array $bulk_counts   Post counts
  *
  * @return  array $bulk_messages New post updated messages
+ * @since 2.3
+ *
  */
 function upstream_bulk_updated_messages($bulk_messages, $bulk_counts)
 {
