@@ -183,7 +183,7 @@ function upstream_setup_taxonomies()
         'menu_name'                  => __('Tags', 'upstream'),
     ];
 
-    $tagsArgs = [
+    $args = [
         'hierarchical'      => false,
         'labels'            => apply_filters('_upstream_project_tags_labels', $tagsLabels),
         'show_ui'           => true,
@@ -202,36 +202,36 @@ function upstream_setup_taxonomies()
         ],
     ];
 
-    register_taxonomy('upstream_tag', ['project'], $tagsArgs);
+    register_taxonomy('upstream_tag', ['project'], $args);
     register_taxonomy_for_object_type('upstream_tag', 'project');
 
-    /** Milestone Tags **/
+    /** Milestone Categories **/
     $tagsLabels = [
-        'name'                       => _x('Milestone Tags', 'taxonomy (tag) general name', 'upstream'),
-        'singular_name'              => _x('Milestone Tag', 'taxonomy (tag) singular name', 'upstream'),
-        'search_items'               => __('Search Milestone Tags', 'upstream'),
-        'popular_items'              => __('Popular Milestone Tags'),
-        'all_items'                  => __('All Milestone Tags', 'upstream'),
+        'name'                       => _x('Milestone Categories', 'taxonomy (tag) general name', 'upstream'),
+        'singular_name'              => _x('Milestone Category', 'taxonomy (tag) singular name', 'upstream'),
+        'search_items'               => __('Search Milestone Categories', 'upstream'),
+        'popular_items'              => __('Popular Milestone Categories'),
+        'all_items'                  => __('All Milestone Categories', 'upstream'),
         'parent_item'                => null,
         'parent_item_colon'          => null,
-        'edit_item'                  => __('Edit Milestone Tag', 'upstream'),
-        'update_item'                => __('Update Milestone Tag', 'upstream'),
-        'add_new_item'               => __('Add New Milestone Tag', 'upstream'),
-        'new_item_name'              => __('New Milestone Tag Name', 'upstream'),
-        'add_or_remove_items'        => __('Add or remove milestone tags'),
-        'separate_items_with_commas' => __('Separate milestone tags with commas'),
-        'choose_from_most_used'      => __('Choose from the most used milestone tags'),
-        'menu_name'                  => __('Milestone Tags', 'upstream'),
+        'edit_item'                  => __('Edit Milestone Category', 'upstream'),
+        'update_item'                => __('Update Milestone Category', 'upstream'),
+        'add_new_item'               => __('Add New Milestone Category', 'upstream'),
+        'new_item_name'              => __('New Milestone Category Name', 'upstream'),
+        'add_or_remove_items'        => __('Add or remove Milestone Categories'),
+        'separate_items_with_commas' => __('Separate Milestone Categories with commas'),
+        'choose_from_most_used'      => __('Choose from the most used Milestone Categories'),
+        'menu_name'                  => __('Milestone Categories', 'upstream'),
     ];
 
-    $tagsArgs = [
-        'hierarchical'      => false,
-        'labels'            => apply_filters('_upstream_milestone_tags_labels', $tagsLabels),
+    $args = [
+        'hierarchical'      => true,
+        'labels'            => apply_filters('_upstream_milestone_categories_labels', $tagsLabels),
         'show_ui'           => true,
         'show_admin_column' => true,
-        'query_var'         => 'upstream_milestone_tag',
+        'query_var'         => 'upstream_milestone_category',
         'rewrite'           => [
-            'slug'         => 'upstream/milestone_tag',
+            'slug'         => 'upstream/milestone_category',
             'with_front'   => false,
             'hierarchical' => false,
         ],
@@ -243,8 +243,8 @@ function upstream_setup_taxonomies()
         ],
     ];
 
-    register_taxonomy('upst_milestone_tag', ['upst_milestone'], $tagsArgs);
-    register_taxonomy_for_object_type('upst_milestone_tag', 'upst_milestone');
+    register_taxonomy('upst_milestone_category', ['upst_milestone'], $args);
+    register_taxonomy_for_object_type('upst_milestone_category', 'upst_milestone');
 }
 
 add_action('init', 'upstream_setup_taxonomies', 0);

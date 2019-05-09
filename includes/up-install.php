@@ -192,8 +192,8 @@ function upstream_add_default_options()
         $general['client']['plural']        = 'Clients';
         $general['milestone']['single']     = 'Milestone';
         $general['milestone']['plural']     = 'Milestones';
-        $general['milestone_tag']['single'] = 'Milestone Tag';
-        $general['milestone_tag']['plural'] = 'Milestone Tags';
+        $general['milestone_category']['single'] = 'Milestone Category';
+        $general['milestone_category']['plural'] = 'Milestone Categories';
         $general['task']['single']          = 'Task';
         $general['task']['plural']          = 'Tasks';
         $general['bug']['single']           = 'Bug';
@@ -435,11 +435,11 @@ function upstream_update_data($old_version, $new_version)
     if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.0', '<')) {
         $this->upstreamMilestoneTags();
 
-        // Default labels for Milestone Tags
+        // Default labels for Milestone Categories
         $general = get_option('upstream_general');
 
-        $general['milestone_tag']['single'] = 'Milestone Tag';
-        $general['milestone_tag']['plural'] = 'Milestone Tags';
+        $general['milestone_category']['single'] = 'Milestone Category';
+        $general['milestone_category']['plural'] = 'Milestone Categories';
 
         update_option('upstream_general', $general);
 

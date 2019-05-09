@@ -66,10 +66,10 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
 
             add_submenu_page(
                 'edit.php?post_type=project',
-                upstream_milestone_tag_label_plural(),
-                upstream_milestone_tag_label_plural(),
+                upstream_milestone_category_label_plural(),
+                upstream_milestone_category_label_plural(),
                 'edit_projects',
-                'edit-tags.php?taxonomy=upst_milestone_tag&post_type=upst_milestone'
+                'edit-tags.php?taxonomy=upst_milestone_category&post_type=upst_milestone'
             );
         }
 
@@ -121,7 +121,7 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
                     $areCategoriesEnabled = ! is_project_categorization_disabled();
                     $areClientsEnabled    = ! is_clients_disabled();
                     $milestonesEnabled    = ! upstream_disable_milestones();
-                    $milestoneTagsEnabled = ! upstream_disable_milestone_tags();
+                    $milestoneTagsEnabled = ! upstream_disable_milestone_categories();
 
                     if ($milestonesEnabled) {
                         $submenuMilestones = $searchSubmenuItem('^edit\.php\?post_type=upst_milestone');
@@ -132,7 +132,7 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
                     }
 
                     if ($milestoneTagsEnabled) {
-                        $submenuMilestoneTags = $searchSubmenuItem('^edit-tags\.php\?taxonomy=upst_milestone_tag&post_type=upst_milestone');
+                        $submenuMilestoneTags = $searchSubmenuItem('^edit-tags\.php\?taxonomy=upst_milestone_category&post_type=upst_milestone');
                         if ($submenuMilestoneTags !== null) {
                             $newUpStreamSubmenu[] = $submenuMilestoneTags;
                         }

@@ -964,11 +964,11 @@ function upstream_disable_milestones()
     return $areMilestonesDisabled;
 }
 
-function upstream_disable_milestone_tags()
+function upstream_disable_milestone_categories()
 {
     $options = get_option('upstream_general');
 
-    $disable = isset($options['disable_milestone_tags']) ? (array)$options['disable_milestone_tags'] : ['no'];
+    $disable = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : ['no'];
 
     return $disable[0] === 'yes';
 }

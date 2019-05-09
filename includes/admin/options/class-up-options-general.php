@@ -202,8 +202,8 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'type' => 'labels',
                         ],
                         [
-                            'name' => __('Milestone Tags Label', 'upstream'),
-                            'id'   => 'milestone_tags',
+                            'name' => __('Milestone Categories Label', 'upstream'),
+                            'id'   => 'milestone_categories',
                             'type' => 'labels',
                         ],
                         [
@@ -565,16 +565,16 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
-                            'name'    => __('Disable Milestone Tags', 'upstream'),
-                            'id'      => 'disable_milestone_tags',
+                            'name'    => __('Disable Milestone Categories', 'upstream'),
+                            'id'      => 'disable_milestone_categories',
                             'type'    => 'multicheck',
                             'desc'    => __(
-                                'Ticking this box will disable the Milestone Tags section on both the frontend and the admin area.',
+                                'Ticking this box will disable the Milestone Categories section on both the frontend and the admin area.',
                                 'upstream'
                             ),
                             'default' => 'yes',
                             'options' => [
-                                'yes' => __('Disable the Milestone Tags?', 'upstream'),
+                                'yes' => __('Disable the Milestone Categories?', 'upstream'),
                             ],
                             'select_all_button' => false,
                         ],

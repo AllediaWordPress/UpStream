@@ -100,8 +100,8 @@ if ( ! class_exists('UpStream_Options_Milestones')) :
                             'type' => 'title',
                         ],
                         [
-                            'name'        => 'Milestone Tags',
-                            'id'          => 'enable_milestone_tags',
+                            'name'        => 'Milestone Categories',
+                            'id'          => 'enable_milestone_categories',
                             'type'        => 'radio',
                             'description' => '',
                             'options'     => [
@@ -110,7 +110,6 @@ if ( ! class_exists('UpStream_Options_Milestones')) :
                             ],
                             'default'     => '0',
                         ],
-
                     ],
                 ]
             );

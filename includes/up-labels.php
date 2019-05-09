@@ -47,13 +47,13 @@ function upstream_get_default_labels()
                 'upstream'
             ),
         ],
-        'milestone_tags' => [
-            'singular' => isset($option['milestone_tag']['single']) ? $option['milestone_tag']['single'] : __(
-                'Milestone Tag',
+        'milestone_categories' => [
+            'singular' => isset($option['milestone_category']['single']) ? $option['milestone_category']['single'] : __(
+                'Milestone Category',
                 'upstream'
             ),
-            'plural'   => isset($option['milestone_tag']['plural']) ? $option['milestone_tag']['plural'] : __(
-                'Milestone Tags',
+            'plural'   => isset($option['milestone_category']['plural']) ? $option['milestone_category']['plural'] : __(
+                'Milestone Categories',
                 'upstream'
             ),
         ],
@@ -162,7 +162,7 @@ function upstream_milestone_label_plural($lowercase = false)
 }
 
 /**
- * Get Milestone Tag Label
+ * Get Milestone Category Label
  *
  * @since 1.0.0
  *
@@ -170,20 +170,20 @@ function upstream_milestone_label_plural($lowercase = false)
  *
  * @return string $defaults['singular'] Singular label
  */
-function upstream_milestone_tag_label($lowercase = false)
+function upstream_milestone_category_label($lowercase = false)
 {
     $defaults = upstream_get_default_labels();
 
-    $label = ($lowercase) ? strtolower($defaults['milestone_tag']['singular']) : $defaults['milestone_tag']['singular'];
+    $label = ($lowercase) ? strtolower($defaults['milestone_category']['singular']) : $defaults['milestone_category']['singular'];
 
     return __($label, 'upstream');
 }
 
-function upstream_milestone_tag_label_plural($lowercase = false)
+function upstream_milestone_category_label_plural($lowercase = false)
 {
     $defaults = upstream_get_default_labels();
 
-    $label = ($lowercase) ? strtolower($defaults['milestone_tags']['plural']) : $defaults['milestone_tags']['plural'];
+    $label = ($lowercase) ? strtolower($defaults['milestone_categories']['plural']) : $defaults['milestone_categories']['plural'];
 
     return __($label, 'upstream');
 }
