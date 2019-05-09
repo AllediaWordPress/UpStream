@@ -9,8 +9,8 @@ if ( ! defined('ABSPATH')) {
 /**
  * Registers and sets up the Downloads custom post type
  *
- * @since 1.0
  * @return void
+ * @since 1.0
  */
 function upstream_setup_post_types()
 {
@@ -118,8 +118,8 @@ add_action('init', 'upstream_setup_post_types', 1);
 /**
  * Registers the custom taxonomies for the projects custom post type
  *
- * @since 1.0
  * @return void
+ * @since 1.0
  */
 function upstream_setup_taxonomies()
 {
@@ -224,27 +224,29 @@ function upstream_setup_taxonomies()
         'menu_name'                  => __('Milestone Categories', 'upstream'),
     ];
 
-    $args = [
-        'hierarchical'      => true,
-        'labels'            => apply_filters('_upstream_milestone_categories_labels', $tagsLabels),
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => 'upstream_milestone_category',
-        'rewrite'           => [
-            'slug'         => 'upstream/milestone_category',
-            'with_front'   => false,
-            'hierarchical' => false,
-        ],
-        'capabilities'      => [
-            'manage_terms' => 'manage_project_terms',
-            'edit_terms'   => 'edit_project_terms',
-            'assign_terms' => 'assign_project_terms',
-            'delete_terms' => 'delete_project_terms',
-        ],
-    ];
+    if ( ! upstream_disable_milestone_categories()) {
+        $args = [
+            'hierarchical'      => true,
+            'labels'            => apply_filters('_upstream_milestone_categories_labels', $tagsLabels),
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => 'upstream_milestone_category',
+            'rewrite'           => [
+                'slug'         => 'upstream/milestone_category',
+                'with_front'   => false,
+                'hierarchical' => false,
+            ],
+            'capabilities'      => [
+                'manage_terms' => 'manage_project_terms',
+                'edit_terms'   => 'edit_project_terms',
+                'assign_terms' => 'assign_project_terms',
+                'delete_terms' => 'delete_project_terms',
+            ],
+        ];
 
-    register_taxonomy('upst_milestone_category', ['upst_milestone'], $args);
-    register_taxonomy_for_object_type('upst_milestone_category', 'upst_milestone');
+        register_taxonomy('upst_milestone_category', ['upst_milestone'], $args);
+        register_taxonomy_for_object_type('upst_milestone_category', 'upst_milestone');
+    }
 }
 
 add_action('init', 'upstream_setup_taxonomies', 0);
