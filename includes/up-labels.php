@@ -174,7 +174,7 @@ function upstream_milestone_category_label($lowercase = false)
 {
     $defaults = upstream_get_default_labels();
 
-    $label = ($lowercase) ? strtolower($defaults['milestone_category']['singular']) : $defaults['milestone_category']['singular'];
+    $label = ($lowercase) ? strtolower($defaults['milestone_categories']['singular']) : $defaults['milestone_categories']['singular'];
 
     return __($label, 'upstream');
 }
