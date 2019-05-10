@@ -207,21 +207,23 @@ function upstream_setup_taxonomies()
 
     /** Milestone Categories **/
     $tagsLabels = [
-        'name'                       => _x('Milestone Categories', 'taxonomy (tag) general name', 'upstream'),
-        'singular_name'              => _x('Milestone Category', 'taxonomy (tag) singular name', 'upstream'),
-        'search_items'               => __('Search Milestone Categories', 'upstream'),
-        'popular_items'              => __('Popular Milestone Categories'),
-        'all_items'                  => __('All Milestone Categories', 'upstream'),
+        'name'                       => upstream_milestone_category_label_plural(),
+        'singular_name'              => upstream_milestone_category_label(),
+        'search_items'               => sprintf(__('Search %s', 'upstream'),
+            upstream_milestone_category_label_plural()),
+        'popular_items'              => sprintf(__('Popular %s'), upstream_milestone_category_label_plural()),
+        'all_items'                  => sprintf(__('All %s', 'upstream'), upstream_milestone_category_label_plural()),
         'parent_item'                => null,
         'parent_item_colon'          => null,
-        'edit_item'                  => __('Edit Milestone Category', 'upstream'),
-        'update_item'                => __('Update Milestone Category', 'upstream'),
-        'add_new_item'               => __('Add New Milestone Category', 'upstream'),
-        'new_item_name'              => __('New Milestone Category Name', 'upstream'),
-        'add_or_remove_items'        => __('Add or remove Milestone Categories'),
-        'separate_items_with_commas' => __('Separate Milestone Categories with commas'),
-        'choose_from_most_used'      => __('Choose from the most used Milestone Categories'),
-        'menu_name'                  => __('Milestone Categories', 'upstream'),
+        'edit_item'                  => sprintf(__('Edit %s', 'upstream'), upstream_milestone_category_label()),
+        'update_item'                => sprintf(__('Update %s', 'upstream'), upstream_milestone_category_label()),
+        'add_new_item'               => sprintf(__('Add New %s', 'upstream'), upstream_milestone_category_label()),
+        'new_item_name'              => sprintf(__('New %s Name', 'upstream'), upstream_milestone_category_label()),
+        'add_or_remove_items'        => sprintf(__('Add or remove %s'), upstream_milestone_category_label_plural()),
+        'separate_items_with_commas' => sprintf(__('Separate %s with commas'), upstream_milestone_category_label()),
+        'choose_from_most_used'      => sprintf(__('Choose from the most used %s'),
+            upstream_milestone_category_label()),
+        'menu_name'                  => sprintf(__('%s', 'upstream'), upstream_milestone_category_label()),
     ];
 
     if ( ! upstream_disable_milestone_categories()) {

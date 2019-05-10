@@ -48,11 +48,11 @@ function upstream_get_default_labels()
             ),
         ],
         'milestone_categories' => [
-            'singular' => isset($option['milestone_category']['single']) ? $option['milestone_category']['single'] : __(
+            'singular' => isset($option['milestone_categories']['single']) ? $option['milestone_categories']['single'] : __(
                 'Milestone Category',
                 'upstream'
             ),
-            'plural'   => isset($option['milestone_category']['plural']) ? $option['milestone_category']['plural'] : __(
+            'plural'   => isset($option['milestone_categories']['plural']) ? $option['milestone_categories']['plural'] : __(
                 'Milestone Categories',
                 'upstream'
             ),
