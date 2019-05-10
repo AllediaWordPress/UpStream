@@ -528,7 +528,7 @@ class Milestone extends Struct
     public function getCategories($onlyKeys = false)
     {
         if ( ! isset($this->categories)) {
-            $this->categories = get_the_terms($this->postId, 'upst_milestone_category');
+            $this->categories = wp_get_object_terms($this->postId, 'upst_milestone_category');
         }
 
         if ( ! $onlyKeys) {
@@ -563,7 +563,7 @@ class Milestone extends Struct
 
         if ( ! empty($categories)) {
             foreach ($categories as $category) {
-                if (get_class($category) === 'WP_Term') {
+                if (is_object($category) && get_class($category) === 'WP_Term') {
                     $category = $category->term_id;
                 }
 

@@ -76,6 +76,35 @@ function getMilestonesFields($areCommentsEnabled = null)
         ],
     ];
 
+    if ( ! upstream_disable_milestone_categories()) {
+        $schema['categories'] = [
+            'type'           => 'taxonomies',
+            'isOrderable'    => true,
+            'label'          => upstream_milestone_category_label_plural(),
+            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
+                if (empty($columnValue)) {
+                    if ( ! is_array($columnValue)) {
+                        $columnValue = [$columnValue];
+                    }
+
+                    foreach ($columnValue as &$value) {
+                        $term = get_term((int)$value);
+
+                        if ( ! is_wp_error($term)) {
+                            $value = $term->name;
+                        }
+                    }
+
+                    $columnValue = implode(',', $columnValue);
+                } else {
+                    $columnValue = sprintf('<i class="s-text-color-gray">%s</i>', __('none', 'upstream'));
+                }
+
+                return $columnValue;
+            },
+        ];
+    }
+
     if ($areCommentsEnabled === null) {
         $areCommentsEnabled = upstreamAreCommentsEnabledOnMilestones();
     }
@@ -567,6 +596,24 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         }
 
         $html = upstream_get_users_display_name($columnValue);
+    } elseif ($columnType === 'taxonomies') {
+        if ( ! is_array($columnValue)) {
+            $columnValue = (array)$columnValue;
+        }
+
+        $html = '';
+
+        if ( ! empty($columnValue)) {
+            $names = [];
+
+            foreach ($columnValue as $value) {
+                $term = get_term((int)$value);
+
+                $names[] = $term->name;
+            }
+
+            $html = implode(', ', $names);
+        }
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {
@@ -614,7 +661,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         } elseif ($isHidden) {
             $html = '<br>' . $html;
         }
-    } elseif ($columnType === 'array') {
+    } elseif ($columnType === 'array' || $columnType === 'taxonomies') {
         $columnValue = array_filter((array)$columnValue);
 
         if (isset($column['options'])) {
@@ -727,7 +774,7 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
             <?php foreach ($visibleColumnsSchema as $columnName => $column):
                 $columnValue = isset($row[$columnName]) ? $row[$columnName] : null;
 
-                if ($column['type'] === 'user') {
+                if (in_array($column['type'], ['user', 'array', 'taxonomies'])) {
                     if ( ! is_array($columnValue)) {
                         $columnValue = [(int)$columnValue];
                     }
