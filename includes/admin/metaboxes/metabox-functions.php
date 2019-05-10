@@ -1168,3 +1168,31 @@ function upstream_wp_get_clients()
 
     return $data;
 }
+
+/**
+ * @return array
+ * @throws \UpStream\Exception
+ */
+function upstream_admin_get_milestone_categories()
+{
+    $categories = [];
+    $terms      = get_terms(
+        [
+            'taxonomy'   => 'upst_milestone_category',
+            'fields'     => 'all',
+            'hide_empty' => false,
+        ]
+    );
+
+    if ( ! empty($terms)) {
+        if ( ! empty($terms->errors)) {
+            throw new \UpStream\Exception($terms->get_error_message());
+        }
+
+        foreach ($terms as $term) {
+            $categories[$term->term_id] = $term->name;
+        }
+    }
+
+    return $categories;
+}

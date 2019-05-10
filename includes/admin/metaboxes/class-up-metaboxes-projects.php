@@ -311,7 +311,23 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     ],
                 ];
 
-                $fields[11] = [
+                $indexAssignedTo = 11;
+                if ( ! upstream_disable_milestone_categories()) {
+                    // Start row.
+                    $fields[11] = [
+                        'name'             => upstream_milestone_category_label(),
+                        'id'               => 'categories',
+                        'type'             => 'select2',
+                        'permissions'      => 'milestone_milestone_field',
+                        'before'           => 'upstream_add_field_attributes',
+                        'show_option_none' => true,
+                        'options_cb'       => 'upstream_admin_get_milestone_categories',
+                    ];
+                    // Move the Assigned To field to a next line.
+                    $indexAssignedTo = 20;
+                }
+
+                $fields[$indexAssignedTo] = [
                     'name'             => __('Assigned To', 'upstream'),
                     'id'               => 'assigned_to',
                     'type'             => 'select2',
@@ -323,7 +339,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
 
                 // start row
-                $fields[20] = [
+                $fields[30] = [
                     'name'        => __("Start Date", 'upstream'),
                     'id'          => 'start_date',
                     'type'        => 'up_timestamp',
@@ -335,7 +351,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         //'data-validation'     => 'required',
                     ],
                 ];
-                $fields[21] = [
+                $fields[31] = [
                     'name'        => __("End Date", 'upstream'),
                     'id'          => 'end_date',
                     'type'        => 'up_timestamp',
@@ -349,7 +365,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 ];
 
                 // start row
-                $fields[30] = [
+                $fields[40] = [
                     'name'        => __("Notes", 'upstream'),
                     'id'          => 'notes',
                     'type'        => 'wysiwyg',
@@ -363,7 +379,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 ];
 
                 if ($allowComments) {
-                    $fields[40] = [
+                    $fields[50] = [
                         'name'      => '&nbsp;',
                         'id'        => 'comments',
                         'type'      => 'comments',
