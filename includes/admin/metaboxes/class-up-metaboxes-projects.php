@@ -430,6 +430,11 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                             $array[] = $fields[$i * 10 + 3];
                         }
 
+                        // Ignore empty rows
+                        if (empty($array)) {
+                            continue;
+                        }
+
                         // add the fields as columns
                         // probably don't need this to be filterable but will leave it for now
                         $row[$i]->addColumns(
