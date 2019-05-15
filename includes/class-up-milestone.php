@@ -457,24 +457,27 @@ class Milestone extends Struct
         $categories = $this->getCategories();
 
         if ( ! empty($categories)) {
-            $categories = array_map([$this, 'convertCategoryToLegacyRowset'], $categories);
+            $categoriesIds = array_map([$this, 'convertCategoryToLegacyRowset'], $categories);
+        } else {
+            $categoriesIds = [];
         }
 
         $row = [
-            'id'              => $this->getId(),
-            'milestone'       => $this->getName(),
-            'milestone_order' => $this->getOrder(),
-            'created_by'      => $this->getCreatedBy(),
-            'created_time'    => $this->getCreatedOn('unix'),
-            'assigned_to'     => $assignees,
-            'progress'        => $this->getProgress(),
-            'notes'           => $this->getNotes(),
-            'start_date'      => $this->getStartDate('unix'),
-            'end_date'        => $this->getEndDate('unix'),
-            'task_count'      => $this->getTaskCount(),
-            'task_open'       => $this->getTaskOpen(),
-            'color'           => $this->getColor(),
-            'categories'      => $categories,
+            'id'               => $this->getId(),
+            'milestone'        => $this->getName(),
+            'milestone_order'  => $this->getOrder(),
+            'created_by'       => $this->getCreatedBy(),
+            'created_time'     => $this->getCreatedOn('unix'),
+            'assigned_to'      => $assignees,
+            'progress'         => $this->getProgress(),
+            'notes'            => $this->getNotes(),
+            'start_date'       => $this->getStartDate('unix'),
+            'end_date'         => $this->getEndDate('unix'),
+            'task_count'       => $this->getTaskCount(),
+            'task_open'        => $this->getTaskOpen(),
+            'color'            => $this->getColor(),
+            'categories'       => $categoriesIds,
+            'categories_order' => $this->getMilestonesInstance()->getCategoriesNames($categories),
         ];
 
         if ( ! empty($assignees)) {
@@ -527,6 +530,10 @@ class Milestone extends Struct
      */
     public function getCategories($onlyKeys = false)
     {
+        if (upstream_disable_milestone_categories()) {
+            return [];
+        }
+
         if ( ! isset($this->categories)) {
             $this->categories = wp_get_object_terms($this->postId, 'upst_milestone_category');
         }
@@ -541,7 +548,7 @@ class Milestone extends Struct
             }
         }
 
-        return $categories;
+        return (array)$categories;
     }
 
     /**

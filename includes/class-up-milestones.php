@@ -557,4 +557,28 @@ class Milestones
 
         return $milestones;
     }
+
+    /**
+     * @param $categories
+     *
+     * @return string
+     */
+    public function getCategoriesNames($categories)
+    {
+        $names = [];
+
+        if (is_array($categories) && ! empty($categories)) {
+            foreach ($categories as $category) {
+                if (is_numeric($category)) {
+                    $category = get_term($category);
+                }
+
+                if (is_object($category)) {
+                    $names[] = $category->name;
+                }
+            }
+        }
+
+        return implode(', ', $names);
+    }
 }

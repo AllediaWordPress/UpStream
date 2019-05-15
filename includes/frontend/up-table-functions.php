@@ -4,6 +4,7 @@ namespace UpStream\Frontend;
 
 use UpStream\Exception;
 use UpStream\Factory;
+use UpStream\Milestones;
 
 function arrayToAttrs($data)
 {
@@ -607,9 +608,13 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $names = [];
 
             foreach ($columnValue as $value) {
-                $term = get_term((int)$value);
+                if (is_numeric($value)) {
+                    $term = get_term((int)$value);
 
-                $names[] = $term->name;
+                    $names[] = $term->name;
+                } else {
+                    $names[] = $value;
+                }
             }
 
             $html = implode(', ', $names);
@@ -661,7 +666,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         } elseif ($isHidden) {
             $html = '<br>' . $html;
         }
-    } elseif ($columnType === 'array' || $columnType === 'taxonomies') {
+    } elseif ($columnType === 'array') {
         $columnValue = array_filter((array)$columnValue);
 
         if (isset($column['options'])) {
@@ -774,21 +779,25 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
             <?php foreach ($visibleColumnsSchema as $columnName => $column):
                 $columnValue = isset($row[$columnName]) ? $row[$columnName] : null;
 
-                if (in_array($column['type'], ['user', 'array', 'taxonomies'])) {
+                if (in_array($column['type'], ['user', 'array'])) {
                     if ( ! is_array($columnValue)) {
                         $columnValue = [(int)$columnValue];
                     }
                 }
 
+                if ($column['type'] === 'taxonomies' && is_array($columnValue)) {
+                    $columnValue = Milestones::getInstance()->getCategoriesNames($columnValue);
+                }
+
                 $columnAttrs = [
                     'data-column' => $columnName,
-                    'data-value'  => $column['type'] === 'user' ? implode(',', $columnValue) : $columnValue,
+                    'data-value'  => is_array($columnValue) ? implode(', ', $columnValue) : $columnValue,
                     'data-type'   => $column['type'],
                 ];
 
                 // Check if we have an specific value in the column, for ordering.
                 $columnAttrs['data-order'] = $columnAttrs['data-value'];
-                if (isset($row[$columnName . '_order'])) {
+                if (isset($row[$columnName . '_order']) && '' !== $row[$columnName . '_order']) {
                     $columnAttrs['data-order'] = $row[$columnName . '_order'];
                 }
 
