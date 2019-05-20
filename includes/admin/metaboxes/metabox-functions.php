@@ -404,7 +404,9 @@ function upstream_admin_get_bug_statuses()
     $array    = [];
     if ($statuses) {
         foreach ($statuses as $status) {
-            $array[$status['id']] = $status['name'];
+            if (isset($status['name'])) {
+                $array[$status['id']] = $status['name'];
+            }
         }
     }
 
@@ -424,7 +426,9 @@ function upstream_admin_get_bug_severities()
     $array      = [];
     if ($severities) {
         foreach ($severities as $severity) {
-            $array[$severity['id']] = $severity['name'];
+            if (isset($severity['name'])) {
+                $array[$severity['id']] = $severity['name'];
+            }
         }
     }
 
