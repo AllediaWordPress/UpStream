@@ -63,6 +63,10 @@ function getMilestonesFields($areCommentsEnabled = null)
             'isOrderable' => true,
             'label'       => __('End Date', 'upstream'),
         ],
+        'color' => [
+            'type'  => 'colorpicker',
+            'label' => __('Color', 'upstream'),
+        ],
         'notes'       => [
             'type'     => 'wysiwyg',
             'label'    => __('Notes', 'upstream'),

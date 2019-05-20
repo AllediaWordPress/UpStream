@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.24.1
+ * Version: 1.24.2-beta.6
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -354,6 +354,7 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/class-up-container.php';
+            include_once __DIR__ . '/includes/up-install.php';
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';
             include_once __DIR__ . '/includes/class-up-counts.php';
