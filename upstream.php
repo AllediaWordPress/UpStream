@@ -354,6 +354,7 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/abs-class-up-struct.php';
             include_once __DIR__ . '/includes/class-up-debug.php';
             include_once __DIR__ . '/includes/class-up-container.php';
+            include_once __DIR__ . '/includes/up-install.php';
             include_once __DIR__ . '/includes/class-up-autoloader.php';
             include_once __DIR__ . '/includes/class-up-roles.php';
             include_once __DIR__ . '/includes/class-up-counts.php';
