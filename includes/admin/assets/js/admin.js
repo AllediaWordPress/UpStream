@@ -155,6 +155,22 @@ jQuery(function ($) {
         });
     };
 
+    $("#_upstream_milestone_start_date").datepicker({
+        numberOfMonths: 2,
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selected) {
+          $("#_upstream_milestone_end_date").datepicker("option","minDate", selected)
+        }
+    });
+    $("#_upstream_milestone_end_date").datepicker({
+        numberOfMonths: 2,
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selected) {
+           $("#_upstream_milestone_start_date").datepicker("option","maxDate", selected)
+        }
+    }); 
+
+
     $('.o-datepicker').datepicker({
         todayBtn: 'linked',
         clearBtn: true,
