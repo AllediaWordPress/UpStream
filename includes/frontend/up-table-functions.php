@@ -745,7 +745,7 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
 
                 // Check if we have an specific value in the column, for ordering.
                 $columnAttrs['data-order'] = $columnAttrs['data-value'];
-                if (isset($row[$columnName . '_order'])) {
+                if (!is_string($columnAttrs['data-order']) && isset($row[$columnName . '_order'])) {
                     $columnAttrs['data-order'] = $row[$columnName . '_order'];
                 }
 
