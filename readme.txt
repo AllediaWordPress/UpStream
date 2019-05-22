@@ -142,6 +142,12 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.24.2] - 2018-05-22 =
+
+* Added column for Milestone Color;
+* Added 2 new filters to control weather to display the overview and detail sections: upstream_display_overview_section, upstream_display_details_section;
+* Fix the sortable behavior for milestones in the frontend;
+
 = [1.24.1] - 2018-05-06 =
 
 * Fixed the migration of existent legacy milestones making sure all projects are migrated;
