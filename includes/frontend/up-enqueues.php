@@ -51,30 +51,32 @@ function upstream_enqueue_styles_scripts()
     $maintheme  = trailingslashit(get_template_directory()) . $dir . 'assets/css/';
     $childtheme = trailingslashit(get_stylesheet_directory()) . $dir . 'assets/css/';
 
-    wp_enqueue_style('up-bootstrap', $up_url . $css_dir . 'bootstrap.min.css', [], $up_ver, 'all');
-    wp_enqueue_style('up-tableexport', $up_url . $css_dir . 'vendor/tableexport.min.css', [], $up_ver, 'all');
-    wp_enqueue_style('up-select2', $up_url . $css_dir . 'vendor/select2.min.css', [], $up_ver, 'all');
-    wp_enqueue_style('up-chosen', $up_url . $lib_dir . 'chosen/chosen.min.css', [], $up_ver, 'all');
-    wp_enqueue_style('up-fontawesome', $up_url . $css_dir . 'fontawesome.min.css', [], $up_ver, 'all');
-    wp_enqueue_style('framework', $up_url . $css_dir . 'framework.css', [], $up_ver, 'all');
+    if (!is_admin()) {
+        wp_enqueue_style('up-bootstrap', $up_url . $css_dir . 'bootstrap.min.css', [], $up_ver, 'all');
+        wp_enqueue_style('up-tableexport', $up_url . $css_dir . 'vendor/tableexport.min.css', [], $up_ver, 'all');
+        wp_enqueue_style('up-select2', $up_url . $css_dir . 'vendor/select2.min.css', [], $up_ver, 'all');
+        wp_enqueue_style('up-chosen', $up_url . $lib_dir . 'chosen/chosen.min.css', [], $up_ver, 'all');
+        wp_enqueue_style('up-fontawesome', $up_url . $css_dir . 'fontawesome.min.css', [], $up_ver, 'all');
+        wp_enqueue_style('framework', $up_url . $css_dir . 'framework.css', [], $up_ver, 'all');
+    }
     wp_enqueue_style(
-        'upstream-datepicker',
-        $up_url . $js_dir . 'vendor/bootstrap-datepicker-1.8.0/css/bootstrap-datepicker3.css',
-        [],
-        $up_ver,
-        'all'
-    );
+            'upstream-datepicker',
+            $up_url . $js_dir . 'vendor/bootstrap-datepicker-1.8.0/css/bootstrap-datepicker3.css',
+            [],
+            $up_ver,
+            'all'
+        );
     wp_enqueue_style('upstream', $up_url . $css_dir . 'upstream.css', ['admin-bar'], $up_ver, 'all');
 
     if (isset($GLOBALS['login_template'])) {
         wp_enqueue_style('up-login', $up_url . $css_dir . 'login.css', [], $up_ver, 'all');
     }
 
-    if (file_exists($childtheme)) {
+    if (file_exists($childtheme) && !is_admin()) {
         $custom = trailingslashit(get_stylesheet_directory_uri()) . $dir . 'assets/css/upstream-custom.css';
         wp_enqueue_style('child-custom', $custom, [], $up_ver, 'all');
     }
-    if (file_exists($maintheme)) {
+    if (file_exists($maintheme) && !is_admin()) {
         $custom = trailingslashit(get_template_directory_uri()) . $dir . 'assets/css/upstream-custom.css';
         wp_enqueue_style('theme-custom', $custom, [], $up_ver, 'all');
     }
