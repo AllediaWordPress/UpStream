@@ -1177,16 +1177,18 @@ function upstream_wp_get_clients()
  * @return array
  * @throws \UpStream\Exception
  */
-function upstream_admin_get_milestone_categories()
+function upstream_admin_get_milestone_categories($args = [])
 {
+    $default = [
+        'taxonomy'   => 'upst_milestone_category',
+        'fields'     => 'all',
+        'hide_empty' => false,
+    ];
+
+    $args = wp_parse_args($args, $default);
+
     $categories = [];
-    $terms      = get_terms(
-        [
-            'taxonomy'   => 'upst_milestone_category',
-            'fields'     => 'all',
-            'hide_empty' => false,
-        ]
-    );
+    $terms      = get_terms($args);
 
     if ( ! empty($terms)) {
         if ( ! empty($terms->errors)) {
