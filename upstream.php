@@ -114,7 +114,7 @@ if ( ! class_exists('UpStream')) :
          */
         private function init_hooks()
         {
-            add_action('init', [$this, 'init'], 0);
+            add_action('init', [$this, 'init']);
             add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
             add_filter('plugin_action_links_upstream/upstream.php', [$this, 'handleActionLinks']);
             add_filter('http_request_host_is_external', ['UpStream', 'allowExternalUpdateHost'], 10, 3);
