@@ -251,4 +251,4 @@ function upstream_setup_taxonomies()
     }
 }
 
-add_action('init', 'upstream_setup_taxonomies', 0);
+add_action('init', 'upstream_setup_taxonomies', 1);
