@@ -147,6 +147,11 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Added column for Milestone Color;
 * Added 2 new filters to control weather to display the overview and detail sections: upstream_display_overview_section, upstream_display_details_section;
 * Fix the sortable behavior for milestones in the frontend;
+* Fixed datepicker icons;
+* Fixed datepicker fields to avoid invalid dates in milestones;
+* Fixed the JS and CSS assets being loaded in too many admin pages;
+* Fixed PHP errors;
+* Fixed Milestone ordering;
 
 = [1.24.1] - 2018-05-06 =
 
