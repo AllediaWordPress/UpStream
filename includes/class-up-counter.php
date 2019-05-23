@@ -86,7 +86,7 @@ class Upstream_Counter
                     $dataSet = get_post_meta($project->ID, '_upstream_project_' . $itemType, true);
                 }
 
-                $items = array_merge($items, $dataSet);
+                $items = array_merge((array)$items, (array)$dataSet);
             }
 
             $this->items[$itemType] = $items;

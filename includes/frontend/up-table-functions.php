@@ -67,6 +67,7 @@ function getMilestonesFields($areCommentsEnabled = null)
         'color' => [
             'type'  => 'colorpicker',
             'label' => __('Color', 'upstream'),
+            'isHidden' => true,
         ],
         'notes'       => [
             'type'     => 'wysiwyg',
