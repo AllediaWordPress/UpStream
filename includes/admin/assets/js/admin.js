@@ -329,3 +329,8 @@ jQuery(function ($) {
         });
     };
 });
+
+// Sortable
+jQuery(document).ready(function($) {
+    $("#_upstream_project_milestones_repeat").sortable();
+});
