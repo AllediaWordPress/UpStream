@@ -68,6 +68,7 @@ class Milestones
     /**
      * @param int $projectId
      *
+     * @return bool
      * @throws \Exception
      */
     public static function migrateLegacyMilestonesForProject($projectId)
@@ -134,6 +135,7 @@ class Milestones
                                             ->setTaskCount((int)$projectMilestone['task_count'])
                                             ->setTaskOpen((int)$projectMilestone['task_open'])
                                             ->setColor($data['color'])
+                                            ->setOrder($data['title'])
                                             ->setProjectId($projectId);
 
                         // Look for all the tasks to convert the milestone ID.
@@ -169,6 +171,39 @@ class Milestones
 
                 throw new Exception('Error found while migrating a milestone. ' . $e->getMessage());
             }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public static function fixMilestoneOrdersOnProject($projectId)
+    {
+        try {
+            $projectMilestones = self::getInstance()->getMilestonesFromProject($projectId);
+
+            if ( ! empty($projectMilestones)) {
+                global $wpdb;
+
+                $wpdb->query('START TRANSACTION');
+
+                foreach ($projectMilestones as $projectMilestone) {
+                    $milestone = Factory::getMilestone($projectMilestone);
+
+                    $milestone->setOrder($milestone->getName());
+                }
+
+                $wpdb->query('COMMIT');
+            }
+        } catch (\Exception $e) {
+            $wpdb->query('ROLLBACK');
+
+            throw new Exception('Error found while fixing the order on a milestone. ' . $e->getMessage());
         }
 
         return true;
@@ -492,6 +527,7 @@ class Milestones
      * @param bool $returnAsLegacyDataset
      *
      * @return array
+     * @throws Exception
      */
     public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
     {

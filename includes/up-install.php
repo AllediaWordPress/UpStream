@@ -542,4 +542,26 @@ function upstream_update_data($old_version, $new_version)
 
         update_option('_upstream_migration_finished_1.24.1', true);
     }
+
+    $version              = '1.24.2';
+    $migrationOption      = '_upstream_migration_finished_' . $version;
+    $hasFinishedMigration = get_option($migrationOption, null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, $version, '<')) {
+        // If we have unpublished projects, create new milestones based on current ones.
+        $projects = get_posts(
+            [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+            ]
+        );
+
+        if ( ! empty($projects)) {
+            foreach ($projects as $project) {
+                \UpStream\Milestones::fixMilestoneOrdersOnProject($project->ID);
+            }
+        }
+
+        update_option($migrationOption, true);
+    }
 }

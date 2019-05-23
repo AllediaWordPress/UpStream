@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 1.24.1
+Stable tag: 1.24.2
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,17 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.24.2] - 2018-05-22 =
+
+* Added column for Milestone Color;
+* Added 2 new filters to control weather to display the overview and detail sections: upstream_display_overview_section, upstream_display_details_section;
+* Fix the sortable behavior for milestones in the frontend;
+* Fixed datepicker icons;
+* Fixed datepicker fields to avoid invalid dates in milestones;
+* Fixed the JS and CSS assets being loaded in too many admin pages;
+* Fixed PHP errors;
+* Fixed Milestone ordering;
 
 = [1.24.1] - 2018-05-06 =
 

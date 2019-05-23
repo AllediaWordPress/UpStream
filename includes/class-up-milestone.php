@@ -530,17 +530,20 @@ class Milestone extends Struct
 
         $this->order = $this->getMetadata(self::META_ORDER, true);
 
-        return (int)$this->order;
+        return $this->order;
     }
 
     /**
-     * @param int|string $order
+     * @param string $order
      *
      * @return Milestone
+     * @throws Exception
      */
     public function setOrder($order)
     {
-        $order = (int)$order;
+        if (empty($order)) {
+            $order = $this->getName();
+        }
 
         $this->order = $order;
 
