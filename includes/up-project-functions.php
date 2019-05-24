@@ -543,3 +543,85 @@ function getProjectCommentsCount($project_id)
 
     return (int)$commentsCount;
 }
+
+/**
+ * @return array
+ */
+function upstream_user_projects()
+{
+    $projectsList = [];
+
+    $currentUser = (object)upstream_user_data(@$_SESSION['upstream']['user_id']);
+
+    if (isset($currentUser->projects)) {
+        if (is_array($currentUser->projects) && count($currentUser->projects) > 0) {
+            $archiveClosedItems = upstream_archive_closed_items();
+            $areClientsEnabled  = ! is_clients_disabled();
+
+            foreach ($currentUser->projects as $project_id => $project) {
+                $data = (object)[
+                    'id'                 => $project_id,
+                    'title'              => $project->post_title,
+                    'slug'               => $project->post_name,
+                    'status'             => $project->post_status,
+                    'permalink'          => get_permalink($project_id),
+                    'startDateTimestamp' => (int)upstream_project_start_date($project_id),
+                    'endDateTimestamp'   => (int)upstream_project_end_date($project_id),
+                    'progress'           => (float)upstream_project_progress($project_id),
+                    'status'             => (string)upstream_project_status($project_id),
+                    'clientName'         => null,
+                    'categories'         => [],
+                    'features'           => [
+                        '',
+                    ],
+                ];
+
+                // If should archive closed items, we filter the rowset.
+                if ($archiveClosedItems) {
+                    if ( ! empty($data->status) && ! in_array($data->status, $openStatuses)) {
+                        continue;
+                    }
+                }
+
+                $data->startDate = (string)upstream_format_date($data->startDateTimestamp);
+                $data->endDate   = (string)upstream_format_date($data->endDateTimestamp);
+
+                if ($areClientsEnabled) {
+                    $data->clientName = trim((string)upstream_project_client_name($project_id));
+                }
+
+                if (isset($statuses[$data->status])) {
+                    $data->status = $statuses[$data->status];
+                }
+
+                $data->timeframe = $data->startDate;
+                if ( ! empty($data->endDate)) {
+                    if ( ! empty($data->timeframe)) {
+                        $data->timeframe .= ' - ';
+                    } else {
+                        $data->timeframe = '<i>' . $i18n['LB_ENDS_AT'] . '</i>';
+                    }
+
+                    $data->timeframe .= $data->endDate;
+                }
+
+                $categories = (array)wp_get_object_terms($data->id, 'project_category');
+                if (count($categories) > 0) {
+                    foreach ($categories as $category) {
+                        $data->categories[$category->term_id] = $category->name;
+                    }
+                }
+
+                $projectsList[$project_id] = $data;
+            }
+
+            unset($project, $project_id);
+        }
+
+        unset($currentUser->projects);
+    }
+
+    unset($currentUser);
+
+    return $projectsList;
+}
