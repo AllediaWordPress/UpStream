@@ -663,6 +663,18 @@ if ( ! class_exists('UpStream_Options_General')) :
                                 '0' => __('Disable section', 'upstream'),
                             ],
                         ],
+                        [
+                            'name'    => __('Show all projects in the frontend sidebar', 'upstream'),
+                            'id'      => 'show_all_projects_sidebar',
+                            'type'    => 'radio_inline',
+                            'desc'    => __('If enabled, all projects will be displayed in the sidebar on frontend.',
+                                'upstream'),
+                            'default' => '0',
+                            'options' => [
+                                '1' => __('Show all projects', 'upstream'),
+                                '0' => __('Show only the current project', 'upstream'),
+                            ],
+                        ],
 
                         /**
                          * Maintenance

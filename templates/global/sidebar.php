@@ -47,6 +47,8 @@ if ($isSingle) {
     $areFilesDisabledForThisProject      = upstream_are_files_disabled();
     $areCommentsDisabled                 = upstream_are_comments_disabled();
 }
+
+$projects = upstream_user_projects();
 ?>
 
 <?php do_action('upstream_before_sidebar'); ?>
@@ -206,6 +208,23 @@ if ($isSingle) {
                         </li>
 
                         <?php do_action('upstream_sidebar_menu'); ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if (count($projects) > 1 && upstreamShowAllProjectsInSidebar()) : ?>
+                <div class="menu_section">
+                    <ul class="nav side-menu">
+                        <?php foreach ($projects as $project) : ?>
+                            <?php if ($project_id != $project->id) : ?>
+                                <li class="current-page active">
+                                    <a href="<?php echo $project->permalink; ?>">
+                                        <i class="fa fa-folder"></i>
+                                        <?php echo $project->title ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             <?php endif; ?>

@@ -1344,6 +1344,24 @@ function upstreamAreCommentsEnabledOnFiles()
 }
 
 /**
+ * Check if should show all the projects in the sidebar.
+ *
+ * @return  bool
+ * @since   1.13.0
+ *
+ */
+function upstreamShowAllProjectsInSidebar()
+{
+    $options = get_option('upstream_general');
+
+    $optionName = 'show_all_projects_sidebar';
+
+    $allow = isset($options[$optionName]) ? (bool)$options[$optionName] : false;
+
+    return $allow;
+}
+
+/**
  * Slighted modification of PHP's native nl2br function.
  *
  * @param string $subject String to be processed.

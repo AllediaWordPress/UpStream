@@ -45,7 +45,7 @@ body, .left_col, .nav_title, .sidebar-footer a:hover {
 }
 
 .sidebar-footer {
-    background: none;
+    background: #d3d0d6;
 }
 
 td span.btn.btn-xs {
@@ -446,7 +446,7 @@ td .btn {
 }
 
 #project-dashboard.sortable .ui-sortable-helper * {
-    background: rgba(255,255,255,0.5) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
 }
 
 .x_title h2 .sortable_handler {
@@ -456,10 +456,10 @@ td .btn {
     font-size: 14px;
 }
 
-.nav.child_menu>li {
+.nav.child_menu > li {
     padding-left: 30px;
 }
 
-.nav.child_menu>li>a {
+.nav.child_menu > li > a {
     padding: 9px 0;
 }
