@@ -333,4 +333,7 @@ jQuery(function ($) {
 // Sortable
 jQuery(document).ready(function($) {
     $("#_upstream_project_milestones_repeat").sortable();
+    if( $("#post_type").val() == 'upst_milestone' ) {
+        $("#post_type").parent().find("#normal-sortables").css("display", "none");
+    }
 });
