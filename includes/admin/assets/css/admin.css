@@ -43,3 +43,7 @@ a#upstream-upgrade-link,
     margin-top: 10px;
     border: 1px solid #bfbebe;
 }
+
+#poststuff #cmb2-metabox-_upstream_project_milestones #_upstream_project_milestones_repeat .cmb-remove-field-row {
+    display: none;
+}

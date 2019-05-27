@@ -135,7 +135,7 @@ class Milestones
                                             ->setTaskCount((int)$projectMilestone['task_count'])
                                             ->setTaskOpen((int)$projectMilestone['task_open'])
                                             ->setColor($data['color'])
-                                            ->setOrder($data['title'])
+                                            //->setOrder($data['title'])
                                             ->setProjectId($projectId);
 
                         // Look for all the tasks to convert the milestone ID.
@@ -195,7 +195,7 @@ class Milestones
                 foreach ($projectMilestones as $projectMilestone) {
                     $milestone = Factory::getMilestone($projectMilestone);
 
-                    $milestone->setOrder($milestone->getName());
+                    //$milestone->setOrder($milestone->getName());
                 }
 
                 $wpdb->query('COMMIT');
@@ -538,6 +538,8 @@ class Milestones
                 'posts_per_page' => -1,
                 'meta_key'       => Milestone::META_PROJECT_ID,
                 'meta_value'     => $projectId,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
             ]
         );
 
