@@ -135,7 +135,7 @@ class Milestones
                                             ->setTaskCount((int)$projectMilestone['task_count'])
                                             ->setTaskOpen((int)$projectMilestone['task_open'])
                                             ->setColor($data['color'])
-                                            ->setOrder($data['title'])
+                                            //->setOrder($data['title'])
                                             ->setProjectId($projectId);
 
                         // Look for all the tasks to convert the milestone ID.
@@ -195,7 +195,7 @@ class Milestones
                 foreach ($projectMilestones as $projectMilestone) {
                     $milestone = Factory::getMilestone($projectMilestone);
 
-                    $milestone->setOrder($milestone->getName());
+                    //$milestone->setOrder($milestone->getName());
                 }
 
                 $wpdb->query('COMMIT');
@@ -263,6 +263,7 @@ class Milestones
             'has_archive'        => true,
             'hierarchical'       => false,
             'supports'           => ['title', 'comments'],
+            'map_meta_cap'       => true,
         ];
 
         register_post_type($this->getPostType(), $args);
@@ -373,6 +374,7 @@ class Milestones
     /**
      * @param int $postId
      *
+     * @throws \Exception
      * @since 1.24.0
      */
     public function savePost($postId)
@@ -386,9 +388,6 @@ class Milestones
         // Project
         $projectIdFieldName = 'project_id';
         $projectId          = (int)$data[$projectIdFieldName];
-
-        // Assigned to
-        $assignedTo = array_map('intval', (array)$data['assigned_to']);
 
         // Start date
         $startDateFieldName = 'start_date';
@@ -404,13 +403,19 @@ class Milestones
         $color = sanitize_text_field($data['color']);
 
         // Store the values
-        Factory::getMilestone($postId)
-               ->setProjectId($projectId)
-               ->setAssignedTo($assignedTo)
-               ->setStartDate($startDate)
-               ->setEndDate($endDate)
-               ->setNotes($notes)
-               ->setColor($color);
+        $milestone = Factory::getMilestone($postId);
+        $milestone->setProjectId($projectId)
+                  ->setStartDate($startDate)
+                  ->setEndDate($endDate)
+                  ->setNotes($notes)
+                  ->setColor($color);
+
+        // If there is no assigned user, there won't be any key assigned_to in the $data array.
+        if (isset($data['assigned_to'])) {
+            $assignedTo = array_map('intval', (array)$data['assigned_to']);
+
+            $milestone->setAssignedTo($assignedTo);
+        }
 
         /**
          * @param int   $projectId
@@ -538,6 +543,8 @@ class Milestones
                 'posts_per_page' => -1,
                 'meta_key'       => Milestone::META_PROJECT_ID,
                 'meta_value'     => $projectId,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
             ]
         );
 

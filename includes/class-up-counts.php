@@ -199,7 +199,7 @@ class Upstream_Counts
             }
 
             if ( ! is_array($item['assigned_to'])) {
-                $item['assigned_to'] = [$item['assigned_to']];
+                $item['assigned_to'] = [(int)$item['assigned_to']];
             }
 
             if ( ! in_array($this->user['id'], $item['assigned_to'])) {

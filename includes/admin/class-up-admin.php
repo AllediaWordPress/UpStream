@@ -59,6 +59,21 @@ class UpStream_Admin
             10, 3);
 
         $this->framework = UpStream::instance()->get_container()['framework'];
+
+        add_action('wp_ajax_upstream.milestone-edit.editmenuorder', [$this, 'editMenuOrder']);
+    }
+
+    /**
+     * @since   1.14.1
+     * @static
+     */
+    public function editMenuOrder()
+    {
+        //update_metadata('post', $_REQUEST['post_id'], 'upst_order', $_REQUEST['item_val']);
+        $cur_post = array('ID'=>$_REQUEST['post_id'], 'menu_order'=>$_REQUEST['item_val']);
+        wp_update_post( $cur_post );
+
+        return 'success';
     }
 
     /**

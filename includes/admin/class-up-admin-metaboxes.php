@@ -101,7 +101,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                             continue;
                         }
 
-                        $milestone->setOrder($milestone->getName());
+                        //$milestone->setOrder($milestone->getName());
 
                         if ( ! upstream_disable_milestone_categories()) {
                             if (isset($milestoneData['categories'])) {

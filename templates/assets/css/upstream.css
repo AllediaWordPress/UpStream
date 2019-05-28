@@ -368,6 +368,13 @@ td .btn {
     justify-content: space-between;
 }
 
+.post-type-archive-project .list-inline>li {
+    line-height: 2em;
+}
+.post-type-archive-project img.avatar {
+    float: none;
+}
+
 @media screen and (max-width: 767px) {
     .c-data-table {
         border: 0;
