@@ -142,6 +142,11 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.24.3] - UNRELEASED =
+
+* Fixed PHP warning: array_merge(): Argument #2 is not an array;
+* Fixed the discussion metabox being displayed by default in the admin;
+
 = [1.24.2] - 2018-05-22 =
 
 * Added column for Milestone Color;
