@@ -145,7 +145,12 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 = [1.24.3] - UNRELEASED =
 
 * Fixed PHP warning: array_merge(): Argument #2 is not an array;
-* Fixed the discussion metabox being displayed by default in the admin;
+* Fixed the discussion metabox being displayed by default in the Milestone screen;
+* Changed the way to reorder Milestones in the admin, removing the buttons and adding a drag-and-drop behavior;
+* Fixed support for multisites;
+* Fixed missed users when exporting projects;
+* Fixed PHP warning regarding undefined stdClass::$delete_posts in the Milestones screen;
+* Fixed PHP warning when a milestone is created without any assigned user;
 
 = [1.24.2] - 2018-05-22 =
 
