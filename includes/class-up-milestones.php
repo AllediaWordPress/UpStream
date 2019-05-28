@@ -263,6 +263,7 @@ class Milestones
             'has_archive'        => true,
             'hierarchical'       => false,
             'supports'           => ['title', 'comments'],
+            'map_meta_cap'       => true,
         ];
 
         register_post_type($this->getPostType(), $args);
