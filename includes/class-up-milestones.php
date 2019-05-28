@@ -374,6 +374,7 @@ class Milestones
     /**
      * @param int $postId
      *
+     * @throws \Exception
      * @since 1.24.0
      */
     public function savePost($postId)
@@ -387,9 +388,6 @@ class Milestones
         // Project
         $projectIdFieldName = 'project_id';
         $projectId          = (int)$data[$projectIdFieldName];
-
-        // Assigned to
-        $assignedTo = array_map('intval', (array)$data['assigned_to']);
 
         // Start date
         $startDateFieldName = 'start_date';
@@ -405,13 +403,19 @@ class Milestones
         $color = sanitize_text_field($data['color']);
 
         // Store the values
-        Factory::getMilestone($postId)
-               ->setProjectId($projectId)
-               ->setAssignedTo($assignedTo)
-               ->setStartDate($startDate)
-               ->setEndDate($endDate)
-               ->setNotes($notes)
-               ->setColor($color);
+        $milestone = Factory::getMilestone($postId);
+        $milestone->setProjectId($projectId)
+                  ->setStartDate($startDate)
+                  ->setEndDate($endDate)
+                  ->setNotes($notes)
+                  ->setColor($color);
+
+        // If there is no assigned user, there won't be any key assigned_to in the $data array.
+        if (isset($data['assigned_to'])) {
+            $assignedTo = array_map('intval', (array)$data['assigned_to']);
+
+            $milestone->setAssignedTo($assignedTo);
+        }
 
         /**
          * @param int   $projectId
