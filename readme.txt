@@ -151,6 +151,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed missed users when exporting projects;
 * Fixed PHP warning regarding undefined stdClass::$delete_posts in the Milestones screen;
 * Fixed PHP warning when a milestone is created without any assigned user;
+* Replaced "Tick" with "Check" on some strings;
 
 = [1.24.2] - 2018-05-22 =
 
