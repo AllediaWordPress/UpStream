@@ -212,7 +212,13 @@ $projects = upstream_user_projects();
                 </div>
             <?php endif; ?>
 
-            <?php if (count($projects) > 1 && upstreamShowAllProjectsInSidebar()) : ?>
+            <?php
+            $minProjectsCount = $isSingle ? 1 : 0;
+            if ( ! $isSingle) {
+                $project_id = 0;
+            }
+            ?>
+            <?php if (count($projects) > $minProjectsCount && upstreamShowAllProjectsInSidebar()) : ?>
                 <div class="menu_section">
                     <ul class="nav side-menu">
                         <?php foreach ($projects as $project) : ?>
