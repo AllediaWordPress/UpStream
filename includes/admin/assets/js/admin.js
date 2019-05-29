@@ -329,3 +329,33 @@ jQuery(function ($) {
         });
     };
 });
+
+// Sortable
+jQuery(document).ready(function($) {
+    if( $("#_upstream_project_milestones_repeat").length ) {
+        $("#_upstream_project_milestones_repeat").sortable({
+            stop: function( event, ui ) {
+                var idx = 1;
+                $("#_upstream_project_milestones_repeat > .cmb-repeatable-grouping").each(function() {
+                    $(this).attr("idx", idx);
+                    $.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                            action: 'upstream.milestone-edit.editmenuorder',
+                            post_id: $("#_upstream_project_milestones_" + $(this).attr("data-iterator") + "_id").val(),
+                            item_val: idx
+                        },
+                        success: function (response) {
+                            console.log(response);
+                        }
+                    });
+                    idx++;
+                });
+            }
+        });
+    }
+    if( $("#post_type").val() == 'upst_milestone' ) {
+        $("#post_type").parent().find("#normal-sortables").css("display", "none");
+    }
+});

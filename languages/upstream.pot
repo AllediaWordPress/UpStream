@@ -281,7 +281,7 @@ msgstr ""
 
 #: includes/admin/class-up-admin-pointers.php:185
 #, php-format
-msgid "Tick the %s Users who will have access to this %s."
+msgid "Check the %s Users who will have access to this %s."
 msgstr ""
 
 #: includes/admin/class-up-admin-pointers.php:189
@@ -1325,7 +1325,7 @@ msgid "Disable Bugs"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:511
-msgid "Ticking this box will disable the Bugs section on both the frontend and the admin area."
+msgid "Checking this box will disable the Bugs section on both the frontend and the admin area."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:516
@@ -1337,7 +1337,7 @@ msgid "Disable Tasks"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:525
-msgid "Ticking this box will disable the Tasks section on both the frontend and the admin area."
+msgid "Checking this box will disable the Tasks section on both the frontend and the admin area."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:530
@@ -1349,7 +1349,7 @@ msgid "Disable Milestones"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:539
-msgid "Ticking this box will disable the Milestones section on both the frontend and the admin area."
+msgid "Checking this box will disable the Milestones section on both the frontend and the admin area."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:544
@@ -1361,7 +1361,7 @@ msgid "Disable Files"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:553
-msgid "Ticking this box will disable the Files section on both the frontend and the admin area."
+msgid "Checking this box will disable the Files section on both the frontend and the admin area."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:558
@@ -1507,7 +1507,7 @@ msgid "Debug"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:697
-msgid "Ticking this box will enable special debug code and a new menu to inspect the debug information."
+msgid "Checking this box will enable special debug code and a new menu to inspect the debug information."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:702
@@ -1519,7 +1519,7 @@ msgid "Remove Data"
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:711
-msgid "Ticking this box will delete all UpStream data when plugin is uninstalled."
+msgid "Checking this box will delete all UpStream data when plugin is uninstalled."
 msgstr ""
 
 #: includes/admin/options/class-up-options-general.php:716
