@@ -671,8 +671,8 @@ if ( ! class_exists('UpStream_Options_General')) :
                                 'upstream'),
                             'default' => '0',
                             'options' => [
-                                '1' => __('Show all projects', 'upstream'),
                                 '0' => __('Show only the current project', 'upstream'),
+                                '1' => __('Show all projects', 'upstream'),
                             ],
                         ],
 
