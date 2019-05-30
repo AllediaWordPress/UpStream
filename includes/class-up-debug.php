@@ -84,7 +84,7 @@ class UpStream_Debug
      */
     public static function is_enabled()
     {
-        $option = get_option('upstream_general');
+        $option = get_option('upstream_general', []);
 
         return array_key_exists('debug', $option)
                && ! empty($option['debug'])
