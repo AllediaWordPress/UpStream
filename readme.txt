@@ -142,7 +142,7 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-= [1.24.3] - UNRELEASED =
+= [1.24.3] - 2019-05-30 =
 
 * Fixed PHP warning: array_merge(): Argument #2 is not an array;
 * Fixed the discussion metabox being displayed by default in the Milestone screen;
@@ -152,8 +152,9 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed PHP warning regarding undefined stdClass::$delete_posts in the Milestones screen;
 * Fixed PHP warning when a milestone is created without any assigned user;
 * Replaced "Tick" with "Check" on some strings;
+* Fixed image in the special discount box;
 
-= [1.24.2] - 2018-05-22 =
+= [1.24.2] - 2019-05-22 =
 
 * Added column for Milestone Color;
 * Added 2 new filters to control weather to display the overview and detail sections: upstream_display_overview_section, upstream_display_details_section;
@@ -164,7 +165,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed PHP errors;
 * Fixed Milestone ordering;
 
-= [1.24.1] - 2018-05-06 =
+= [1.24.1] - 2019-05-06 =
 
 * Fixed the migration of existent legacy milestones making sure all projects are migrated;
 * Fixed the state of the Start Migration button in the settings page during a migration;
@@ -173,7 +174,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed the total numbers in the project's summary;
 * Lock Twig version on 1.38.4;
 
-= [1.24.0] - 2018-04-29 =
+= [1.24.0] - 2019-04-29 =
 
 * Added option field to select the user roles that can be active inside projects. Those users can be assigned Milestones, Tasks and Bugs and own projects;
 * Added hooks allowing to customize the editor buttons;
