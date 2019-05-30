@@ -33,7 +33,7 @@
     "php": ">= 5.6",
     "twig/twig": "1.38.4",
     "pimple/pimple": "^3.2",
-    "alledia/wordpress-plugin-framework": "~0.6",
+    "alledia/wordpress-plugin-framework": "0.6.4",
     "alledia/wordpress-plugin-builder": "dev-development"
   },
   "require-dev": {
