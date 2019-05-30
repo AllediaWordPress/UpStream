@@ -101,7 +101,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                             continue;
                         }
 
-                        $milestone->setOrder($milestone->getName());
+                        //$milestone->setOrder($milestone->getName());
 
                         if (isset($milestoneData['assigned_to'])) {
                             $milestone->setAssignedTo($milestoneData['assigned_to']);

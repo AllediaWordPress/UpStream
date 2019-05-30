@@ -46,11 +46,11 @@ function upstream_output_client_users($id = null)
 
     if (count($users) > 0): ?>
         <ul class="list-inline">
+            <li>
             <?php foreach ($users as $user_id): ?>
-                <li>
-                    <?php echo upstream_user_avatar($user_id); ?>
-                </li>
+                <?php echo upstream_user_avatar($user_id); ?>
             <?php endforeach; ?>
+            </li>
         </ul>
     <?php else: ?>
         <span class="text-muted"><i><?php echo '(' . __('none', 'upstream') . ')'; ?></i></span>
