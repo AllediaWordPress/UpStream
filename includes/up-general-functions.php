@@ -195,7 +195,7 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
 
     $return = sprintf(
         '
-        <img class="avatar" src="%s" %s />' . '<span style="' . $output . '">' . $userDisplayName . '&nbsp;&nbsp;</span>',
+        <img class="avatar" src="%s" %s />' . '<span class="avatar_custom_text" style="' . $output . '">' . $userDisplayName . '&nbsp;&nbsp;</span>',
         esc_attr($url),
         (bool)$displayTooltip ? sprintf(
             'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
