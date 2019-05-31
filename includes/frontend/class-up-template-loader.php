@@ -35,7 +35,10 @@ class UpStream_Template_Loader
     {
         $file = '';
 
-        if (get_post_type() != 'project') {
+        if(
+            substr( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), -9 ) != 'projects/' &&
+            get_post_type() != 'project'
+        ) {
             return $template;
         }
 
