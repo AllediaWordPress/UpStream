@@ -1005,4 +1005,30 @@ class Milestone extends Struct
 
         return $comments;
     }
+
+    /**
+     * @return bool
+     */
+    public function isInProgress()
+    {
+        $progress = $this->getProgress();
+
+        return $progress > 0 && $progress < 100;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpcoming()
+    {
+        return ($this->getStartDate('unix') < time()) && ! $this->isCompleted();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->getProgress() == 100;
+    }
 }
