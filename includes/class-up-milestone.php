@@ -405,10 +405,10 @@ class Milestone extends Struct
     public function getProjectId()
     {
         if (null === $this->projectId) {
-            $this->projectId = $this->getMetadata(self::META_PROJECT_ID, true);
+            $this->projectId = (int)$this->getMetadata(self::META_PROJECT_ID, true);
         }
 
-        return $this->projectId;
+        return (int)$this->projectId;
     }
 
     /**
