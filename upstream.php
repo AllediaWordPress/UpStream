@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.24.3-beta.5
+ * Version: 1.24.4-alpha.1
  * Text Domain: upstream
  * Domain Path: /languages
  */
