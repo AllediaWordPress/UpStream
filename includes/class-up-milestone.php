@@ -528,7 +528,8 @@ class Milestone extends Struct
             return $this->order;
         }
 
-        $this->order = $this->getMetadata(self::META_ORDER, true);
+        //$this->order = $this->getMetadata(self::META_ORDER, true);
+        $this->order = "ASC";
 
         return $this->order;
     }
@@ -548,7 +549,7 @@ class Milestone extends Struct
         $this->order = $order;
 
         // Assume it is on MySQL date format.
-        $this->updateMetadata([self::META_ORDER => $order]);
+        //$this->updateMetadata([self::META_ORDER => $order]);
 
         return $this;
     }
