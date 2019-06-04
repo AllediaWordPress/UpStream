@@ -222,6 +222,8 @@ class Milestone extends Struct
                     'posts_per_page' => -1,
                     'meta_key'       => self::META_LEGACY_ID,
                     'meta_value'     => sanitize_text_field($legacyId),
+                    'orderby'        => 'menu_order',
+                    'order'          => 'ASC',
                 ]);
 
                 if ( ! empty($posts)) {
