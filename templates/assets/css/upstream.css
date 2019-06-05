@@ -470,3 +470,7 @@ td .btn {
 .nav.child_menu > li > a {
     padding: 9px 0;
 }
+
+.datepicker-dropdown {
+    z-index: 999999 !important;
+}
