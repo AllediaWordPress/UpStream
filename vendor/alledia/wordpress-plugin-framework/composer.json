@@ -1,0 +1,32 @@
+{
+  "name": "alledia/wordpress-plugin-framework",
+  "type": "library",
+  "description": "Alledia framework for creating WordPress plugins.",
+  "keywords": ["wordpress", "plugin", "framework"],
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Alledia",
+      "email": "help@alledia.com",
+      "homepage": "https://alledia.com"
+    },
+    {
+      "name": "Anderson Grudtner Martins",
+      "email": "anderson@grudtner.me",
+      "homepage": "http://anderson.grudtner.me",
+      "role": "Lead Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "twig/twig": "~1.20",
+    "pimple/pimple": "~3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Allex\\": "src/library"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

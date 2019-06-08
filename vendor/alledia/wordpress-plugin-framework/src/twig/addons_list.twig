@@ -1,0 +1,51 @@
+<div class="allex-row-r class="{{ show_sidebar ? 'allex_container_with_sidebar' : '' }}">
+    <div class="{{ show_sidebar ? 'allex-col-3-4' : 'allex-col-1' }}">
+        <div id="allex-addons-container"></div>
+    </div>
+
+    {% if show_sidebar %}
+        <div class="allex-col-1-4">
+            {{ sidebar_output|raw }}
+        </div>
+    {% endif %}
+
+</div>
+
+<script type="application/javascript">
+    jQuery(function ($) {
+        var addons = [];
+
+        // Build the list of addons. Twig can't just output it.
+        {% for addon in addons %}
+        addons.push(
+            {
+                'slug': '{{ addon.slug }}',
+                'title': '{{ addon.title }}',
+                'description': '{{ addon.description }}',
+                'iconClass': '{{ addon.icon_class }}',
+                'isInstalled': {{ addon.is_installed ? 'true' : 'false' }},
+                'isActive': {{ addon.is_active ? 'true' : 'false' }},
+                'licenseKey': '{{ addon.license_key }}',
+                'licenseStatus': '{{ addon.license_status }}',
+                'eddId': '{{ addon.edd_id }}'
+            }
+        );
+        {% endfor %}
+
+        // Renders the React component.
+        ReactDOM.render(
+            React.createElement(
+                AllexAddonsContainer,
+                {
+                    pluginName: '{{ plugin_name }}',
+                    addonsCount: '{{ count_addons }}',
+                    addonsCountTotal: '{{ count_addons_total }}',
+                    browseMoreUrl: '{{ browse_more_url }}',
+                    addons: addons,
+                    nonce: '{{ nonce }}'
+                }
+            ),
+            document.getElementById('allex-addons-container')
+        );
+    });
+</script>

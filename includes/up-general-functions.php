@@ -187,15 +187,9 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
 
     $userDisplayName = esc_attr($user_data['display_name']);
 
-    $show_users_name = upstream_show_users_name();
-    if( $show_users_name == 0 )
-        $output = 'display:none';
-    else
-        $output = 'display:block';
-
     $return = sprintf(
         '
-        <img class="avatar" src="%s" %s />' . '<span class="avatar_custom_text" style="' . $output . '">' . $userDisplayName . '&nbsp;&nbsp;</span>',
+        <img class="avatar" src="%s" %s />' . '<span style="display:none">' . $userDisplayName . ', </span>',
         esc_attr($url),
         (bool)$displayTooltip ? sprintf(
             'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
@@ -671,13 +665,6 @@ function upstream_archive_closed_items()
     $option = get_option('upstream_general');
 
     return isset($option['archive_closed_items']) ? (bool)$option['archive_closed_items'] : true;
-}
-
-function upstream_show_users_name()
-{
-    $option = get_option('upstream_general');
-
-    return isset($option['show_users_name']) ? (bool)$option['show_users_name'] : true;
 }
 
 function upstream_logo_url()

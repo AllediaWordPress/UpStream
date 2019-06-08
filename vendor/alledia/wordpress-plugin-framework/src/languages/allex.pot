@@ -1,0 +1,165 @@
+# Copyright (C) 2018 UpStream Project Management
+# This file is distributed under the same license as the UpStream package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Allex\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Alledia Team <help@alledia.com>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: library/Module/Addons.php:187 library/Module/Assets.php:110
+msgid "Installed Extensions"
+msgstr ""
+
+#: library/Module/Addons.php:188 library/Module/Assets.php:111
+msgid "Browse More Extensions"
+msgstr ""
+
+#: library/Module/Addons.php:189 library/Module/Assets.php:112
+msgid "Enter your license key"
+msgstr ""
+
+#: library/Module/Addons.php:190 library/Module/Assets.php:113
+msgid "Activate"
+msgstr ""
+
+#: library/Module/Addons.php:191 library/Module/Assets.php:114
+msgid "License Key"
+msgstr ""
+
+#: library/Module/Addons.php:192 library/Module/Assets.php:115
+msgid "Change"
+msgstr ""
+
+#: library/Module/Addons.php:193 library/Module/Assets.php:116
+msgid "Get Pro Add-ons!"
+msgstr ""
+
+#: library/Module/Addons.php:333 library/Module/Addons.php:341
+msgid "You're not allowed to do this."
+msgstr ""
+
+#: library/Module/Addons.php:337
+msgid "Invalid request."
+msgstr ""
+
+#: library/Module/Addons.php:346
+msgid "Invalid plugin name."
+msgstr ""
+
+#: library/Module/Addons.php:351 library/Module/Addons.php:382
+msgid "Invalid addon name."
+msgstr ""
+
+#: library/Module/Addons.php:356
+msgid "Invalid addon EDD ID."
+msgstr ""
+
+#: library/Module/Addons.php:361
+msgid "Invalid license key."
+msgstr ""
+
+#: library/Module/Addons.php:378
+msgid "Invalid add-on."
+msgstr ""
+
+#: library/Module/Addons.php:410 library/Module/Addons.php:422
+msgid "An error occurred. Please, try again or contact the support team."
+msgstr ""
+
+#: library/Module/Addons.php:501
+msgid "Set the License Key"
+msgstr ""
+
+#: library/Module/Assets.php:117
+msgid "Please, wait..."
+msgstr ""
+
+#: library/Module/Assets.php:118
+msgid "Please, enter a license key."
+msgstr ""
+
+#: library/Module/Assets.php:119
+msgid "If the error persists, please contact the support team."
+msgstr ""
+
+#: library/Module/Assets.php:121
+msgid "Awesome, it seems like you have all the add-ons installed. Thank you for supporting us."
+msgstr ""
+
+#: library/Module/Assets.php:123
+msgid "Invalid license"
+msgstr ""
+
+#: library/Module/Assets.php:124
+msgid "Activated"
+msgstr ""
+
+#: library/Module/Assets.php:125
+msgid "This license key was not found."
+msgstr ""
+
+#: library/Module/Assets.php:126
+msgid "This license key is disabled."
+msgstr ""
+
+#: library/Module/Assets.php:127
+msgid "This license key has expired."
+msgstr ""
+
+#: library/Module/Assets.php:128
+msgid "This license key has no activations left. Please, consider upgrading your plan."
+msgstr ""
+
+#: library/Module/Reviews.php:237
+msgid "Ok, you deserve it"
+msgstr ""
+
+#: library/Module/Reviews.php:238
+msgid "I already did"
+msgstr ""
+
+#: library/Module/Reviews.php:239
+msgid "No, not good enough for now"
+msgstr ""
+
+#: library/Module/Upgrade.php:93
+msgid "Upgrade"
+msgstr ""
+
+#: library/Module/Upgrade.php:154
+#, php-format
+msgid "Get %d%% off the %s extensions"
+msgstr ""
+
+#: library/Module/Upgrade.php:157
+#, php-format
+msgid "Thanks for using %1$s! Enter your details and we'll send you a coupon for %2$d%% off the %1$s extensions."
+msgstr ""
+
+#: library/Module/Upgrade.php:159
+msgid "Email Address"
+msgstr ""
+
+#: library/Module/Upgrade.php:160
+msgid "First Name"
+msgstr ""
+
+#: library/Module/Upgrade.php:161
+msgid "Last Name"
+msgstr ""
+
+#: library/Module/Upgrade.php:162
+msgid "Yes! Send me the coupon"
+msgstr ""

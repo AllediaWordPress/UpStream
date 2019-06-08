@@ -162,20 +162,6 @@ if ( ! class_exists('UpStream_Options_General')) :
                             ],
                         ],
                         [
-                            'name'    => __('Show Users Name', 'upstream'),
-                            'id'      => 'show_users_name',
-                            'type'    => 'radio_inline',
-                            'default' => '0',
-                            'desc'    => __(
-                                'Show names on Project list (Front page)',
-                                'upstream'
-                            ),
-                            'options' => [
-                                0 => __('No', 'upstream'),
-                                1 => __('Yes', 'upstream'),
-                            ],
-                        ],
-                        [
                             'name'    => __('Project Users Roles', 'upstream'),
                             'id'      => 'project_user_roles',
                             'desc'    => __(
