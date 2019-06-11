@@ -576,9 +576,9 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {
-        $columnValue = (int)$columnValue + UpStream_View::getTimeZoneOffset();
+        $columnValue = (int)$columnValue;
         if ($columnValue > 0) {
-            $html = upstream_format_date($columnValue);
+            $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
         }
     } elseif ($columnType === 'wysiwyg') {
         $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
