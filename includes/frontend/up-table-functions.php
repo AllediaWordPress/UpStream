@@ -4,6 +4,7 @@ namespace UpStream\Frontend;
 
 use UpStream\Exception;
 use UpStream\Factory;
+use UpStream_View;
 
 function arrayToAttrs($data)
 {
@@ -575,7 +576,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {
-        $columnValue = (int)$columnValue;
+        $columnValue = (int)$columnValue + UpStream_View::getTimeZoneOffset();
         if ($columnValue > 0) {
             $html = upstream_format_date($columnValue);
         }
