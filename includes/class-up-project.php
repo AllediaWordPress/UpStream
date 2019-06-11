@@ -487,7 +487,7 @@ class UpStream_Project
                 // loop through each task
                 foreach ($tasks as $task) {
                     // if a milestone has a task assigned to it
-                    if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
+                    //if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
                         $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
                         $count++; // count
 
@@ -495,7 +495,7 @@ class UpStream_Project
                         if (( ! isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
                             $open++;
                         }
-                    }
+                    //}
                 }
             }
 
@@ -522,13 +522,13 @@ class UpStream_Project
 
         // maths for the total project progress
         // do it down here out of the way
-        $project_progress = 0;
-        if ($totals) {
+        $project_progress = $percentage;
+        /* if ($totals) {
             $totalsCount = count((array)$totals);
             foreach ($totals as $milestone) {
                 $project_progress += $milestone['progress'] / ($totalsCount * 100) * 100;
             }
-        }
+        } */
         update_post_meta($this->ID, '_upstream_project_progress', round($project_progress, 1));
     }
 
