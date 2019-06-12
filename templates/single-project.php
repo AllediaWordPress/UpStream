@@ -196,7 +196,7 @@ while (have_posts()) : the_post(); ?>
                         break;
 
                     default:
-                        do_action('upstream_single_project_section_' . $section);
+                        do_action('upstream_single_project_section_' . $section, upstream_post_id());
 
                         break;
 
