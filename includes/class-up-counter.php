@@ -105,7 +105,7 @@ class Upstream_Counter
         if (empty($this->projects)) {
             $args = [
                 'post_type'      => 'project',
-                'post_status'    => 'publish',
+                'post_status'    => 'any',
                 'posts_per_page' => -1,
             ];
 
