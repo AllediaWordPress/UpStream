@@ -191,6 +191,7 @@ function upstream_enqueue_styles_scripts()
                 'LB_CLEAR'                => __('Clear', 'upstream'),
             ],
         ]));
+        do_action('upstream_frontend_enqueue_scripts');
     }
 }
 
