@@ -483,11 +483,14 @@ class UpStream_Project
             $count = 0;
             $open  = 0;
 
+            $sum_project = 0;
+            $count_project = 0;
+
             if ($tasks) {
                 // loop through each task
                 foreach ($tasks as $task) {
                     // if a milestone has a task assigned to it
-                    //if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
+                    if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
                         $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
                         $count++; // count
 
@@ -495,12 +498,16 @@ class UpStream_Project
                         if (( ! isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
                             $open++;
                         }
-                    //}
+                    }
+
+                    $sum_project += isset($task['progress']) ? (int)$task['progress'] : 0;
+                    $count_project++;
                 }
             }
 
             // maths to work out total percentage of this milestone
             $percentage = $count > 0 ? $sum / ($count * 100) * 100 : 0;
+            $percentage_project = $count_project > 0 ? $sum_project / ($count_project * 100) * 100 : 0;
 
             $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
             $milestone->setTaskCount($count); // add the number of tasks in this milestone
@@ -522,13 +529,13 @@ class UpStream_Project
 
         // maths for the total project progress
         // do it down here out of the way
-        $project_progress = $percentage;
+        $project_progress = $percentage_project;
         /* if ($totals) {
             $totalsCount = count((array)$totals);
             foreach ($totals as $milestone) {
                 $project_progress += $milestone['progress'] / ($totalsCount * 100) * 100;
             }
-        } */
+        }*/
         update_post_meta($this->ID, '_upstream_project_progress', round($project_progress, 1));
     }
 

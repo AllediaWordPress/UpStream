@@ -690,7 +690,8 @@ jQuery(document).ready(function ($) {
 
             var self = $(this);
             var filterColumn = self.attr('data-column');
-            var value = self.val().trim();
+            //var value = self.val().trim();
+            var value = self.val();
 
             var wrapper = $(self.parents('.c-data-table__filters'));
             $('.form-control[data-column="' + filterColumn + '"]', wrapper).val(value);
@@ -726,10 +727,13 @@ jQuery(document).ready(function ($) {
             }
         });
 
+        var today = new Date();
+
         $('.o-datepicker').datepicker({
             todayBtn: 'linked',
             clearBtn: true,
             autoclose: true,
+            startDate: today,
             keyboardNavigation: false,
             format: $data.datepickerDateFormat
         }).on('change', function (e) {
