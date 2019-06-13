@@ -347,6 +347,11 @@ if ( ! empty($ordering)) {
                                                 $columnsSchema); ?>
                                         </div>
                                     </form>
+                                    <?php
+                                    $exportTitleLabel     = __('Project Title', 'upstream');
+                                    $exportStartDateLabel = __('Start Date', 'upstream');
+                                    $exportEndDateLabel   = __('End Date', 'upstream');
+                                    ?>
                                     <table id="projects"
                                            class="o-data-table table table-bordered table-responsive table-hover is-orderable"
                                            cellspacing="0"
@@ -356,7 +361,12 @@ if ( ! empty($ordering)) {
                                            data-order-dir="<?php echo esc_attr($orderDir); ?>">
                                         <thead>
                                         <tr>
-                                            <th class="is-clickable is-orderable" data-column="title" role="button">
+                                            <th class="is-clickable is-orderable" data-column="title" role="button"
+                                                data-export-as="<?php echo implode(',', [
+                                                    $exportTitleLabel,
+                                                    $exportStartDateLabel,
+                                                    $exportEndDateLabel,
+                                                ]); ?>">
                                                 <?php echo esc_html($i18n['LB_PROJECT']); ?>
                                                 <span class="pull-right o-order-direction">
                           <i class="fa fa-sort"></i>
@@ -408,14 +418,23 @@ if ( ! empty($ordering)) {
                                             <tr class="t-row-<?php echo $isProjectIndexOdd ? 'odd' : 'even'; ?>"
                                                 data-id="<?php echo $project->id; ?>">
                                                 <td data-column="title"
-                                                    data-value="<?php echo esc_attr($project->title); ?>">
+                                                    data-value="<?php echo esc_attr($project->title); ?>"
+                                                    data-export-as="<?php echo implode(',', [
+                                                        $exportTitleLabel,
+                                                        $exportStartDateLabel,
+                                                        $exportEndDateLabel,
+                                                    ]); ?>">
                                                     <?php do_action('upstream:frontend.project.details.before_title',
                                                         $project); ?>
                                                     <a href="<?php echo $project->permalink; ?>">
-                                                        <?php echo esc_html($project->title); ?>
+                                                        <span data-export-as="<?php echo $exportTitleLabel; ?>"><?php echo esc_html($project->title); ?></span>
                                                     </a>
                                                     <br/>
-                                                    <small><?php echo $project->timeframe; ?></small>
+                                                    <small>
+                                                        <span data-export-as="<?php echo $exportStartDateLabel; ?>"><?php echo $project->startDate; ?></span>
+                                                        -
+                                                        <span data-export-as="<?php echo $exportEndDateLabel; ?>"><?php echo $project->endDate; ?></span>
+                                                    </small>
                                                 </td>
                                                 <?php if ($areClientsEnabled): ?>
                                                     <td data-column="client"
