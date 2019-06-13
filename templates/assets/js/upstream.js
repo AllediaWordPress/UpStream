@@ -727,10 +727,13 @@ jQuery(document).ready(function ($) {
             }
         });
 
+        var today = new Date();
+
         $('.o-datepicker').datepicker({
             todayBtn: 'linked',
             clearBtn: true,
             autoclose: true,
+            startDate: today,
             keyboardNavigation: false,
             format: $data.datepickerDateFormat
         }).on('change', function (e) {
