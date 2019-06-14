@@ -347,11 +347,6 @@ if ( ! empty($ordering)) {
                                                 $columnsSchema); ?>
                                         </div>
                                     </form>
-                                    <?php
-                                    $exportTitleLabel     = __('Project Title', 'upstream');
-                                    $exportStartDateLabel = __('Start Date', 'upstream');
-                                    $exportEndDateLabel   = __('End Date', 'upstream');
-                                    ?>
                                     <table id="projects"
                                            class="o-data-table table table-bordered table-responsive table-hover is-orderable"
                                            cellspacing="0"
@@ -361,16 +356,23 @@ if ( ! empty($ordering)) {
                                            data-order-dir="<?php echo esc_attr($orderDir); ?>">
                                         <thead>
                                         <tr>
-                                            <th class="is-clickable is-orderable" data-column="title" role="button"
-                                                data-export-as="<?php echo implode(',', [
-                                                    $exportTitleLabel,
-                                                    $exportStartDateLabel,
-                                                    $exportEndDateLabel,
-                                                ]); ?>">
+                                            <th class="is-clickable is-orderable" data-column="title" role="button">
                                                 <?php echo esc_html($i18n['LB_PROJECT']); ?>
                                                 <span class="pull-right o-order-direction">
-                          <i class="fa fa-sort"></i>
-                        </span>
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
+                                            </th>
+                                            <th class="is-clickable is-orderable" data-column="startDate" role="button">
+                                                <?php echo "Start Date"; ?>
+                                                <span class="pull-right o-order-direction">
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
+                                            </th>
+                                            <th class="is-clickable is-orderable" data-column="endDate" role="button">
+                                                <?php echo "End Date"; ?>
+                                                <span class="pull-right o-order-direction">
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
                                             </th>
                                             <?php if ($areClientsEnabled): ?>
                                                 <th class="is-clickable is-orderable" data-column="client"
@@ -418,23 +420,20 @@ if ( ! empty($ordering)) {
                                             <tr class="t-row-<?php echo $isProjectIndexOdd ? 'odd' : 'even'; ?>"
                                                 data-id="<?php echo $project->id; ?>">
                                                 <td data-column="title"
-                                                    data-value="<?php echo esc_attr($project->title); ?>"
-                                                    data-export-as="<?php echo implode(',', [
-                                                        $exportTitleLabel,
-                                                        $exportStartDateLabel,
-                                                        $exportEndDateLabel,
-                                                    ]); ?>">
+                                                    data-value="<?php echo esc_attr($project->title); ?>">
                                                     <?php do_action('upstream:frontend.project.details.before_title',
                                                         $project); ?>
                                                     <a href="<?php echo $project->permalink; ?>">
-                                                        <span data-export-as="<?php echo $exportTitleLabel; ?>"><?php echo esc_html($project->title); ?></span>
+                                                        <?php echo esc_html($project->title); ?>
                                                     </a>
-                                                    <br/>
-                                                    <small>
-                                                        <span data-export-as="<?php echo $exportStartDateLabel; ?>"><?php echo $project->startDate; ?></span>
-                                                        -
-                                                        <span data-export-as="<?php echo $exportEndDateLabel; ?>"><?php echo $project->endDate; ?></span>
-                                                    </small>
+                                                </td>
+                                                <td data-column="startDate"
+                                                    data-value="<?php echo esc_attr($project->startDate); ?>">
+                                                    <?php echo esc_html($project->startDate); ?>
+                                                </td>
+                                                <td data-column="endDate"
+                                                    data-value="<?php echo esc_attr($project->endDate); ?>">
+                                                    <?php echo esc_html($project->endDate); ?>
                                                 </td>
                                                 <?php if ($areClientsEnabled): ?>
                                                     <td data-column="client"

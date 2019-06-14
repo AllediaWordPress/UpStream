@@ -782,48 +782,6 @@ jQuery(document).ready(function ($) {
                 $(this).prepend($('<td>' + visibleIndex + '</td>'));
             });
 
-            // Split the content of specific cells to multiple columns, id required.
-            $(clonedTable.find('th[data-export-as]')).each(function (thIndex, th) {
-                var $th = $(th);
-
-                var labels = $th.data('export-as').split(',');
-
-                // Split it into TH elements.
-                var $currentTh = $th;
-                $(labels).each(function (labelIndex, label) {
-                    // Replace the first TH with the first label.
-                    if (0 === labelIndex) {
-                        $currentTh.text(label);
-                    } else {
-                        // Append a new TH after the current one.
-                        var $newTh = $('<th>').text(label);
-                        $currentTh.after($newTh);
-                        $currentTh = $newTh;
-                    }
-                });
-
-                // Get the columns' data and split them as specified by export-as.
-                $(clonedTable.find('td[data-export-as]')).each(function (tdIndex, td) {
-                    var $td = $(td);
-
-                    // Split it into TD elements.
-                    var $currentTd = $td;
-                    var data = $td.find('[data-export-as]');
-
-                    $(labels).each(function (labelIndex, label) {
-                        // Replace the first TD with the first label.
-                        if (0 === labelIndex) {
-                            $currentTd.text($(data[0]).text());
-                        } else {
-                            // Append a new TH after the current one.
-                            var $newTd = $('<td>').text($(data[labelIndex]).text());
-                            $currentTd.after($newTd);
-                            $currentTd = $newTd;
-                        }
-                    });
-                });
-            });
-
             return clonedTable;
         }
 
