@@ -4,6 +4,7 @@ namespace UpStream\Frontend;
 
 use UpStream\Exception;
 use UpStream\Factory;
+use UpStream_View;
 
 function arrayToAttrs($data)
 {
@@ -577,7 +578,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
     } elseif ($columnType === 'date') {
         $columnValue = (int)$columnValue;
         if ($columnValue > 0) {
-            $html = upstream_format_date($columnValue);
+            $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
         }
     } elseif ($columnType === 'wysiwyg') {
         $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
