@@ -170,7 +170,7 @@ function upstream_output_overview_counts($field_args, $field)
 
                     if (
                         (is_array($assignedTo) && in_array($user_id, $assignedTo))
-                        && ((int)$row['assigned_to'] === $user_id)
+                        || ((int)$row['assigned_to'] === $user_id)
                     ) {
                         $countMine++;
                     }
@@ -191,7 +191,7 @@ function upstream_output_overview_counts($field_args, $field)
 
                 if (
                     (is_array($assignedTo) && in_array($user_id, $assignedTo))
-                    && ((int)$row['assigned_to'] === $user_id)
+                    || ((int)$row['assigned_to'] === $user_id)
                 ) {
                     $countMine++;
                 }
