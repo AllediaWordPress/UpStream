@@ -1,5 +1,5 @@
 ---
-name: [team only] Plugin Release
+name: Release UpStream (team only)
 about: Describes default checklist for the plugin's release process.
 title: Release UpStream version [VERSION]
 labels: release

@@ -1,5 +1,5 @@
 ---
-name: [team only] Add-on Release
+name: Release Add-on (team only)
 about: Describes default checklist for the plugin's add-on release process.
 title: Release [ADD-ON] version [VERSION]
 labels: release
