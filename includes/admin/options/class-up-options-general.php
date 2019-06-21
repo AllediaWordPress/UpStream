@@ -202,6 +202,11 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'type' => 'labels',
                         ],
                         [
+                            'name' => __('Milestone Categories Label', 'upstream'),
+                            'id'   => 'milestone_categories',
+                            'type' => 'labels',
+                        ],
+                        [
                             'name' => __('Task Label', 'upstream'),
                             'id'   => 'task',
                             'type' => 'labels',
@@ -560,6 +565,21 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
+                            'name'              => __('Disable Milestone Categories', 'upstream'),
+                            'id'                => 'disable_milestone_categories',
+                            'type'              => 'radio_inline',
+                            'desc'              => __(
+                                'Ticking this box will disable the Milestone Categories section on both the frontend and the admin area.',
+                                'upstream'
+                            ),
+                            'default'           => '1',
+                            'options'           => [
+                                0 => __('No', 'upstream'),
+                                1 => __('Yes', 'upstream'),
+                            ],
+                            'select_all_button' => false,
+                        ],
+                        [
                             'name'              => __('Disable Files', 'upstream'),
                             'id'                => 'disable_files',
                             'type'              => 'multicheck',
@@ -641,6 +661,18 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'options' => [
                                 '1' => __('Allow comments on Files', 'upstream'),
                                 '0' => __('Disable section', 'upstream'),
+                            ],
+                        ],
+                        [
+                            'name'    => __('Show all projects in the frontend sidebar', 'upstream'),
+                            'id'      => 'show_all_projects_sidebar',
+                            'type'    => 'radio_inline',
+                            'desc'    => __('If enabled, all projects will be displayed in the sidebar on frontend.',
+                                'upstream'),
+                            'default' => '0',
+                            'options' => [
+                                '0' => __('Show only the current project', 'upstream'),
+                                '1' => __('Show all projects', 'upstream'),
                             ],
                         ],
 
