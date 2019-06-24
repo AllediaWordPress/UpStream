@@ -650,6 +650,8 @@ jQuery(document).ready(function ($) {
             } else {
                 $('tbody tr[data-id]:visible', table).addClass('is-filtered');
             }
+
+            $('#pro_count').html(filteredRows.length);
         }
 
         var filterDataTable = function (e, self) {
