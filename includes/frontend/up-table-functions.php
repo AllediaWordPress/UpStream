@@ -857,7 +857,7 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
             $tableAttrs); ?>
     </table>
     <?php
-    echo "<span id='" . $itemType . "_count'>" . count($data) . "</span>";
+    echo "<span class='sub_count' id='" . $itemType . "_count'>" . count($data) . "</span>";
     ?>
     <?= sprintf(_x(' %ss match this search', 'upstream'), $itemType); ?>
     <?php
