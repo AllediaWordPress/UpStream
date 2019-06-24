@@ -651,6 +651,7 @@ jQuery(document).ready(function ($) {
                 $('tbody tr[data-id]:visible', table).addClass('is-filtered');
             }
 
+            $(table).parent().find('.sub_count').html(filteredRows.length);
             $('#pro_count').html(filteredRows.length);
         }
 
