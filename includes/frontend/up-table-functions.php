@@ -858,9 +858,13 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
             $tableAttrs); ?>
     </table>
     <?php
+    $optArr = array('milestone'=>upstream_milestone_label_plural(), 
+        'task'=>upstream_task_label_plural(),
+        'bug'=>upstream_bug_label_plural(),
+        'file'=>upstream_file_label_plural(),);
     echo "<span class='sub_count' id='" . $itemType . "_count'>" . count($data) . "</span>";
     ?>
-    <?= sprintf(_x(' %ss match this search', 'upstream'), $itemType); ?>
+    <?= sprintf(_x(' %s match this search', 'upstream'), $optArr[$itemType]); ?>
     <?php
 }
 
