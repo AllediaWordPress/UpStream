@@ -61,6 +61,7 @@ class UpStream_Admin
         $this->framework = UpStream::instance()->get_container()['framework'];
 
         add_action('wp_ajax_upstream.milestone-edit.editmenuorder', [$this, 'editMenuOrder']);
+        add_action('wp_ajax_upstream.task-edit.gettaskpercent', [$this, 'getTaskPercent']);
     }
 
     /**
@@ -74,6 +75,26 @@ class UpStream_Admin
         wp_update_post( $cur_post );
 
         return 'success';
+    }
+
+    /**
+     * @since   1.14.1
+     * @static
+     */
+    public function getTaskPercent()
+    {
+        $task_id = $_REQUEST['task_id'];
+
+        $option   = get_option('upstream_tasks');
+        $statuses = isset($option['statuses']) ? $option['statuses'] : '';
+        if ($statuses) {
+            foreach ($statuses as $status) {
+                if ($status['id'] == $task_id) {
+                    echo $status['percent']; exit;
+                }
+            }
+        }
+        return 0;
     }
 
     /**

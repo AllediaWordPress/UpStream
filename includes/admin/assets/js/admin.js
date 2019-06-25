@@ -355,6 +355,21 @@ jQuery(document).ready(function($) {
             }
         });
     }
+    $(".task-status").on("change", function() {
+        var taskId = $(this).val();
+        var curObj = $(this); 
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'upstream.task-edit.gettaskpercent',
+                task_id: taskId
+            },
+            success: function (response) {
+                curObj.closest('.cmb2GridRow').find(".task-progress").val(response).change();
+            }
+        });
+    });
     if( $("#_upstream_project_tasks_repeat").length ) {
         $("#_upstream_project_tasks_repeat").sortable();
     }
