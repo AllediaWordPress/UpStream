@@ -92,23 +92,6 @@ if ($isSingle) {
                                 <?php do_action('upstream_sidebar_after_all_projects_link'); ?>
                             </li>
 
-                            <li id="nav-milestones">
-                                <a href="<?php echo home_url('/') . upstream_get_milestone_base(); ?>">
-                                    <i class="fa fa-flag"></i> <?php printf(__('All %s', 'upstream'),
-                                        $i18n['LB_MILESTONE']); ?>
-                                </a>
-
-                                <?php do_action('upstream_sidebar_after_all_milestones_link'); ?>
-                            </li>
-                            <li id="nav-tasks">
-                                <a href="<?php echo home_url('/') . upstream_get_task_base(); ?>">
-                                    <i class="fa fa-wrench"></i> <?php printf(__('All %s', 'upstream'),
-                                        $i18n['LB_TASKS']); ?>
-                                </a>
-
-                                <?php do_action('upstream_sidebar_after_all_tasks_link'); ?>
-                            </li>
-
                             <?php do_action('upstream_sidebar_projects_submenu'); ?>
                         </ul>
                     </li>

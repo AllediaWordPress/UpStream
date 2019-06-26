@@ -35,7 +35,7 @@ class UpStream_Template_Loader
     {
         $file = '';
 
-        if (get_post_type() != 'project' && !strpos($_SERVER['REQUEST_URI'], upstream_get_milestone_base()) && !strpos($_SERVER['REQUEST_URI'], upstream_get_task_base())) {
+        if (get_post_type() != 'project') {
             return $template;
         }
 
@@ -55,10 +55,6 @@ class UpStream_Template_Loader
 
         if (is_archive()) {
             $file = 'archive-project.php';
-        } else if (strpos($_SERVER['REQUEST_URI'], upstream_get_milestone_base())) {
-            $file = 'archive-milestone.php';
-        } else if (strpos($_SERVER['REQUEST_URI'], upstream_get_task_base())) {
-            $file = 'archive-task.php';
         }
 
         if (isset($_GET['action']) && $_GET['action'] === 'logout' && ! isset($_POST['login'])) {
