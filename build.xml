@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="AllediaBuilder" default="build">
+    <import file="vendor/alledia/wordpress-plugin-builder/build.xml"/>
+</project>
