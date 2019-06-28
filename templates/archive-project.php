@@ -552,7 +552,9 @@ if ( ! empty($ordering)) {
                                         </tbody>
                                     </table>
                                 </div>
-                                <span id="pro_count"><?=$projectsListCount?></span><span><?= sprintf(_x(' %s match this search', 'upstream'), upstream_project_label_plural()); ?></span>
+                                <span id="pro_count" class="p_count"><?php 
+                                if( $projectsListCount > 0 ) echo $projectsListCount;
+                                ?></span><span class="p_count"><?php if( $projectsListCount > 0 ) { ?><?= sprintf(_x(' %s match this search', 'upstream'), upstream_project_label_plural()); ?><?php } ?></span>
                             <?php else: ?>
                                 <p><?php _e(
                                         "It seems that you're not participating in any project right now.",

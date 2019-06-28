@@ -862,9 +862,13 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
         'task'=>upstream_task_label_plural(),
         'bug'=>upstream_bug_label_plural(),
         'file'=>upstream_file_label_plural(),);
-    echo "<span class='sub_count' id='" . $itemType . "_count'>" . count($data) . "</span>";
+    if (count($data) > 0) {
+        echo "<span class='sub_count p_count' id='" . $itemType . "_count'>" . count($data) . "</span>";
+    } else {
+        echo "<span class='sub_count p_count' id='" . $itemType . "_count'></span>";
+    }
     ?>
-    <?= sprintf(_x(' %s match this search', 'upstream'), $optArr[$itemType]); ?>
+    <span class="p_count"><?php if (count($data) > 0) { ?><?= sprintf(_x(' %s match this search', 'upstream'), $optArr[$itemType]); ?><?php } ?></span>
     <?php
 }
 

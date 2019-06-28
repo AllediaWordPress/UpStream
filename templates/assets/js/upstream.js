@@ -652,7 +652,19 @@ jQuery(document).ready(function ($) {
             }
 
             $(table).parent().find('.sub_count').html(filteredRows.length);
+            if (filteredRows.length > 0) {
+                $(table).parent().find('.sub_count').parent().find("span.p_count").css("display", "inline");
+            } else {
+                $(table).parent().find('.sub_count').parent().find("span.p_count").css("display", "none");
+            }
+            
             $('#pro_count').html(filteredRows.length);
+
+            if (filteredRows.length > 0) {
+                $('#pro_count').parent().find("span.p_count").css("display", "inline");
+            } else {
+                $('#pro_count').parent().find("span.p_count").css("display", "none");
+            }
         }
 
         var filterDataTable = function (e, self) {
