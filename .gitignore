@@ -1,14 +1,31 @@
-.svn
-.git
-.DS_Store
-wpcom-helper.php
-
-/local.sh
 node_modules
 
-/.properties.ini
+# General exclusion of system files #
+#####################################
+.*
+*~
+!.gitignore
+!.htaccess
+!.editorconfig
+!.github
 
-/packages
+# Windows Files #
+#################
+Thumbs.db
+ehthumbs.db
+
+# Folder config file #
+######################
+Desktop.ini
+
+# Recycle Bin used on file shares #
+###################################
+$RECYCLE.BIN/
+
+# Misc files #
+##############
+config.codekit
+/package-lock.json
+
 /vendor
-.idea
 /dist

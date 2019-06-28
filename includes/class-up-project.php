@@ -1,4 +1,7 @@
 <?php
+//This include shouldn't be necessary however the wp_check_post_lock call fails
+//which is odd
+include_once 'wp-admin/includes/post.php';
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
@@ -466,6 +469,15 @@ class UpStream_Project
     {
         $tasks      = $this->get_meta('tasks');
         $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
+
+        $wp_lock_check = wp_check_post_lock($this->ID);
+
+        if ($wp_lock_check) {
+            $user_info = get_userdata($wp_lock_check);
+            throw new \Exception(__("This project is being edited by " . $user_info->user_login . ". The other user must save their work.", 'upstream'));
+        } else {
+            delete_post_meta($this->ID , '_edit_lock');
+        }
 
         $i      = 0;
         $totals = [];
