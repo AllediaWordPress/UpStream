@@ -1,7 +1,7 @@
 <?php
 //This include shouldn't be necessary however the wp_check_post_lock call fails
-//which is odd
-include_once 'wp-admin/includes/post.php';
+//in the frontend edit module which is odd
+@include_once 'wp-admin/includes/post.php';
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
