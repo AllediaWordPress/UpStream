@@ -157,6 +157,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed the total of tasks assigned to the current user in the front-end;
 * Fixed consistency in the way we sort tasks and bugs in the admin, using drag-and-drop like on milestones;
 * Added a text to display how many search results were returned in the front-end;
+* Added a lock in the frontend when another user is editing a task or milestone to avoid overwrite changes [by oraclerob];
 
 
 = [1.24.3] - 2019-05-30 =
