@@ -652,7 +652,11 @@ jQuery(document).ready(function ($) {
             }
 
             $(table).parent().find('.sub_count').html(filteredRows.length);
+            displayValue = filteredRows.length > 0 ? 'inline' : 'none';
+            $(table).parent().find('.sub_count').parent().find("span.p_count").css("display", displayValue);
+
             $('#pro_count').html(filteredRows.length);
+            $('#pro_count').parent().find("span.p_count").css("display", displayValue);
         }
 
         var filterDataTable = function (e, self) {
