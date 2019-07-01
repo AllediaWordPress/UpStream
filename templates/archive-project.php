@@ -553,7 +553,11 @@ if ( ! empty($ordering)) {
                                     </table>
                                 </div>
                                 <span id="pro_count" class="p_count">
-                                    <?php if( $projectsListCount > 0 ) echo $projectsListCount; ?>
+                                    <?php 
+                                        if( $projectsListCount > 0 ) {
+                                            echo $projectsListCount; 
+                                        }
+                                    ?>
                                 </span>
                                 <span class="p_count">
                                     <?php 
