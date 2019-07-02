@@ -153,7 +153,6 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed output date to count the timezone offset;
 * Implemented 'export-as' attribute for table columns allowing to split and export data from columns with more than one information;
 * Fixed sortable behavior for Start and End columns;
-* Fixed the total of tasks assigned to the current user in the front-end;
 * Fixed consistency in the way we sort tasks and bugs in the admin, using drag-and-drop like on milestones;
 * Added a text to display how many search results were returned in the front-end;
 * Added a lock in the frontend when another user is editing a task or milestone to avoid overwrite changes [by oraclerob];
