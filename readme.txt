@@ -150,7 +150,6 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed project sorting by progress;
 * Fixed overview data when project is in draft status;
 * Fixed the filter by client to accept space;
-* Disabled past dates in the date picker;
 * Fixed output date to count the timezone offset;
 * Implemented 'export-as' attribute for table columns allowing to split and export data from columns with more than one information;
 * Fixed sortable behavior for Start and End columns;
