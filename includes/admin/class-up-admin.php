@@ -61,6 +61,7 @@ class UpStream_Admin
         $this->framework = UpStream::instance()->get_container()['framework'];
 
         add_action('wp_ajax_upstream.milestone-edit.editmenuorder', [$this, 'editMenuOrder']);
+        add_action('wp_ajax_upstream.task-edit.gettaskpercent', [$this, 'getTaskPercent']);
         add_action('wp_ajax_upstream.task-edit.gettaskstatus', [$this, 'getTaskStatus']);
     }
 
