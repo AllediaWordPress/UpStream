@@ -1,0 +1,43 @@
+{
+  "name": "upstream/upstream",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "config": {
+    "platform": {
+      "php": "5.6"
+    }
+  },
+  "authors": [
+    {
+      "name": "UpStream",
+      "email": "help@upstream.com"
+    },
+    {
+      "name": "Alledia",
+      "email": "help@alledia.com",
+      "homepage": "https://alledia.com"
+    },
+    {
+      "name": "Denison Grudtner Martins",
+      "email": "contato@denison.me"
+    },
+    {
+      "name": "Anderson Grudtner Martins",
+      "email": "anderson@grudtner.me",
+      "homepage": "http://anderson.grudtner.me"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">= 5.6",
+    "twig/twig": "1.38.4",
+    "pimple/pimple": "^3.2",
+    "alledia/wordpress-plugin-framework": "0.6.4",
+    "alledia/wordpress-plugin-builder": "dev-development"
+  },
+  "require-dev": {
+    "brain/monkey": "^2.2",
+    "lucatume/wp-browser": "^2.2"
+  }
+}
