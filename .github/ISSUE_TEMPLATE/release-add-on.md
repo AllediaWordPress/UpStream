@@ -23,7 +23,7 @@ To release the add-on plugin, please make sure to check all the checkboxes below
 After all the tests are passing:
 
 - [ ] Finish the release running: `$ git flow release finish VERSION`
-- [ ] Create the release in Github (make sure it is based on the `master` branch and has a correct tag name - version number without prefix### Release Checklist
+- [ ] Create the release in Github (make sure it has the correct tag name - version number without prefix)
 
 ### Publish on the site
 - [ ] Update EDD registry and upload the new package
