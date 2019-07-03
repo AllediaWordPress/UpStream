@@ -44,6 +44,6 @@ a#upstream-upgrade-link,
     border: 1px solid #bfbebe;
 }
 
-#poststuff #cmb2-metabox-_upstream_project_milestones #_upstream_project_milestones_repeat .cmb-remove-field-row {
+.cmb-field-list .cmb-remove-field-row {
     display: none;
 }

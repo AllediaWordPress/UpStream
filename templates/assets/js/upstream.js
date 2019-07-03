@@ -650,6 +650,13 @@ jQuery(document).ready(function ($) {
             } else {
                 $('tbody tr[data-id]:visible', table).addClass('is-filtered');
             }
+
+            $(table).parent().find('.sub_count').html(filteredRows.length);
+            displayValue = filteredRows.length > 0 ? 'inline' : 'none';
+            $(table).parent().find('.sub_count').parent().find("span.p_count").css("display", displayValue);
+
+            $('#pro_count').html(filteredRows.length);
+            $('#pro_count').parent().find("span.p_count").css("display", displayValue);
         }
 
         var filterDataTable = function (e, self) {
@@ -727,13 +734,10 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        var today = new Date();
-
         $('.o-datepicker').datepicker({
             todayBtn: 'linked',
             clearBtn: true,
             autoclose: true,
-            startDate: today,
             keyboardNavigation: false,
             format: $data.datepickerDateFormat
         }).on('change', function (e) {

@@ -913,6 +913,23 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
             $tableAttrs); ?>
     </table>
     <?php
+    $optArr = array(
+        'milestone' => upstream_milestone_label_plural(), 
+        'task'      => upstream_task_label_plural(),
+        'bug'       => upstream_bug_label_plural(),
+        'file'      => upstream_file_label_plural(),
+    );
+    $countValue = count($data) > 0 ? count($data) : '';
+    echo "<span class='sub_count p_count' id='" . $itemType . "_count'>" . $countValue . "</span>";
+    ?>
+    <span class="p_count">
+        <?php 
+            if (count($data) > 0) { 
+                echo sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]);
+            }
+        ?>
+    </span>
+    <?php
 }
 
 function renderTableFilter($filterType, $columnName, $args = [], $renderFormGroup = true)
