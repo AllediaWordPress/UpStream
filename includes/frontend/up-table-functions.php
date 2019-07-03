@@ -5,6 +5,7 @@ namespace UpStream\Frontend;
 use UpStream\Exception;
 use UpStream\Factory;
 use UpStream\Milestones;
+use UpStream_View;
 
 function arrayToAttrs($data)
 {
@@ -914,7 +915,7 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
     </table>
     <?php
     $optArr = array(
-        'milestone' => upstream_milestone_label_plural(), 
+        'milestone' => upstream_milestone_label_plural(),
         'task'      => upstream_task_label_plural(),
         'bug'       => upstream_bug_label_plural(),
         'file'      => upstream_file_label_plural(),
@@ -923,8 +924,8 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
     echo "<span class='sub_count p_count' id='" . $itemType . "_count'>" . $countValue . "</span>";
     ?>
     <span class="p_count">
-        <?php 
-            if (count($data) > 0) { 
+        <?php
+            if (count($data) > 0) {
                 echo sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]);
             }
         ?>
