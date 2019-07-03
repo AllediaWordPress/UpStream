@@ -650,6 +650,13 @@ jQuery(document).ready(function ($) {
             } else {
                 $('tbody tr[data-id]:visible', table).addClass('is-filtered');
             }
+
+            $(table).parent().find('.sub_count').html(filteredRows.length);
+            displayValue = filteredRows.length > 0 ? 'inline' : 'none';
+            $(table).parent().find('.sub_count').parent().find("span.p_count").css("display", displayValue);
+
+            $('#pro_count').html(filteredRows.length);
+            $('#pro_count').parent().find("span.p_count").css("display", displayValue);
         }
 
         var filterDataTable = function (e, self) {
@@ -690,7 +697,8 @@ jQuery(document).ready(function ($) {
 
             var self = $(this);
             var filterColumn = self.attr('data-column');
-            var value = self.val().trim();
+            //var value = self.val().trim();
+            var value = self.val();
 
             var wrapper = $(self.parents('.c-data-table__filters'));
             $('.form-control[data-column="' + filterColumn + '"]', wrapper).val(value);

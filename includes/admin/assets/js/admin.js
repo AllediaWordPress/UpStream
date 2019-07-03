@@ -355,6 +355,12 @@ jQuery(document).ready(function($) {
             }
         });
     }
+    if( $("#_upstream_project_tasks_repeat").length ) {
+        $("#_upstream_project_tasks_repeat").sortable();
+    }
+    if( $("#_upstream_project_bugs_repeat").length ) {
+        $("#_upstream_project_bugs_repeat").sortable();
+    }
     if( $("#post_type").val() == 'upst_milestone' ) {
         $("#post_type").parent().find("#normal-sortables").css("display", "none");
     }

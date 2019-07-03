@@ -1,14 +1,13 @@
+node_modules
+
+# General exclusion of system files #
+#####################################
 .*
 *~
 !.gitignore
 !.htaccess
 !.editorconfig
 !.github
-node_modules
-builds
-
-# General exclusion of system files #
-#####################################
 
 # Windows Files #
 #################
@@ -29,6 +28,4 @@ config.codekit
 /package-lock.json
 
 /vendor
-
 /dist
-codeception.yml

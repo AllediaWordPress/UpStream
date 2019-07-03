@@ -1,4 +1,7 @@
 <?php
+//This include shouldn't be necessary however the wp_check_post_lock call fails
+//in the frontend edit module which is odd
+@include_once 'wp-admin/includes/post.php';
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
@@ -467,6 +470,15 @@ class UpStream_Project
         $tasks      = $this->get_meta('tasks');
         $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
 
+        $wp_lock_check = wp_check_post_lock($this->ID);
+
+        if ($wp_lock_check) {
+            $user_info = get_userdata($wp_lock_check);
+            throw new \Exception(__("This project is being edited by " . $user_info->user_login . ". The other user must save their work.", 'upstream'));
+        } else {
+            delete_post_meta($this->ID , '_edit_lock');
+        }
+
         $i      = 0;
         $totals = [];
 
@@ -483,6 +495,9 @@ class UpStream_Project
             $count = 0;
             $open  = 0;
 
+            $sum_project = 0;
+            $count_project = 0;
+
             if ($tasks) {
                 // loop through each task
                 foreach ($tasks as $task) {
@@ -496,11 +511,15 @@ class UpStream_Project
                             $open++;
                         }
                     }
+
+                    $sum_project += isset($task['progress']) ? (int)$task['progress'] : 0;
+                    $count_project++;
                 }
             }
 
             // maths to work out total percentage of this milestone
             $percentage = $count > 0 ? $sum / ($count * 100) * 100 : 0;
+            $percentage_project = $count_project > 0 ? $sum_project / ($count_project * 100) * 100 : 0;
 
             $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
             $milestone->setTaskCount($count); // add the number of tasks in this milestone
@@ -522,13 +541,13 @@ class UpStream_Project
 
         // maths for the total project progress
         // do it down here out of the way
-        $project_progress = 0;
-        if ($totals) {
+        $project_progress = $percentage_project;
+        /* if ($totals) {
             $totalsCount = count((array)$totals);
             foreach ($totals as $milestone) {
                 $project_progress += $milestone['progress'] / ($totalsCount * 100) * 100;
             }
-        }
+        }*/
         update_post_meta($this->ID, '_upstream_project_progress', round($project_progress, 1));
     }
 

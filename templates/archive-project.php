@@ -359,8 +359,20 @@ if ( ! empty($ordering)) {
                                             <th class="is-clickable is-orderable" data-column="title" role="button">
                                                 <?php echo esc_html($i18n['LB_PROJECT']); ?>
                                                 <span class="pull-right o-order-direction">
-                          <i class="fa fa-sort"></i>
-                        </span>
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
+                                            </th>
+                                            <th class="is-clickable is-orderable" data-column="startDate" role="button">
+                                                <?php echo "Start Date"; ?>
+                                                <span class="pull-right o-order-direction">
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
+                                            </th>
+                                            <th class="is-clickable is-orderable" data-column="endDate" role="button">
+                                                <?php echo "End Date"; ?>
+                                                <span class="pull-right o-order-direction">
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
                                             </th>
                                             <?php if ($areClientsEnabled): ?>
                                                 <th class="is-clickable is-orderable" data-column="client"
@@ -414,8 +426,14 @@ if ( ! empty($ordering)) {
                                                     <a href="<?php echo $project->permalink; ?>">
                                                         <?php echo esc_html($project->title); ?>
                                                     </a>
-                                                    <br/>
-                                                    <small><?php echo $project->timeframe; ?></small>
+                                                </td>
+                                                <td data-column="startDate"
+                                                    data-value="<?php echo esc_attr($project->startDate); ?>">
+                                                    <?php echo esc_html($project->startDate); ?>
+                                                </td>
+                                                <td data-column="endDate"
+                                                    data-value="<?php echo esc_attr($project->endDate); ?>">
+                                                    <?php echo esc_html($project->endDate); ?>
                                                 </td>
                                                 <?php if ($areClientsEnabled): ?>
                                                     <td data-column="client"
@@ -534,6 +552,20 @@ if ( ! empty($ordering)) {
                                         </tbody>
                                     </table>
                                 </div>
+                                <span id="pro_count" class="p_count">
+                                    <?php 
+                                        if( $projectsListCount > 0 ) {
+                                            echo $projectsListCount; 
+                                        }
+                                    ?>
+                                </span>
+                                <span class="p_count">
+                                    <?php 
+                                        if( $projectsListCount > 0 ) {
+                                            echo sprintf(_x(' %s found', 'upstream'), upstream_project_label_plural());
+                                        } 
+                                    ?>
+                                </span>
                             <?php else: ?>
                                 <p><?php _e(
                                         "It seems that you're not participating in any project right now.",
