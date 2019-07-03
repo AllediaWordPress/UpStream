@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.24.3
+Stable tag: 1.24.4
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,22 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.24.4] - 2019-06-26 =
+
+* Fixed the order of milestones on tables;
+* Fixed Start and End date fields allowing both to have the same date;
+* Fixed project progress for tasks without a milestone;
+* Fixed project sorting by progress;
+* Fixed overview data when project is in draft status;
+* Fixed the filter by client to accept space;
+* Fixed output date to count the timezone offset;
+* Implemented 'export-as' attribute for table columns allowing to split and export data from columns with more than one information;
+* Fixed sortable behavior for Start and End columns;
+* Fixed consistency in the way we sort tasks and bugs in the admin, using drag-and-drop like on milestones;
+* Added a text to display how many search results were returned in the front-end;
+* Added a lock in the frontend when another user is editing a task or milestone to avoid overwrite changes [by oraclerob];
+
 
 = [1.24.3] - 2019-05-30 =
 
