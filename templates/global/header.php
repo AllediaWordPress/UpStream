@@ -23,3 +23,4 @@ if ( ! defined('ABSPATH')) {
 <body <?php body_class(['nav-md', 'upstream-front-end']); ?>">
 <div class="container body">
     <div class="main_container">
+    <?php do_action('upstream_frontend_header_before_content'); ?>
