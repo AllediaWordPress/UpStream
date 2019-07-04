@@ -188,14 +188,17 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
     $userDisplayName = esc_attr($user_data['display_name']);
 
     $show_users_name = upstream_show_users_name();
-    if( $show_users_name == 0 )
+    if( $show_users_name == 0 ) {
         $output = 'display:none';
-    else
-        $output = 'display:block';
+        $outputImg = 'display:inline';
+    } else {
+        $output = 'display:inline';
+        $outputImg = 'display:none';
+    }
 
     $return = sprintf(
         '
-        <img class="avatar" src="%s" %s />' . '<span style="' . $output . '">' . $userDisplayName . '&nbsp;&nbsp;</span>',
+        <img class="avatar" style="' . $outputImg . '" src="%s" %s />' . '<span class="avatar_custom_text" style="' . $output . '">' . $userDisplayName . '&nbsp;&nbsp;</span>',
         esc_attr($url),
         (bool)$displayTooltip ? sprintf(
             'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
