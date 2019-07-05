@@ -361,6 +361,7 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/class-up-counter.php';
             include_once __DIR__ . '/includes/class-up-project-activity.php';
             include_once __DIR__ . '/includes/up-permalinks.php';
+            include_once __DIR__ . '/includes/up-general-functions.php';
             include_once __DIR__ . '/includes/up-post-types.php';
             include_once __DIR__ . '/includes/up-labels.php';
             include_once __DIR__ . '/includes/class-up-milestones.php';
@@ -427,7 +428,6 @@ if ( ! class_exists('UpStream')) :
                 include_once __DIR__ . '/includes/frontend/class-ajax.php';
             }
 
-            include_once __DIR__ . '/includes/up-general-functions.php';
             include_once __DIR__ . '/includes/up-project-functions.php';
             include_once __DIR__ . '/includes/up-client-functions.php';
             include_once __DIR__ . '/includes/up-permissions-functions.php';

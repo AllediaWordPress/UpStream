@@ -252,3 +252,39 @@ function upstream_setup_taxonomies()
 }
 
 add_action('init', 'upstream_setup_taxonomies', 1);
+
+/**
+ * Milestone taxonomies custom fields.
+ */
+function upstream_milestone_category_form_fields($taxonomy) {
+    $value = '';
+    if (is_object($taxonomy)) {
+        $value = get_term_meta($taxonomy->term_id, 'color', true);
+    }
+
+    ?>
+    <tr class="form-field">
+        <th scope="row" valign="top">
+            <label for="term_color"><?php _e('Default color', 'upstream'); ?></label>
+        </th>
+        <td>
+            <input type="text" name="color" class="color-field" id="term_color" value="<?php echo $value; ?>" />
+            <p class="description">Select a default color for milestones related to this category.</p>
+        </td>
+    </tr>
+    <br>
+    <?php
+}
+
+function upstream_save_milestone_category_form_fields($termId) {
+    if (isset($_POST['color'])) {
+        update_term_meta($termId, 'color', sanitize_text_field($_POST['color']));
+    }
+}
+
+if ( ! is_project_categorization_disabled()) {
+    add_action('upst_milestone_category_add_form_fields', 'upstream_milestone_category_form_fields');
+    add_action('upst_milestone_category_edit_form_fields', 'upstream_milestone_category_form_fields');
+    add_action('edit_terms', 'upstream_save_milestone_category_form_fields');
+    add_action('create_term', 'upstream_save_milestone_category_form_fields');
+}

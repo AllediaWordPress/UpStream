@@ -883,7 +883,21 @@ class Milestone extends Struct
         $this->color = $this->getMetadata(self::META_COLOR, true);
 
         if (empty($this->color)) {
-            $this->color = self::DEFAULT_COLOR;
+            // Check if the category (if set) has any default color.
+            $categories = $this->getCategories();
+            if ( ! empty($categories)) {
+                $firstCategory = $categories[0];
+
+                $categoryDefaultColor = get_term_meta($firstCategory->term_id, 'color', true);
+
+                if ( ! empty($categoryDefaultColor)) {
+                    $this->color = $categoryDefaultColor;
+                }
+            }
+
+            if (empty($this->color)) {
+                $this->color = self::DEFAULT_COLOR;
+            }
         }
 
         return $this->color;
