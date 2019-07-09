@@ -161,6 +161,18 @@ final class UpStream_Metaboxes_Clients
             'type' => 'textarea_small',
         ]);
 
+        $fields = [];
+
+        $fields = apply_filters('upstream_client_metabox_fields', $fields);
+        ksort($fields);
+
+        // loop through ordered fields and add them to the group
+        if ($fields) {
+            foreach ($fields as $key => $value) {
+                $fields[$key] = $metabox->add_field($value);
+            }
+        }
+
         $metaboxGrid    = new Cmb2Grid($metabox);
         $metaboxGridRow = $metaboxGrid->addRow([$phoneField, $websiteField, $addressField]);
     }
