@@ -75,10 +75,7 @@ if ($areTasksEnabled) {
             if (isset($task['assigned_to'])) {
                 $assignedTo = $task['assigned_to'];
 
-                if (
-                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
-                    && ((int)$task['assigned_to'] === $user_id)
-                ) {
+                if (is_array($assignedTo) && in_array($user_id, $assignedTo)) {
                     $tasksCounts['mine']++;
                 }
             }
@@ -137,10 +134,7 @@ if ($areBugsEnabled) {
             if (isset($bug['assigned_to'])) {
                 $assignedTo = $bug['assigned_to'];
 
-                if (
-                    (is_array($assignedTo) && in_array($user_id, $assignedTo))
-                    && ((int)$bug['assigned_to'] === $user_id)
-                ) {
+                if (is_array($assignedTo) && in_array($user_id, $assignedTo)) {
                     $bugsCounts['mine']++;
                 }
             }
