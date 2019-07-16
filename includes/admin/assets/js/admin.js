@@ -355,8 +355,9 @@ jQuery(document).ready(function($) {
             }
         });
     }
-    if( $('.cmb-row.up-o-select2-wrapper select.cmb2_select').length > 0 )
+    if( $('.cmb-row.up-o-select2-wrapper select.cmb2_select').length > 0 ) {
         $('.cmb-row.up-o-select2-wrapper select.cmb2_select').select2();
+    }
     if( $("#_upstream_project_tasks_repeat").length ) {
         $("#_upstream_project_tasks_repeat").sortable();
     }
