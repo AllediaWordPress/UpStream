@@ -1,4 +1,5 @@
 <?php
+use UpStream\Plugins\CustomFields\Model;
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
@@ -70,6 +71,14 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
             $defaults['address'] = __('Address', 'upstream');
             $defaults['users']   = __('Users', 'upstream');
 
+            $rowset = Model::fetchColumnFieldsForType('client', false);
+
+            if (count($rowset) > 0) {
+                foreach ($rowset as $row) {
+                    $defaults[$row->name] = __($row->label, 'upstream');
+                }
+            }
+
             return $defaults;
         }
 
@@ -107,6 +116,18 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
                     upstream_client_render_users_column(upstream_get_client_users($post_id));
 
                     return;
+                }
+            } else {
+                $rowset = Model::fetchColumnFieldsForType('client', false);
+
+                if (count($rowset) > 0) {
+                    foreach ($rowset as $row) {
+                        if ($row->name == $column_name) {
+                            $values = array_filter((array)$row->getValue($post_id));
+                            $columnValue = esc_html(implode(', ', $values));
+                            break;
+                        }
+                    }
                 }
             }
 
