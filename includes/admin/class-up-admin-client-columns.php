@@ -71,15 +71,11 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
             $defaults['address'] = __('Address', 'upstream');
             $defaults['users']   = __('Users', 'upstream');
 
-            $fields = [];
+            $rowset = Model::fetchColumnFieldsForType('client', false);
 
-            $fields = apply_filters('upstream_client_metabox_fields', $fields);
-            ksort($fields);
-
-            // loop through ordered fields and add them to the group
-            if ($fields) {
-                foreach ($fields as $key => $value) {
-                    $defaults[$value['id']] = __($value['name'], 'upstream');
+            if (count($rowset) > 0) {
+                foreach ($rowset as $row) {
+                    $defaults[$row->name] = __($row->label, 'upstream');
                 }
             }
 
