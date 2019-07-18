@@ -358,12 +358,14 @@ jQuery(document).ready(function($) {
     $(".task-status").on("click", function() {
         var taskId = $(this).val();
         var curObj = $(this); 
+        var curPer = curObj.closest('.cmb2GridRow').find(".task-progress").val();
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: {
                 action: 'upstream.task-edit.gettaskpercent',
-                task_id: taskId
+                task_id: taskId, 
+                cur_per: curPer
             },
             success: function (response) {
                 curObj.closest('.cmb2GridRow').find(".task-progress").val(response).change();
