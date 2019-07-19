@@ -160,7 +160,8 @@ if ( ! class_exists('UpStream_Options_Tasks')) :
                                         'open'   => __('Open', 'upstream'),
                                         'closed' => __('Closed', 'upstream'),
                                     ],
-                                    [
+                                ],
+                                [
                                     'name'      => __('Percentage', 'upstream'),
                                     'id'        => 'percent',
                                     'type'      => 'select',
@@ -190,8 +191,6 @@ if ( ! class_exists('UpStream_Options_Tasks')) :
                                 ],
                             ],
                         ],
-
-
                     ],
                 ]
             );
