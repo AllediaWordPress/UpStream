@@ -160,11 +160,12 @@ if ( ! class_exists('UpStream_Options_Tasks')) :
                                         'open'   => __('Open', 'upstream'),
                                         'closed' => __('Closed', 'upstream'),
                                     ],
-                                    [
-                                    'name'      => __('Percentage', 'upstream'),
-                                    'id'        => 'percent',
-                                    'type'      => 'select',
-                                    'options'   => [
+                                ],
+                                [
+                                    'name'    => __('Percentage', 'upstream'),
+                                    'id'      => 'percent',
+                                    'type'    => 'select',
+                                    'options' => [
                                         '0'   => __('0%'),
                                         '5'   => __('5%'),
                                         '10'  => __('10%'),
@@ -189,10 +190,10 @@ if ( ! class_exists('UpStream_Options_Tasks')) :
                                     ],
                                 ],
                                 [
-                                    'name'      => __('Percentage', 'upstream'),
-                                    'id'        => 'percent',
-                                    'type'      => 'select',
-                                    'options'   => [
+                                    'name'    => __('Percentage', 'upstream'),
+                                    'id'      => 'percent',
+                                    'type'    => 'select',
+                                    'options' => [
                                         '0'   => __('0%'),
                                         '5'   => __('5%'),
                                         '10'  => __('10%'),
