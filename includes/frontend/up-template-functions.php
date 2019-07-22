@@ -61,14 +61,19 @@ function upstream_output_client_users($id = null)
 function upstream_output_project_members($id = null)
 {
     $users = (array)upstream_project_users($id);
+    $ctr = 0;
 
     if (count($users) > 0): ?>
         <ul class="list-inline">
-            <?php foreach ($users as $user_id): ?>
-                <li>
+            <li style="white-space: nowrap;">
+            <?php foreach ($users as $user_id): $ctr++;?>
+            <?php    if ($ctr == count($users) || upstream_show_users_name() == 0):  ?>
                     <?php echo upstream_user_avatar($user_id); ?>
-                </li>
+            <?php   else: ?>
+                    <?php echo upstream_user_avatar($user_id) . ' ,';?>
+            <?php   endif; ?>
             <?php endforeach; ?>
+            </li>
         </ul>
     <?php else: ?>
         <span class="text-muted"><i><?php echo '(' . __('none', 'upstream') . ')'; ?></i></span>

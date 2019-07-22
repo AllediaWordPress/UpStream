@@ -23,7 +23,7 @@ To release the plugin, please make sure to check all the checkboxes below.
 After all the tests are passing:
 
 - [ ] Finish the release running: `$ git flow release finish VERSION`
-- [ ] Create the release in Github (make sure it is based on the `master` branch and has a correct tag name - version number without prefix)
+- [ ] Create the release in Github (make sure it has the correct tag name - version number without prefix)
 
 #### SVN Repo
 - [ ] Cleanup the `trunk` directory.
@@ -32,5 +32,5 @@ After all the tests are passing:
 - [ ] Look for new files `$ svn status | grep \?` and add them using `$ svn add <each_file_path>`
 - [ ] Look for removed files `$ svn status | grep !` and remove them `$ svn rm <each_file_path>`
 - [ ] Create the new tag `$ svn cp trunk tags/<version>`
-- [ ] Commit the changes `$ svn ci 'Releasing <version>'`
+- [ ] Commit the changes `$ svn ci -m 'Releasing <version>'`
 - [ ] Wait until WordPress updates the version number and make the final test updating the plugin in a staging site

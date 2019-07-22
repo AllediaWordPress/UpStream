@@ -358,12 +358,14 @@ jQuery(document).ready(function($) {
     $(".task-status").on("click", function() {
         var taskId = $(this).val();
         var curObj = $(this); 
+        var curPer = curObj.closest('.cmb2GridRow').find(".task-progress").val();
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: {
                 action: 'upstream.task-edit.gettaskpercent',
-                task_id: taskId
+                task_id: taskId, 
+                cur_per: curPer
             },
             success: function (response) {
                 curObj.closest('.cmb2GridRow').find(".task-progress").val(response).change();
@@ -385,6 +387,9 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    if( $('.cmb-row.up-o-select2-wrapper select.cmb2_select').length > 0 ) {
+        $('.cmb-row.up-o-select2-wrapper select.cmb2_select').select2();
+    }
     if( $("#_upstream_project_tasks_repeat").length ) {
         $("#_upstream_project_tasks_repeat").sortable();
     }
