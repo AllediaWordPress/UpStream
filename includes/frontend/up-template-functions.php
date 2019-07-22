@@ -43,13 +43,24 @@ function upstream_get_template_part($part)
 function upstream_output_client_users($id = null)
 {
     $users = (array)upstream_project_client_users($id);
+    $isAfterFirstItem = false;
 
     if (count($users) > 0): ?>
         <ul class="list-inline">
             <li>
-            <?php foreach ($users as $user_id): ?>
-                <?php echo upstream_user_avatar($user_id); ?>
-            <?php endforeach; ?>
+            <?php
+            foreach ($users as $user_id) {
+                if (upstream_show_users_name()) {
+                    if ($isAfterFirstItem) {
+                        echo ',&nbsp;';
+                    }
+
+                    $isAfterFirstItem = true;
+                }
+
+                echo upstream_user_avatar($user_id);
+            }
+            ?>
             </li>
         </ul>
     <?php else: ?>
@@ -61,23 +72,32 @@ function upstream_output_client_users($id = null)
 function upstream_output_project_members($id = null)
 {
     $users = (array)upstream_project_users($id);
-    $ctr = 0;
 
-    if (count($users) > 0): ?>
+    if (count($users) > 0) {
+    ?>
         <ul class="list-inline">
             <li style="white-space: nowrap;">
-            <?php foreach ($users as $user_id): $ctr++;?>
-            <?php    if ($ctr == count($users) || upstream_show_users_name() == 0):  ?>
-                    <?php echo upstream_user_avatar($user_id); ?>
-            <?php   else: ?>
-                    <?php echo upstream_user_avatar($user_id) . ' ,';?>
-            <?php   endif; ?>
-            <?php endforeach; ?>
+            <?php
+            $isAfterFirstItem = false;
+
+            foreach ($users as $user_id) {
+                if (upstream_show_users_name()) {
+                    if ($isAfterFirstItem) {
+                        echo ',&nbsp;';
+                    }
+
+                    $isAfterFirstItem = true;
+                }
+
+                echo upstream_user_avatar($user_id);
+            }
+            ?>
             </li>
         </ul>
-    <?php else: ?>
+    <?php } else { ?>
         <span class="text-muted"><i><?php echo '(' . __('none', 'upstream') . ')'; ?></i></span>
-    <?php endif;
+        <?php
+    }
 }
 
 function upstream_get_file_preview($attachment_id, $attachment_url, $useLi = true)
