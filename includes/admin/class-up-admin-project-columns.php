@@ -125,9 +125,6 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 $columns['taxonomy-' . $taxonomy] = get_taxonomy($taxonomy)->labels->name;
             }
 
-            unset($defaults['taxonomy-project_category']);
-            unset($defaults['taxonomy-upstream_tag']);
-
             $defaults['owner'] = __('Owner', 'upstream');
 
             if ( ! is_clients_disabled()) {

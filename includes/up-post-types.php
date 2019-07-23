@@ -206,4 +206,4 @@ function upstream_setup_taxonomies()
     register_taxonomy_for_object_type('upstream_tag', 'project');
 }
 
-add_action('init', 'upstream_setup_taxonomies', 0);
+//add_action('init', 'upstream_setup_taxonomies', 0);
