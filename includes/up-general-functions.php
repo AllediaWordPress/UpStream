@@ -677,7 +677,7 @@ function upstream_show_users_name()
 {
     $option = get_option('upstream_general');
 
-    return isset($option['show_users_name']) ? (bool)$option['show_users_name'] : true;
+    return isset($option['show_users_name']) ? (bool)$option['show_users_name'] : false;
 }
 
 function upstream_logo_url()
