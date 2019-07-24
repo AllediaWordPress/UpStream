@@ -67,7 +67,7 @@ class UpStream_Admin
     }
 
     /**
-     * @since   1.14.1
+     * @since   1.24.5
      * @static
      */
     public function editMenuOrder()
