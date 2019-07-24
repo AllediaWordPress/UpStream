@@ -180,22 +180,28 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
     if ( ! $user_id) {
         return;
     }
+
     // get user data & ignore current user.
     // if we want current user, pass the ID
-    $user_data = upstream_user_data($user_id, true);
-    $url       = isset($user_data['avatar']) ? $user_data['avatar'] : '';
+    $user_data       = upstream_user_data($user_id, true);
+    $userDisplayName = $user_data['display_name'];
 
-    $userDisplayName = esc_attr($user_data['display_name']);
-
-    $return = sprintf(
-        '
-        <img class="avatar" src="%s" %s />' . '<span style="display:none">' . $userDisplayName . ', </span>',
-        esc_attr($url),
-        (bool)$displayTooltip ? sprintf(
-            'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
-            $userDisplayName
-        ) : ''
-    );
+    //Display the name only
+    if ( ! upstream_show_users_name()) {
+        $url     = isset($user_data['avatar']) ? $user_data['avatar'] : '';
+        $tooltip = (bool)$displayTooltip ?
+            sprintf(
+                'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
+                $userDisplayName
+            ) : '';
+        $return  = sprintf(
+            '<img class="avatar" src="%s" %s />',
+            esc_attr($url),
+            $tooltip
+        );
+    } else {
+        $return = '<span class="avatar_custom_text">' . $userDisplayName . '</span>';
+    }
 
     return apply_filters('upstream_user_avatar', $return);
 }
@@ -667,6 +673,13 @@ function upstream_archive_closed_items()
     return isset($option['archive_closed_items']) ? (bool)$option['archive_closed_items'] : true;
 }
 
+function upstream_show_users_name()
+{
+    $option = get_option('upstream_general');
+
+    return isset($option['show_users_name']) ? (bool)$option['show_users_name'] : true;
+}
+
 function upstream_logo_url()
 {
     $option = get_option('upstream_general');
@@ -1014,10 +1027,10 @@ function applyOEmbedFiltersToWysiwygEditorContent($content, $field_args, $field)
  *
  * @param int $post_id The project ID to be checked
  *
+ * @param int $post_id The project ID to be checked
+ *
  * @return  bool
  * @since   1.8.0
- *
- * @param   int $post_id The project ID to be checked
  *
  */
 function upstream_are_comments_disabled($post_id = 0)

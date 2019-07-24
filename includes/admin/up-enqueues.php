@@ -75,24 +75,24 @@ function upstream_load_admin_scripts($hook)
 
         $validPostTypes = apply_filters('upstream_admin_script_valid_post_types', ['project', 'upst_milestone']);
 
+        wp_enqueue_style(
+            'up-select2',
+            $globalAssetsPath . 'css/vendor/select2.min.css',
+            [],
+            UPSTREAM_VERSION,
+            'all'
+        );
+        wp_enqueue_script(
+            'up-select2',
+            $globalAssetsPath . 'js/vendor/select2.full.min.js',
+            [],
+            UPSTREAM_VERSION,
+            true
+        );
+        unset($globalAssetsPath);
+
         if (in_array($postType, $validPostTypes, true)) {
             global $post_type_object;
-
-            wp_enqueue_style(
-                'up-select2',
-                $globalAssetsPath . 'css/vendor/select2.min.css',
-                [],
-                UPSTREAM_VERSION,
-                'all'
-            );
-            wp_enqueue_script(
-                'up-select2',
-                $globalAssetsPath . 'js/vendor/select2.full.min.js',
-                [],
-                UPSTREAM_VERSION,
-                true
-            );
-            unset($globalAssetsPath);
 
             wp_register_script(
                 'upstream-project',

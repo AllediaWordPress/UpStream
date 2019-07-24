@@ -1,2 +1,2 @@
 <?php
-define('UPSTREAM_VERSION', '1.24.4');
+define('UPSTREAM_VERSION', '1.25.0');
