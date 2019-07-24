@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.25.0
+Stable tag: 1.25.1
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -142,7 +142,11 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-= [1.25.0] - 2019-07-22 =
+= [1.25.1] - 2019-07-24 =
+
+* Fixed the default value for the Show Users Names setting;
+
+= [1.25.0] - 2019-07-24 =
 
 * Added automatic status change for tasks based on specific percentage and vice-versa;
 * Fixed number of active tasks for the user in the frontend;
