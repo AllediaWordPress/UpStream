@@ -530,6 +530,10 @@ function upstream_format_date($timestamp, $dateFormat = null)
         $dateFormat = get_option('date_format', 'Y-m-d');
     }
 
+    if ($dateFormat == 'F j, Y') {
+        $dateFormat = 'F d, Y';
+    }
+
     if ( ! $timestamp) {
         $date = null;
     } else {
