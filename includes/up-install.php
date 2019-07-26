@@ -186,18 +186,20 @@ function upstream_add_default_options()
     // general options
     $general = get_option('upstream_general');
     if ( ! $general || empty($general)) {
-        $general['project']['single']   = 'Project';
-        $general['project']['plural']   = 'Projects';
-        $general['client']['single']    = 'Client';
-        $general['client']['plural']    = 'Clients';
-        $general['milestone']['single'] = 'Milestone';
-        $general['milestone']['plural'] = 'Milestones';
-        $general['task']['single']      = 'Task';
-        $general['task']['plural']      = 'Tasks';
-        $general['bug']['single']       = 'Bug';
-        $general['bug']['plural']       = 'Bugs';
-        $general['file']['single']      = 'File';
-        $general['file']['plural']      = 'Files';
+        $general['project']['single']       = 'Project';
+        $general['project']['plural']       = 'Projects';
+        $general['client']['single']        = 'Client';
+        $general['client']['plural']        = 'Clients';
+        $general['milestone']['single']     = 'Milestone';
+        $general['milestone']['plural']     = 'Milestones';
+        $general['milestone_category']['single'] = 'Milestone Category';
+        $general['milestone_category']['plural'] = 'Milestone Categories';
+        $general['task']['single']          = 'Task';
+        $general['task']['plural']          = 'Tasks';
+        $general['bug']['single']           = 'Bug';
+        $general['bug']['plural']           = 'Bugs';
+        $general['file']['single']          = 'File';
+        $general['file']['plural']          = 'Files';
 
         $general['login_heading'] = 'Project Login';
         $general['admin_email']   = get_bloginfo('admin_email');
@@ -431,6 +433,17 @@ function upstream_update_data($old_version, $new_version)
 
     $hasFinishedMigration = get_option('_upstream_migration_finished_1.24.0', null);
     if (empty($hasFinishedMigration) && version_compare($old_version, '1.24.0', '<')) {
+        $this->upstreamMilestoneTags();
+
+        // Default labels for Milestone Categories
+        $general = get_option('upstream_general');
+
+        $general['milestone_category']['single'] = 'Milestone Category';
+        $general['milestone_category']['plural'] = 'Milestone Categories';
+
+        update_option('upstream_general', $general);
+
+
         // Make sure administrator and managers are able to work with the new milestones.
         $roles = [
             'upstream_manager',
@@ -444,25 +457,25 @@ function upstream_update_data($old_version, $new_version)
             if (is_object($role)) {
                 $capabilities = [
                     // Post type
-                    "edit_milestone",
-                    "read_milestone",
-                    "delete_milestone",
-                    "edit_milestones",
-                    "edit_others_milestones",
-                    "publish_milestones",
-                    "read_private_milestones",
-                    "delete_milestones",
-                    "delete_private_milestones",
-                    "delete_published_milestones",
-                    "delete_others_milestones",
-                    "edit_private_milestones",
-                    "edit_published_milestones",
+                    'edit_milestone',
+                    'read_milestone',
+                    'delete_milestone',
+                    'edit_milestones',
+                    'edit_others_milestones',
+                    'publish_milestones',
+                    'read_private_milestones',
+                    'delete_milestones',
+                    'delete_private_milestones',
+                    'delete_published_milestones',
+                    'delete_others_milestones',
+                    'edit_private_milestones',
+                    'edit_published_milestones',
 
                     // Terms
-                    "manage_milestone_terms",
-                    "edit_milestone_terms",
-                    "delete_milestone_terms",
-                    "assign_milestone_terms",
+                    'manage_milestone_terms',
+                    'edit_milestone_terms',
+                    'delete_milestone_terms',
+                    'assign_milestone_terms',
                 ];
 
                 foreach ($capabilities as $capability) {

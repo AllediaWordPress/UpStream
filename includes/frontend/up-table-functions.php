@@ -4,6 +4,7 @@ namespace UpStream\Frontend;
 
 use UpStream\Exception;
 use UpStream\Factory;
+use UpStream\Milestones;
 use UpStream_View;
 
 function arrayToAttrs($data)
@@ -81,6 +82,35 @@ function getMilestonesFields($areCommentsEnabled = null)
             'isEditable' => false,
         ],
     ];
+
+    if ( ! upstream_disable_milestone_categories()) {
+        $schema['categories'] = [
+            'type'           => 'taxonomies',
+            'isOrderable'    => true,
+            'label'          => upstream_milestone_category_label_plural(),
+            'renderCallback' => function ($columnName, $columnValue, $column, $row, $rowType, $projectId) {
+                if (empty($columnValue)) {
+                    if ( ! is_array($columnValue)) {
+                        $columnValue = [$columnValue];
+                    }
+
+                    foreach ($columnValue as &$value) {
+                        $term = get_term((int)$value);
+
+                        if ( ! is_wp_error($term)) {
+                            $value = $term->name;
+                        }
+                    }
+
+                    $columnValue = implode(',', $columnValue);
+                } else {
+                    $columnValue = sprintf('<i class="s-text-color-gray">%s</i>', __('none', 'upstream'));
+                }
+
+                return $columnValue;
+            },
+        ];
+    }
 
     if ($areCommentsEnabled === null) {
         $areCommentsEnabled = upstreamAreCommentsEnabledOnMilestones();
@@ -573,6 +603,28 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         }
 
         $html = upstream_get_users_display_name($columnValue);
+    } elseif ($columnType === 'taxonomies') {
+        if ( ! is_array($columnValue)) {
+            $columnValue = (array)$columnValue;
+        }
+
+        $html = '';
+
+        if ( ! empty($columnValue)) {
+            $names = [];
+
+            foreach ($columnValue as $value) {
+                if (is_numeric($value)) {
+                    $term = get_term((int)$value);
+
+                    $names[] = $term->name;
+                } else {
+                    $names[] = $value;
+                }
+            }
+
+            $html = implode(', ', $names);
+        }
     } elseif ($columnType === 'percentage') {
         $html = sprintf('%d%%', (int)$columnValue);
     } elseif ($columnType === 'date') {
@@ -733,15 +785,19 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
             <?php foreach ($visibleColumnsSchema as $columnName => $column):
                 $columnValue = isset($row[$columnName]) ? $row[$columnName] : null;
 
-                if ($column['type'] === 'user') {
+                if (in_array($column['type'], ['user', 'array'])) {
                     if ( ! is_array($columnValue)) {
                         $columnValue = [(int)$columnValue];
                     }
                 }
 
+                if ($column['type'] === 'taxonomies' && is_array($columnValue)) {
+                    $columnValue = Milestones::getInstance()->getCategoriesNames($columnValue);
+                }
+
                 $columnAttrs = [
                     'data-column' => $columnName,
-                    'data-value'  => $column['type'] === 'user' ? implode(',', $columnValue) : $columnValue,
+                    'data-value'  => is_array($columnValue) ? implode(', ', $columnValue) : $columnValue,
                     'data-type'   => $column['type'],
                 ];
 
@@ -859,7 +915,7 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
     </table>
     <?php
     $optArr = array(
-        'milestone' => upstream_milestone_label_plural(), 
+        'milestone' => upstream_milestone_label_plural(),
         'task'      => upstream_task_label_plural(),
         'bug'       => upstream_bug_label_plural(),
         'file'      => upstream_file_label_plural(),
@@ -868,8 +924,8 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
     echo "<span class='sub_count p_count' id='" . $itemType . "_count'>" . $countValue . "</span>";
     ?>
     <span class="p_count">
-        <?php 
-            if (count($data) > 0) { 
+        <?php
+            if (count($data) > 0) {
                 echo sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]);
             }
         ?>

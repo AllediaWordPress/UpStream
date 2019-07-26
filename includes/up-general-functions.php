@@ -67,9 +67,8 @@ function upstream_disable_bugs()
 {
     $options      = get_option('upstream_general');
     $disable_bugs = isset($options['disable_bugs']) ? $options['disable_bugs'] : ['no'];
-    if ($disable_bugs[0] == 'yes') {
-        return true;
-    }
+
+    return $disable_bugs[0] == 'yes';
 }
 
 
@@ -978,6 +977,15 @@ function upstream_disable_milestones()
     return $areMilestonesDisabled;
 }
 
+function upstream_disable_milestone_categories()
+{
+    $options = get_option('upstream_general');
+
+    $checked = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : 0;
+
+    return $checked[0] == 1;
+}
+
 function upstream_disable_files()
 {
     $options = get_option('upstream_general');
@@ -1344,6 +1352,24 @@ function upstreamAreCommentsEnabledOnFiles()
     $optionName = 'disable_comments_on_files';
 
     $allow = isset($options[$optionName]) ? (bool)$options[$optionName] : true;
+
+    return $allow;
+}
+
+/**
+ * Check if should show all the projects in the sidebar.
+ *
+ * @return  bool
+ * @since   1.13.0
+ *
+ */
+function upstreamShowAllProjectsInSidebar()
+{
+    $options = get_option('upstream_general');
+
+    $optionName = 'show_all_projects_sidebar';
+
+    $allow = isset($options[$optionName]) ? (bool)$options[$optionName] : false;
 
     return $allow;
 }

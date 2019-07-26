@@ -18,6 +18,8 @@ class UpStream_Debug
 
     const ACTION_DELETE_LOG = 'delete_log';
 
+    const ADMIN_PAGE_URL_FRAGMENT = 'admin.php?page=';
+
     protected static $path;
 
     protected static $initialized = false;
@@ -56,6 +58,22 @@ class UpStream_Debug
     }
 
     /**
+     * Returns true if debug is enabled in the UpStream settings.
+     *
+     * @return bool
+     */
+    public static function is_enabled()
+    {
+        $option = get_option('upstream_general');
+
+        $key = 'debug';
+
+        return array_key_exists($key, $option)
+               && ! empty($option[$key])
+               && (int)$option[$key][0] === 1;
+    }
+
+    /**
      * Get things going
      *
      * @since 1.0.0
@@ -69,26 +87,12 @@ class UpStream_Debug
         static::$path = str_replace('//', '/', WP_CONTENT_DIR . '/' . static::FILE);
 
         // Admin bar.
-        add_action('admin_bar_menu', ['UpStream_Debug', 'admin_bar_menu'], 99);
+        add_action('admin_bar_menu', [__CLASS__, 'admin_bar_menu'], 99);
 
         // Admin menu.
-        add_action('admin_menu', ['UpStream_Debug', 'admin_menu']);
+        add_action('admin_menu', [__CLASS__, 'admin_menu']);
 
         static::$initialized = true;
-    }
-
-    /**
-     * Returns true if debug is enabled in the UpStream settings.
-     *
-     * @return bool
-     */
-    public static function is_enabled()
-    {
-        $option = get_option('upstream_general', []);
-
-        return array_key_exists('debug', $option)
-               && ! empty($option['debug'])
-               && (int)$option['debug'][0] === 1;
     }
 
     public static function admin_bar_menu()
@@ -98,7 +102,7 @@ class UpStream_Debug
         $args = [
             'id'    => 'upstream_debug',
             'title' => __('UpStream Debug Log', 'upstream'),
-            'href'  => admin_url('admin.php?page=' . static::PAGE_SLUG),
+            'href'  => admin_url(static::ADMIN_PAGE_URL_FRAGMENT . static::PAGE_SLUG),
         ];
 
         $wp_admin_bar->add_menu($args);
@@ -108,12 +112,12 @@ class UpStream_Debug
     {
         // Admin menu.
         add_submenu_page(
-            admin_url('admin.php?page=' . static::PAGE_SLUG),
+            admin_url(static::ADMIN_PAGE_URL_FRAGMENT . static::PAGE_SLUG),
             __('Debug Log'),
             __('Debug Log'),
             'activate_plugins',
             'upstream_debug_log',
-            ['UpStream_Debug', 'view_log_page']
+            [__CLASS__, 'view_log_page']
         );
     }
 
@@ -200,37 +204,38 @@ class UpStream_Debug
     protected static function handle_actions()
     {
         // Are we on the correct page?
-        if ( ! array_key_exists('page', $_GET) || $_GET['page'] !== static::PAGE_SLUG) {
+        $pageParam = 'page';
+        if ( ! array_key_exists($pageParam, $_GET) || $_GET[$pageParam] !== static::PAGE_SLUG) {
             return;
         }
 
         // Do we have an action?
-        if ( ! array_key_exists('action', $_GET) || empty($_GET['action'])) {
+        $actionParam = 'action';
+        if ( ! array_key_exists($actionParam, $_GET) || empty($_GET[$actionParam])) {
             return;
         }
 
-        $action = preg_replace('/[^a-z0-9_\-]/i', '', $_GET['action']);
+        $action = preg_replace('/[^a-z0-9_\-]/i', '', $_GET[$actionParam]);
 
         // Do we have a nonce?
-        if ( ! array_key_exists('_wpnonce', $_GET) || empty($_GET['_wpnonce'])) {
+        $wpOnceParam = '_wpnonce';
+        if ( ! array_key_exists($wpOnceParam, $_GET) || empty($_GET[$wpOnceParam])) {
             static::$messages[] = __('Action nonce not found.', 'upstream');
 
             return;
         }
 
         // Check the nonce.
-        if ( ! wp_verify_nonce($_GET['_wpnonce'], $action)) {
+        if ( ! wp_verify_nonce($_GET[$wpOnceParam], $action)) {
             static::$messages[] = __('Invalid action nonce.', 'upstream');
 
             return;
         }
 
-        if ($action === static::ACTION_DELETE_LOG) {
-            if (file_exists(static::$path)) {
-                unlink(static::$path);
-            }
+        if ($action === static::ACTION_DELETE_LOG && file_exists(static::$path)) {
+            unlink(static::$path);
         }
 
-        wp_redirect(admin_url('admin.php?page=' . static::PAGE_SLUG));
+        wp_redirect(admin_url(static::ADMIN_PAGE_URL_FRAGMENT . static::PAGE_SLUG));
     }
 }

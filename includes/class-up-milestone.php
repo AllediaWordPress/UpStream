@@ -161,6 +161,11 @@ class Milestone extends Struct
     protected $taskOpen;
 
     /**
+     * @var array
+     */
+    protected $categories;
+
+    /**
      * Milestone constructor.
      *
      * @param int|\WP_Post|string $post
@@ -400,10 +405,10 @@ class Milestone extends Struct
     public function getProjectId()
     {
         if (null === $this->projectId) {
-            $this->projectId = $this->getMetadata(self::META_PROJECT_ID, true);
+            $this->projectId = (int)$this->getMetadata(self::META_PROJECT_ID, true);
         }
 
-        return $this->projectId;
+        return (int)$this->projectId;
     }
 
     /**
@@ -448,22 +453,31 @@ class Milestone extends Struct
      */
     public function convertToLegacyRowset()
     {
-        $assignees = $this->getAssignedTo();
+        $assignees  = $this->getAssignedTo();
+        $categories = $this->getCategories();
+
+        if ( ! empty($categories)) {
+            $categoriesIds = array_map([$this, 'convertCategoryToLegacyRowset'], $categories);
+        } else {
+            $categoriesIds = [];
+        }
 
         $row = [
-            'id'              => $this->getId(),
-            'milestone'       => $this->getName(),
-            'milestone_order' => $this->getOrder(),
-            'created_by'      => $this->getCreatedBy(),
-            'created_time'    => $this->getCreatedOn('unix'),
-            'assigned_to'     => $assignees,
-            'progress'        => $this->getProgress(),
-            'notes'           => $this->getNotes(),
-            'start_date'      => $this->getStartDate('unix'),
-            'end_date'        => $this->getEndDate('unix'),
-            'task_count'      => $this->getTaskCount(),
-            'task_open'       => $this->getTaskOpen(),
-            'color'           => $this->getColor(),
+            'id'               => $this->getId(),
+            'milestone'        => $this->getName(),
+            'milestone_order'  => $this->getOrder(),
+            'created_by'       => $this->getCreatedBy(),
+            'created_time'     => $this->getCreatedOn('unix'),
+            'assigned_to'      => $assignees,
+            'progress'         => $this->getProgress(),
+            'notes'            => $this->getNotes(),
+            'start_date'       => $this->getStartDate('unix'),
+            'end_date'         => $this->getEndDate('unix'),
+            'task_count'       => $this->getTaskCount(),
+            'task_open'        => $this->getTaskOpen(),
+            'color'            => $this->getColor(),
+            'categories'       => $categoriesIds,
+            'categories_order' => $this->getMilestonesInstance()->getCategoriesNames($categories),
         ];
 
         if ( ! empty($assignees)) {
@@ -505,6 +519,66 @@ class Milestone extends Struct
         $this->assignedTo = $this->sanitizeArrayOfIds($assignedTo);
 
         $this->updateNonUniqueMetadata(self::META_ASSIGNED_TO, $this->assignedTo);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $onlyKeys
+     *
+     * @return array
+     */
+    public function getCategories($onlyKeys = false)
+    {
+        if (upstream_disable_milestone_categories()) {
+            return [];
+        }
+
+        if ( ! isset($this->categories)) {
+            $this->categories = wp_get_object_terms($this->postId, 'upst_milestone_category');
+        }
+
+        if ( ! $onlyKeys) {
+            $categories = $this->categories;
+        } else {
+            if (empty($this->categories)) {
+                $categories = [];
+            } else {
+                $categories = array_map([$this, 'convertCategoryToLegacyRowset'], $this->categories);
+            }
+        }
+
+        return (array)$categories;
+    }
+
+    /**
+     * This method accepts array of integers (term_id) or instances of WP_Term.
+     *
+     * @param array $categories
+     *
+     * @return Milestone
+     *
+     * @throws Exception
+     */
+    public function setCategories($categories)
+    {
+        if ( ! is_array($categories)) {
+            $categories = [];
+        }
+
+        $newCategories = [];
+
+        if ( ! empty($categories)) {
+            foreach ($categories as $category) {
+                if (is_object($category) && get_class($category) === 'WP_Term') {
+                    $category = $category->term_id;
+                }
+
+                $newCategories[] = (int)$category;
+            }
+        }
+
+        wp_set_object_terms($this->postId, $newCategories, 'upst_milestone_category');
 
         return $this;
     }
@@ -809,10 +883,38 @@ class Milestone extends Struct
         $this->color = $this->getMetadata(self::META_COLOR, true);
 
         if (empty($this->color)) {
-            $this->color = self::DEFAULT_COLOR;
+            // Check if the category (if set) has any default color.
+            $categories = $this->getCategories();
+            if ( ! empty($categories)) {
+                $firstCategory = $categories[0];
+
+                $categoryDefaultColor = get_term_meta($firstCategory->term_id, 'color', true);
+
+                if ( ! empty($categoryDefaultColor)) {
+                    $this->color = $categoryDefaultColor;
+                }
+            }
+
+            if (empty($this->color)) {
+                $this->color = self::DEFAULT_COLOR;
+            }
         }
 
         return $this->color;
+    }
+
+    /**
+     * @param string $newColor
+     *
+     * @return Milestone
+     */
+    public function setColor($newColor)
+    {
+        $this->color = sanitize_text_field($newColor);
+
+        $this->updateMetadata([self::META_COLOR => $newColor]);
+
+        return $this;
     }
 
     /**
@@ -888,18 +990,9 @@ class Milestone extends Struct
         return preg_match('/^\d+$/', $date);
     }
 
-    /**
-     * @param string $newColor
-     *
-     * @return Milestone
-     */
-    public function setColor($newColor)
+    public function convertCategoryToLegacyRowset($category)
     {
-        $this->color = sanitize_text_field($newColor);
-
-        $this->updateMetadata([self::META_COLOR => $newColor]);
-
-        return $this;
+        return $category->term_id;
     }
 
     /**
@@ -925,5 +1018,31 @@ class Milestone extends Struct
         ]);
 
         return $comments;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInProgress()
+    {
+        $progress = $this->getProgress();
+
+        return $progress > 0 && $progress < 100;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpcoming()
+    {
+        return ($this->getStartDate('unix') < time()) && ! $this->isCompleted();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->getProgress() == 100;
     }
 }
