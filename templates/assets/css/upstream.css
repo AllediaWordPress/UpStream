@@ -436,6 +436,7 @@ td .btn {
 
 .upstream-front-end table {
     font-size: 13px;
+    table-layout: fixed;
 }
 
 /* sortable */
