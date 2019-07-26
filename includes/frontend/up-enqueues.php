@@ -19,20 +19,34 @@ function upstream_enqueue_styles_scripts()
         return;
     }
 
-    // Dequeueing styles
+    // Dequeue styles
     if (is_array($wp_styles->queue)) {
+        /**
+         * @param array $styleWhitelist
+         *
+         * @return array
+         */
+        $styleWhitelist = (array)apply_filters('upstream_frontend_style_whitelist', []);
+
         foreach ($wp_styles->queue as $style) {
-            wp_dequeue_style($style);
+            if ( ! in_array($style, $styleWhitelist)) {
+                wp_dequeue_style($style);
+            }
         }
     }
-    // Dequeueing scripts
-    $scripts_to_keep = ['jquery'];
+    // Dequeue scripts
     if (is_array($wp_scripts->queue)) {
+        /**
+         * @param array $scriptWhitelist
+         *
+         * @return array
+         */
+        $scriptWhitelist = (array)apply_filters('upstream_frontend_script_whitelist', ['jquery']);
+
         foreach ($wp_scripts->queue as $script) {
-            if (in_array($script, $scripts_to_keep)) {
-                continue;
+            if ( ! in_array($script, $scriptWhitelist)) {
+                wp_dequeue_script($script);
             }
-            wp_dequeue_script($script);
         }
     }
 
