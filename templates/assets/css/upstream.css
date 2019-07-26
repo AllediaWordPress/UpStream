@@ -439,6 +439,10 @@ td .btn {
     table-layout: fixed;
 }
 
+.upstream-front-end table td {
+    word-break: break-all;
+}
+
 /* sortable */
 #project-dashboard.sortable .ui-state-disabled .x_title {
     cursor: default;
