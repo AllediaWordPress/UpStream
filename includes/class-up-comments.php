@@ -1071,7 +1071,14 @@ class Comments
                     set_transient('upstream:comment_notification.user:' . $owner->id, $owner, $transientExpiration);
                 }
 
-                $recipients[] = $owner->email;
+                $recipients[] = array();
+                $pms = upstream_project_members_ids($comment->project_id);
+                foreach ($pms as $pm) {
+                    $user_info = get_userdata($pm);
+                    $email = $user_info->user_email;
+                    $recipients[] = $email;
+                }
+              
             }
 
             if ($comment->target !== 'project') {
