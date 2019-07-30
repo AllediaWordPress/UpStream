@@ -158,6 +158,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Fixed an error in the front-end related to UpStream_View class not being found;
 * Added action to inject custom content before the front-end pagel
 * Added new filters to whitelist styles or scripts in the front-end, avoiding to dequeue them;
+* Fixed Clients admin page to not break on fresh installs;
 
 = [1.25.1] - 2019-07-24 =
 
