@@ -159,6 +159,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 * Added action to inject custom content before the front-end pagel
 * Added new filters to whitelist styles or scripts in the front-end, avoiding to dequeue them;
 * Fixed Clients admin page to not break when Custom Fields add-on is not installed;
+* Changed notifications to email all project's users for new comments/discussions;
 
 = [1.25.1] - 2019-07-24 =
 
