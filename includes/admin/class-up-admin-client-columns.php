@@ -71,11 +71,13 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
             $defaults['address'] = __('Address', 'upstream');
             $defaults['users']   = __('Users', 'upstream');
 
-            $rowset = Model::fetchColumnFieldsForType('client', false);
+            if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php')) {
+                $rowset = Model::fetchColumnFieldsForType('client', false);
 
-            if (count($rowset) > 0) {
-                foreach ($rowset as $row) {
-                    $defaults[$row->name] = __($row->label, 'upstream');
+                if (count($rowset) > 0) {
+                    foreach ($rowset as $row) {
+                        $defaults[$row->name] = __($row->label, 'upstream');
+                    }
                 }
             }
 
@@ -118,14 +120,16 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
                     return;
                 }
             } else {
-                $rowset = Model::fetchColumnFieldsForType('client', false);
+                if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php')) {
+                    $rowset = Model::fetchColumnFieldsForType('client', false);
 
-                if (count($rowset) > 0) {
-                    foreach ($rowset as $row) {
-                        if ($row->name == $column_name) {
-                            $values = array_filter((array)$row->getValue($post_id));
-                            $columnValue = esc_html(implode(', ', $values));
-                            break;
+                    if (count($rowset) > 0) {
+                        foreach ($rowset as $row) {
+                            if ($row->name == $column_name) {
+                                $values = array_filter((array)$row->getValue($post_id));
+                                $columnValue = esc_html(implode(', ', $values));
+                                break;
+                            }
                         }
                     }
                 }
