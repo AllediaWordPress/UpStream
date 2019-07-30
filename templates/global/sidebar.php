@@ -47,6 +47,8 @@ if ($isSingle) {
     $areFilesDisabledForThisProject      = upstream_are_files_disabled();
     $areCommentsDisabled                 = upstream_are_comments_disabled();
 }
+
+$projects = upstream_user_projects();
 ?>
 
 <?php do_action('upstream_before_sidebar'); ?>
@@ -78,7 +80,7 @@ if ($isSingle) {
                 <h3>&nbsp;</h3>
                 <ul class="nav side-menu">
                     <li>
-                        <a href="<?php echo esc_attr($projectsListUrl); ?>">
+                        <a href="javascript:void(0);">
                             <i class="fa fa-home"></i>
                             <?php echo esc_html($i18n['LB_PROJECTS']); ?>
                         </a>
@@ -206,6 +208,29 @@ if ($isSingle) {
                         </li>
 
                         <?php do_action('upstream_sidebar_menu'); ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php
+            $minProjectsCount = $isSingle ? 1 : 0;
+            if ( ! $isSingle) {
+                $project_id = 0;
+            }
+            ?>
+            <?php if (count($projects) > $minProjectsCount && upstreamShowAllProjectsInSidebar()) : ?>
+                <div class="menu_section">
+                    <ul class="nav side-menu">
+                        <?php foreach ($projects as $project) : ?>
+                            <?php if ($project_id != $project->id) : ?>
+                                <li class="current-page active">
+                                    <a href="<?php echo $project->permalink; ?>">
+                                        <i class="fa fa-folder"></i>
+                                        <?php echo $project->title ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             <?php endif; ?>

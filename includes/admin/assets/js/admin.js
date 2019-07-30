@@ -390,6 +390,14 @@ jQuery(document).ready(function($) {
     if( $('.cmb-row.up-o-select2-wrapper select.cmb2_select').length > 0 ) {
         $('.cmb-row.up-o-select2-wrapper select.cmb2_select').select2();
     }
+    var ActiveSelect2 = function(){
+        if( $('.cmb-row.is-new select.cmb2_select').length > 0 ) {
+            $('.cmb-row.is-new select.cmb2_select').select2();
+        }
+    };
+    $('#_upstream_project_milestones_repeat button, #_upstream_project_files_repeat button, #_upstream_project_tasks_repeat button, #_upstream_project_bugs_repeat button').on("click", function() {
+        setTimeout(ActiveSelect2, 500);
+    });
     if( $("#_upstream_project_tasks_repeat").length ) {
         $("#_upstream_project_tasks_repeat").sortable();
     }

@@ -428,11 +428,11 @@ if ( ! empty($ordering)) {
                                                     </a>
                                                 </td>
                                                 <td data-column="startDate"
-                                                    data-value="<?php echo esc_attr($project->startDate); ?>">
+                                                    data-value="<?php echo esc_attr($project->startDateTimestamp); ?>">
                                                     <?php echo esc_html($project->startDate); ?>
                                                 </td>
                                                 <td data-column="endDate"
-                                                    data-value="<?php echo esc_attr($project->endDate); ?>">
+                                                    data-value="<?php echo esc_attr($project->endDateTimestamp); ?>">
                                                     <?php echo esc_html($project->endDate); ?>
                                                 </td>
                                                 <?php if ($areClientsEnabled): ?>

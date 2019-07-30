@@ -404,7 +404,9 @@ function upstream_admin_get_bug_statuses()
     $array    = [];
     if ($statuses) {
         foreach ($statuses as $status) {
-            $array[$status['id']] = $status['name'];
+            if (isset($status['name'])) {
+                $array[$status['id']] = $status['name'];
+            }
         }
     }
 
@@ -424,7 +426,9 @@ function upstream_admin_get_bug_severities()
     $array      = [];
     if ($severities) {
         foreach ($severities as $severity) {
-            $array[$severity['id']] = $severity['name'];
+            if (isset($severity['name'])) {
+                $array[$severity['id']] = $severity['name'];
+            }
         }
     }
 
@@ -1167,4 +1171,34 @@ function upstream_wp_get_clients()
     }
 
     return $data;
+}
+
+/**
+ * @return array
+ * @throws \UpStream\Exception
+ */
+function upstream_admin_get_milestone_categories($args = [])
+{
+    $default = [
+        'taxonomy'   => 'upst_milestone_category',
+        'fields'     => 'all',
+        'hide_empty' => false,
+    ];
+
+    $args = wp_parse_args($args, $default);
+
+    $categories = [];
+    $terms      = get_terms($args);
+
+    if ( ! empty($terms)) {
+        if ( ! empty($terms->errors)) {
+            throw new \UpStream\Exception($terms->get_error_message());
+        }
+
+        foreach ($terms as $term) {
+            $categories[$term->term_id] = $term->name;
+        }
+    }
+
+    return $categories;
 }

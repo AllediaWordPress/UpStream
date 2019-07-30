@@ -9,8 +9,8 @@ if ( ! defined('ABSPATH')) {
 /**
  * Registers and sets up the Downloads custom post type
  *
- * @since 1.0
  * @return void
+ * @since 1.0
  */
 function upstream_setup_post_types()
 {
@@ -118,8 +118,8 @@ add_action('init', 'upstream_setup_post_types', 1);
 /**
  * Registers the custom taxonomies for the projects custom post type
  *
- * @since 1.0
  * @return void
+ * @since 1.0
  */
 function upstream_setup_taxonomies()
 {
@@ -183,7 +183,7 @@ function upstream_setup_taxonomies()
         'menu_name'                  => __('Tags', 'upstream'),
     ];
 
-    $tagsArgs = [
+    $args = [
         'hierarchical'      => false,
         'labels'            => apply_filters('_upstream_project_tags_labels', $tagsLabels),
         'show_ui'           => true,
@@ -202,8 +202,89 @@ function upstream_setup_taxonomies()
         ],
     ];
 
-    register_taxonomy('upstream_tag', ['project'], $tagsArgs);
+    register_taxonomy('upstream_tag', ['project'], $args);
     register_taxonomy_for_object_type('upstream_tag', 'project');
+
+    /** Milestone Categories **/
+    $tagsLabels = [
+        'name'                       => upstream_milestone_category_label_plural(),
+        'singular_name'              => upstream_milestone_category_label(),
+        'search_items'               => sprintf(__('Search %s', 'upstream'),
+            upstream_milestone_category_label_plural()),
+        'popular_items'              => sprintf(__('Popular %s'), upstream_milestone_category_label_plural()),
+        'all_items'                  => sprintf(__('All %s', 'upstream'), upstream_milestone_category_label_plural()),
+        'parent_item'                => null,
+        'parent_item_colon'          => null,
+        'edit_item'                  => sprintf(__('Edit %s', 'upstream'), upstream_milestone_category_label()),
+        'update_item'                => sprintf(__('Update %s', 'upstream'), upstream_milestone_category_label()),
+        'add_new_item'               => sprintf(__('Add New %s', 'upstream'), upstream_milestone_category_label()),
+        'new_item_name'              => sprintf(__('New %s Name', 'upstream'), upstream_milestone_category_label()),
+        'add_or_remove_items'        => sprintf(__('Add or remove %s'), upstream_milestone_category_label_plural()),
+        'separate_items_with_commas' => sprintf(__('Separate %s with commas'), upstream_milestone_category_label()),
+        'choose_from_most_used'      => sprintf(__('Choose from the most used %s'),
+            upstream_milestone_category_label()),
+        'menu_name'                  => sprintf(__('%s', 'upstream'), upstream_milestone_category_label()),
+    ];
+
+    if ( ! upstream_disable_milestone_categories()) {
+        $args = [
+            'hierarchical'      => true,
+            'labels'            => apply_filters('_upstream_milestone_categories_labels', $tagsLabels),
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => 'upstream_milestone_category',
+            'rewrite'           => [
+                'slug'         => 'upstream/milestone_category',
+                'with_front'   => false,
+                'hierarchical' => false,
+            ],
+            'capabilities'      => [
+                'manage_terms' => 'manage_project_terms',
+                'edit_terms'   => 'edit_project_terms',
+                'assign_terms' => 'assign_project_terms',
+                'delete_terms' => 'delete_project_terms',
+            ],
+        ];
+
+        register_taxonomy('upst_milestone_category', ['upst_milestone'], $args);
+        register_taxonomy_for_object_type('upst_milestone_category', 'upst_milestone');
+    }
 }
 
-add_action('init', 'upstream_setup_taxonomies', 0);
+add_action('init', 'upstream_setup_taxonomies', 1);
+
+/**
+ * Milestone taxonomies custom fields.
+ */
+function upstream_milestone_category_form_fields($taxonomy) {
+    $value = '';
+    if (is_object($taxonomy)) {
+        $value = get_term_meta($taxonomy->term_id, 'color', true);
+    }
+
+    ?>
+    <tr class="form-field">
+        <th scope="row" valign="top">
+            <label for="term_color"><?php _e('Default color', 'upstream'); ?></label>
+        </th>
+        <td>
+            <input type="text" name="color" class="color-field" id="term_color" value="<?php echo $value; ?>" />
+            <p class="description">Select a default color for milestones related to this category.</p>
+        </td>
+    </tr>
+    <br>
+    <?php
+}
+
+function upstream_save_milestone_category_form_fields($termId) {
+    if (isset($_POST['color'])) {
+        update_term_meta($termId, 'color', sanitize_text_field($_POST['color']));
+    }
+}
+
+if ( ! is_project_categorization_disabled()) {
+    add_action('upst_milestone_category_add_form_fields', 'upstream_milestone_category_form_fields');
+    add_action('upst_milestone_category_edit_form_fields', 'upstream_milestone_category_form_fields');
+    add_action('edit_terms', 'upstream_save_milestone_category_form_fields');
+    add_action('create_term', 'upstream_save_milestone_category_form_fields');
+}

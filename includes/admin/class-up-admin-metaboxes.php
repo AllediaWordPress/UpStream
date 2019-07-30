@@ -103,6 +103,14 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
                         //$milestone->setOrder($milestone->getName());
 
+                        if ( ! upstream_disable_milestone_categories()) {
+                            if (isset($milestoneData['categories'])) {
+                                $milestone->setCategories($milestoneData['categories']);
+                            } else {
+                                $milestone->setCategories([]);
+                            }
+                        }
+
                         if (isset($milestoneData['assigned_to'])) {
                             $milestone->setAssignedTo($milestoneData['assigned_to']);
                         } else {
