@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.25.1
+ * Version: 1.26.0
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -114,7 +114,7 @@ if ( ! class_exists('UpStream')) :
          */
         private function init_hooks()
         {
-            add_action('init', [$this, 'init'], 0);
+            add_action('init', [$this, 'init']);
             add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
             add_filter('plugin_action_links_upstream/upstream.php', [$this, 'handleActionLinks']);
             add_filter('http_request_host_is_external', ['UpStream', 'allowExternalUpdateHost'], 10, 3);
@@ -361,6 +361,7 @@ if ( ! class_exists('UpStream')) :
             include_once __DIR__ . '/includes/class-up-counter.php';
             include_once __DIR__ . '/includes/class-up-project-activity.php';
             include_once __DIR__ . '/includes/up-permalinks.php';
+            include_once __DIR__ . '/includes/up-general-functions.php';
             include_once __DIR__ . '/includes/up-post-types.php';
             include_once __DIR__ . '/includes/up-labels.php';
             include_once __DIR__ . '/includes/class-up-milestones.php';
@@ -427,7 +428,6 @@ if ( ! class_exists('UpStream')) :
                 include_once __DIR__ . '/includes/frontend/class-ajax.php';
             }
 
-            include_once __DIR__ . '/includes/up-general-functions.php';
             include_once __DIR__ . '/includes/up-project-functions.php';
             include_once __DIR__ . '/includes/up-client-functions.php';
             include_once __DIR__ . '/includes/up-permissions-functions.php';
@@ -567,6 +567,10 @@ if ( ! class_exists('UpStream')) :
          * @return  boolean
          * @since   1.11.1
          * @static
+
+
+
+
          *
          */
         public static function allowExternalUpdateHost($isAllowed, $host, $url)

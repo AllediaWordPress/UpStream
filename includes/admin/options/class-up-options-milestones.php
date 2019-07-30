@@ -76,6 +76,46 @@ if ( ! class_exists('UpStream_Options_Milestones')) :
 
             return self::$instance;
         }
+
+        /**
+         * Add the options metabox to the array of metaboxes
+         *
+         * @since  0.1.0
+         */
+        public function options()
+        {
+            $options = apply_filters(
+                $this->id . '_option_fields',
+                [
+                    'id'         => $this->id, // upstream_milestones
+                    'title'      => $this->title,
+                    'menu_title' => $this->menu_title,
+                    'desc'       => $this->description,
+                    'show_on'    => ['key' => 'options-page', 'value' => [$this->id],],
+                    'show_names' => true,
+                    'fields'     => [
+                        [
+                            'name' => upstream_milestone_label_plural(),
+                            'id'   => 'milestone_title',
+                            'type' => 'title',
+                        ],
+                        [
+                            'name'        => 'Milestone Categories',
+                            'id'          => 'enable_milestone_categories',
+                            'type'        => 'radio',
+                            'description' => '',
+                            'options'     => [
+                                '1' => __('Enabled', 'upstream'),
+                                '0' => __('Disabled', 'upstream'),
+                            ],
+                            'default'     => '0',
+                        ],
+                    ],
+                ]
+            );
+
+            return $options;
+        }
     }
 
 endif;

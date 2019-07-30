@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.25.1
+Stable tag: 1.26.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,25 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.26.0] - 2019-07-29 =
+
+* Fixed date sorting in the projects list;
+* Added optional category support for milestones;
+* Fixed the return value of upstream_disable_bugs() to always return a boolean value;
+* Removed the link from the "All Projects" menu in the front-end. Now it opens the submenu correctly;
+* Added color to milestones and milestone categories. Milestone category's color is used as default color for child milestones;
+* Added option to show all the projects in the left sidebar on the front-end;
+* Fixed the return value of getProjectId() to always return an integer;
+* Added methods to the Milestone class: isInProgress, isUpComing, isCompleted;
+* Fixed datepicker's z-index in the front-end;
+* Added the project id as passed argument to the action upstream_single_project_section_*;
+* Added action to enqueue assets in the front-end;
+* Fixed an error in the front-end related to UpStream_View class not being found;
+* Added action to inject custom content before the front-end pagel
+* Added new filters to whitelist styles or scripts in the front-end, avoiding to dequeue them;
+* Fixed Clients admin page to not break when Custom Fields add-on is not installed;
+* Changed notifications to email all project's users for new comments/discussions;
 
 = [1.25.1] - 2019-07-24 =
 
