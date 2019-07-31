@@ -375,9 +375,22 @@ td .btn {
     float: none;
 }
 
+.upstream-front-end table {
+    font-size: 13px;
+    table-layout: fixed;
+}
+
+.upstream-front-end table td {
+    word-break: break-word;
+}
+
 @media screen and (max-width: 767px) {
     .c-data-table {
         border: 0;
+    }
+
+    .upstream-front-end table {
+        table-layout: auto;
     }
 
     .c-data-table__filters select.o-select2[multiple] + .select2-container {
@@ -393,6 +406,38 @@ td .btn {
 
     .c-data-table__filters select.o-select2[multiple] + .select2-container {
         min-width: 250px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .modal-dialog {
+        top: 40px;
+        width: 90%;
+        margin: 10px auto;
+    }
+    .modal-dialog .upstream-project-start-date, .modal-dialog .upstream-milestone-start-date, 
+    .modal-dialog .upstream-task-start-date {
+        width: 50%;
+        float: left;
+        margin-bottom: 10px;
+    }
+    .modal-dialog .upstream-project-end-date, .modal-dialog .upstream-milestone-end-date,
+    .modal-dialog .upstream-task-end-date {
+        width: 50%;
+        float: right;
+        margin-bottom: 10px;
+    }
+    .text-right {
+        text-align: left;
+    }
+    .modal-footer .col-md-3 {
+        width: 40%;
+    }
+    .modal-footer .col-md-6 {
+        width: 60%;
+    }
+    .modal-footer .col-md-12.text-right, .modal-footer .col-md-6.text-right {
+        text-align: right;
     }
 }
 
@@ -432,10 +477,6 @@ td .btn {
 
 .child_menu .fa {
     font-size: 14px;
-}
-
-.upstream-front-end table {
-    font-size: 13px;
 }
 
 /* sortable */
