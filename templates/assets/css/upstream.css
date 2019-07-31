@@ -375,9 +375,22 @@ td .btn {
     float: none;
 }
 
+.upstream-front-end table {
+    font-size: 13px;
+    table-layout: fixed;
+}
+
+.upstream-front-end table td {
+    word-break: break-word;
+}
+
 @media screen and (max-width: 767px) {
     .c-data-table {
         border: 0;
+    }
+
+    .upstream-front-end table {
+        table-layout: auto;
     }
 
     .c-data-table__filters select.o-select2[multiple] + .select2-container {
@@ -432,10 +445,6 @@ td .btn {
 
 .child_menu .fa {
     font-size: 14px;
-}
-
-.upstream-front-end table {
-    font-size: 13px;
 }
 
 /* sortable */
