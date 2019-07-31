@@ -538,11 +538,6 @@ class UpStream_Admin
 
         $user               = wp_get_current_user();
 
-        // if upstream client user is logged in, project menu will be removed
-        if (in_array('upstream_client_user', $user->roles)) {
-            remove_menu_page('edit.php?post_type=project');
-        }
-
         $userIsUpStreamUser = count(array_intersect(
                 (array)$user->roles,
                 ['administrator', 'upstream_manager']

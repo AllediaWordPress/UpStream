@@ -216,6 +216,13 @@ if ( ! class_exists('UpStream')) :
         {
             global $pagenow;
 
+            $user               = wp_get_current_user();
+
+            // if upstream client user is logged in, project menu will be removed
+            if (in_array('upstream_client_user', $user->roles)) {
+                remove_menu_page('edit.php?post_type=project');
+            }
+
             $profilePage = 'profile.php';
             if ($pagenow !== $profilePage && $pagenow !== "edit.php" && ! wp_doing_ajax()) {
                 wp_redirect(admin_url($profilePage));
