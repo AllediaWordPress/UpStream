@@ -5,7 +5,6 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
-
 function upstream_project_status($id = 0)
 {
     $project = new UpStream_Project($id);
@@ -32,6 +31,19 @@ function upstream_get_all_project_statuses()
     }
 
     return $data;
+}
+
+function upstream_get_open_project_status_ids()
+{
+    $all_statuses = upstream_get_all_project_statuses();
+    $open_status_ids = [];
+
+    foreach ($all_statuses as $key => $status) {
+        if ($status['type'] == 'open')
+            $open_status_ids[] = $status['id'];
+    }
+
+    return $open_status_ids;
 }
 
 function upstream_project_status_color($project_id = 0)
@@ -578,6 +590,8 @@ function upstream_user_projects()
 
                 // If should archive closed items, we filter the rowset.
                 if ($archiveClosedItems) {
+
+                    $openStatuses = upstream_get_open_project_status_ids();
                     if ( ! empty($data->status) && ! in_array($data->status, $openStatuses)) {
                         continue;
                     }
@@ -590,6 +604,8 @@ function upstream_user_projects()
                     $data->clientName = trim((string)upstream_project_client_name($project_id));
                 }
 
+                $statuses = upstream_get_all_project_statuses();
+
                 if (isset($statuses[$data->status])) {
                     $data->status = $statuses[$data->status];
                 }
@@ -599,7 +615,7 @@ function upstream_user_projects()
                     if ( ! empty($data->timeframe)) {
                         $data->timeframe .= ' - ';
                     } else {
-                        $data->timeframe = '<i>' . $i18n['LB_ENDS_AT'] . '</i>';
+                        $data->timeframe = '<i>' . __('Ends at', 'upstream') . '</i>';
                     }
 
                     $data->timeframe .= $data->endDate;
