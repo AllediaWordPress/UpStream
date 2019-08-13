@@ -76,7 +76,7 @@ function upstream_output_project_members($id = null)
     if (count($users) > 0) {
     ?>
         <ul class="list-inline">
-            <li style="white-space: nowrap;">
+            <li>
             <?php
             $isAfterFirstItem = false;
 
