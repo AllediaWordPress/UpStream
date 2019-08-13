@@ -321,27 +321,6 @@ if ( ! empty($ordering)) {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-tags"></i>
-                                                    </div>
-                                                    <select class="form-control o-select2" data-column="categories"
-                                                            data-placeholder="<?php echo esc_attr($i18n['LB_CATEGORIES']); ?>"
-                                                            multiple data-compare-operator="contains">
-                                                        <option value></option>
-                                                        <option
-                                                                value="__none__"><?php echo esc_html($i18n['LB_NONE_UCF']); ?></option>
-                                                        <optgroup
-                                                                label="<?php echo esc_html($i18n['LB_CATEGORIES']); ?>">
-                                                            <?php foreach ($categories as $category): ?>
-                                                                <option
-                                                                        value="<?php echo esc_attr($category->term_id); ?>"><?php echo esc_html($category->name); ?></option>
-                                                            <?php endforeach; ?>
-                                                        </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
 
                                             <?php do_action('upstream:project.filters', $tableSettings,
                                                 $columnsSchema); ?>
@@ -400,9 +379,6 @@ if ( ! empty($ordering)) {
                                                 <span class="pull-right o-order-direction">
                           <i class="fa fa-sort"></i>
                         </span>
-                                            </th>
-                                            <th style="max-width: 250px;" data-column="categories">
-                                                <?php echo esc_html($i18n['LB_CATEGORIES']); ?>
                                             </th>
 
                                             <?php do_action('upstream:project.columns.header', $tableSettings,
@@ -495,21 +471,6 @@ if ( ! empty($ordering)) {
                                                         <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td data-column="categories"
-                                                    data-value="<?php echo count($project->categories) ? esc_attr(implode(
-                                                        ',',
-                                                        array_keys((array)$project->categories)
-                                                    )) : '__none__'; ?>">
-                                                    <?php if (count($project->categories) > 0): ?>
-                                                        <?php echo esc_attr(implode(
-                                                            ', ',
-                                                            array_values((array)$project->categories)
-                                                        )); ?>
-                                                    <?php else: ?>
-                                                        <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
-                                                    <?php endif; ?>
-                                                </td>
-
                                                 <?php do_action('upstream:project.columns.data', $tableSettings,
                                                     $columnsSchema, $project->id, $project); ?>
                                             </tr>

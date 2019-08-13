@@ -47,3 +47,7 @@ a#upstream-upgrade-link,
 .cmb-field-list .cmb-remove-field-row {
     display: none;
 }
+
+#project_categorydiv, #tagsdiv-upstream_tag {
+    display: none !important;
+}
