@@ -149,7 +149,11 @@ class UpStream_Project
 
     public function init()
     {
-        add_action('init', [$this, 'hooks']);
+
+        // RSD: commented b/c this doesn't ever get called because init was already executed
+        // add_action('init', [$this, 'hooks']);
+
+        $this->hooks();
     }
 
     public function hooks()

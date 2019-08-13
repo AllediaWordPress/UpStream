@@ -162,7 +162,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                             ],
                         ],
                         [
-                            'name'    => __('Show Users Name', 'upstream'),
+                            'name'    => __('Show Users\' Names', 'upstream'),
                             'id'      => 'show_users_name',
                             'type'    => 'radio_inline',
                             'default' => '0',
