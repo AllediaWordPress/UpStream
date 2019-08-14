@@ -86,7 +86,9 @@ class Upstream_Counter
                     $dataSet = get_post_meta($project->ID, '_upstream_project_' . $itemType, true);
                 }
 
-                $items = array_merge((array)$items, (array)$dataSet);
+                // RSD: added if statement to fix count bug 873, which appears due to merge
+                if ($dataSet && count($dataSet) > 0)
+                    $items = array_merge((array)$items, (array)$dataSet);
             }
 
             $this->items[$itemType] = $items;
