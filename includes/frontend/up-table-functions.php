@@ -602,7 +602,11 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $columnValue = (array)$columnValue;
         }
 
-        $html = upstream_get_users_display_name($columnValue);
+        $names = upstream_get_users_display_name($columnValue);
+
+        // RSD: for some reason upstream_get_users_display_name returns 0 when there's nothign to show
+        // this fixes the display
+        $html = ($names != "0") ? $names : $html;
     } elseif ($columnType === 'taxonomies') {
         if ( ! is_array($columnValue)) {
             $columnValue = (array)$columnValue;
