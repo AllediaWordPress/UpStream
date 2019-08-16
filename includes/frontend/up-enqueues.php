@@ -17,8 +17,7 @@ function upstream_enqueue_styles_scripts()
 
     if (get_post_type() === false) {
 
-        $project_base = upstream_get_project_base();
-        if (preg_match('/^\/' . $project_base . '/i', $_SERVER['REQUEST_URI'])) {
+        if (upstream_is_project_base_uri($_SERVER['REQUEST_URI'])) {
 
         }
 
