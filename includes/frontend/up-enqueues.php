@@ -15,7 +15,19 @@ function upstream_enqueue_styles_scripts()
 {
     global $wp_styles, $wp_scripts;
 
-    if (get_post_type() != 'project') {
+    if (get_post_type() === false) {
+
+        $project_base = upstream_get_project_base();
+        if (preg_match('/^\/' . $project_base . '/i', $_SERVER['REQUEST_URI'])) {
+
+        }
+
+        else {
+            return;
+        }
+    }
+
+    else if (get_post_type() != 'project') {
         return;
     }
 
