@@ -577,4 +577,26 @@ function upstream_update_data($old_version, $new_version)
 
         update_option($migrationOption, true);
     }
+
+    $version              = '1.27';
+    $migrationOption      = '_upstream_migration_finished_' . $version;
+    $hasFinishedMigration = get_option($migrationOption, null);
+    if (empty($hasFinishedMigration) && version_compare($old_version, $version, '<')) {
+
+        if ( ! class_exists('Upstream_Counts')) {
+            include_once UPSTREAM_PLUGIN_DIR . '/includes/class-up-counts.php';
+        }
+
+        $counts   = new Upstream_Counts(0);
+        $projects = $counts->projects;
+
+        if ( ! empty($projects)) {
+            foreach ($projects as $project) {
+                $projectObject = new UpStream_Project($project->ID);
+                $projectObject->update_project_meta();
+            }
+        }
+
+    }
+
 }
