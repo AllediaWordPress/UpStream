@@ -617,6 +617,22 @@ function upstream_update_data($old_version, $new_version)
 }
 
 /**
+ * Show a message if the plugin needs to be reactivated
+ */
+function upstream_reactivate_notice()
+{
+    $class   = 'notice notice-info is-dismissible';
+    $message = '<strong>' . __('UpStream needs to be reactivated.', 'upstream') . '</strong><br>';
+    $message .= __(
+            'In order to complete the upgrade to this version, you will need to deactivate and re-activate Upstream. You will not lose any data.',
+            'upstream'
+        ) . '<br>';
+
+    printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
+}
+
+
+/**
  * This is a replacement for upstream_update_data(). It is used to update any data from the
  * 1.27 release and after.
  *
@@ -647,6 +663,7 @@ function upstream_update_data_rev_2()
 
         // if current version is less than 1.26 don't use this function at all
         // wait until someone reactivates the plugin and then this function can run.
+        add_action('admin_notices', 'upstream_reactivate_notice');
 
         return;
     }
@@ -672,6 +689,10 @@ function upstream_update_data_rev_2()
 
         update_option($migrationOption, true);
     }
+
+    // if we made any migrations, update the upstream version to the current one
+    update_option('upstream_version_upgraded_from', $current_version);
+    update_option('upstream_version', UPSTREAM_VERSION);
 
 }
 
