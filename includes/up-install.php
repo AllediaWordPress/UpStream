@@ -362,9 +362,12 @@ function upstream_after_install()
     }
 }
 
-add_action('admin_init', 'upstream_after_install');
+add_action('admin_init', 'upstream_after_install', 100);
 
 
+/**
+ * Show a success notice after install and redirect.
+ */
 function upstream_install_success_notice()
 {
     $redirected = get_transient('_upstream_redirected');
@@ -394,6 +397,14 @@ function upstream_install_success_notice()
 
 add_action('admin_notices', 'upstream_install_success_notice');
 
+
+/**
+ * The original data update function. This is superceded by rev2 as of version 1.27.
+ *
+ * @param $old_version
+ * @param $new_version
+ * @throws Exception
+ */
 function upstream_update_data($old_version, $new_version)
 {
     // Ignore if we are on the same version.
@@ -578,10 +589,13 @@ function upstream_update_data($old_version, $new_version)
         update_option($migrationOption, true);
     }
 
-    $version              = '1.27';
-    $migrationOption      = '_upstream_migration_finished_' . $version;
+
+    // do the first new migration to get everything to 1.27
+
+    $migrationId          = 'M0000001';
+    $migrationOption      = '_upstream_migration_finished_' . $migrationId;
     $hasFinishedMigration = get_option($migrationOption, null);
-    if (empty($hasFinishedMigration) && version_compare($old_version, $version, '<')) {
+    if (empty($hasFinishedMigration)) {
 
         if ( ! class_exists('Upstream_Counts')) {
             include_once UPSTREAM_PLUGIN_DIR . '/includes/class-up-counts.php';
@@ -597,6 +611,68 @@ function upstream_update_data($old_version, $new_version)
             }
         }
 
+        update_option($migrationOption, true);
     }
 
 }
+
+/**
+ * This is a replacement for upstream_update_data(). It is used to update any data from the
+ * 1.27 release and after.
+ *
+ * @since 1.27
+ */
+function upstream_update_data_rev_2()
+{
+    if (!is_admin() || !current_user_can('activate_plugins')) {
+        return;
+    }
+
+    $current_version = get_option('upstream_version', false);
+
+    if (empty($current_version)) {
+
+        // if current version is not set, this is a new install
+
+    }
+
+    else if ($current_version === UPSTREAM_VERSION) {
+
+        // already at current verison... do nothing
+
+        return;
+    }
+
+    else if (version_compare($current_version, '1.26.0', '<')) {
+
+        // if current version is less than 1.26 don't use this function at all
+        // wait until someone reactivates the plugin and then this function can run.
+
+        return;
+    }
+
+    $migrationId          = 'M0000001';
+    $migrationOption      = '_upstream_migration_finished_' . $migrationId;
+    $hasFinishedMigration = get_option($migrationOption, null);
+    if (empty($hasFinishedMigration)) {
+
+        if ( ! class_exists('Upstream_Counts')) {
+            include_once UPSTREAM_PLUGIN_DIR . '/includes/class-up-counts.php';
+        }
+
+        $counts   = new Upstream_Counts(0);
+        $projects = $counts->projects;
+
+        if ( ! empty($projects)) {
+            foreach ($projects as $project) {
+                $projectObject = new UpStream_Project($project->ID);
+                $projectObject->update_project_meta();
+            }
+        }
+
+        update_option($migrationOption, true);
+    }
+
+}
+
+add_action('admin_init', 'upstream_after_install', 90);
