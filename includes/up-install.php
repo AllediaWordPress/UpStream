@@ -675,4 +675,4 @@ function upstream_update_data_rev_2()
 
 }
 
-add_action('admin_init', 'upstream_after_install', 90);
+add_action('admin_init', 'upstream_update_data_rev_2', 90);
