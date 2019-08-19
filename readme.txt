@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.26.0
+Stable tag: 1.27.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,16 @@ If you were having date issues within Projects, please clear your cache and re-s
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.27.0] - 2019-08-19 =
+* Fixed PHP errors related to tasks and bugs (line 581 bug);
+* Fixed 0s showing up in frontend under the Assigned To column if nobody is assigned;
+* Fixed error in up_project_functions.php;
+* Fixed dropdown for status and progress in admin dashboard;
+* New projects now properly show 0 tasks and bugs count;
+* Fixed date format bug that was breaking popup modal windows;
+* Wrapped usernames in project page;
+* Allow frontend to be shown even when there are no projects;
 
 = [1.26.0] - 2019-07-29 =
 

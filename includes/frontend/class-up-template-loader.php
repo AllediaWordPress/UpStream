@@ -35,7 +35,18 @@ class UpStream_Template_Loader
     {
         $file = '';
 
-        if (get_post_type() != 'project') {
+        if (get_post_type() === false) {
+
+            if (upstream_is_project_base_uri($_SERVER['REQUEST_URI'])) {
+
+            }
+
+            else {
+                return $template;
+            }
+        }
+
+        else if (get_post_type() != 'project') {
             return $template;
         }
 

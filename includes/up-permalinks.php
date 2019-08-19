@@ -45,6 +45,21 @@ function upstream_get_project_base()
     return upstream_get_permalink_base('projects');
 }
 
+function upstream_is_project_base_uri($uri)
+{
+    $pb = upstream_get_project_base();
+
+    if ($uri == "/" . $pb)
+        return true;
+    else if ($uri == "/" . $pb . "/")
+        return true;
+    else if (preg_match('/^\/' . $pb . '\?/i', $uri)) {
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * Returns the client base segment for permalinks.
  *

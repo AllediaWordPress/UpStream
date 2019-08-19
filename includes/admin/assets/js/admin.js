@@ -355,7 +355,11 @@ jQuery(document).ready(function($) {
             }
         });
     }
-    $(".task-status").on("click", function() {
+    $(".task-status").on("change", function() {
+
+        // RSD: to avoid this being called before anything was selected
+        if (this.selectedIndex < 0) return;
+
         var taskId = $(this).val();
         var curObj = $(this); 
         var curPer = curObj.closest('.cmb2GridRow').find(".task-progress").val();
@@ -368,11 +372,19 @@ jQuery(document).ready(function($) {
                 cur_per: curPer
             },
             success: function (response) {
+
+                // RSD: gettaskpercent returns 0, but dropdown expects ""
+                if (response == 0) response = "";
+
                 curObj.closest('.cmb2GridRow').find(".task-progress").val(response).change();
             }
         });
     });
     $(".task-progress").on("click", function() {
+
+        // RSD: removed because it was causing too many problems
+        return;
+
         var taskPercent = $(this).val();
         var curObj = $(this); 
         $.ajax({
@@ -383,6 +395,7 @@ jQuery(document).ready(function($) {
                 task_percent: taskPercent
             },
             success: function (response) {
+                if (response < 0) return;
                 curObj.closest('.cmb2GridRow').find(".task-status").val(response).change();
             }
         });
