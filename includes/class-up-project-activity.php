@@ -434,9 +434,15 @@ class UpStream_Project_Activity
                                 }
 
                                 if ($group_id === '_upstream_project_milestones') {
-                                    $title = $item['milestone'];
+                                    if (isset($item['milestone']) || isset($item['data']['milestone']))
+                                        $title = $item['milestone'];
+                                    else if (isset($item['data']['milestone']))
+                                        $title = $item['data']['milestone'];
                                 } else {
-                                    $title = $item['title'];
+                                    if (isset($item['title']))
+                                        $title = $item['title'];
+                                    else if (isset($item['data']['title']))
+                                        $title = $item['data']['title'];
                                 }
 
                                 $item_added .= '<span class="item">' . sprintf(
