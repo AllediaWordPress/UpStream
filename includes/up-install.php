@@ -177,8 +177,89 @@ function upstream_run_reinstall()
 function upstream_uninstall()
 {
     flush_rewrite_rules();
+
+    // RSD: deactivate any child plugins
+    if (is_plugin_active('UpStream-Reports-PDF/upstream-reports-pdf.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_reports_pdf');
+    }
+    if (is_plugin_active('UpStream-Reports/upstream-reports.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_reports');
+    }
+    if (is_plugin_active('UpStream-Copy-Project/upstream-copy-project.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_copy_project');
+    }
+    if (is_plugin_active('UpStream-Custom-Fields/upstream-custom-fields.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_custom_fields');
+    }
+    if (is_plugin_active('UpStream-Customizer/upstream-customizer.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_customizer');
+    }
+    if (is_plugin_active('UpStream-Email-Notifications/upstream-email-notifications.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_email_notifications');
+    }
+    if (is_plugin_active('UpStream-Calendar-View/upstream-calendar-view.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_calendar_view');
+    }
+    if (is_plugin_active('UpStream-Frontend-Edit/upstream-frontend-edit.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_frontend_edit');
+    }
+    if (is_plugin_active('UpStream-Project-Timeline/upstream-project-timeline.php')) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_project_timeline');
+    }
 }
 
+function upstream_deactivate_dependency_calendar_view()
+
+{
+    deactivate_plugins('UpStream-Calendar-View/upstream-calendar-view.php');
+}
+
+function upstream_deactivate_dependency_reports_pdf()
+
+{
+    deactivate_plugins('UpStream-Reports-PDF/upstream-reports-pdf.php');
+}
+
+function upstream_deactivate_dependency_reports()
+
+{
+    deactivate_plugins('UpStream-Reports/upstream-reports.php');
+}
+
+function upstream_deactivate_dependency_copy_project()
+
+{
+    deactivate_plugins('UpStream-Copy-Project/upstream-copy-project.php');
+}
+
+function upstream_deactivate_dependency_project_timeline()
+
+{
+    deactivate_plugins('UpStream-Project-Timeline/upstream-project-timeline.php');
+}
+function upstream_deactivate_dependency_frontend_edit()
+
+{
+    deactivate_plugins('UpStream-Frontend-Edit/upstream-frontend-edit.php');
+}
+
+function upstream_deactivate_dependency_email_notifications()
+
+{
+    deactivate_plugins('UpStream-Email-Notifications/upstream-email-notifications.php');
+}
+
+function upstream_deactivate_dependency_customizer()
+
+{
+    deactivate_plugins('UpStream-Customizer/upstream-customizer.php');
+}
+
+function upstream_deactivate_dependency_custom_fields()
+
+{
+    deactivate_plugins('UpStream-Custom-Fields/upstream-custom-fields.php');
+}
 
 function upstream_add_default_options()
 {
@@ -624,7 +705,7 @@ function upstream_reactivate_notice()
     $class   = 'notice notice-info is-dismissible';
     $message = '<strong>' . __('UpStream needs to be reactivated.', 'upstream') . '</strong><br>';
     $message .= __(
-            'In order to complete the upgrade to this version, you will need to deactivate and re-activate Upstream. You will not lose any data.',
+            'In order to complete the upgrade to this version, you will need to deactivate and re-activate Upstream. Make sure Remove Data under the UpStream menu is unchecked so you do not lose any data.',
             'upstream'
         ) . '<br>';
 
