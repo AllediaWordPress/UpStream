@@ -37,7 +37,7 @@ function upstream_check_min_requirements()
     global $wp_version;
 
     $minWPVersionRequired  = "4.5";
-    $minPHPVersionRequired = "5.6";
+    $minPHPVersionRequired = "5.6.20";
 
     // Check PHP version.
     if (version_compare(PHP_VERSION, $minPHPVersionRequired, '<')) {
