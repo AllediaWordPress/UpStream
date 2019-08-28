@@ -1190,9 +1190,15 @@ function upstream_admin_get_milestone_categories($args = [])
     $categories = [];
     $terms      = get_terms($args);
 
+    // RSD: hopefully this will work to stop the errors here
+    if (isset($terms->errors)) {
+        $terms = get_terms( array('taxonomy' => 'upst_milestone_category','hide_empty' => false) );
+    }
+
+
     if ( ! empty($terms)) {
         if ( ! empty($terms->errors)) {
-            throw new \UpStream\Exception($terms->get_error_message());
+            //throw new \UpStream\Exception($terms->get_error_message());
         }
 
         foreach ($terms as $term) {
