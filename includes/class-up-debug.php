@@ -66,6 +66,8 @@ class UpStream_Debug
     {
         $option = get_option('upstream_general');
 
+        if (!$option) return false;
+
         $key = 'debug';
 
         return array_key_exists($key, $option)
@@ -136,6 +138,8 @@ class UpStream_Debug
             $pluginsData[$plugin] = (is_plugin_active($plugin) ? 'ACTIVATED' : 'deactivated') . ' [' . $data['Version'] . ']';
         }
 
+        $user_info = get_userdata(wp_get_current_user()->ID);
+
         $debug_data = [
             'php'       => [
                 'version'                   => PHP_VERSION,
@@ -152,6 +156,16 @@ class UpStream_Debug
                 'gmt_offset'      => get_option('gmt_offset'),
                 'plugins'         => $pluginsData,
             ],
+            'user' => [
+                'uid'             => $user_info->ID,
+                'roles'           => $user_info->roles,
+                'username'        => $user_info->user_email,
+                'capabilities'    => $user_info->allcaps,
+            ],
+            'theme' => [
+                'template'        => get_template(),
+                'template_dir'    => get_template_directory(),
+            ]
         ];
 
         $context = [
