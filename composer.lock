@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f80a3b40e9160ea448294679b6e4fb9a",
+    "content-hash": "85af1fb330ecdaab50cb9a89d09a4b2d",
     "packages": [
         {
             "name": "alledia/wordpress-plugin-builder",
@@ -35,23 +35,23 @@
             ],
             "authors": [
                 {
-                    "name": "Alledia",
-                    "email": "help@alledia.com"
-                },
-                {
-                    "name": "Anderson Grudtner Martins",
-                    "email": "anderson@grudtner.me",
-                    "homepage": "http://anderson.grudtner.me",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "PublishPress",
                     "email": "help@publishpress.com",
                     "homepage": "https://publishpress.com"
                 },
                 {
+                    "name": "Alledia",
+                    "email": "help@alledia.com"
+                },
+                {
                     "name": "UpStream",
                     "email": "help@upstream.com"
+                },
+                {
+                    "name": "Anderson Grudtner Martins",
+                    "role": "Lead Developer",
+                    "email": "anderson@grudtner.me",
+                    "homepage": "http://anderson.grudtner.me"
                 }
             ],
             "description": "Base classes and Phing scripts for building WordPress plugins",
@@ -94,15 +94,15 @@
             ],
             "authors": [
                 {
-                    "name": "Anderson Grudtner Martins",
-                    "email": "anderson@grudtner.me",
-                    "homepage": "http://anderson.grudtner.me",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Alledia",
                     "email": "help@alledia.com",
                     "homepage": "https://alledia.com"
+                },
+                {
+                    "name": "Anderson Grudtner Martins",
+                    "role": "Lead Developer",
+                    "email": "anderson@grudtner.me",
+                    "homepage": "http://anderson.grudtner.me"
                 }
             ],
             "description": "Alledia framework for creating WordPress plugins.",
@@ -314,19 +314,19 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
+                    "role": "Lead Developer",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "homepage": "http://fabien.potencier.org"
                 },
                 {
                     "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
+                    "role": "Project Founder",
+                    "email": "armin.ronacher@active-4.com"
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "https://twig.symfony.com/contributors",
-                    "role": "Contributors"
+                    "role": "Contributors",
+                    "homepage": "https://twig.symfony.com/contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -2257,25 +2257,25 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.2.45",
+            "version": "v5.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "22bde7b048a33c702d9737fc1446234fff9b1363"
+                "reference": "67f642e018f3e95fb0b2ebffc206c3200391b1ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/22bde7b048a33c702d9737fc1446234fff9b1363",
-                "reference": "22bde7b048a33c702d9737fc1446234fff9b1363",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/67f642e018f3e95fb0b2ebffc206c3200391b1ab",
+                "reference": "67f642e018f3e95fb0b2ebffc206c3200391b1ab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": ">=5.6.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.2-dev"
+                    "dev-master": "5.4-dev"
                 }
             },
             "autoload": {
@@ -2294,44 +2294,42 @@
                 }
             ],
             "description": "The Illuminate Contracts package.",
-            "homepage": "http://laravel.com",
-            "time": "2016-08-08T11:46:08+00:00"
+            "homepage": "https://laravel.com",
+            "time": "2017-08-26T23:56:53+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.2.45",
+            "version": "v5.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "510230ab62a7d85dc70203f4fdca6fb71a19e08a"
+                "reference": "feab1d1495fd6d38970bd6c83586ba2ace8f299a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/510230ab62a7d85dc70203f4fdca6fb71a19e08a",
-                "reference": "510230ab62a7d85dc70203f4fdca6fb71a19e08a",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/feab1d1495fd6d38970bd6c83586ba2ace8f299a",
+                "reference": "feab1d1495fd6d38970bd6c83586ba2ace8f299a",
                 "shasum": ""
             },
             "require": {
-                "doctrine/inflector": "~1.0",
+                "doctrine/inflector": "~1.1",
                 "ext-mbstring": "*",
-                "illuminate/contracts": "5.2.*",
-                "paragonie/random_compat": "~1.4",
-                "php": ">=5.5.9"
+                "illuminate/contracts": "5.4.*",
+                "paragonie/random_compat": "~1.4|~2.0",
+                "php": ">=5.6.4"
             },
             "replace": {
                 "tightenco/collect": "self.version"
             },
             "suggest": {
                 "illuminate/filesystem": "Required to use the composer class (5.2.*).",
-                "jeremeamia/superclosure": "Required to be able to serialize closures (~2.2).",
-                "symfony/polyfill-php56": "Required to use the hash_equals function on PHP 5.5 (~1.0).",
-                "symfony/process": "Required to use the composer class (2.8.*|3.0.*).",
-                "symfony/var-dumper": "Improves the dd function (2.8.*|3.0.*)."
+                "symfony/process": "Required to use the composer class (~3.2).",
+                "symfony/var-dumper": "Required to use the dd function (~3.2)."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.2-dev"
+                    "dev-master": "5.4-dev"
                 }
             },
             "autoload": {
@@ -2353,8 +2351,8 @@
                 }
             ],
             "description": "The Illuminate Support package.",
-            "homepage": "http://laravel.com",
-            "time": "2016-08-05T14:49:58+00:00"
+            "homepage": "https://laravel.com",
+            "time": "2017-08-15T13:25:41+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -2798,16 +2796,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v1.4.3",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "9b3899e3c3ddde89016f576edb8c489708ad64cd"
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/9b3899e3c3ddde89016f576edb8c489708ad64cd",
-                "reference": "9b3899e3c3ddde89016f576edb8c489708ad64cd",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
                 "shasum": ""
             },
             "require": {
@@ -2839,10 +2837,11 @@
             "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
             "keywords": [
                 "csprng",
+                "polyfill",
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-04-04T21:48:54+00:00"
+            "time": "2019-01-03T20:59:08+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -7024,6 +7023,6 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.6"
+        "php": "5.6.20"
     }
 }

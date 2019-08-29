@@ -704,7 +704,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                         [
                             'name'    => __('Add default UpStream capabilities', 'upstream'),
                             'id'      => 'add_default_capabilities',
-                            'type'    => 'buttonsgroup',
+                            'type'    => 'up_buttonsgroup',
                             'count'   => 4,
                             'labels'  => [
                                 __('Administrator', 'upstream'),
@@ -728,7 +728,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                         [
                             'name'    => __('Update Project Data', 'upstream'),
                             'id'      => 'refresh_projects_meta',
-                            'type'    => 'button',
+                            'type'    => 'up_button',
                             'label'   => __('Update', 'upstream'),
                             'desc'    => __(
                                 'Clicking this button will recalculate the data for all the projects, including: project members, milestones\' tasks statuses, created time, project author. This can\'t be undone and can take some time if you have many projects.',
@@ -740,7 +740,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                         [
                             'name'    => __('Migrate Legacy Milestones', 'upstream'),
                             'id'      => 'migrate_milestones',
-                            'type'    => 'button',
+                            'type'    => 'up_button',
                             'label'   => __('Start migration', 'upstream'),
                             'desc'    => __(
                                 'Clicking this button will force to migrate again all the legacy milestones (project meta data) to the new post type. Only do this if you had any issue with the migrated data after updating to the version 1.24.0. This can\'t be undone and can take some time if you have many projects.',
@@ -752,7 +752,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                         [
                             'name'    => __('Cleanup Plugin\'s Update Cache', 'upstream'),
                             'id'      => 'cleanup_update_cache',
-                            'type'    => 'button',
+                            'type'    => 'up_button',
                             'label'   => __('Cleanup', 'upstream'),
                             'desc'    => __(
                                 'If you’re having problems seeing UpStream extension updates, click this button and you see any new plugin releases.',
