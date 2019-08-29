@@ -106,7 +106,8 @@ add_action('upstream_update_data', 'upstream_update_data', 10, 2);
  */
 function upstream_run_install()
 {
-    
+    up_debug("Starting installation");
+
     // RSD: to ensure the current user has manage_upstream capability
     $user = wp_get_current_user();
     $user->add_cap('manage_upstream');

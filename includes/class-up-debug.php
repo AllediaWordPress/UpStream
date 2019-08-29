@@ -54,6 +54,15 @@ class UpStream_Debug
         // Add the timestamp to the message.
         $message = sprintf('[%s] %s', date('Y-m-d H:i:s T O'), $message) . "\n";
 
+        $trace = "";
+        $bt = debug_backtrace();
+        $trace.=print_r(debug_backtrace(),true);
+        for ($i = 2; $i < 5 && $i < count($bt); $i++) {
+            $trace .= "     " . $bt[$i]['function'] . " " . $bt[$i]['line'] . " " . implode(", ", $bt[$i['args']]) . "\n";
+        }
+
+        $message .= $trace . "\n";
+
         error_log($message, 3, static::$path);
     }
 
@@ -252,4 +261,8 @@ class UpStream_Debug
 
         wp_redirect(admin_url(static::ADMIN_PAGE_URL_FRAGMENT . static::PAGE_SLUG));
     }
+}
+
+function up_debug($s) {
+    UpStream_Debug::write($s);
 }
