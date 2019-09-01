@@ -106,8 +106,6 @@ add_action('upstream_update_data', 'upstream_update_data', 10, 2);
  */
 function upstream_run_install()
 {
-    up_debug("Starting installation");
-
     // RSD: to ensure the current user has manage_upstream capability
     $user = wp_get_current_user();
     $user->add_cap('manage_upstream');
@@ -182,6 +180,7 @@ function upstream_run_reinstall()
  */
 function upstream_uninstall()
 {
+
     flush_rewrite_rules();
 
     // RSD: deactivate any child plugins
@@ -217,58 +216,78 @@ function upstream_uninstall()
 function upstream_deactivate_dependency_calendar_view()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Calendar-View/upstream-calendar-view.php');
 }
 
 function upstream_deactivate_dependency_reports_pdf()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Reports-PDF/upstream-reports-pdf.php');
 }
 
 function upstream_deactivate_dependency_reports()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Reports/upstream-reports.php');
 }
 
 function upstream_deactivate_dependency_copy_project()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Copy-Project/upstream-copy-project.php');
 }
 
 function upstream_deactivate_dependency_project_timeline()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Project-Timeline/upstream-project-timeline.php');
 }
+
 function upstream_deactivate_dependency_frontend_edit()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Frontend-Edit/upstream-frontend-edit.php');
 }
 
 function upstream_deactivate_dependency_email_notifications()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Email-Notifications/upstream-email-notifications.php');
 }
 
 function upstream_deactivate_dependency_customizer()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Customizer/upstream-customizer.php');
 }
 
 function upstream_deactivate_dependency_custom_fields()
 
 {
+    up_debug();
+
     deactivate_plugins('UpStream-Custom-Fields/upstream-custom-fields.php');
 }
 
 function upstream_add_default_options()
 {
+    up_debug();
 
     // general options
     $general = get_option('upstream_general');
@@ -408,6 +427,8 @@ function upstream_add_default_options()
  */
 function upstream_new_blog_created($blog_id, $user_id, $domain, $path, $site_id, $meta)
 {
+    up_debug();
+
     if (is_plugin_active_for_network(plugin_basename(UPSTREAM_PLUGIN_FILE))) {
         switch_to_blog($blog_id);
         upstream_install();
@@ -429,6 +450,8 @@ add_action('wpmu_new_blog', 'upstream_new_blog_created', 10, 6);
  */
 function upstream_after_install()
 {
+    up_debug();
+
     if ( ! is_admin()) {
         return;
     }
@@ -457,6 +480,8 @@ add_action('admin_init', 'upstream_after_install', 100);
  */
 function upstream_install_success_notice()
 {
+    up_debug();
+
     $redirected = get_transient('_upstream_redirected');
 
     if (false !== $redirected && isset($_GET['page']) && $_GET['page'] == 'upstream_general') {
@@ -494,6 +519,8 @@ add_action('admin_notices', 'upstream_install_success_notice');
  */
 function upstream_update_data($old_version, $new_version)
 {
+    up_debug();
+
     // Ignore if we are on the same version.
     if ($old_version === $new_version) {
         return;
@@ -708,6 +735,8 @@ function upstream_update_data($old_version, $new_version)
  */
 function upstream_reactivate_notice()
 {
+    up_debug();
+
     $class   = 'notice notice-info is-dismissible';
     $message = '<strong>' . __('UpStream needs to be reactivated.', 'upstream') . '</strong><br>';
     $message .= __(
