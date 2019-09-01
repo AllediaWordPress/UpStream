@@ -5,6 +5,7 @@ if ( ! defined('ABSPATH')) {
     return;
 }
 
+
 /**
  * UpStream_Debug Class
  *
@@ -31,7 +32,7 @@ class UpStream_Debug
      *
      * @param $message
      */
-    public static function write($message, $id = null)
+    public static function write($message, $trace = null)
     {
         if ( ! static::is_enabled()) {
             return;
@@ -46,22 +47,13 @@ class UpStream_Debug
             $message = print_r($message, true);
         }
 
-        // Prepend the id, if set.
-        if ( ! empty($id)) {
-            $message = $id . ' --> ' . $message;
-        }
-
         // Add the timestamp to the message.
         $message = sprintf('[%s] %s', date('Y-m-d H:i:s T O'), $message) . "\n";
 
-        $trace = "";
-        $bt = debug_backtrace();
-        $trace.=print_r(debug_backtrace(),true);
-        for ($i = 2; $i < 5 && $i < count($bt); $i++) {
-            $trace .= "     " . $bt[$i]['function'] . " " . $bt[$i]['line'] . " " . implode(", ", $bt[$i['args']]) . "\n";
+        if ($trace) {
+            $tt = print_r($trace,true);
+            $message .= $tt . "\n";
         }
-
-        $message .= $trace . "\n";
 
         error_log($message, 3, static::$path);
     }
@@ -263,6 +255,24 @@ class UpStream_Debug
     }
 }
 
-function up_debug($s) {
-    UpStream_Debug::write($s);
+function up_debug($s = null) {
+    if (!$s) {
+        $fname = "";
+        $bt = debug_backtrace();
+        for ($i = 1; $i < 2 && $i < count($bt); $i++) {
+            $fname = $bt[$i]['function'];
+        }
+        UpStream_Debug::write("Entering function: " . $fname);
+    }
+    else if (is_string($s)) {
+        UpStream_Debug::write($s, debug_backtrace());
+    }
+    else if (is_object($s)) {
+        if ($s instanceof \Exception) {
+            UpStream_Debug::write($s->getMessage(), $s->getTrace());
+        }
+        else {
+            UpStream_Debug::write(print_r($s, true), debug_backtrace());
+        }
+    }
 }
