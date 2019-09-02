@@ -5,6 +5,7 @@ if ( ! defined('ABSPATH')) {
     return;
 }
 
+
 /**
  * UpStream_Debug Class
  *
@@ -31,7 +32,7 @@ class UpStream_Debug
      *
      * @param $message
      */
-    public static function write($message, $id = null)
+    public static function write($message, $trace = null)
     {
         if ( ! static::is_enabled()) {
             return;
@@ -46,13 +47,13 @@ class UpStream_Debug
             $message = print_r($message, true);
         }
 
-        // Prepend the id, if set.
-        if ( ! empty($id)) {
-            $message = $id . ' --> ' . $message;
-        }
-
         // Add the timestamp to the message.
         $message = sprintf('[%s] %s', date('Y-m-d H:i:s T O'), $message) . "\n";
+
+        if ($trace) {
+            $tt = print_r($trace,true);
+            $message .= $tt . "\n";
+        }
 
         error_log($message, 3, static::$path);
     }
@@ -65,6 +66,8 @@ class UpStream_Debug
     public static function is_enabled()
     {
         $option = get_option('upstream_general');
+
+        if (!$option) return false;
 
         $key = 'debug';
 
@@ -136,6 +139,8 @@ class UpStream_Debug
             $pluginsData[$plugin] = (is_plugin_active($plugin) ? 'ACTIVATED' : 'deactivated') . ' [' . $data['Version'] . ']';
         }
 
+        $user_info = get_userdata(wp_get_current_user()->ID);
+
         $debug_data = [
             'php'       => [
                 'version'                   => PHP_VERSION,
@@ -152,6 +157,16 @@ class UpStream_Debug
                 'gmt_offset'      => get_option('gmt_offset'),
                 'plugins'         => $pluginsData,
             ],
+            'user' => [
+                'uid'             => $user_info->ID,
+                'roles'           => $user_info->roles,
+                'username'        => $user_info->user_email,
+                'capabilities'    => $user_info->allcaps,
+            ],
+            'theme' => [
+                'template'        => get_template(),
+                'template_dir'    => get_template_directory(),
+            ]
         ];
 
         $context = [
@@ -237,5 +252,27 @@ class UpStream_Debug
         }
 
         wp_redirect(admin_url(static::ADMIN_PAGE_URL_FRAGMENT . static::PAGE_SLUG));
+    }
+}
+
+function up_debug($s = null) {
+    if (!$s) {
+        $fname = "";
+        $bt = debug_backtrace();
+        for ($i = 1; $i < 2 && $i < count($bt); $i++) {
+            $fname = $bt[$i]['function'];
+        }
+        UpStream_Debug::write("Entering function: " . $fname);
+    }
+    else if (is_string($s)) {
+        UpStream_Debug::write($s, debug_backtrace());
+    }
+    else if (is_object($s)) {
+        if ($s instanceof \Exception) {
+            UpStream_Debug::write($s->getMessage(), $s->getTrace());
+        }
+        else {
+            UpStream_Debug::write(print_r($s, true), debug_backtrace());
+        }
     }
 }

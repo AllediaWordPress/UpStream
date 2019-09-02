@@ -559,7 +559,10 @@ function upstream_date_unixtime($timestamp, $dateFormat = null)
     }
 
     $date = \DateTime::createFromFormat($dateFormat, $timestamp);
-    $date = $date->format('U');
+
+    if ($date) {
+        $date = $date->format('U');
+    }
 
     return apply_filters('upstream_date_mysql', $date, $timestamp);
 }

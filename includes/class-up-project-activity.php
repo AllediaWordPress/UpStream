@@ -434,7 +434,7 @@ class UpStream_Project_Activity
                                 }
 
                                 if ($group_id === '_upstream_project_milestones') {
-                                    if (isset($item['milestone']) || isset($item['data']['milestone']))
+                                    if (isset($item['milestone']))
                                         $title = $item['milestone'];
                                     else if (isset($item['data']['milestone']))
                                         $title = $item['data']['milestone'];

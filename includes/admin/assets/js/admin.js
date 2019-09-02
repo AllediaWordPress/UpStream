@@ -1,5 +1,16 @@
 jQuery(function ($) {
     // Highlight the extensions submenu.
+
+    if (typeof(Allex) === 'undefined') {
+        if (location.protocol === 'https:') {
+            alert("You are using HTTPS, but some files are loading via HTTP. Please check Settings -> General in your WordPress admin dashboard to make sure WordPress Address and Site Address are both HTTPS.\n\nAfter you have done this, make sure your cache is cleared. It may take some time for the change to take effect.");
+        }
+        else {
+            alert("Cannot find Allex library. Please check your settings to ensure that it is available.");
+        }
+        return;
+    }
+
     var allex = new Allex('upstream');
     allex.highlight_submenu('admin.php?page=upstream_extensions');
 

@@ -55,6 +55,12 @@ class UpStream_Admin
         add_action('cmb2_render_up_timestamp', [$this, 'renderCmb2TimestampField'], 10, 5);
         add_action('cmb2_sanitize_up_timestamp', [$this, 'sanitizeCmb2TimestampField'], 10, 5);
 
+        add_action('cmb2_render_up_button', [$this, 'renderCmb2ButtonField'], 10, 5);
+        add_action('cmb2_sanitize_up_button', [$this, 'sanitizeCmb2ButtonField'], 10, 5);
+
+        add_action('cmb2_render_up_buttonsgroup', [$this, 'renderCmb2ButtonsGroupField'], 10, 5);
+        add_action('cmb2_sanitize_up_buttonsgroup', [$this, 'sanitizeCmb2ButtonsGroupField'], 10, 5);
+
         add_filter('cmb2_override_option_get_upstream_general', [$this, 'filter_override_option_get_upstream_general'],
             10, 3);
 
@@ -328,6 +334,119 @@ class UpStream_Admin
     }
 
     /**
+     * Render a button
+     *
+     * @param \CMB2_Field $field      The current CMB2_Field object.
+     * @param string      $value      The field value passed through the escaping filter.
+     * @param mixed       $objectId   The object id.
+     * @param string      $objectType The type of object being handled.
+     * @param \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
+     *
+     * @since   1.15.1
+     * @static
+     *
+     */
+    public static function renderCmb2ButtonsGroupField($field, $value, $objectId, $objectType, $fieldType)
+    {
+        $count = (int)$field->args['count'];
+
+        $html      = '';
+        $selectors = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $id          = $field->args['id'] . '_' . $i;
+            $selectors[] = '#' . $id;
+
+            $html .= sprintf('<button class="%s" id="%s" data-nonce="%s" data-slug="%s">%s</button>',
+                isset($field->args['class']) ? $field->args['class'] : 'button-secondary',
+                $id,
+                $field->args['nonce'],
+                $field->args['slugs'][$i],
+                $field->args['labels'][$i]);
+
+        }
+
+        $selector = implode(', ', $selectors);
+
+        $html .= '<script>';
+        $html .= 'jQuery("' . $selector . '").on("click", function(event){event.preventDefault(); ' . $field->args['onclick'] . '});';
+        $html .= '</script>';
+
+        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . $field->args['desc'] . '</p>' : '';
+
+        echo $html;
+    }
+
+    /**
+     * Ensure 'up_button' fills in missing button on newer CMB2.
+     *
+     * @param null            $overrideValue Sanitization override value to return.
+     * @param mixed           $value         The actual field value.
+     * @param mixed           $objectId      The object id.
+     * @param string          $objectType    The type of object being handled.
+     * @param \CMB2_Sanitizer $sanitizer     Sanitizer's instance.
+     *
+     * @return  mixed
+     * @since   1.15.1
+     * @static
+     *
+     */
+    public static function sanitizeCmb2ButtonsGroupField($overrideValue, $value, $objectId, $fieldArgs, $sanitizer)
+    {
+    }
+
+    /**
+     * Render a button
+     *
+     * @param \CMB2_Field $field      The current CMB2_Field object.
+     * @param string      $value      The field value passed through the escaping filter.
+     * @param mixed       $objectId   The object id.
+     * @param string      $objectType The type of object being handled.
+     * @param \CMB2_Types $fieldType  Instance of the correspondent CMB2_Types object.
+     *
+     * @since   1.15.1
+     * @static
+     *
+     */
+    public static function renderCmb2ButtonField($field, $value, $objectId, $objectType, $fieldType)
+    {
+
+        $html = sprintf('<button class="%s" id="%s" data-nonce="%s">%s</button>',
+            isset($field->args['class']) ? $field->args['class'] : 'button-secondary',
+            $field->args['id'],
+            $field->args['nonce'],
+            $field->args['label']);
+
+        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . $field->args['desc'] . '</p>' : '';
+
+        $selector = '#' . $field->_id();
+
+        $html .= '<script>';
+        $html .= 'jQuery("' . $selector . '").on("click", function(event){event.preventDefault(); ' . $field->args['onclick'] . '});';
+        $html .= '</script>';
+
+        echo $html;
+    }
+
+    /**
+     * Ensure 'up_button' fills in missing button on newer CMB2.
+     *
+     * @param null            $overrideValue Sanitization override value to return.
+     * @param mixed           $value         The actual field value.
+     * @param mixed           $objectId      The object id.
+     * @param string          $objectType    The type of object being handled.
+     * @param \CMB2_Sanitizer $sanitizer     Sanitizer's instance.
+     *
+     * @return  mixed
+     * @since   1.15.1
+     * @static
+     *
+     */
+    public static function sanitizeCmb2ButtonField($overrideValue, $value, $objectId, $fieldArgs, $sanitizer)
+    {
+    }
+
+    /**
      * Render a modified 'text_date_timestamp' that will always use
      * its date's time being as 12:00:00 AM.
      *
@@ -346,7 +465,7 @@ class UpStream_Admin
         echo $fieldType->text_date_timestamp();
     }
 
-    /**
+        /**
      * Ensure 'up_timestamp' fields date's time are set to 12:00:00 AM before it is stored AS GMT/UTC.
      *
      * @param null            $overrideValue Sanitization override value to return.

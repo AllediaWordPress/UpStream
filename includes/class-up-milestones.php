@@ -454,7 +454,9 @@ class Milestones
         if ($column === 'project') {
             $project = get_post($milestone->getProjectId());
 
-            echo $project->post_title;
+            if (!empty($project)) {
+                echo $project->post_title;
+            }
         }
 
         if ($column === 'assigned_to') {
