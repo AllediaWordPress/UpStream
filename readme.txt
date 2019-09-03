@@ -142,6 +142,10 @@ If you were having date issues within Projects, please clear your cache and re-s
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.27.2] - 2019-09-02 =
+* Fixed conflict with CMB2
+* Fixed incompatibility with new version of jQuery
+
 = [1.27.0] - 2019-08-19 =
 * Fixed PHP errors related to tasks and bugs (line 581 bug);
 * Fixed 0s showing up in frontend under the Assigned To column if nobody is assigned;

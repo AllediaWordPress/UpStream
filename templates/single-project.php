@@ -105,7 +105,8 @@ while (have_posts()) : the_post(); ?>
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="alerts">
-        <?php do_action('upstream_frontend_projects_messages'); ?>
+            <?php do_action('upstream_frontend_projects_messages'); ?>
+            <?php do_action('upstream_single_project_before_overview'); ?>
     </div>
 
         <div id="project-dashboard" class="sortable">
