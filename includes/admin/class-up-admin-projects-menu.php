@@ -104,7 +104,7 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
                 if (self::$userIsUpStreamUser) {
                     $submenuTasks = $searchSubmenuItem('^tasks$');
                     if ($submenuTasks !== null
-                        && strpos($submenuTasks[0], 'update-count' !== false)
+                        && strpos($submenuTasks[0], 'update-count') !== false
                     ) {
                         $newUpStreamSubmenu[] = $submenuTasks;
                     }
