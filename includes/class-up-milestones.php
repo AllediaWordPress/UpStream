@@ -471,7 +471,11 @@ class Milestones
             $users = [];
 
             foreach ($usersId as $id) {
-                $users[] = get_user_by('id', $id)->display_name;
+                $u = get_user_by('id', $id);
+                // RSD: fix error where $u is null
+                if ($u) {
+                    $users[] = $u->display_name;
+                }
             }
 
             echo implode(', ', $users);
