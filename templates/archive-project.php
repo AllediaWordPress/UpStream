@@ -15,6 +15,8 @@ if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
 
+add_action('init', function() { if(!session_id()) {session_start();}  }, 9);
+
 $pluginOptions     = get_option('upstream_general');
 $areClientsEnabled = ! is_clients_disabled();
 

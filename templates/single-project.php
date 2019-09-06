@@ -22,6 +22,8 @@ if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
 
+add_action('init', function() { if(!session_id()) {session_start();}  }, 9);
+
 $currentUser = (object)upstream_user_data();
 
 $projectsList = [];
