@@ -594,10 +594,11 @@ class UpStream_Project
     public function update_project_members()
     {
         $owner      = $this->get_meta('owner');
-        $milestones = $this->get_meta('milestones');
         $tasks      = $this->get_meta('tasks');
         $bugs       = $this->get_meta('bugs');
         $files      = $this->get_meta('files');
+
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
 
         $users = []; // start with fresh array
 
@@ -629,14 +630,20 @@ class UpStream_Project
 
         if ($milestones) :
             foreach ($milestones as $milestone) {
-                if (isset($milestone['created_by'])) {
-                    $users[] = $milestone['created_by'];
+
+                $milestone = \UpStream\Factory::getMilestone($milestone);
+
+                $c = $milestone->getCreatedBy();
+                if (isset($c)) {
+                    $users[] = $c;
                 }
-                if (isset($milestone['assigned_to'])) {
-                    if (is_array($milestone['assigned_to'])) {
-                        $users = array_merge($users, $milestone['assigned_to']);
+
+                $c = $milestone->getAssignedTo();
+                if (isset($c)) {
+                    if (is_array($c)) {
+                        $users = array_merge($users, $c);
                     } else {
-                        $users[] = $milestone['assigned_to'];
+                        $users[] = $c;
                     }
                 }
             }

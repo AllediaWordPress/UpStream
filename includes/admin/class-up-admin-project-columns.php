@@ -488,6 +488,14 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 return;
             }
 
+            // RSD: moved this for item 886/887
+            if ( ! $this->allowAllProjects && $query->filterAllowedProjects) {
+                $query->query_vars            = array_merge($query->query_vars, [
+                    'post__in' => count($this->allowedProjects) === 0 ? ['making_sure_no_project_is_returned'] : $this->allowedProjects,
+                ]);
+                $query->filterAllowedProjects = null;
+            }
+
             $shouldExit = true;
             $filters    = ['status', 'owner', 'client'];
             foreach ($filters as $filterName) {
@@ -502,12 +510,6 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 return;
             }
 
-            if ( ! $this->allowAllProjects && $query->filterAllowedProjects) {
-                $query->query_vars            = array_merge($query->query_vars, [
-                    'post__in' => count($this->allowedProjects) === 0 ? ['making_sure_no_project_is_returned'] : $this->allowedProjects,
-                ]);
-                $query->filterAllowedProjects = null;
-            }
 
             $metaQuery = [];
 

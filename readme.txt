@@ -3,8 +3,8 @@ Contributors: upstreamplugin, deenison, andergmartins
 Tags: project, manage, management, project management, project manager, wordpress project management, crm, client, client manager, tasks, issue tracker, bug tracker, task manager
 Requires at least: 4.5
 Tested up to: 5.2
-Requires PHP: 5.6
-Stable tag: 1.27.2
+Requires PHP: 5.6.20
+Stable tag: 1.27.3
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -88,7 +88,7 @@ Well thought out settings and options, customizable templates, add your own CSS,
 = Minimum Requirements =
 
 * WordPress 4.5 or greater
-* PHP version 5.6 or greater
+* PHP version 5.6.20 or greater
 
 = Setting Up =
 
@@ -131,16 +131,18 @@ UpStream does not use the existing styling of your theme. The features and the v
 9. Close up of Project Timeline (premium extension)
 
 
-== Upgrade Notice ==
-
-= 1.16.2 =
-If you were having date issues within Projects, please clear your cache and re-save any item that was being affected by it.
-
-
 == Changelog ==
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.27.3] - 2019-09-09 =
+* Fixed item 891 - health check creates errors
+* Fixed items 886-890 - permissions issues
+
+= [1.27.2] - 2019-09-02 =
+* Fixed conflict with CMB2
+* Fixed incompatibility with new version of jQuery
 
 = [1.27.0] - 2019-08-19 =
 * Fixed PHP errors related to tasks and bugs (line 581 bug);

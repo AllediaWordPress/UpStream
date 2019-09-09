@@ -22,6 +22,8 @@ if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
 
+add_action('init', function() { if(!session_id()) {session_start();}  }, 9);
+
 $currentUser = (object)upstream_user_data();
 
 $projectsList = [];
@@ -105,7 +107,8 @@ while (have_posts()) : the_post(); ?>
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="alerts">
-        <?php do_action('upstream_frontend_projects_messages'); ?>
+            <?php do_action('upstream_frontend_projects_messages'); ?>
+            <?php do_action('upstream_single_project_before_overview'); ?>
     </div>
 
         <div id="project-dashboard" class="sortable">
