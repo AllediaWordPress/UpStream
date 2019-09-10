@@ -112,7 +112,7 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
 
                     $submenuBugs = $searchSubmenuItem('^bugs$');
                     if ($submenuBugs !== null
-                        && strpos($submenuBugs[0], 'update-count' !== false)
+                        && strpos($submenuBugs[0], 'update-count') !== false
                     ) {
                         $newUpStreamSubmenu[] = $submenuBugs;
                     }
