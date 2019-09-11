@@ -967,6 +967,13 @@ class Comments
             'target_id'  => (int)$comment->comment_post_ID,
         ];
 
+        // check if we should disable all emaill notifications for this project
+        $meta = (array)get_post_meta($comment->project_id, '_upstream_project_disable_all_notifications');
+        if (count($meta) > 0 && $meta[0] === 'on') {
+            return [];
+        }
+
+
         // Check if we need to skip further data processing.
         if ( ! in_array($comment->target, ['project', 'milestone', 'task', 'bug', 'file'])) {
             return $recipients;
