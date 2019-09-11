@@ -325,6 +325,7 @@ class Comments
         wp_send_json($response);
     }
 
+
     /**
      * Check if the item type is valid.
      *
@@ -948,6 +949,11 @@ class Comments
      */
     public static function defineNotificationRecipients($recipients, $comment_id)
     {
+        $shouldSend = upstreamSendNotificationsForNewComments();
+        if (! $shouldSend) {
+            return [];
+        }
+
         // 2 minutes.
         $transientExpiration = 60 * 2;
 
@@ -1003,7 +1009,15 @@ class Comments
         };
 
         $fetchProjectMetaAsMap = function ($project_id, $key, &$map) use ($transientExpiration, $getUser) {
-            $rowset = (array)get_post_meta($project_id, '_upstream_project_' . $key . 's', true);
+
+            $rowset = [];
+            if ($key === 'milestone') {
+                $rowset = (array)(\UpStream\Milestones::getInstance()->getMilestonesAsRowset($project_id));
+            }
+            else {
+                $rowset = (array)get_post_meta($project_id, '_upstream_project_' . $key . 's', true);
+            }
+
             foreach ($rowset as $row) {
                 $titleKey = $key !== 'milestone' ? 'title' : 'milestone';
 
@@ -1015,17 +1029,15 @@ class Comments
                     $item = (object)[
                         'id'          => $row['id'],
                         'title'       => $row[$titleKey],
-                        'assigned_to' => isset($row['assigned_to']) ? (int)$row['assigned_to'] : 0,
+                        'assigned_to' => isset($row['assigned_to']) ? $row['assigned_to'] : [],
                         'created_by'  => isset($row['created_by']) ? (int)$row['created_by'] : 0,
                         'type'        => $key,
                     ];
 
-                    if ($item->assigned_to > 0) {
-                        $user = $getUser($item->assigned_to);
-                        if (empty($user)) {
-                            $item->assigned_to = 0;
-                        } else {
-                            $item->assigned_to = $user->id;
+                    if (count($item->assigned_to) > 0) {
+                        foreach ($item->assigned_to as $a) {
+                            $user = $getUser($a);
+                            $recipients[] = $user->email;
                         }
                     }
 
@@ -1041,9 +1053,11 @@ class Comments
                     $map[$item->id] = $item;
                 }
             }
+
         };
 
-        $project = get_transient('upstream:comment_notification.project:' . $comment->project_id);
+        // RSD: this cache is causing issues
+        //$project = get_transient('upstream:comment_notification.project:' . $comment->project_id);
         if (empty($project)) {
             $project = get_post($comment->project_id);
             $project = (object)[
@@ -1071,7 +1085,6 @@ class Comments
                     set_transient('upstream:comment_notification.user:' . $owner->id, $owner, $transientExpiration);
                 }
 
-                $recipients[] = array();
                 $pms = upstream_project_members_ids($comment->project_id);
                 foreach ($pms as $pm) {
                     $user_info = get_userdata($pm);
@@ -1082,12 +1095,17 @@ class Comments
             }
 
             if ($comment->target !== 'project') {
+
                 $fetchProjectMetaAsMap($project->id, $comment->target, $project->{$comment->target . 's'});
+
                 foreach ($project->{$comment->target . 's'} as $item) {
-                    if ($item->id === $comment->target_id) {
-                        if ($item->assigned_to > 0) {
-                            $user         = $getUser($item->assigned_to);
-                            $recipients[] = $user->email;
+                    $r = $comment->target_id;
+                    if ($item->id == $comment->target_id) {
+                        if (count($item->assigned_to) > 0) {
+                            foreach ($item->assigned_to as $a) {
+                                $user = $getUser($a);
+                                $recipients[] = $user->email;
+                            }
                         }
 
                         if ($item->created_by > 0) {

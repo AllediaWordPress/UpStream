@@ -1377,6 +1377,25 @@ function upstreamShowAllProjectsInSidebar()
     return $allow;
 }
 
+
+/**
+ * Check if should send emails on new comment.
+ *
+ * @return  bool
+ * @since   1.13.0
+ *
+ */
+function upstreamSendNotificationsForNewComments()
+{
+    $options = get_option('upstream_general');
+
+    $optionName = 'send_notifications_for_new_comments';
+
+    $allow = isset($options[$optionName]) ? (bool)$options[$optionName] : true;
+
+    return $allow;
+}
+
 /**
  * Slighted modification of PHP's native nl2br function.
  *
