@@ -148,6 +148,7 @@ class UpStream_Debug
                 'date_default_timezone_get' => date_default_timezone_get(),
                 'date(e)'                   => date('e'),
                 'date(T)'                   => date('T'),
+                'browser_str'               => $_SERVER['HTTP_USER_AGENT'],
             ],
             'wordpress' => [
                 'version'         => $wp_version,
