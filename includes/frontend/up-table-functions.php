@@ -636,6 +636,8 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         if ($columnValue > 0) {
             $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
         }
+        //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset()).")";
+
     } elseif ($columnType === 'wysiwyg') {
         $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
         if (strlen($columnValue) > 0) {
@@ -749,7 +751,8 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
         }
 
-        $html = '<br>' . $html;
+        // TODO: RSD: why is this here?
+        //$html = '<br>' . $html;
     }
 
     $html = apply_filters(
