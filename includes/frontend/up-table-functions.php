@@ -634,9 +634,12 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
     } elseif ($columnType === 'date') {
         $columnValue = (int)$columnValue;
         if ($columnValue > 0) {
+            // RSD: timezone offset is here to ensure compatibility with previous wrong data
+            // TODO: should remove at some point
             $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
         }
-        //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset()).")";
+        $offset  = get_option( 'gmt_offset' );
+        //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
 
     } elseif ($columnType === 'wysiwyg') {
         $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
