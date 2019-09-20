@@ -75,13 +75,13 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
                 for ($i = 0; $data && $i < count($data); $i++) {
 
-                    if (isset($data[$i]['start_date'])) {
+                    if (isset($data[$i]['start_date']) && is_numeric($data[$i]['start_date'])) {
                         $startDateTimestamp = $data[$i]['start_date'];
                         $startDateTimestamp = $startDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['start_date'] = $startDateTimestamp;
                     }
 
-                    if (isset($data[$i]['end_date'])) {
+                    if (isset($data[$i]['end_date']) && is_numeric($data[$i]['end_date'])) {
                         $endDateTimestamp = $data[$i]['end_date'];
                         $endDateTimestamp = $endDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['end_date'] = $endDateTimestamp;

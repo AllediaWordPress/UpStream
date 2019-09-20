@@ -1764,7 +1764,7 @@ function upstream_get_users_display_name($users)
     $usersIds   = array_filter(array_unique($users));
     $usersCount = count($usersIds);
 
-    if ($usersCount > 1) {
+    if ($usersCount > 0) {
         $users = get_users([
             'include' => $usersIds,
         ]);
@@ -1776,12 +1776,6 @@ function upstream_get_users_display_name($users)
         unset($user, $users);
 
         $html = implode(',<br>', $columnValue);
-    } elseif ($usersCount === 1) {
-        $user = get_user_by('id', $usersIds[0]);
-
-        $html = $user->display_name;
-
-        unset($user);
     }
 
     unset($usersCount, $usersIds);
