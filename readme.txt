@@ -136,6 +136,12 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.28.0] - 2019-09-20 =
+* Fixed various bugs with timezones
+* Added emailing users if a comment is placed on their item
+* Added email notifications on a certain date
+* Fixed various bugs with email notifications
+
 = [1.27.3] - 2019-09-09 =
 * Fixed item 891 - health check creates errors
 * Fixed items 886-890 - permissions issues
