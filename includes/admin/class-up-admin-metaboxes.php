@@ -97,7 +97,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
                 for ($i = 0; $data && $i < count($data); $i++) {
 
-                    if (isset($data[$i]['due_date'])) {
+                    if (isset($data[$i]['due_date']) && is_numeric($data[$i]['due_date'])) {
                         $dueDateTimestamp = $data[$i]['due_date'];
                         $dueDateTimestamp = $dueDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['due_date'] = $dueDateTimestamp;
