@@ -355,6 +355,12 @@ class UpStream_Project
      */
     public function update_project_meta_admin($post_id, $post, $update)
     {
+        // RSD: performance enhancement test
+        static $has_run_for_post = [];
+        if (in_array($post_id, $has_run_for_post)) {
+            return;
+        }
+        $has_run_for_post[] = $post_id;
 
         // If this is an auto draft
         if ($post->post_status == 'auto-draft') {

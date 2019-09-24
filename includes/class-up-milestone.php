@@ -538,6 +538,10 @@ class Milestone extends Struct
             $this->categories = wp_get_object_terms($this->postId, 'upst_milestone_category');
         }
 
+        if (isset($this->categories->errors)) {
+            return [];
+        }
+
         if ( ! $onlyKeys) {
             $categories = $this->categories;
         } else {

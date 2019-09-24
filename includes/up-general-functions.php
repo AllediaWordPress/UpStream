@@ -1377,6 +1377,25 @@ function upstreamShowAllProjectsInSidebar()
     return $allow;
 }
 
+
+/**
+ * Check if should send emails on new comment.
+ *
+ * @return  bool
+ * @since   1.13.0
+ *
+ */
+function upstreamSendNotificationsForNewComments()
+{
+    $options = get_option('upstream_general');
+
+    $optionName = 'send_notifications_for_new_comments';
+
+    $allow = isset($options[$optionName]) ? (bool)$options[$optionName] : true;
+
+    return $allow;
+}
+
 /**
  * Slighted modification of PHP's native nl2br function.
  *
@@ -1745,7 +1764,7 @@ function upstream_get_users_display_name($users)
     $usersIds   = array_filter(array_unique($users));
     $usersCount = count($usersIds);
 
-    if ($usersCount > 1) {
+    if ($usersCount > 0) {
         $users = get_users([
             'include' => $usersIds,
         ]);
@@ -1757,12 +1776,6 @@ function upstream_get_users_display_name($users)
         unset($user, $users);
 
         $html = implode(',<br>', $columnValue);
-    } elseif ($usersCount === 1) {
-        $user = get_user_by('id', $usersIds[0]);
-
-        $html = $user->display_name;
-
-        unset($user);
     }
 
     unset($usersCount, $usersIds);

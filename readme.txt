@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 1.27.3
+Stable tag: 1.28.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -135,6 +135,12 @@ UpStream does not use the existing styling of your theme. The features and the v
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.28.0] - 2019-09-20 =
+* Fixed various bugs with timezones
+* Added emailing users if a comment is placed on their item
+* Added email notifications on a certain date
+* Fixed various bugs with email notifications
 
 = [1.27.3] - 2019-09-09 =
 * Fixed item 891 - health check creates errors

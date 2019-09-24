@@ -744,14 +744,9 @@ jQuery(document).ready(function ($) {
             var self = $(this);
 
             var value = self.datepicker('getDate');
-            /*
-            if (value) {
-              value /= 1000;
-            }
-            */
 
             if (value) {
-                value = (+new Date(value)) / 1000;
+                value = ((+new Date(value)) / 1000) - (60 * (new Date()).getTimezoneOffset());
             }
 
             var hiddenField = $('#' + self.attr('id') + '_timestamp');

@@ -56,13 +56,51 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
                 $data = [];
 
-                if ( ! empty($milestones)) {
+                if (!empty($milestones)) {
                     foreach ($milestones as $milestone) {
                         $milestone = \UpStream\Factory::getMilestone($milestone);
 
                         $milestoneData = $milestone->convertToLegacyRowset();
 
                         $data[] = $milestoneData;
+                    }
+                }
+            } else if ($field['field_id'] === '_upstream_project_tasks') {
+                $data = [];
+                $data = get_metadata($field['type'], $field['id'], $field['field_id'], ($field['single'] || $field['repeat']));
+
+                // RSD: this is for backward compatibility with timezones
+                // TODO: remove this
+                $offset = get_option('gmt_offset');
+
+                for ($i = 0; $data && $i < count($data); $i++) {
+
+                    if (isset($data[$i]['start_date']) && is_numeric($data[$i]['start_date'])) {
+                        $startDateTimestamp = $data[$i]['start_date'];
+                        $startDateTimestamp = $startDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
+                        $data[$i]['start_date'] = $startDateTimestamp;
+                    }
+
+                    if (isset($data[$i]['end_date']) && is_numeric($data[$i]['end_date'])) {
+                        $endDateTimestamp = $data[$i]['end_date'];
+                        $endDateTimestamp = $endDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
+                        $data[$i]['end_date'] = $endDateTimestamp;
+                    }
+                }
+            } else if ($field['field_id'] === '_upstream_project_bugs') {
+                $data = [];
+                $data = get_metadata($field['type'], $field['id'], $field['field_id'], ($field['single'] || $field['repeat']));
+
+                // RSD: this is for backward compatibility with timezones
+                // TODO: remove this
+                $offset = get_option('gmt_offset');
+
+                for ($i = 0; $data && $i < count($data); $i++) {
+
+                    if (isset($data[$i]['due_date']) && is_numeric($data[$i]['due_date'])) {
+                        $dueDateTimestamp = $data[$i]['due_date'];
+                        $dueDateTimestamp = $dueDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
+                        $data[$i]['due_date'] = $dueDateTimestamp;
                     }
                 }
             }

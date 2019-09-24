@@ -689,6 +689,17 @@ if ( ! class_exists('UpStream_Options_General')) :
                                 '1' => __('Show all projects', 'upstream'),
                             ],
                         ],
+                        [
+                            'name'       => __('Send Notifications for New Comments', 'upstream'),
+                            'id'         => 'send_notifications_for_new_comments',
+                            'type'       => 'radio_inline',
+                            'options'    => [
+                                '1' => __('Enabled'),
+                                '0' => __('Disabled'),
+                            ],
+                            'default'    => '1',
+                            'desc'       => __('Check this to send a notification to the owner and creator of a milestone, task, or bug when someone comments on it.'),
+                        ],
 
                         /**
                          * Maintenance
