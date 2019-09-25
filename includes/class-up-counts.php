@@ -31,6 +31,8 @@ class Upstream_Counts
      */
     public function get_projects($id)
     {
+        return $this->get_projects_cached($id);
+
         $args = [
             'post_type'      => 'project',
             'post_status'    => 'any',
@@ -44,6 +46,34 @@ class Upstream_Counts
         $projects = (array)get_posts($args);
 
         return $projects;
+    }
+
+    public function get_projects_cached($id)
+    {
+        $allprojects = Upstream_Cache::get_instance()->get('allprojectsbyid');
+        if ($allprojects === false) {
+            $args = [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+            ];
+            $projects = (array)get_posts($args);
+            $allprojects = [];
+
+            foreach ($projects as $p) {
+                $allprojects[$p->ID] = $p;
+            }
+
+            Upstream_Cache::get_instance()->set('allprojectsbyid', $allprojects);
+        }
+
+        $rv = array();
+
+        if (isset($allprojects[$id])) {
+            $rv[] = $allprojects[$id];
+        }
+
+        return $rv;
     }
 
     /**

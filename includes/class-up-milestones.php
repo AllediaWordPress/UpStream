@@ -540,7 +540,7 @@ class Milestones
      * @return array
      * @throws Exception
      */
-    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+    public function getMilestonesFromProjectUncached($projectId, $returnAsLegacyDataset = false)
     {
         $posts = get_posts(
             [
@@ -569,6 +569,22 @@ class Milestones
         }
 
         return $milestones;
+    }
+
+
+    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+
+    {
+        $key = "getMilestonesFromProject".((int)$projectId)."_".((int)$returnAsLegacyDataset);
+
+        $milestones = \Upstream_Cache::get_instance()->get($key);
+        if ($milestones === false) {
+            $milestones = $this->getMilestonesFromProjectUncached((int)$projectId, $returnAsLegacyDataset);
+            \Upstream_Cache::get_instance()->set($key, $milestones);
+        }
+
+        return $milestones;
+
     }
 
     /**

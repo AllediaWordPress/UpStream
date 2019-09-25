@@ -949,7 +949,7 @@ function upstream_get_project_roles()
  * Returns all users with select roles.
  * For use in dropdowns.
  */
-function upstream_admin_get_all_project_users()
+function upstream_admin_get_all_project_users_uncached()
 {
     $projectClientUsers = [];
     $projectId          = upstream_post_id();
@@ -989,6 +989,21 @@ function upstream_admin_get_all_project_users()
 
     return $users;
 }
+
+function upstream_admin_get_all_project_users()
+
+{
+    $key = 'upstream_admin_get_all_project_users';
+
+    $users = Upstream_Cache::get_instance()->get($key);
+    if ($users === false) {
+        $users = upstream_admin_get_all_project_users_uncached();
+        Upstream_Cache::get_instance()->set($key, $users);
+    }
+
+    return $users;
+}
+
 
 /**
  * Returns array of all clients.

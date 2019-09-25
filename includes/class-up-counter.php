@@ -104,6 +104,8 @@ class Upstream_Counter
      */
     public function getProjects()
     {
+        return $this->getProjectsCached();
+
         if (empty($this->projects)) {
             $args = [
                 'post_type'      => 'project',
@@ -120,6 +122,42 @@ class Upstream_Counter
 
         return $this->projects;
     }
+
+    public function getProjectsCached()
+    {
+        $allprojects = Upstream_Cache::get_instance()->get('allprojectsbyid');
+        if ($allprojects === false) {
+            $args = [
+                'post_type'      => 'project',
+                'post_status'    => 'any',
+                'posts_per_page' => -1,
+            ];
+            $projects = (array)get_posts($args);
+            $allprojects = [];
+
+            foreach ($projects as $p) {
+                $allprojects[$p->ID] = $p;
+            }
+
+            Upstream_Cache::get_instance()->set('allprojectsbyid', $allprojects);
+        }
+
+        $this->projects = [];
+        if ( ! empty($this->projectIds)) {
+            if (is_array($this->projectIds)) {
+                foreach ($this->projectIds as $id) {
+                    $this->projects[] = $allprojects[$id];
+                }
+            }
+            else {
+                $this->projects[] = $allprojects[$this->projectIds];
+            }
+        }
+
+        return $this->projects;
+    }
+
+
 
     /**
      * Returns the total count of open items

@@ -468,11 +468,16 @@ function upstream_get_users_projects($user)
 
     $data = [];
 
-    $rowset = (array)get_posts([
-        'post_type'      => "project",
-        'post_status'    => "publish",
-        'posts_per_page' => -1,
-    ]);
+    $rowset = Upstream_Cache::get_instance()->get('upstream_get_users_projects');
+
+    if ($rowset === false) {
+        $rowset = (array)get_posts([
+            'post_type' => "project",
+            'post_status' => "publish",
+            'posts_per_page' => -1,
+        ]);
+        Upstream_Cache::get_instance()->set('upstream_get_users_projects', $rowset);
+    }
 
     if (count($rowset) > 0) {
         foreach ($rowset as $project) {
@@ -1759,6 +1764,8 @@ function upstream_convert_UTC_date_to_timezone($subject, $includeTime = true)
  */
 function upstream_get_users_display_name($users)
 {
+    return upstream_get_users_display_name_cached($users);
+
     $html = 0;
 
     $usersIds   = array_filter(array_unique($users));
@@ -1781,6 +1788,29 @@ function upstream_get_users_display_name($users)
     unset($usersCount, $usersIds);
 
     return $html;
+}
+
+function upstream_get_users_display_name_cached($users)
+{
+    $allusers = Upstream_Cache::get_instance()->get('upstream_get_users_display_name_cached');
+    if ($allusers === false) {
+        $allusers = get_users();
+        Upstream_Cache::get_instance()->set('upstream_get_users_display_name_cached', $allusers);
+    }
+
+    $userhash = [];
+    foreach ($users as $u) {
+        $userhash[$u] = true;
+    }
+
+    $allusernames = [];
+    foreach ($allusers as $user) {
+        if (isset($userhash[$user->ID])) {
+            $allusernames[] = $user->display_name;
+        }
+    }
+
+    return implode('<br>', $allusernames);
 }
 
 /**
