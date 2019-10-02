@@ -6,9 +6,6 @@ if ( ! defined('ABSPATH')) {
 
 class Upstream_Cache
 {
-    /**
-     * Instance of the Pimple container
-     */
     protected static $instance;
 
     protected $cache = [];
