@@ -5,6 +5,22 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+/************************* BEGIN UPSTREAM V2 FUNCTIONALITY ******************************/
+
+define('UPSTREAM_PERMISSIONS_UNCHANGED', 0);
+define('UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW', 1);
+define('UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK', 2);
+
+define('UPSTREAM_PERMISSIONS_ACTION_VIEW', 'view');
+define('UPSTREAM_PERMISSIONS_ACTION_EDIT', 'edit');
+define('UPSTREAM_PERMISSIONS_ACTION_CREATE', 'create');
+define('UPSTREAM_PERMISSIONS_ACTION_DELETE', 'delete');
+
+define('UPSTREAM_PERMISSIONS_FILTER_OBJECT', 'upstream_permissions_filter_object');
+define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field');
+
+/************************* END UPSTREAM  V2  FUNCTIONALITY ******************************/
+
 
 /**
  * Permission checks for the frontend are always run through here.
@@ -182,6 +198,16 @@ function upstream_user_can_access_project($user_id, $project_id)
     $user = $user_id instanceof \WP_User ? $user_id : new \WP_User($user_id);
     if ($user->ID === 0) {
         return false;
+    }
+
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT,
+        UPSTREAM_PERMISSIONS_UNCHANGED, 'project', $project_id, 0,
+        $user->ID, UPSTREAM_PERMISSIONS_ACTION_VIEW);
+
+    if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
+        return false;
+    } else if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW) {
+        return true;
     }
 
     $userIsAdmin = count(array_intersect((array)$user->roles, ['administrator', 'upstream_manager'])) > 0;

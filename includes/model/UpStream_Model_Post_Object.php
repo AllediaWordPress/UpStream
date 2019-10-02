@@ -24,7 +24,9 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         foreach ($fields as $field => $input) {
 
             if (is_string($input)) {
-                $this->{$field} = $metadata[$input];
+                if (isset($metadata[$input])) {
+                    $this->{$field} = $metadata[$input];
+                }
             } else if ($input instanceof Closure) {
                 $this->{$field} = $input($metadata);
             }
