@@ -59,20 +59,20 @@ $isClientsDisabled = is_clients_disabled();
         </div>
         <div class="x_content" style="display: <?php echo $collapseDetails ? 'none' : 'block'; ?>;">
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                     <p class="title"><?php _e('ID', 'upstream'); ?></p>
-                    <span>P<?php echo $project_id; ?></span>
+                    <span><?php echo $project_id; ?></span>
                 </div>
 
                 <?php if ( ! empty($projectTimeframe)): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                         <p class="title"><?php _e('Timeframe', 'upstream'); ?></p>
                         <span><?php echo $projectTimeframe; ?></span>
                     </div>
                 <?php endif; ?>
 
                 <?php if ( ! $isClientsDisabled && $project->client_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                         <p class="title"><?php echo upstream_client_label(); ?></p>
                         <span><?php echo $project->client_id > 0 && ! empty($project->clientName) ? $project->clientName : '<i class="text-muted">(' . __(
                                     'none',
@@ -81,12 +81,12 @@ $isClientsDisabled = is_clients_disabled();
                     </div>
                 <?php endif; ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                     <p class="title"><?php _e('Progress', 'upstream'); ?></p>
                     <span><?php echo $project->progress; ?>% <?php _e('complete', 'upstream'); ?></span>
                 </div>
                 <?php if ($project->owner_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                         <p class="title"><?php _e('Owner', 'upstream'); ?></p>
                         <span><?php echo $project->owner_id > 0 ? upstream_user_avatar($project->owner_id) : '<i class="text-muted">(' . __(
                                     'none',
@@ -96,7 +96,7 @@ $isClientsDisabled = is_clients_disabled();
                 <?php endif; ?>
 
                 <?php if ( ! $isClientsDisabled && $project->client_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                         <p class="title"><?php printf(__('%s Users', 'upstream'), upstream_client_label()); ?></p>
                         <?php if (is_array($project->clientUsers) && count($project->clientUsers) > 0): ?>
                             <?php upstream_output_client_users() ?>
@@ -106,7 +106,7 @@ $isClientsDisabled = is_clients_disabled();
                     </div>
                 <?php endif; ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                     <p class="title"><?php _e('Members', 'upstream'); ?></p>
                     <?php upstream_output_project_members(); ?>
                 </div>
