@@ -23,6 +23,7 @@ class UpStream_Model_Manager
 
     protected function loadObject($object_type, $object_id, $parent_id)
     {
+        // TODO: add exceptions
         if (self::PROJECT === $object_type) {
 
             $project = new UpStream_Model_Project($object_id);
