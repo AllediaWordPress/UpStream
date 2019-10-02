@@ -6,6 +6,8 @@ class UpStream_Model_Object
 
     public $id = 0;
 
+    public $type = null;
+
     public $title = null;
 
     public $assignedTo = [];

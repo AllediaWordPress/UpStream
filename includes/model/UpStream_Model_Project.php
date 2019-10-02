@@ -22,6 +22,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             'assignedTo' => '_upstream_project_owner',
             ]);
 
+        $this->type = UPSTREAM_ITEM_TYPE_PROJECT;
         $this->loadChildren();
     }
 

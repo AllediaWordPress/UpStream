@@ -12,5 +12,7 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         parent::__construct($id, [
             'assignedTo' => 'upst_assigned_to',
             ]);
+
+        $this->type = UPSTREAM_ITEM_TYPE_MILESTONE;
     }
 }
