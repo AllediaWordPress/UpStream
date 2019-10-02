@@ -59,7 +59,7 @@ if ( ! upstream_are_milestones_disabled()
                             <i class="fa fa-chevron-<?php echo $collapseBox ? 'down' : 'up'; ?>"></i>
                         </a>
                     </li>
-                    <?php do_action('upstream_project_milestones_top_right'); ?>
+                    <?php do_action('upstream_project_milestones_top_right', $projectId); ?>
                 </ul>
                 <div class="clearfix"></div>
             </div>
