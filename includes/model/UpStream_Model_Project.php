@@ -7,6 +7,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public $bugs = [];
 
+    public $files = [];
+
     protected $clientUsers = [];
 
     protected $client = 0;
@@ -42,5 +44,11 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             }
         }
 
+        $itemset = get_post_meta($this->id, '_upstream_project_files');
+        if ($itemset && count($itemset) == 1 && is_array($itemset[0])) {
+            foreach ($itemset[0] as $item) {
+                $this->files[] = new UpStream_Model_File($item);
+            }
+        }
     }
 }

@@ -33,6 +33,7 @@ function upstream_can_access_object($capability, $object_type, $object_id, $pare
     if ($object_type === 'milestones') $object_type = 'milestone';
     else if ($object_type === 'tasks') $object_type = 'task';
     else if ($object_type === 'bugs') $object_type = 'bug';
+    else if ($object_type === 'files') $object_type = 'file';
 
     $user_id = get_current_user_id();
     $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT, UPSTREAM_PERMISSIONS_UNCHANGED,
@@ -54,6 +55,7 @@ function upstream_can_access_field($capability, $object_type, $object_id, $paren
     if ($object_type === 'milestones') $object_type = 'milestone';
     else if ($object_type === 'tasks') $object_type = 'task';
     else if ($object_type === 'bugs') $object_type = 'bug';
+    else if ($object_type === 'files') $object_type = 'file';
 
     $user_id = get_current_user_id();
     $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_FIELD, UPSTREAM_PERMISSIONS_UNCHANGED,
@@ -77,6 +79,7 @@ function upstream_override_access_object($orig_value, $object_type, $object_id, 
     if ($object_type === 'milestones') $object_type = 'milestone';
     else if ($object_type === 'tasks') $object_type = 'task';
     else if ($object_type === 'bugs') $object_type = 'bug';
+    else if ($object_type === 'files') $object_type = 'file';
 
     $user_id = get_current_user_id();
     $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT, UPSTREAM_PERMISSIONS_UNCHANGED,
@@ -98,6 +101,7 @@ function upstream_override_access_field($orig_value, $object_type, $object_id, $
     if ($object_type === 'milestones') $object_type = 'milestone';
     else if ($object_type === 'tasks') $object_type = 'task';
     else if ($object_type === 'bugs') $object_type = 'bug';
+    else if ($object_type === 'files') $object_type = 'file';
 
     $user_id = get_current_user_id();
     $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_FIELD, UPSTREAM_PERMISSIONS_UNCHANGED,
