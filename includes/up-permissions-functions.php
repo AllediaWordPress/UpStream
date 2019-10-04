@@ -15,12 +15,103 @@ define('UPSTREAM_PERMISSIONS_ACTION_VIEW', 'view');
 define('UPSTREAM_PERMISSIONS_ACTION_EDIT', 'edit');
 define('UPSTREAM_PERMISSIONS_ACTION_CREATE', 'create');
 define('UPSTREAM_PERMISSIONS_ACTION_DELETE', 'delete');
+define('UPSTREAM_PERMISSIONS_ACTION_COPY', 'copy');
 
 define('UPSTREAM_PERMISSIONS_FILTER_OBJECT', 'upstream_permissions_filter_object');
 define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field');
 
+define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
+define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
+define('UPSTREAM_ITEM_TYPE_TASK', 'task');
+define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
+define('UPSTREAM_ITEM_TYPE_FILE', 'file');
+define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
+
+function upstream_can_access_object($capability, $object_type, $object_id, $parent_type, $parent_id, $action)
+
+{
+    if ($object_type === 'milestones') $object_type = 'milestone';
+    else if ($object_type === 'tasks') $object_type = 'task';
+    else if ($object_type === 'bugs') $object_type = 'bug';
+
+    $user_id = get_current_user_id();
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT, UPSTREAM_PERMISSIONS_UNCHANGED,
+        $object_type, $object_id, $parent_type, $parent_id, $user_id, $action);
+
+    if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
+        return false;
+    } else if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW) {
+        return true;
+    }
+    else {
+        return upstream_permissions($capability, $object_id);
+    }
+}
+
+function upstream_can_access_field($capability, $object_type, $object_id, $parent_type, $parent_id, $field, $action)
+
+{
+    if ($object_type === 'milestones') $object_type = 'milestone';
+    else if ($object_type === 'tasks') $object_type = 'task';
+    else if ($object_type === 'bugs') $object_type = 'bug';
+
+    $user_id = get_current_user_id();
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_FIELD, UPSTREAM_PERMISSIONS_UNCHANGED,
+        $object_type, $object_id, $parent_type, $parent_id, $field, $user_id, $action);
+
+    if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
+        return false;
+    } else if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW) {
+        return true;
+    }
+    else {
+        return upstream_permissions($capability, $object_id);
+    }
+}
+
 /************************* END UPSTREAM  V2  FUNCTIONALITY ******************************/
 
+function upstream_override_access_object($orig_value, $object_type, $object_id, $parent_type, $parent_id, $action)
+
+{
+    if ($object_type === 'milestones') $object_type = 'milestone';
+    else if ($object_type === 'tasks') $object_type = 'task';
+    else if ($object_type === 'bugs') $object_type = 'bug';
+
+    $user_id = get_current_user_id();
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT, UPSTREAM_PERMISSIONS_UNCHANGED,
+        $object_type, $object_id, $parent_type, $parent_id, $user_id, $action);
+
+    if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
+        return false;
+    } else if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW) {
+        return true;
+    }
+    else {
+        return $orig_value;
+    }
+}
+
+function upstream_override_access_field($orig_value, $object_type, $object_id, $parent_type, $parent_id, $field, $action)
+
+{
+    if ($object_type === 'milestones') $object_type = 'milestone';
+    else if ($object_type === 'tasks') $object_type = 'task';
+    else if ($object_type === 'bugs') $object_type = 'bug';
+
+    $user_id = get_current_user_id();
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_FIELD, UPSTREAM_PERMISSIONS_UNCHANGED,
+        $object_type, $object_id, $parent_type, $parent_id, $field, $user_id, $action);
+
+    if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
+        return false;
+    } else if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW) {
+        return true;
+    }
+    else {
+        return $orig_value;
+    }
+}
 
 /**
  * Permission checks for the frontend are always run through here.
@@ -30,6 +121,10 @@ define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field')
  */
 function upstream_permissions($capability = null, $item_id = null)
 {
+    // TODO: TODOPERM REMOVE THIS and put in function to ignore if advanced perm is on
+    return true;
+
+
     // set the return variable that can be overwritten after all checks
     // set the return variable that can be overwritten after all checks
     $return       = false;
@@ -200,9 +295,8 @@ function upstream_user_can_access_project($user_id, $project_id)
         return false;
     }
 
-    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT,
-        UPSTREAM_PERMISSIONS_UNCHANGED, 'project', $project_id, 0,
-        $user->ID, UPSTREAM_PERMISSIONS_ACTION_VIEW);
+    $override = apply_filters(UPSTREAM_PERMISSIONS_FILTER_OBJECT, UPSTREAM_PERMISSIONS_UNCHANGED,
+        'project', $project_id, null, 0, $user->ID, UPSTREAM_PERMISSIONS_ACTION_VIEW);
 
     if ($override == UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK) {
         return false;

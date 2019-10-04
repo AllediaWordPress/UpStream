@@ -73,7 +73,7 @@ if ( ! upstream_are_files_disabled()
                             <i class="fa fa-chevron-<?php echo $collapseBox ? 'down' : 'up'; ?>"></i>
                         </a>
                     </li>
-                    <?php do_action('upstream_project_files_top_right'); ?>
+                    <?php do_action('upstream_project_files_top_right', $projectId); ?>
                 </ul>
                 <div class="clearfix"></div>
             </div>

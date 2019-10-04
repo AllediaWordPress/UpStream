@@ -38,7 +38,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         $itemset = get_post_meta($this->id, '_upstream_project_bugs');
         if ($itemset && count($itemset) == 1 && is_array($itemset[0])) {
             foreach ($itemset[0] as $item) {
-                $this->tasks[] = new UpStream_Model_Bug($item);
+                $this->bugs[] = new UpStream_Model_Bug($item);
             }
         }
 

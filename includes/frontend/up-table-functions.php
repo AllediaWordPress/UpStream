@@ -754,8 +754,6 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
         }
 
-        // TODO: RSD: why is this here?
-        //$html = '<br>' . $html;
     }
 
     $html = apply_filters(

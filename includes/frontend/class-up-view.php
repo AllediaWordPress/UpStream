@@ -62,7 +62,15 @@ class UpStream_View
 
         if (count(self::$tasks) === 0) {
             $data   = [];
-            $rowset = array_filter((array)$project->get_meta('tasks'));
+            $frowset = array_filter((array)$project->get_meta('tasks'));
+
+            $rowset = [];
+            foreach ($frowset as $row) {
+                if (upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_TASK, $row['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    $rowset[] = $row;
+                }
+            }
+
 
             $statuses = getTasksStatuses();
 
@@ -109,7 +117,15 @@ class UpStream_View
         $severities = getBugsSeverities();
         $statuses   = getBugsStatuses();
 
-        $meta = (array)get_post_meta($projectId, '_upstream_project_bugs', true);
+        $fmeta = (array)get_post_meta($projectId, '_upstream_project_bugs', true);
+
+        $meta = [];
+        foreach ($fmeta as $row) {
+            if (upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_BUG, $row['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                $meta[] = $row;
+            }
+        }
+
         foreach ($meta as $data) {
             if ( ! isset($data['id'])
                  || ! isset($data['created_by'])
