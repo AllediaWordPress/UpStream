@@ -27,7 +27,7 @@ define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
 define('UPSTREAM_ITEM_TYPE_FILE', 'file');
 define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
 
-function upstream_can_access_object($capability, $object_type, $object_id, $parent_type, $parent_id, $action)
+function upstream_can_access_object($capability, $object_type, $object_id, $parent_type, $parent_id, $action, $is_admin_page = false)
 
 {
     if ($object_type === 'milestones') $object_type = 'milestone';
@@ -45,11 +45,15 @@ function upstream_can_access_object($capability, $object_type, $object_id, $pare
         return true;
     }
     else {
-        return upstream_permissions($capability, $object_id);
+        if ($is_admin_page) {
+            return upstream_admin_permissions($capability);
+        } else {
+            return upstream_permissions($capability, $object_id);
+        }
     }
 }
 
-function upstream_can_access_field($capability, $object_type, $object_id, $parent_type, $parent_id, $field, $action)
+function upstream_can_access_field($capability, $object_type, $object_id, $parent_type, $parent_id, $field, $action, $is_admin_page)
 
 {
     if ($object_type === 'milestones') $object_type = 'milestone';
@@ -67,9 +71,14 @@ function upstream_can_access_field($capability, $object_type, $object_id, $paren
         return true;
     }
     else {
-        return upstream_permissions($capability, $object_id);
+        if ($is_admin_page) {
+            return upstream_admin_permissions($capability);
+        } else {
+            return upstream_permissions($capability, $object_id);
+        }
     }
 }
+
 
 /************************* END UPSTREAM  V2  FUNCTIONALITY ******************************/
 
@@ -129,7 +138,7 @@ function upstream_permissions($capability = null, $item_id = null)
     return true;
 
 
-    // set the return variable that can be overwritten after all checks
+
     // set the return variable that can be overwritten after all checks
     $return       = false;
     $current_user = upstream_current_user_id();
@@ -223,6 +232,10 @@ function upstream_permissions($capability = null, $item_id = null)
  */
 function upstream_admin_permissions($capability = null)
 {
+
+    // TODO: TODOPERM REMOVE THIS and put in function to ignore if advanced perm is on
+    return true;
+
 
     /*
      * Set the return variable that can be overwritten after all checks

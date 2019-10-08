@@ -272,11 +272,6 @@ class Comments
                 throw new \Exception(__("Invalid nonce.", 'upstream'));
             }
 
-            // Check if the user has enough permissions to insert a new comment.
-            if ( ! upstream_admin_permissions('publish_project_discussion')) {
-                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
-            }
-
             // Check if the project exists.
             $project_id = (int)$_POST['project_id'];
             if ($project_id <= 0) {
@@ -286,6 +281,11 @@ class Comments
             // Check if commenting is disabled on the given project.
             if (upstream_are_comments_disabled($project_id)) {
                 throw new \Exception(__("Commenting is disabled on this project.", 'upstream'));
+            }
+
+            // Check if the user has enough permissions to insert a new comment.
+            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_CREATE, true)) {
+                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
             }
 
             $user_id = get_current_user_id();
