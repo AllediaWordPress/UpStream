@@ -589,170 +589,180 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
 {
     $isHidden = isset($column['isHidden']) && (bool)$column['isHidden'] === true;
 
-    $html       = sprintf('<i class="s-text-color-gray">%s</i>', __('none', 'upstream'));
-    $columnType = isset($column['type']) ? $column['type'] : 'raw';
+    $viewable = upstream_override_access_field(true, $rowType, $row['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, $columnName, UPSTREAM_PERMISSIONS_ACTION_VIEW);
 
-    // Detect color values
-    if ($columnType === 'raw' && preg_match('/^(#[0-9a-f]+|rgba?\()/i', $columnValue)) {
-        $columnType = 'colorpicker';
-    }
+    if ($viewable) {
 
-    if ($columnType === 'user') {
-        if ( ! is_array($columnValue)) {
-            $columnValue = (array)$columnValue;
+        $html = sprintf('<i class="s-text-color-gray">%s</i>', __('none', 'upstream'));
+        $columnType = isset($column['type']) ? $column['type'] : 'raw';
+
+        // Detect color values
+        if ($columnType === 'raw' && preg_match('/^(#[0-9a-f]+|rgba?\()/i', $columnValue)) {
+            $columnType = 'colorpicker';
         }
 
-        $names = upstream_get_users_display_name($columnValue);
-
-        // RSD: for some reason upstream_get_users_display_name returns 0 when there's nothign to show
-        // this fixes the display
-        $html = ($names != "0") ? $names : $html;
-    } elseif ($columnType === 'taxonomies') {
-        if ( ! is_array($columnValue)) {
-            $columnValue = (array)$columnValue;
-        }
-
-        $html = '';
-
-        if ( ! empty($columnValue)) {
-            $names = [];
-
-            foreach ($columnValue as $value) {
-                if (is_numeric($value)) {
-                    $term = get_term((int)$value);
-
-                    $names[] = $term->name;
-                } else {
-                    $names[] = $value;
-                }
+        if ($columnType === 'user') {
+            if (!is_array($columnValue)) {
+                $columnValue = (array)$columnValue;
             }
 
-            $html = implode(', ', $names);
-        }
-    } elseif ($columnType === 'percentage') {
-        $html = sprintf('%d%%', (int)$columnValue);
-    } elseif ($columnType === 'date') {
-        $columnValue = (int)$columnValue;
-        if ($columnValue > 0) {
-            // RSD: timezone offset is here to ensure compatibility with previous wrong data
-            // TODO: should remove at some point
-            $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
-        }
-        $offset  = get_option( 'gmt_offset' );
-        //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
+            $names = upstream_get_users_display_name($columnValue);
 
-    } elseif ($columnType === 'wysiwyg') {
-        $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
-        if (strlen($columnValue) > 0) {
-            $html = sprintf('<blockquote>%s</blockquote>', html_entity_decode($columnValue));
-        } else {
-            $html = '<br>' . $html;
-        }
-    } elseif ($columnType === 'comments') {
-        $html = upstreamRenderCommentsBox($row['id'], $rowType, $projectId, false, true);
-    } elseif ($columnType === 'custom') {
-        if (isset($column['renderCallback']) && is_callable($column['renderCallback'])) {
-            $html = call_user_func(
-                $column['renderCallback'],
-                $columnName,
-                $columnValue,
-                $column,
-                $row,
-                $rowType,
-                $projectId
-            );
-        }
-    } elseif ($columnType === 'file') {
-        if (strlen($columnValue) > 0) {
-            if (@is_array(getimagesize($columnValue))) {
-                $html = sprintf(
-                    '<a href="%s" target="_blank">
-                <img class="avatar itemfile" width="32" height="32" src="%1$s">
-              </a>',
-                    $columnValue
-                );
-            } else {
-                $html = sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    $columnValue,
-                    basename($columnValue)
-                );
+            // RSD: for some reason upstream_get_users_display_name returns 0 when there's nothign to show
+            // this fixes the display
+            $html = ($names != "0") ? $names : $html;
+        } elseif ($columnType === 'taxonomies') {
+            if (!is_array($columnValue)) {
+                $columnValue = (array)$columnValue;
             }
-        } elseif ($isHidden) {
-            $html = '<br>' . $html;
-        }
-    } elseif ($columnType === 'array') {
-        $columnValue = array_filter((array)$columnValue);
 
-        if (isset($column['options'])) {
-            $values = [];
+            $html = '';
 
-            if (is_array($column['options'])) {
+            if (!empty($columnValue)) {
+                $names = [];
+
                 foreach ($columnValue as $value) {
-                    if (isset($column['options'][$value])) {
-                        $values[] = $column['options'][$value];
+                    if (is_numeric($value)) {
+                        $term = get_term((int)$value);
+
+                        $names[] = $term->name;
+                    } else {
+                        $names[] = $value;
                     }
                 }
+
+                $html = implode(', ', $names);
+            }
+        } elseif ($columnType === 'percentage') {
+            $html = sprintf('%d%%', (int)$columnValue);
+        } elseif ($columnType === 'date') {
+            $columnValue = (int)$columnValue;
+            if ($columnValue > 0) {
+                // RSD: timezone offset is here to ensure compatibility with previous wrong data
+                // TODO: should remove at some point
+                $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
+            }
+            $offset = get_option('gmt_offset');
+            //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
+
+        } elseif ($columnType === 'wysiwyg') {
+            $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
+            if (strlen($columnValue) > 0) {
+                $html = sprintf('<blockquote>%s</blockquote>', html_entity_decode($columnValue));
+            } else {
+                $html = '<br>' . $html;
+            }
+        } elseif ($columnType === 'comments') {
+            $html = upstreamRenderCommentsBox($row['id'], $rowType, $projectId, false, true);
+        } elseif ($columnType === 'custom') {
+            if (isset($column['renderCallback']) && is_callable($column['renderCallback'])) {
+                $html = call_user_func(
+                    $column['renderCallback'],
+                    $columnName,
+                    $columnValue,
+                    $column,
+                    $row,
+                    $rowType,
+                    $projectId
+                );
+            }
+        } elseif ($columnType === 'file') {
+            if (strlen($columnValue) > 0) {
+                if (@is_array(getimagesize($columnValue))) {
+                    $html = sprintf(
+                        '<a href="%s" target="_blank">
+                <img class="avatar itemfile" width="32" height="32" src="%1$s">
+              </a>',
+                        $columnValue
+                    );
+                } else {
+                    $html = sprintf(
+                        '<a href="%s" target="_blank">%s</a>',
+                        $columnValue,
+                        basename($columnValue)
+                    );
+                }
+            } elseif ($isHidden) {
+                $html = '<br>' . $html;
+            }
+        } elseif ($columnType === 'array') {
+            $columnValue = array_filter((array)$columnValue);
+
+            if (isset($column['options'])) {
+                $values = [];
+
+                if (is_array($column['options'])) {
+                    foreach ($columnValue as $value) {
+                        if (isset($column['options'][$value])) {
+                            $values[] = $column['options'][$value];
+                        }
+                    }
+                }
+
+                $values = implode(', ', $values);
+            } elseif (!empty($columnValue)) {
+                $values = implode(', ', $columnValue);
             }
 
-            $values = implode(', ', $values);
-        } elseif ( ! empty($columnValue)) {
-            $values = implode(', ', $columnValue);
-        }
-
-        if ( ! empty($values)) {
-            if ($isHidden) {
-                $html = '<br><span data-value="' . implode(',', $columnValue) . '">' . $values . '</span>';
+            if (!empty($values)) {
+                if ($isHidden) {
+                    $html = '<br><span data-value="' . implode(',', $columnValue) . '">' . $values . '</span>';
+                } else {
+                    $html = '<br><span>' . implode(',', $columnValue) . '</span>';
+                }
             } else {
-                $html = '<br><span>' . implode(',', $columnValue) . '</span>';
+                $html = '<br>' . $html;
+            }
+        } elseif ($columnType === 'colorpicker') {
+            $columnValue = trim((string)$columnValue);
+            if (strlen($columnValue) > 0) {
+                $html = '<br><div class="up-c-color-square has-tooltip" data-toggle="tooltip" title="' . $columnValue . '">';
+                $html .= '<div style="background-color: ' . $columnValue . '"></div>';
+                $html .= '</div>';
+            }
+
+            if ($isHidden) {
+                $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
+            }
+        } elseif ($columnType === 'radio') {
+            if (is_array($columnValue)) {
+                $columnValue = $columnValue[0];
+            }
+
+            $columnValue = trim((string)$columnValue);
+
+            if (strlen($columnValue) > 0) {
+                if ($columnValue === '__none__') {
+                    $html = '<i class="s-text-color-gray">' . _('none', 'upstream') . '</i>';
+                } else {
+                    $html = esc_html($columnValue);
+                }
+            }
+
+            $html = '<br>' . $html;
+
+            if ($isHidden) {
+                $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
             }
         } else {
-            $html = '<br>' . $html;
-        }
-    } elseif ($columnType === 'colorpicker') {
-        $columnValue = trim((string)$columnValue);
-        if (strlen($columnValue) > 0) {
-            $html = '<br><div class="up-c-color-square has-tooltip" data-toggle="tooltip" title="' . $columnValue . '">';
-            $html .= '<div style="background-color: ' . $columnValue . '"></div>';
-            $html .= '</div>';
-        }
+            if (is_array($columnValue)) {
+                $columnValue = $columnValue[0];
+            }
 
-        if ($isHidden) {
-            $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
-        }
-    } elseif ($columnType === 'radio') {
-        if (is_array($columnValue)) {
-            $columnValue = $columnValue[0];
-        }
-
-        $columnValue = trim((string)$columnValue);
-
-        if (strlen($columnValue) > 0) {
-            if ($columnValue === '__none__') {
-                $html = '<i class="s-text-color-gray">' . _('none', 'upstream') . '</i>';
-            } else {
+            $columnValue = trim((string)$columnValue);
+            if (strlen($columnValue) > 0) {
                 $html = esc_html($columnValue);
             }
+
+            if ($isHidden) {
+                $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
+            }
+
         }
 
-        $html = '<br>' . $html;
-
-        if ($isHidden) {
-            $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
-        }
     } else {
-        if (is_array($columnValue)) {
-            $columnValue = $columnValue[0];
-        }
 
-        $columnValue = trim((string)$columnValue);
-        if (strlen($columnValue) > 0) {
-            $html = esc_html($columnValue);
-        }
-
-        if ($isHidden) {
-            $html = '<span data-value="' . esc_attr($columnValue) . '">' . $html . '</span>';
-        }
+        $html = '<span class="label up-o-label" style="background-color:#666;color:#fff">(hidden)</span>';
 
     }
 
