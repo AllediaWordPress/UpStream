@@ -82,20 +82,15 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
             // Fetch current user.
             $user = wp_get_current_user();
 
-            $this->allowAllProjects = count(array_intersect(
-                    (array)$user->roles,
-                    ['administrator', 'upstream_manager']
-                )) > 0;
-            if ( ! $this->allowAllProjects) {
-                // Retrieve all projects current user can access.
-                $allowedProjects = upstream_get_users_projects($user);
-                // Stores the projects ids so they can be used on filter() function.
-                $this->allowedProjects = array_keys($allowedProjects);
-                // Retrieve the global query object.
-                global $wp_query;
-                // Assign this custom property so we know only this time the query will be filtered based on these ids.
-                $wp_query->filterAllowedProjects = true;
-            }
+            // Retrieve all projects current user can access.
+            $allowedProjects = upstream_get_users_projects($user);
+            // Stores the projects ids so they can be used on filter() function.
+            $this->allowedProjects = array_keys($allowedProjects);
+            // Retrieve the global query object.
+            global $wp_query;
+            // Assign this custom property so we know only this time the query will be filtered based on these ids.
+            $wp_query->filterAllowedProjects = true;
+
         }
 
         /**
@@ -163,8 +158,12 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
             if ($column_name === 'project-status') {
                 $status = upstream_project_status_color($post_id);
 
-                if ( ! empty($status['status'])) {
-                    echo '<div title="' . esc_attr($status['status']) . '" style="width: 100%; position: absolute; top: 0px; left: 0px; overflow: hidden; height: 100%; border-left: 2px solid ' . esc_attr($status['color']) . '" class="' . esc_attr(strtolower($status['status'])) . '"></div>';
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'status', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    if (!empty($status['status'])) {
+                        echo '<div title="' . esc_attr($status['status']) . '" style="width: 100%; position: absolute; top: 0px; left: 0px; overflow: hidden; height: 100%; border-left: 2px solid ' . esc_attr($status['color']) . '" class="' . esc_attr(strtolower($status['status'])) . '"></div>';
+                    }
+                } else {
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
@@ -172,16 +171,21 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             if ($column_name === 'owner') {
                 $owner_id = (int)upstream_project_owner_id($post_id);
-                if ($owner_id > 0) {
-                    if ( ! isset(self::$usersCache[$owner_id])) {
-                        $user                        = get_user_by('id', $owner_id);
-                        self::$usersCache[$user->ID] = $user->display_name;
-                        unset($user);
-                    }
 
-                    echo self::$usersCache[$owner_id];
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'owner', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    if ($owner_id > 0) {
+                        if (!isset(self::$usersCache[$owner_id])) {
+                            $user = get_user_by('id', $owner_id);
+                            self::$usersCache[$user->ID] = $user->display_name;
+                            unset($user);
+                        }
+
+                        echo self::$usersCache[$owner_id];
+                    } else {
+                        echo self::$noneTag;
+                    }
                 } else {
-                    echo self::$noneTag;
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
@@ -189,16 +193,21 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             if ($column_name === 'client') {
                 $client_id = (int)upstream_project_client_id($post_id);
-                if ($client_id > 0) {
-                    if ( ! isset($clientsCache[$client_id])) {
-                        $client                         = get_post($client_id);
-                        self::$clientsCache[$client_id] = $client->post_title;
-                        unset($client);
-                    }
 
-                    echo self::$clientsCache[$client_id];
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'client', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    if ($client_id > 0) {
+                        if (!isset($clientsCache[$client_id])) {
+                            $client = get_post($client_id);
+                            self::$clientsCache[$client_id] = $client->post_title;
+                            unset($client);
+                        }
+
+                        echo self::$clientsCache[$client_id];
+                    } else {
+                        echo self::$noneTag;
+                    }
                 } else {
-                    echo self::$noneTag;
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
@@ -206,10 +215,15 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             if ($column_name === 'start') {
                 $startDate = (int)upstream_project_start_date($post_id);
-                if ($startDate > 0) {
-                    echo '<span class="start-date">' . upstream_format_date($startDate) . '</span>';
+
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    if ($startDate > 0) {
+                        echo '<span class="start-date">' . upstream_format_date($startDate) . '</span>';
+                    } else {
+                        echo self::$noneTag;
+                    }
                 } else {
-                    echo self::$noneTag;
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
@@ -217,10 +231,16 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             if ($column_name === 'end') {
                 $endDate = (int)upstream_project_end_date($post_id);
-                if ($endDate > 0) {
-                    echo '<span class="end-date">' . upstream_format_date($endDate) . '</span>';
+
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+
+                    if ($endDate > 0) {
+                        echo '<span class="end-date">' . upstream_format_date($endDate) . '</span>';
+                    } else {
+                        echo self::$noneTag;
+                    }
                 } else {
-                    echo self::$noneTag;
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
@@ -306,7 +326,11 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
             if ($column_name === 'progress') {
                 $progress = (int)upstream_project_progress($post_id);
 
-                echo '<div style="text-align: center;">' . $progress . '%</div>';
+                if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                    echo '<div style="text-align: center;">' . $progress . '%</div>';
+                } else {
+                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
+                }
 
                 return;
             }
