@@ -53,7 +53,7 @@ function upstream_can_access_object($capability, $object_type, $object_id, $pare
     }
 }
 
-function upstream_can_access_field($capability, $object_type, $object_id, $parent_type, $parent_id, $field, $action, $is_admin_page)
+function upstream_can_access_field($capability, $object_type, $object_id, $parent_type, $parent_id, $field, $action, $is_admin_page = false)
 
 {
     if ($object_type === 'milestones') $object_type = 'milestone';
@@ -234,8 +234,6 @@ function upstream_admin_permissions($capability = null)
 {
 
     // TODO: TODOPERM REMOVE THIS and put in function to ignore if advanced perm is on
-    return true;
-
 
     /*
      * Set the return variable that can be overwritten after all checks

@@ -264,6 +264,7 @@ class Comments
 
                 $nonceIdentifier = 'upstream:project.' . $commentTargetItemType . 's.add_comment';
             } else {
+                $item_id = (int)$_POST['project_id'];
                 $nonceIdentifier = 'upstream:project.add_comment';
             }
 
@@ -284,7 +285,7 @@ class Comments
             }
 
             // Check if the user has enough permissions to insert a new comment.
-            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_CREATE, true)) {
+            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT, true)) {
                 throw new \Exception(__("You're not allowed to do this.", 'upstream'));
             }
 
@@ -376,6 +377,14 @@ class Comments
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
 
+            $item_id = (int)$_POST['item_id'];
+
+            // Check if the project exists.
+            $project_id = (int)$_POST['project_id'];
+            if ($project_id <= 0) {
+                throw new \Exception(__("Invalid Project.", 'upstream'));
+            }
+
             $commentTargetItemType = strtolower($_POST['item_type']);
             if ($commentTargetItemType !== 'project') {
                 if (
@@ -384,17 +393,13 @@ class Comments
                 ) {
                     throw new \Exception(__("Invalid request.", 'upstream'));
                 }
+            } else {
+                $item_id = $project_id;
             }
 
             // Check if the user has enough permissions to insert a new comment.
-            if ( ! upstream_admin_permissions('publish_project_discussion')) {
+            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT, true)) {
                 throw new \Exception(__("You're not allowed to do this.", 'upstream'));
-            }
-
-            // Check if the project exists.
-            $project_id = (int)$_POST['project_id'];
-            if ($project_id <= 0) {
-                throw new \Exception(__("Invalid Project.", 'upstream'));
             }
 
             // Check if commenting is disabled on the given project.
