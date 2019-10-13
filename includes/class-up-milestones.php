@@ -558,13 +558,16 @@ class Milestones
 
         if ( ! empty($posts)) {
             foreach ($posts as $post) {
-                if ($returnAsLegacyDataset) {
-                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
-                } else {
-                    $data = $post;
-                }
+                if (upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $post->ID, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
 
-                $milestones[$post->ID] = $data;
+                    if ($returnAsLegacyDataset) {
+                        $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                    } else {
+                        $data = $post;
+                    }
+
+                    $milestones[$post->ID] = $data;
+                }
             }
         }
 

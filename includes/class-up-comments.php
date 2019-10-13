@@ -837,6 +837,10 @@ class Comments
         }
         unset($userRow, $usersRowset);
 
+        if ($itemType === 'project') {
+            $itemId = $projectId;
+        }
+
         $dateFormat        = get_option('date_format');
         $timeFormat        = get_option('time_format');
         $theDateTimeFormat = $dateFormat . ' ' . $timeFormat;
@@ -848,11 +852,17 @@ class Comments
             $user,
             'publish_project_discussion'
         ) : true;
+
+        $userCanReply = upstream_override_access_field($userCanReply, $itemType, $itemId, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT);
+
         $userCanModerate          = ! $userHasAdminCapabilities ? user_can($user, 'moderate_comments') : true;
         $userCanDelete            = ! $userHasAdminCapabilities ? $userCanModerate || user_can(
                 $user,
                 'delete_project_discussion'
             ) : true;
+
+        $userCanDelete = upstream_override_access_field($userCanDelete, $itemType, $itemId, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, 'comments', UPSTREAM_PERMISSIONS_ACTION_DELETE);
+
 
         $commentsStatuses = ['approve'];
         if ($userHasAdminCapabilities || $userCanModerate) {

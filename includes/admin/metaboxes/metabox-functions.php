@@ -498,6 +498,10 @@ function upstreamRenderCommentsBox(
         return;
     }
 
+    if ($itemType === 'project') {
+        $item_id = $project_id;
+    }
+
     $rowsetUsers = get_users();
     $users       = [];
     foreach ($rowsetUsers as $user) {
@@ -512,11 +516,18 @@ function upstreamRenderCommentsBox(
     $user                     = wp_get_current_user();
     $userHasAdminCapabilities = isUserEitherManagerOrAdmin();
     $userCanComment           = ! $userHasAdminCapabilities ? user_can($user, 'publish_project_discussion') : true;
+
+    $userCanComment = upstream_override_access_field($userCanComment, $itemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT);
+
+
     $userCanModerate          = ! $userHasAdminCapabilities ? user_can($user, 'moderate_comments') : true;
     $userCanDelete            = ! $userHasAdminCapabilities ? ($userCanModerate || user_can(
             $user,
             'delete_project_discussion'
         )) : true;
+
+    $userCanDelete = upstream_override_access_field($userCanDelete, $itemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_DELETE);
+
 
     $commentsStatuses = ['approve'];
     if ($userHasAdminCapabilities || $userCanModerate) {
