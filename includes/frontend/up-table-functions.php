@@ -825,6 +825,13 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
                     $columnAttrs['data-order'] = $row[$columnName . '_order'];
                 }
 
+                $viewable = upstream_override_access_field(true, $rowType, $row['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, $columnName, UPSTREAM_PERMISSIONS_ACTION_VIEW);
+                if (!$viewable) {
+                    $columnAttrs['data-value'] = '0';
+                    $columnAttrs['data-order'] = '(hidden)';
+                }
+
+
                 if ($isFirst) {
                     $columnAttrs['class'] = 'is-clickable';
                     $columnAttrs['role']  = 'button';

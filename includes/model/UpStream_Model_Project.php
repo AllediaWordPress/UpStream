@@ -56,6 +56,10 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected function loadCategories()
     {
+        if (is_project_categorization_disabled()) {
+            return [];
+        }
+
         $categories = wp_get_object_terms($this->id, 'project_category');
 
         if (isset($this->categories->errors)) {
