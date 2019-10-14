@@ -19,6 +19,7 @@ define('UPSTREAM_PERMISSIONS_ACTION_COPY', 'copy');
 
 define('UPSTREAM_PERMISSIONS_FILTER_OBJECT', 'upstream_permissions_filter_object');
 define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field');
+define('UPSTREAM_PERMISSIONS_FILTER_BYPASS', 'upstream_permissions_filter_bypass');
 
 define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
 define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
@@ -134,10 +135,11 @@ function upstream_override_access_field($orig_value, $object_type, $object_id, $
  */
 function upstream_permissions($capability = null, $item_id = null)
 {
-    // TODO: TODOPERM REMOVE THIS and put in function to ignore if advanced perm is on
-    return true;
 
-
+    // allow bypass of standard permissions by capability
+    if (apply_filters(UPSTREAM_PERMISSIONS_FILTER_BYPASS, false, $capability)) {
+        return true;
+    }
 
     // set the return variable that can be overwritten after all checks
     $return       = false;

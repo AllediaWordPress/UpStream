@@ -26,6 +26,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         $this->type = UPSTREAM_ITEM_TYPE_PROJECT;
         $this->loadChildren();
+        $this->categories = $this->loadCategories();
     }
 
     protected function loadChildren()
@@ -50,5 +51,17 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 $this->files[] = new UpStream_Model_File($item);
             }
         }
+    }
+
+
+    protected function loadCategories()
+    {
+        $categories = wp_get_object_terms($this->id, 'project_category');
+
+        if (isset($this->categories->errors)) {
+            return [];
+        }
+
+        return $categories;
     }
 }

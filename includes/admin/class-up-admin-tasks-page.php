@@ -731,7 +731,7 @@ class Upstream_Admin_Tasks_Page
     public function plugin_menu()
     {
         $count = (int)upstream_count_assigned_to_open('tasks');
-        if ( ! isUserEitherManagerOrAdmin() && $count <= 0) {
+        if ( ! isUserEitherManagerOrAdmin()  /* RSD: removed for new perms && $count <= 0 */) {
             return;
         }
 

@@ -3,6 +3,8 @@
 
 class UpStream_Model_Post_Object extends UpStream_Model_Object
 {
+    
+    public $categories = [];
 
     /**
      * UpStream_Model_Post_Object constructor.

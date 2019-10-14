@@ -69,7 +69,9 @@ class Upstream_Counts
 
         $rv = array();
 
-        if (isset($allprojects[$id])) {
+        if ($id == 0) {
+            return $allprojects;
+        } else if (isset($allprojects[$id])) {
             $rv[] = $allprojects[$id];
         }
 
@@ -219,7 +221,7 @@ class Upstream_Counts
             }
         }
 
-        $types = wp_list_pluck($statuses, 'type', 'name');
+        $types = wp_list_pluck($statuses, 'type', 'id');
 
         $count = 0;
         foreach ($items as $key => $item) {
