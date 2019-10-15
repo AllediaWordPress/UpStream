@@ -27,6 +27,7 @@ if ( ! upstream_are_files_disabled()
     foreach ($meta as $data) {
         if ( ! isset($data['id'])
              || ! isset($data['created_by'])
+            || !upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_FILE, $data['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)
         ) {
             continue;
         }

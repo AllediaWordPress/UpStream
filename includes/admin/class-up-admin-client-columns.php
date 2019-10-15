@@ -65,6 +65,7 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
                 $columns['taxonomy-' . $taxonomy] = get_taxonomy($taxonomy)->labels->name;
             }
             $defaults['title']   = $this->label;
+            $defaults['id']    = __('ID', 'upstream');
             $defaults['logo']    = __('Logo', 'upstream');
             $defaults['website'] = __('Website', 'upstream');
             $defaults['phone']   = __('Phone', 'upstream');
@@ -97,6 +98,8 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
 
                     $columnValue = '<img height="50" src="' . $logoImgURL[0] . '" />';
                 }
+            } elseif ($column_name === 'id') {
+                $columnValue = $post_id;
             } elseif ($column_name === 'website') {
                 $website = $client->get_meta('website');
                 if ( ! empty($website)) {

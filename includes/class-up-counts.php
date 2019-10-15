@@ -221,6 +221,7 @@ class Upstream_Counts
             }
         }
 
+        // TODO: should this be ID or name
         $types = wp_list_pluck($statuses, 'type', 'id');
 
         $count = 0;

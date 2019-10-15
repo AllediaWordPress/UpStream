@@ -132,7 +132,7 @@ function upstream_get_users_client_id($user_id)
         'posts_per_page' => 1,
         'meta_query'     => [
             [
-                'key'     => '_upstream_client_users',
+                'key'     => '_upstream_new_client_users',
                 'value'   => $user_id,
                 'compare' => 'REGEXP',
             ],

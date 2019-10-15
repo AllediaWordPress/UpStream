@@ -11,7 +11,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $clientUsers = [];
 
-    protected $client = 0;
+    public $client = 0;
 
     /**
      * UpStream_Model_Project constructor.
