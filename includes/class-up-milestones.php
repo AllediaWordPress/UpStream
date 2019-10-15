@@ -433,6 +433,7 @@ class Milestones
      */
     public function manage_posts_columns($columns)
     {
+        $columns['id']          = __('ID', 'upstream');
         $columns['project']     = __('Project', 'upstream');
         $columns['assigned_to'] = __('Assigned To', 'upstream');
         $columns['start_date']  = __('Start Date', 'upstream');
@@ -457,6 +458,10 @@ class Milestones
             if (!empty($project)) {
                 echo $project->post_title;
             }
+        }
+
+        if ($column === 'id') {
+            echo $postId;
         }
 
         if ($column === 'assigned_to') {

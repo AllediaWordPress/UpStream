@@ -120,6 +120,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 $columns['taxonomy-' . $taxonomy] = get_taxonomy($taxonomy)->labels->name;
             }
 
+            $defaults['id'] = __('ID', 'upstream');
             $defaults['owner'] = __('Owner', 'upstream');
 
             if ( ! is_clients_disabled()) {
@@ -167,6 +168,10 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 }
 
                 return;
+            }
+
+            if ($column_name === 'id') {
+                echo $post_id;
             }
 
             if ($column_name === 'owner') {

@@ -42,6 +42,7 @@ class Upstream_Task_List extends WP_List_Table
             'progress'    => __('Progress', 'upstream'),
             'project'     => upstream_project_label(),
             'milestone'   => upstream_milestone_label(),
+            'id'          => __('ID', 'upstream'),
             'assigned_to' => __('Assigned To', 'upstream'),
             'end_date'    => __('End Date', 'upstream'),
             'status'      => __('Status', 'upstream'),
@@ -414,6 +415,9 @@ class Upstream_Task_List extends WP_List_Table
                 $output = '<a class="row-title" href="' . get_edit_post_link($item['project_id']) . '">' . esc_html($item['title']) . '</a>';
 
                 return $output;
+
+            case 'id':
+                return $item['id'];
 
             case 'project':
 

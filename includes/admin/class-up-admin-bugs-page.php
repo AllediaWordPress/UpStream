@@ -41,6 +41,7 @@ class Upstream_Bug_List extends WP_List_Table
         return $columns = apply_filters('upstream_admin_bug_page_columns', [
             'title'       => $this->bug_label,
             'project'     => upstream_project_label(),
+            'id'          => __('ID', 'upstream'),
             'assigned_to' => __('Assigned To', 'upstream'),
             'due_date'    => __('Due Date', 'upstream'),
             'status'      => __('Status', 'upstream'),
@@ -451,6 +452,9 @@ class Upstream_Bug_List extends WP_List_Table
                 $output = '<a class="row-title" href="' . get_edit_post_link($item['project_id']) . '">' . $item['title'] . '</a>';
 
                 return $output;
+
+            case 'id':
+                return $item['id'];
 
             case 'project':
 
