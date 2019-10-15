@@ -235,8 +235,6 @@ function upstream_permissions($capability = null, $item_id = null)
 function upstream_admin_permissions($capability = null)
 {
 
-    // TODO: TODOPERM REMOVE THIS and put in function to ignore if advanced perm is on
-
     /*
      * Set the return variable that can be overwritten after all checks
      */

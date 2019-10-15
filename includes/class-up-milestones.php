@@ -539,6 +539,49 @@ class Milestones
     }
 
     /**
+     * Returns all milestones from the project without permissions check
+     * @param int  $projectId
+     * @param bool $returnAsLegacyDataset
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getAllMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+    {
+        $posts = get_posts(
+            [
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => Milestone::META_PROJECT_ID,
+                'meta_value'     => $projectId,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
+            ]
+        );
+
+        $milestones = [];
+
+        if ( ! empty($posts)) {
+            foreach ($posts as $post) {
+                if (true) {
+
+                    if ($returnAsLegacyDataset) {
+                        $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                    } else {
+                        $data = $post;
+                    }
+
+                    $milestones[$post->ID] = $data;
+                }
+            }
+        }
+
+        return $milestones;
+    }
+
+
+    /**
      * @param int  $projectId
      * @param bool $returnAsLegacyDataset
      *

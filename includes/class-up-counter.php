@@ -184,7 +184,7 @@ class Upstream_Counter
                 return 0;
             }
 
-            // TODO: is this right
+            // TODOPERM: is this right
             $statuses = wp_list_pluck($statuses, 'type', 'id');
 
             foreach ($items as $item) {
