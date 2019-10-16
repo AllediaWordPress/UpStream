@@ -498,6 +498,10 @@ function upstreamRenderCommentsBox(
         return;
     }
 
+    if ($itemType === 'project') {
+        $item_id = $project_id;
+    }
+
     $rowsetUsers = get_users();
     $users       = [];
     foreach ($rowsetUsers as $user) {
@@ -512,11 +516,18 @@ function upstreamRenderCommentsBox(
     $user                     = wp_get_current_user();
     $userHasAdminCapabilities = isUserEitherManagerOrAdmin();
     $userCanComment           = ! $userHasAdminCapabilities ? user_can($user, 'publish_project_discussion') : true;
+
+    $userCanComment = upstream_override_access_field($userCanComment, $itemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT);
+
+
     $userCanModerate          = ! $userHasAdminCapabilities ? user_can($user, 'moderate_comments') : true;
     $userCanDelete            = ! $userHasAdminCapabilities ? ($userCanModerate || user_can(
             $user,
             'delete_project_discussion'
         )) : true;
+
+    $userCanDelete = upstream_override_access_field($userCanDelete, $itemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_DELETE);
+
 
     $commentsStatuses = ['approve'];
     if ($userHasAdminCapabilities || $userCanModerate) {
@@ -949,7 +960,7 @@ function upstream_get_project_roles()
  * Returns all users with select roles.
  * For use in dropdowns.
  */
-function upstream_admin_get_all_project_users()
+function upstream_admin_get_all_project_users_uncached()
 {
     $projectClientUsers = [];
     $projectId          = upstream_post_id();
@@ -989,6 +1000,21 @@ function upstream_admin_get_all_project_users()
 
     return $users;
 }
+
+function upstream_admin_get_all_project_users()
+
+{
+    $key = 'upstream_admin_get_all_project_users';
+
+    $users = Upstream_Cache::get_instance()->get($key);
+    if ($users === false) {
+        $users = upstream_admin_get_all_project_users_uncached();
+        Upstream_Cache::get_instance()->set($key, $users);
+    }
+
+    return $users;
+}
+
 
 /**
  * Returns array of all clients.

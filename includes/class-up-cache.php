@@ -6,9 +6,6 @@ if ( ! defined('ABSPATH')) {
 
 class Upstream_Cache
 {
-    /**
-     * Instance of the Pimple container
-     */
     protected static $instance;
 
     protected $cache = [];
@@ -24,7 +21,7 @@ class Upstream_Cache
             return $this->cache[$key];
         }
 
-        return null;
+        return false;
     }
 
     public function reset()
@@ -41,4 +38,46 @@ class Upstream_Cache
 
         return static::$instance;
     }
+}
+
+function upstream_cache_get_metadata()
+{
+    $str = "upstream_cache_get_metadata";
+    $args = func_get_args();
+
+    for ($i = 0; $i < func_num_args(); $i++) {
+        $str .= $args[$i];
+    }
+
+    $cache = Upstream_Cache::get_instance();
+    $res = $cache->get($str);
+
+    if ($res !== false) {
+        return $res;
+    }
+
+    $cache->set($str, $res);
+
+    return call_user_func_array('get_metadata', $args);
+}
+
+function upstream_cache_get_post_meta()
+{
+    $str = "upstream_cache_get_post_meta";
+    $args = func_get_args();
+
+    for ($i = 0; $i < func_num_args(); $i++) {
+        $str .= $args[$i];
+    }
+
+    $cache = Upstream_Cache::get_instance();
+    $res = $cache->get($str);
+
+    if ($res !== false) {
+        return $res;
+    }
+
+    $cache->set($str, $res);
+
+    return call_user_func_array('get_post_meta', $args);
 }

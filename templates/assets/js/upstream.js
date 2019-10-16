@@ -734,26 +734,34 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        $('.o-datepicker').datepicker({
-            todayBtn: 'linked',
-            clearBtn: true,
-            autoclose: true,
-            keyboardNavigation: false,
-            format: $data.datepickerDateFormat
-        }).on('change', function (e) {
-            var self = $(this);
+        if (typeof($data.datepickerDateFormat) === 'undefined' || ! $data.datepickerDateFormat) {
+            alert('UpStream requires you to set a valid WordPress date format.  To do so, go to your WordPress admin dashboard and click Settings -> General.  Under "Date Format" choose one of the available formats.');
+        }
 
-            var value = self.datepicker('getDate');
+        try {
+            $('.o-datepicker').datepicker({
+                todayBtn: 'linked',
+                clearBtn: true,
+                autoclose: true,
+                keyboardNavigation: false,
+                format: $data.datepickerDateFormat
+            }).on('change', function (e) {
+                var self = $(this);
 
-            if (value) {
-                value = ((+new Date(value)) / 1000) - (60 * (new Date()).getTimezoneOffset());
-            }
+                var value = self.datepicker('getDate');
 
-            var hiddenField = $('#' + self.attr('id') + '_timestamp');
-            if (hiddenField.length > 0) {
-                hiddenField.val(value);
-            }
-        });
+                if (value) {
+                    value = ((+new Date(value)) / 1000) - (60 * (new Date()).getTimezoneOffset());
+                }
+
+                var hiddenField = $('#' + self.attr('id') + '_timestamp');
+                if (hiddenField.length > 0) {
+                    hiddenField.val(value);
+                }
+            });
+        } catch (err) {
+            alert('UpStream requires you to set a valid date format (found "' + $data.datepickerDateFormat + '").  To do so, go to your WordPress admin dashboard and click Settings -> General.  Under "Date Format" choose one of the available formats, or contact us with this message for help.');
+        }
 
         $('.c-data-table .c-data-table__filters .o-datepicker').on('change', function () {
             var self = $(this);

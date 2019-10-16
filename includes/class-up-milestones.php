@@ -433,6 +433,7 @@ class Milestones
      */
     public function manage_posts_columns($columns)
     {
+        $columns['id']          = __('ID', 'upstream');
         $columns['project']     = __('Project', 'upstream');
         $columns['assigned_to'] = __('Assigned To', 'upstream');
         $columns['start_date']  = __('Start Date', 'upstream');
@@ -457,6 +458,10 @@ class Milestones
             if (!empty($project)) {
                 echo $project->post_title;
             }
+        }
+
+        if ($column === 'id') {
+            echo $postId;
         }
 
         if ($column === 'assigned_to') {
@@ -534,13 +539,14 @@ class Milestones
     }
 
     /**
+     * Returns all milestones from the project without permissions check
      * @param int  $projectId
      * @param bool $returnAsLegacyDataset
      *
      * @return array
      * @throws Exception
      */
-    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+    public function getAllMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
     {
         $posts = get_posts(
             [
@@ -558,17 +564,78 @@ class Milestones
 
         if ( ! empty($posts)) {
             foreach ($posts as $post) {
-                if ($returnAsLegacyDataset) {
-                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
-                } else {
-                    $data = $post;
-                }
+                if (true) {
 
-                $milestones[$post->ID] = $data;
+                    if ($returnAsLegacyDataset) {
+                        $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                    } else {
+                        $data = $post;
+                    }
+
+                    $milestones[$post->ID] = $data;
+                }
             }
         }
 
         return $milestones;
+    }
+
+
+    /**
+     * @param int  $projectId
+     * @param bool $returnAsLegacyDataset
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getMilestonesFromProjectUncached($projectId, $returnAsLegacyDataset = false)
+    {
+        $posts = get_posts(
+            [
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => Milestone::META_PROJECT_ID,
+                'meta_value'     => $projectId,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
+            ]
+        );
+
+        $milestones = [];
+
+        if ( ! empty($posts)) {
+            foreach ($posts as $post) {
+                if (upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $post->ID, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+
+                    if ($returnAsLegacyDataset) {
+                        $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                    } else {
+                        $data = $post;
+                    }
+
+                    $milestones[$post->ID] = $data;
+                }
+            }
+        }
+
+        return $milestones;
+    }
+
+
+    public function getMilestonesFromProject($projectId, $returnAsLegacyDataset = false)
+
+    {
+        $key = "getMilestonesFromProject".((int)$projectId)."_".((int)$returnAsLegacyDataset);
+
+        $milestones = \Upstream_Cache::get_instance()->get($key);
+        if ($milestones === false) {
+            $milestones = $this->getMilestonesFromProjectUncached((int)$projectId, $returnAsLegacyDataset);
+            \Upstream_Cache::get_instance()->set($key, $milestones);
+        }
+
+        return $milestones;
+
     }
 
     /**

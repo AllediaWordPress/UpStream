@@ -206,7 +206,7 @@ class Milestone extends Struct
 
     /**
      * @param string|null
-     *
+     * 
      * @return \WP_Post|false
      *
      * @throws Exception

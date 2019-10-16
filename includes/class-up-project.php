@@ -358,7 +358,7 @@ class UpStream_Project
         // RSD: performance enhancement test
         static $has_run_for_post = [];
         if (in_array($post_id, $has_run_for_post)) {
-         //   return;
+            return;
         }
         $has_run_for_post[] = $post_id;
 

@@ -33,6 +33,19 @@ p.cmb2-metabox-description {
     top: 6px;
 }
 
+.upstream-label-tag {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
 .upstream .cmb-row.cmb-remove-field-row {
     padding: 10px 0;
 }

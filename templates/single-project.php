@@ -22,7 +22,22 @@ if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
 
-add_action('init', function() { if(!session_id()) {session_start();}  }, 9);
+try {
+    if (!session_id()) {
+        session_start();
+    }
+} catch (\Exception $e) {
+
+}
+
+add_action('init', function() {
+    try {
+        if (!session_id()) {
+            session_start();
+        }
+    } catch (\Exception $e) {
+    }
+}, 9);
 
 $currentUser = (object)upstream_user_data();
 

@@ -264,17 +264,13 @@ class Comments
 
                 $nonceIdentifier = 'upstream:project.' . $commentTargetItemType . 's.add_comment';
             } else {
+                $item_id = (int)$_POST['project_id'];
                 $nonceIdentifier = 'upstream:project.add_comment';
             }
 
             // Verify nonce.
             if ( ! check_ajax_referer($nonceIdentifier, 'nonce', false)) {
                 throw new \Exception(__("Invalid nonce.", 'upstream'));
-            }
-
-            // Check if the user has enough permissions to insert a new comment.
-            if ( ! upstream_admin_permissions('publish_project_discussion')) {
-                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
             }
 
             // Check if the project exists.
@@ -286,6 +282,11 @@ class Comments
             // Check if commenting is disabled on the given project.
             if (upstream_are_comments_disabled($project_id)) {
                 throw new \Exception(__("Commenting is disabled on this project.", 'upstream'));
+            }
+
+            // Check if the user has enough permissions to insert a new comment.
+            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT, true)) {
+                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
             }
 
             $user_id = get_current_user_id();
@@ -376,6 +377,14 @@ class Comments
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
 
+            $item_id = (int)$_POST['item_id'];
+
+            // Check if the project exists.
+            $project_id = (int)$_POST['project_id'];
+            if ($project_id <= 0) {
+                throw new \Exception(__("Invalid Project.", 'upstream'));
+            }
+
             $commentTargetItemType = strtolower($_POST['item_type']);
             if ($commentTargetItemType !== 'project') {
                 if (
@@ -384,17 +393,13 @@ class Comments
                 ) {
                     throw new \Exception(__("Invalid request.", 'upstream'));
                 }
+            } else {
+                $item_id = $project_id;
             }
 
             // Check if the user has enough permissions to insert a new comment.
-            if ( ! upstream_admin_permissions('publish_project_discussion')) {
+            if ( ! upstream_can_access_field('publish_project_discussion', $commentTargetItemType, $item_id, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT, true)) {
                 throw new \Exception(__("You're not allowed to do this.", 'upstream'));
-            }
-
-            // Check if the project exists.
-            $project_id = (int)$_POST['project_id'];
-            if ($project_id <= 0) {
-                throw new \Exception(__("Invalid Project.", 'upstream'));
             }
 
             // Check if commenting is disabled on the given project.
@@ -832,6 +837,10 @@ class Comments
         }
         unset($userRow, $usersRowset);
 
+        if ($itemType === 'project') {
+            $itemId = $projectId;
+        }
+
         $dateFormat        = get_option('date_format');
         $timeFormat        = get_option('time_format');
         $theDateTimeFormat = $dateFormat . ' ' . $timeFormat;
@@ -843,11 +852,17 @@ class Comments
             $user,
             'publish_project_discussion'
         ) : true;
+
+        $userCanReply = upstream_override_access_field($userCanReply, $itemType, $itemId, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, 'comments', UPSTREAM_PERMISSIONS_ACTION_EDIT);
+
         $userCanModerate          = ! $userHasAdminCapabilities ? user_can($user, 'moderate_comments') : true;
         $userCanDelete            = ! $userHasAdminCapabilities ? $userCanModerate || user_can(
                 $user,
                 'delete_project_discussion'
             ) : true;
+
+        $userCanDelete = upstream_override_access_field($userCanDelete, $itemType, $itemId, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, 'comments', UPSTREAM_PERMISSIONS_ACTION_DELETE);
+
 
         $commentsStatuses = ['approve'];
         if ($userHasAdminCapabilities || $userCanModerate) {

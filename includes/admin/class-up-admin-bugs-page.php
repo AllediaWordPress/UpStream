@@ -41,6 +41,7 @@ class Upstream_Bug_List extends WP_List_Table
         return $columns = apply_filters('upstream_admin_bug_page_columns', [
             'title'       => $this->bug_label,
             'project'     => upstream_project_label(),
+            'id'          => __('ID', 'upstream'),
             'assigned_to' => __('Assigned To', 'upstream'),
             'due_date'    => __('Due Date', 'upstream'),
             'status'      => __('Status', 'upstream'),
@@ -452,6 +453,9 @@ class Upstream_Bug_List extends WP_List_Table
 
                 return $output;
 
+            case 'id':
+                return $item['id'];
+
             case 'project':
 
                 $owner = upstream_project_owner_name($item['project_id']) ? '(' . upstream_project_owner_name($item['project_id']) . ')' : '';
@@ -808,7 +812,7 @@ class Upstream_Admin_Bugs_Page
     public function plugin_menu()
     {
         $count = (int)upstream_count_assigned_to_open('bugs');
-        if ( ! isUserEitherManagerOrAdmin() && $count <= 0) {
+        if ( ! isUserEitherManagerOrAdmin() /* RSD: removed for new perms && $count <= 0 */) {
             return;
         }
 

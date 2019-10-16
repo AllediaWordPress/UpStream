@@ -27,6 +27,7 @@ if ( ! upstream_are_files_disabled()
     foreach ($meta as $data) {
         if ( ! isset($data['id'])
              || ! isset($data['created_by'])
+            || !upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_FILE, $data['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)
         ) {
             continue;
         }
@@ -73,7 +74,7 @@ if ( ! upstream_are_files_disabled()
                             <i class="fa fa-chevron-<?php echo $collapseBox ? 'down' : 'up'; ?>"></i>
                         </a>
                     </li>
-                    <?php do_action('upstream_project_files_top_right'); ?>
+                    <?php do_action('upstream_project_files_top_right', $projectId); ?>
                 </ul>
                 <div class="clearfix"></div>
             </div>

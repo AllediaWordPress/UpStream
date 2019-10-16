@@ -427,65 +427,126 @@ if ( ! empty($ordering)) {
                                             ?>
                                             <tr class="t-row-<?php echo $isProjectIndexOdd ? 'odd' : 'even'; ?>"
                                                 data-id="<?php echo $project->id; ?>">
-                                                <td data-column="title"
-                                                    data-value="<?php echo esc_attr($project->title); ?>">
-                                                    <?php do_action('upstream:frontend.project.details.before_title',
-                                                        $project); ?>
-                                                    <a href="<?php echo $project->permalink; ?>">
-                                                        <?php echo esc_html($project->title); ?>
-                                                    </a>
-                                                </td>
-                                                <td data-column="startDate"
-                                                    data-value="<?php echo esc_attr($project->startDateTimestamp); ?>">
-                                                    <?php echo esc_html($project->startDate); ?>
-                                                </td>
-                                                <td data-column="endDate"
-                                                    data-value="<?php echo esc_attr($project->endDateTimestamp); ?>">
-                                                    <?php echo esc_html($project->endDate); ?>
-                                                </td>
-                                                <?php if ($areClientsEnabled): ?>
-                                                    <td data-column="client"
-                                                        data-value="<?php echo $project->clientName !== null ? esc_attr($project->clientName) : '__none__'; ?>">
-                                                        <?php if ($project->clientName !== null): ?>
-                                                            <?php echo esc_html($project->clientName); ?>
-                                                        <?php else: ?>
-                                                            <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
-                                                        <?php endif; ?>
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'title', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                    <td data-column="title"
+                                                        data-value="<?php echo esc_attr($project->title); ?>">
+                                                        <?php do_action('upstream:frontend.project.details.before_title',
+                                                            $project); ?>
+                                                        <a href="<?php echo $project->permalink; ?>">
+                                                            <?php echo esc_html($project->title); ?>
+                                                        </a>
                                                     </td>
-                                                    <td data-column="client-users">
-                                                        <?php upstream_output_client_users($project->id); ?>
+                                                <?php else: ?>
+                                                    <td data-column="title"
+                                                        data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
                                                     </td>
                                                 <?php endif; ?>
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                    <td data-column="startDate"
+                                                        data-value="<?php echo esc_attr($project->startDateTimestamp); ?>">
+                                                        <?php echo esc_html($project->startDate); ?>
+                                                    </td>
+                                                <?php else: ?>
+                                                    <td data-column="startDate"
+                                                        data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                    </td>
+                                                <?php endif; ?>
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                    <td data-column="endDate"
+                                                        data-value="<?php echo esc_attr($project->endDateTimestamp); ?>">
+                                                        <?php echo esc_html($project->endDate); ?>
+                                                    </td>
+                                                <?php else: ?>
+                                                    <td data-column="endDate"
+                                                        data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                    </td>
+                                                <?php endif; ?>
+
+
+                                                <?php if ($areClientsEnabled): ?>
+
+                                                    <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'client', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                        <td data-column="client"
+                                                            data-value="<?php echo $project->clientName !== null ? esc_attr($project->clientName) : '__none__'; ?>">
+                                                            <?php if ($project->clientName !== null): ?>
+                                                                <?php echo esc_html($project->clientName); ?>
+                                                            <?php else: ?>
+                                                                <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                    <?php else: ?>
+                                                        <td data-column="client"
+                                                            data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                        </td>
+                                                    <?php endif; ?>
+
+                                                    <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'client_users', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                        <td data-column="client-users">
+                                                            <?php upstream_output_client_users($project->id); ?>
+                                                        </td>
+                                                    <?php else: ?>
+                                                        <td data-column="client-users"
+                                                            data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                        </td>
+                                                    <?php endif; ?>
+
+                                                <?php endif; ?>
+
                                                 <td data-column="members">
                                                     <?php upstream_output_project_members($project->id); ?>
                                                 </td>
-                                                <td data-column="progress"
-                                                    data-value="<?php echo esc_attr($project->progress); ?>">
-                                                    <div class="progress" style="margin-bottom: 0; height: 10px;">
-                                                        <div
-                                                                class="progress-bar<?php echo $project->progress >= 100 ? ' progress-bar-success' : ""; ?>"
-                                                                role="progressbar"
-                                                                aria-valuenow="<?php echo esc_attr($project->progress); ?>"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: <?php echo $project->progress; ?>%;">
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                    <td data-column="progress"
+                                                        data-value="<?php echo esc_attr($project->progress); ?>">
+                                                        <div class="progress" style="margin-bottom: 0; height: 10px;">
+                                                            <div
+                                                                    class="progress-bar<?php echo $project->progress >= 100 ? ' progress-bar-success' : ""; ?>"
+                                                                    role="progressbar"
+                                                                    aria-valuenow="<?php echo esc_attr($project->progress); ?>"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    style="width: <?php echo $project->progress; ?>%;">
                                                             <span class="sr-only"><?php printf(
                                                                     $i18n['LB_COMPLETE'],
                                                                     $project->progress . '%'
                                                                 ); ?></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <small><?php printf(
-                                                            $i18n['LB_COMPLETE'],
-                                                            $project->progress . '%'
-                                                        ); ?></small>
-                                                </td>
+                                                        <small><?php printf(
+                                                                $i18n['LB_COMPLETE'],
+                                                                $project->progress . '%'
+                                                            ); ?></small>
+                                                    </td>
+                                                <?php else: ?>
+                                                    <td data-column="progress"
+                                                        data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                    </td>
+                                                <?php endif; ?>
+
+
+
                                                 <?php
                                                 if ($project->status !== null && is_array($project->status)) {
                                                     $status = $project->status;
                                                 } else {
                                                     $status = [
-                                                        'id'    => '',
-                                                        'name'  => '',
+                                                        'id' => '',
+                                                        'name' => '',
                                                         'color' => '#aaa',
                                                         'order' => '0',
                                                     ];
@@ -493,30 +554,49 @@ if ( ! empty($ordering)) {
 
                                                 $statusOrder = array_search($status['id'], $projectOrder);
                                                 ?>
-                                                <td data-column="status"
-                                                    data-value="<?php echo ! empty($status['id']) ? esc_attr($status['id']) : '__none__'; ?>"
-                                                    data-order="<?php echo $statusOrder > 0 ? $statusOrder : '0'; ?>">
-                                                    <?php if ($project->status !== null || empty($status['id']) || empty($status['name'])): ?>
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'status', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+
+                                                    <td data-column="status"
+                                                        data-value="<?php echo !empty($status['id']) ? esc_attr($status['id']) : '__none__'; ?>"
+                                                        data-order="<?php echo $statusOrder > 0 ? $statusOrder : '0'; ?>">
+                                                        <?php if ($project->status !== null || empty($status['id']) || empty($status['name'])): ?>
+                                                            <span class="label up-o-label"
+                                                                  style="background-color: <?php echo esc_attr($status['color']); ?>;"><?php echo !empty($status['name']) ? esc_html($status['name']) : $i18n['LB_NONE']; ?></span>
+                                                        <?php else: ?>
+                                                            <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php else: ?>
+                                                    <td data-column="status"
+                                                        data-value="">
                                                         <span class="label up-o-label"
-                                                              style="background-color: <?php echo esc_attr($status['color']); ?>;"><?php echo ! empty($status['name']) ? esc_html($status['name']) : $i18n['LB_NONE']; ?></span>
-                                                    <?php else: ?>
-                                                        <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td data-column="categories"
-                                                    data-value="<?php echo count($project->categories) ? esc_attr(implode(
-                                                        ',',
-                                                        array_keys((array)$project->categories)
-                                                    )) : '__none__'; ?>">
-                                                    <?php if (count($project->categories) > 0): ?>
-                                                        <?php echo esc_attr(implode(
-                                                            ', ',
-                                                            array_values((array)$project->categories)
-                                                        )); ?>
-                                                    <?php else: ?>
-                                                        <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
-                                                    <?php endif; ?>
-                                                </td>
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                    </td>
+                                                <?php endif; ?>
+
+                                                <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, null, 0, 'categories', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
+                                                    <td data-column="categories"
+                                                        data-value="<?php echo count($project->categories) ? esc_attr(implode(
+                                                            ',',
+                                                            array_keys((array)$project->categories)
+                                                        )) : '__none__'; ?>">
+                                                        <?php if (count($project->categories) > 0): ?>
+                                                            <?php echo esc_attr(implode(
+                                                                ', ',
+                                                                array_values((array)$project->categories)
+                                                            )); ?>
+                                                        <?php else: ?>
+                                                            <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php else: ?>
+                                                    <td data-column="categories"
+                                                        data-value="">
+                                                        <span class="label up-o-label"
+                                                              style="background-color:#666;color:#fff">(hidden)</span>
+                                                    </td>
+                                                <?php endif; ?>
 
                                                 <?php do_action('upstream:project.columns.data', $tableSettings,
                                                     $columnsSchema, $project->id, $project); ?>

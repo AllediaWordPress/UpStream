@@ -42,6 +42,7 @@ class Upstream_Task_List extends WP_List_Table
             'progress'    => __('Progress', 'upstream'),
             'project'     => upstream_project_label(),
             'milestone'   => upstream_milestone_label(),
+            'id'          => __('ID', 'upstream'),
             'assigned_to' => __('Assigned To', 'upstream'),
             'end_date'    => __('End Date', 'upstream'),
             'status'      => __('Status', 'upstream'),
@@ -415,6 +416,9 @@ class Upstream_Task_List extends WP_List_Table
 
                 return $output;
 
+            case 'id':
+                return $item['id'];
+
             case 'project':
 
                 $output = '<a href="' . get_edit_post_link($item['project_id']) . '">' . esc_html($item['project']) . '</a>';
@@ -731,7 +735,7 @@ class Upstream_Admin_Tasks_Page
     public function plugin_menu()
     {
         $count = (int)upstream_count_assigned_to_open('tasks');
-        if ( ! isUserEitherManagerOrAdmin() && $count <= 0) {
+        if ( ! isUserEitherManagerOrAdmin()  /* RSD: removed for new perms && $count <= 0 */) {
             return;
         }
 

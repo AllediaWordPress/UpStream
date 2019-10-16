@@ -11,6 +11,8 @@ if ( ! defined('ABSPATH')) {
 
     $collapseBoxState = \UpStream\Frontend\getSectionCollapseState('discussion');
 
+    $projectId = upstream_post_id();
+
     if ( ! is_null($collapseBoxState)) {
         $collapseBox = $collapseBoxState === 'closed';
     }
@@ -29,7 +31,7 @@ if ( ! defined('ABSPATH')) {
                             <i class="fa fa-chevron-<?php echo $collapseBox ? 'down' : 'up'; ?>"></i>
                         </a>
                     </li>
-                    <?php do_action('upstream_project_discussion_top_right'); ?>
+                    <?php do_action('upstream_project_discussion_top_right', $projectId); ?>
                 </ul>
                 <div class="clearfix"></div>
             </div>
