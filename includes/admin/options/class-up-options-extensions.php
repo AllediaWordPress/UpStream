@@ -204,6 +204,16 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                     'icon_class'  => 'fa fa-plus-square',
                     'edd_id'      => 8409,
                 ],
+                'upstream-advanced-permissions'       => [
+                    'slug'        => 'upstream-advanced-permissions',
+                    'title'       => __('Advanced Permissions', 'upstream'),
+                    'description' => __(
+                        'This extension allows you to set permissions by user or role for objects and individual fields.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-plus-square',
+                    'edd_id'      => 24749,
+                ],
                 //                'upstream-reports'             => [
                 //                    'slug'        => 'upstream-reports',
                 //                    'title'       => __('Reports', 'upstream'),
