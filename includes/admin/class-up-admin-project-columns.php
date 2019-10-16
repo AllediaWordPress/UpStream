@@ -164,7 +164,8 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                         echo '<div title="' . esc_attr($status['status']) . '" style="width: 100%; position: absolute; top: 0px; left: 0px; overflow: hidden; height: 100%; border-left: 2px solid ' . esc_attr($status['color']) . '" class="' . esc_attr(strtolower($status['status'])) . '"></div>';
                     }
                 } else {
-                    echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
+                    // RSD: this looks wierd when hidden...
+                    // echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
 
                 return;
