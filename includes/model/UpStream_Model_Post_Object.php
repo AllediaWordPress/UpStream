@@ -22,6 +22,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         $metadata = get_post_meta($id);
 
         $this->title = $post->post_title;
+        $this->created_by = $post->post_author;
 
         foreach ($fields as $field => $input) {
 
