@@ -1,6 +1,11 @@
 <?php
 
 
+// Exit if accessed directly
+if ( ! defined('ABSPATH')) {
+    exit;
+}
+
 class UpStream_Model_Task extends UpStream_Model_Meta_Object
 {
     /**

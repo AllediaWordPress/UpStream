@@ -1,6 +1,11 @@
 <?php
 
 
+// Exit if accessed directly
+if ( ! defined('ABSPATH')) {
+    exit;
+}
+
 class UpStream_Model_Manager
 {
     const PROJECT = "project";
