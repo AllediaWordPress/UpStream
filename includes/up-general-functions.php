@@ -124,25 +124,50 @@ function upstream_user_type()
 // gets the client id that a user belongs to
 function upstream_get_users_client_id($user_id)
 {
-    $args = [
-        'post_type'      => 'client',
-        'post_status'    => 'publish',
-        //'order'            => $order, TODO
-        'fields'         => 'ids',
-        'posts_per_page' => 1,
-        'meta_query'     => [
-            [
-                'key'     => '_upstream_new_client_users',
-                'value'   => $user_id,
-                'compare' => 'REGEXP',
-            ],
-        ],
-    ];
+	$r = upstream_get_users_client_ids($user_id);
 
-    $the_query = new WP_Query($args);
-    if ($the_query->posts) {
-        return $the_query->posts[0];
+	if (count($r) > 0) {
+	    return $r[0];
     }
+	return 0;
+}
+
+function upstream_get_users_client_ids($user_id)
+{
+	global $wpdb;
+
+	$client_ids = Upstream_Cache::get_instance()->get('upstream_get_users_client_ids'.$user_id);
+
+	if ($client_ids === false) {
+		$client_ids = [];
+
+		$rowset = $wpdb->get_results( sprintf(
+			'
+        SELECT `ID`, `post_title`
+        FROM `%s`
+        WHERE `post_type` = "client"
+        AND `post_status` = "publish"',
+			$wpdb->prefix . 'posts'
+		) );
+
+		foreach ( $rowset as $row ) {
+
+			$client_id       = $row->ID;
+			$clientUsersList = array_filter( (array) get_post_meta( $client_id, '_upstream_new_client_users', true ) );
+			if ( count( $clientUsersList ) > 0 ) {
+				foreach ( $clientUsersList as $clientUser ) {
+					if ( isset( $clientUser['user_id'] ) && $clientUser['user_id'] == $user_id ) {
+						$client_ids[] = $client_id;
+					}
+				}
+			}
+		}
+
+		Upstream_Cache::get_instance()->set('upstream_get_users_client_ids'.$user_id, $client_ids);
+
+	}
+
+	return $client_ids;
 }
 
 // get some data for current user
