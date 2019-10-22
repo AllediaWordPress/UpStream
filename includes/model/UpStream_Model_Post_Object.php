@@ -1,6 +1,11 @@
 <?php
 
 
+// Exit if accessed directly
+if ( ! defined('ABSPATH')) {
+    exit;
+}
+
 class UpStream_Model_Post_Object extends UpStream_Model_Object
 {
     

@@ -1,5 +1,10 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined('ABSPATH')) {
+    exit;
+}
+
 
 class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 {

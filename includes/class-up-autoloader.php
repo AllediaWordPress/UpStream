@@ -97,5 +97,3 @@ class UpStream_Autoloader
 }
 
 new UpStream_Autoloader();
-UpStream_Model_Manager::get_instance();
-Upstream_Cache::get_instance();
