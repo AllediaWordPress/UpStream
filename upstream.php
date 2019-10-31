@@ -45,7 +45,7 @@ if ( ! class_exists('UpStream')) :
          * Main UpStream Instance.
          */
         public static function instance()
-        {
+        { 
             if (is_null(self::$_instance)) {
                 self::$_instance = new self();
             }
