@@ -64,7 +64,7 @@ function upstream_output_client_users($id = null)
             </li>
         </ul>
     <?php else: ?>
-        <span class="text-muted"><i><?php echo '(' . __('none', 'upstream') . ')'; ?></i></span>
+        <span class="text-muted"><i><?php echo '(' . esc_html__('none', 'upstream') . ')'; ?></i></span>
     <?php endif;
 }
 
