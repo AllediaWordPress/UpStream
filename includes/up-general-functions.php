@@ -5,6 +5,11 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+function upstream_esc_w($s)
+{
+    return wp_kses_post($s);
+}
+
 /**
  * Get a post id,
  * no matter where we are or what we are doing.

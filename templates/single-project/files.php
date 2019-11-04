@@ -66,7 +66,7 @@ if ( ! upstream_are_files_disabled()
             <div class="x_title">
                 <h2>
                     <i class="fa fa-bars sortable_handler"></i>
-                    <i class="fa fa-file"></i> <?php echo upstream_file_label_plural(); ?>
+                    <i class="fa fa-file"></i> <?php echo esc_html(upstream_file_label_plural()); ?>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
@@ -88,7 +88,7 @@ if ( ! upstream_are_files_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_attr($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -96,17 +96,17 @@ if ( ! upstream_are_files_disabled()
                                 <div class="btn-group">
                                     <a href="#files-filters" role="button" class="btn btn-default btn-xs"
                                        data-toggle="collapse" aria-expanded="false" aria-controls="files-filters">
-                                        <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                        <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                     </a>
                                     <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -114,7 +114,7 @@ if ( ! upstream_are_files_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -128,18 +128,18 @@ if ( ! upstream_are_files_disabled()
                             <div>
                                 <a href="#files-filters" role="button" class="btn btn-default btn-xs"
                                    data-toggle="collapse" aria-expanded="false" aria-controls="files-filters">
-                                    <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                    <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                 </a>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -147,7 +147,7 @@ if ( ! upstream_are_files_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -164,7 +164,7 @@ if ( ! upstream_are_files_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_html($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -174,19 +174,19 @@ if ( ! upstream_are_files_disabled()
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="created_by"
-                                            data-placeholder="<?php _e('Uploader', 'upstream'); ?>" multiple>
+                                            data-placeholder="<?php esc_html_e('Uploader', 'upstream'); ?>" multiple>
                                         <option value></option>
-                                        <option value="<?php echo $currentUserId; ?>"><?php _e(
+                                        <option value="<?php echo $currentUserId; ?>"><?php esc_html_e(
                                                 'Me',
                                                 'upstream'
                                             ); ?></option>
-                                        <optgroup label="<?php _e('Users'); ?>">
+                                        <optgroup label="<?php esc_attr_e('Users'); ?>">
                                             <?php foreach ($users as $user_id => $userName): ?>
                                                 <?php if ($user_id === $currentUserId) {
                                                     continue;
                                                 } ?>
                                                 <option
-                                                        value="<?php echo $user_id; ?>"><?php echo $userName; ?></option>
+                                                        value="<?php echo $user_id; ?>"><?php echo esc_html($userName); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>
@@ -198,20 +198,19 @@ if ( ! upstream_are_files_disabled()
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="assigned_to"
-                                            data-placeholder="<?php _e('Assignee', 'upstream'); ?>" multiple>
+                                            data-placeholder="<?php esc_attr_e('Assignee', 'upstream'); ?>" multiple>
                                         <option value></option>
-                                        <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
-                                        <option value="<?php echo $currentUserId; ?>"><?php _e(
+                                        <option value="__none__"><?php esc_html_e('Nobody', 'upstream'); ?></option>
+                                        <option value="<?php echo $currentUserId; ?>"><?php esc_html_e(
                                                 'Me',
                                                 'upstream'
                                             ); ?></option>
-                                        <optgroup label="<?php _e('Users'); ?>">
+                                        <optgroup label="<?php esc_attr_e('Users'); ?>">
                                             <?php foreach ($users as $user_id => $userName): ?>
                                                 <?php if ($user_id === $currentUserId) {
                                                     continue;
                                                 } ?>
-                                                <option
-                                                        value="<?php echo $user_id; ?>"><?php echo $userName; ?></option>
+                                                <option value="<?php echo $user_id; ?>"><?php echo esc_html($userName); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>
@@ -223,7 +222,7 @@ if ( ! upstream_are_files_disabled()
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control o-datepicker"
-                                           placeholder="<?php echo $l['LB_UPLOADED_AT']; ?>"
+                                           placeholder="<?php echo esc_html($l['LB_UPLOADED_AT']); ?>"
                                            id="files-filter-uploaded_at_from">
                                 </div>
                                 <input type="hidden" id="files-filter-uploaded_at_from_timestamp"

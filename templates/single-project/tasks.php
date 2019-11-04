@@ -104,7 +104,7 @@ if ( ! upstream_are_tasks_disabled()
             <div class="x_title">
                 <h2>
                     <i class="fa fa-bars sortable_handler"></i>
-                    <i class="fa fa-wrench"></i> <?php echo upstream_task_label_plural(); ?>
+                    <i class="fa fa-wrench"></i> <?php echo esc_html(upstream_task_label_plural()); ?>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
@@ -126,7 +126,7 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_attr($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -134,18 +134,18 @@ if ( ! upstream_are_tasks_disabled()
                                 <div class="btn-group">
                                     <a href="#tasks-filters" role="button" class="btn btn-default btn-xs"
                                        data-toggle="collapse" aria-expanded="false" aria-controls="tasks-filters">
-                                        <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                        <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                     </a>
                                     <button type="button"
                                             class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -153,7 +153,7 @@ if ( ! upstream_are_tasks_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -167,19 +167,19 @@ if ( ! upstream_are_tasks_disabled()
                             <div>
                                 <a href="#tasks-filters" role="button" class="btn btn-default btn-xs"
                                    data-toggle="collapse" aria-expanded="false" aria-controls="tasks-filters">
-                                    <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                    <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                 </a>
                                 <div class="btn-group">
                                     <button type="button"
                                             class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -187,7 +187,7 @@ if ( ! upstream_are_tasks_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -204,7 +204,7 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_attr($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -214,20 +214,19 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="assigned_to" multiple
-                                            data-placeholder="<?php _e('Assignee', 'upstream'); ?>">
+                                            data-placeholder="<?php esc_attr_e('Assignee', 'upstream'); ?>">
                                         <option value></option>
-                                        <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
-                                        <option value="<?php echo $currentUserId; ?>"><?php _e(
+                                        <option value="__none__"><?php esc_attr_e('Nobody', 'upstream'); ?></option>
+                                        <option value="<?php echo $currentUserId; ?>"><?php esc_attr_e(
                                                 'Me',
                                                 'upstream'
                                             ); ?></option>
-                                        <optgroup label="<?php _e('Users'); ?>">
+                                        <optgroup label="<?php esc_attr_e('Users'); ?>">
                                             <?php foreach ($users as $user_id => $userName): ?>
                                                 <?php if ($user_id === $currentUserId) {
                                                     continue;
                                                 } ?>
-                                                <option
-                                                        value="<?php echo $user_id; ?>"><?php echo $userName; ?></option>
+                                                <option value="<?php echo $user_id; ?>"><?php echo esc_html($userName); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>
@@ -239,10 +238,10 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-bookmark"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="status"
-                                            data-placeholder="<?php _e('Status', 'upstream'); ?>" multiple>
-                                        <option value="__none__" <?php echo $filter_closed_items ? 'selected' : ''; ?>><?php _e('None',
+                                            data-placeholder="<?php esc_attr_e('Status', 'upstream'); ?>" multiple>
+                                        <option value="__none__" <?php echo $filter_closed_items ? 'selected' : ''; ?>><?php esc_attr_e('None',
                                                 'upstream'); ?></option>
-                                        <optgroup label="<?php _e('Status', 'upstream'); ?>">
+                                        <optgroup label="<?php esc_attr_e('Status', 'upstream'); ?>">
                                             <?php foreach ($statuses as $status): ?>
                                                 <?php
                                                 $attr = ' ';
@@ -265,14 +264,14 @@ if ( ! upstream_are_tasks_disabled()
                                             <i class="fa fa-flag"></i>
                                         </div>
                                         <select class="form-control o-select2" data-column="milestone"
-                                                data-placeholder="<?php echo $l['LB_MILESTONE']; ?>" multiple>
+                                                data-placeholder="<?php echo esc_attr($l['LB_MILESTONE']); ?>" multiple>
                                             <option value></option>
-                                            <option value="__none__"><?php _e('None', 'upstream'); ?></option>
-                                            <optgroup label="<?php echo upstream_milestone_label_plural(); ?>">
+                                            <option value="__none__"><?php esc_html_e('None', 'upstream'); ?></option>
+                                            <optgroup label="<?php echo esc_attr(upstream_milestone_label_plural()); ?>">
                                                 <?php foreach ($milestones as $milestone): ?>
                                                     <?php $milestone = \UpStream\Factory::getMilestone($milestone); ?>
                                                     <option
-                                                            value="<?php echo $milestone->getId(); ?>"><?php echo $milestone->getName(); ?></option>
+                                                            value="<?php echo $milestone->getId(); ?>"><?php echo esc_html($milestone->getName()); ?></option>
                                                 <?php endforeach; ?>
                                             </optgroup>
                                         </select>
@@ -285,7 +284,7 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control o-datepicker"
-                                           placeholder="<?php echo $l['LB_START_DATE']; ?>"
+                                           placeholder="<?php echo esc_attr($l['LB_START_DATE']); ?>"
                                            id="tasks-filter-start_date">
                                 </div>
                                 <input type="hidden" id="tasks-filter-start_date_timestamp" data-column="start_date"
@@ -297,7 +296,7 @@ if ( ! upstream_are_tasks_disabled()
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control o-datepicker"
-                                           placeholder="<?php echo $l['LB_END_DATE']; ?>" id="tasks-filter-end_date">
+                                           placeholder="<?php echo esc_attr($l['LB_END_DATE']); ?>" id="tasks-filter-end_date">
                                 </div>
                                 <input type="hidden" id="tasks-filter-end_date_timestamp" data-column="end_date"
                                        data-compare-operator="<=">
