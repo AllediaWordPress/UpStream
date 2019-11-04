@@ -17,7 +17,7 @@ class UpStream_Model_Object
 
     public $assignedTo = [];
 
-    public $created_by = 0;
+    public $createdBy = 0;
 
     /**
      * UpStream_Model_Object constructor.

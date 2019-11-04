@@ -37,4 +37,14 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
         return $categories;
     }
+
+    public function store()
+    {
+        $var_to_meta_key = [
+            'openTaskCount' => 'upst_task_open',
+            ''
+        ];
+
+    }
+
 }

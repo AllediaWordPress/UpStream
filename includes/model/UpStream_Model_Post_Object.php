@@ -27,7 +27,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         $metadata = get_post_meta($id);
 
         $this->title = $post->post_title;
-        $this->created_by = $post->post_author;
+        $this->createdBy = $post->post_author;
 
         foreach ($fields as $field => $input) {
 
@@ -41,4 +41,34 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
 
         }
     }
+
+    protected function store($addl_post_arr = [])
+    {
+
+        // insert or update the post
+        $post_arr = [
+            'ID' => $this->id,
+            'post_title' => $this->title,
+            'post_author' => $this->createdBy
+        ];
+
+        $post_arr = array_merge($post_arr, $addl_post_arr);
+        $res = wp_insert_post($post_arr, true);
+
+        if ($res instanceof \WP_Error) {
+            // todo THROW
+        }
+
+    }
+
+    protected function deleteMeta($key)
+    {
+        delete_post_meta($this->id, $key);
+    }
+
+    protected function updateMultipleMeta($key, $value)
+    {
+
+    }
+
 }
