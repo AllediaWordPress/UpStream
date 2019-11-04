@@ -41,8 +41,8 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
 
         }
     }
-
-    protected function store($addl_post_arr = [])
+/*
+    protected function store()
     {
 
         // insert or update the post
@@ -70,5 +70,5 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
     {
 
     }
-
+*/
 }
