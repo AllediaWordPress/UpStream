@@ -593,7 +593,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
 
     if ($viewable) {
 
-        $html = sprintf('<i class="s-text-color-gray">%s</i>', __('none', 'upstream'));
+        $html = sprintf('<i class="s-text-color-gray">%s</i>', esc_html__('none', 'upstream'));
         $columnType = isset($column['type']) ? $column['type'] : 'raw';
 
         // Detect color values
@@ -631,16 +631,16 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
                     }
                 }
 
-                $html = implode(', ', $names);
+                $html = esc_html(implode(', ', $names));
             }
         } elseif ($columnType === 'percentage') {
-            $html = sprintf('%d%%', (int)$columnValue);
+            $html = esc_html(sprintf('%d%%', (int)$columnValue));
         } elseif ($columnType === 'date') {
             $columnValue = (int)$columnValue;
             if ($columnValue > 0) {
                 // RSD: timezone offset is here to ensure compatibility with previous wrong data
-                // TODO: should remove at some point
-                $html = upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset());
+                // TODO: should remove offset at some point
+                $html = esc_html(upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset()));
             }
             $offset = get_option('gmt_offset');
             //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
@@ -648,7 +648,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         } elseif ($columnType === 'wysiwyg') {
             $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
             if (strlen($columnValue) > 0) {
-                $html = sprintf('<blockquote>%s</blockquote>', html_entity_decode($columnValue));
+                $html = upstream_esc_w(sprintf('<blockquote>%s</blockquote>', html_entity_decode($columnValue)));
             } else {
                 $html = '<br>' . $html;
             }
@@ -673,13 +673,13 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
                         '<a href="%s" target="_blank">
                 <img class="avatar itemfile" width="32" height="32" src="%1$s">
               </a>',
-                        $columnValue
+                        esc_url($columnValue)
                     );
                 } else {
                     $html = sprintf(
                         '<a href="%s" target="_blank">%s</a>',
-                        $columnValue,
-                        basename($columnValue)
+                        esc_url($columnValue),
+                        esc_html(basename($columnValue))
                     );
                 }
             } elseif ($isHidden) {
@@ -706,9 +706,9 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
 
             if (!empty($values)) {
                 if ($isHidden) {
-                    $html = '<br><span data-value="' . implode(',', $columnValue) . '">' . $values . '</span>';
+                    $html = '<br><span data-value="' . esc_attr(implode(',', $columnValue)) . '">' . esc_html($values) . '</span>';
                 } else {
-                    $html = '<br><span>' . implode(',', $columnValue) . '</span>';
+                    $html = '<br><span>' . esc_html(implode(',', $columnValue)) . '</span>';
                 }
             } else {
                 $html = '<br>' . $html;
@@ -716,8 +716,8 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         } elseif ($columnType === 'colorpicker') {
             $columnValue = trim((string)$columnValue);
             if (strlen($columnValue) > 0) {
-                $html = '<br><div class="up-c-color-square has-tooltip" data-toggle="tooltip" title="' . $columnValue . '">';
-                $html .= '<div style="background-color: ' . $columnValue . '"></div>';
+                $html = '<br><div class="up-c-color-square has-tooltip" data-toggle="tooltip" title="' . esc_attr($columnValue) . '">';
+                $html .= '<div style="background-color: ' . esc_attr($columnValue) . '"></div>';
                 $html .= '</div>';
             }
 

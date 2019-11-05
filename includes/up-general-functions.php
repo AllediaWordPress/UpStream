@@ -1808,7 +1808,7 @@ function upstream_get_users_display_name($users)
 
         $columnValue = [];
         foreach ($users as $user) {
-            $columnValue[] = $user->display_name;
+            $columnValue[] = esc_html($user->display_name);
         }
         unset($user, $users);
 
