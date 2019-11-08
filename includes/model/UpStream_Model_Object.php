@@ -19,11 +19,14 @@ class UpStream_Model_Object
 
     public $createdBy = 0;
 
+    public $description = '';
+
+
     /**
      * UpStream_Model_Object constructor.
      * @param $id
      */
-    public function __construct($id)
+    public function __construct($id = 0)
     {
         $this->id = $id;
     }
