@@ -34,11 +34,11 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
     {
         parent::load($item_metadata);
 
-        $this->description = isset($item_metadata['notes']) ? $item_metadata['notes'] : '';
-        $this->statusCode = isset($item_metadata['status']) ? $item_metadata['status'] : null;
-        $this->progress = isset($item_metadata['progress']) ? $item_metadata['progress'] : null;
-        $this->startDate = isset($item_metadata['start_date']) ? $item_metadata['start_date'] : null;
-        $this->endDate = isset($item_metadata['end_date']) ? $item_metadata['end_date'] : null;
+        $this->description = !empty($item_metadata['notes']) ? $item_metadata['notes'] : '';
+        $this->statusCode = !empty($item_metadata['status']) ? $item_metadata['status'] : null;
+        $this->progress = !empty($item_metadata['progress']) ? $item_metadata['progress'] : null;
+        $this->startDate = !empty($item_metadata['start_date']) ? UpStream_Model_Object::timestampToYMD($item_metadata['start_date']) : null;
+        $this->endDate = !empty($item_metadata['end_date']) ? UpStream_Model_Object::timestampToYMD($item_metadata['end_date']) : null;
 
         if (!empty($item_metadata['reminders'])) {
             foreach ($item_metadata['reminders'] as $reminder_data) {
@@ -54,8 +54,8 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
         if ($this->statusCode != null) $item['status'] = $this->statusCode;
         if ($this->progress > 0) $item['progress'] = $this->progress;
-        if ($this->startDate != null) $item['start_date'] = $this->startDate;
-        if ($this->endDate != null) $item['end_date'] = $this->endDate;
+        if ($this->startDate != null) $item['start_date'] = UpStream_Model_Object::ymdToTimestamp($this->startDate);
+        if ($this->endDate != null) $item['end_date'] = UpStream_Model_Object::ymdToTimestamp($this->endDate);
         if ($this->description != '') $item['notes'] = $this->description;
 
     }

@@ -33,7 +33,7 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : '';
         $this->statusCode = !empty($item_metadata['status']) ? $item_metadata['status'] : null;
         $this->severityCode = !empty($item_metadata['severity']) ? $item_metadata['severity'] : null;
-        $this->dueDate = !empty($item_metadata['due_date']) ? $item_metadata['due_date'] : null;
+        $this->dueDate = !empty($item_metadata['due_date']) ? UpStream_Model_Object::timestampToYMD($item_metadata['due_date']) : null;
     }
 
     public function store($parent, &$item_metadata)
@@ -42,7 +42,7 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 
         if ($this->statusCode != null) $item['status'] = $this->statusCode;
         if ($this->severityCode != null) $item['severity'] = $this->severityCode;
-        if ($this->dueDate != null) $item['due_date'] = $this->dueDate;
+        if ($this->dueDate != null) $item['due_date'] = UpStream_Model_Object::ymdToTimestamp($this->dueDate);
         if ($this->description != '') $item['description'] = $this->description;
 
     }

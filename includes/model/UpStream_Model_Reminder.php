@@ -21,17 +21,15 @@ class UpStream_Model_Reminder
      */
     public function __construct($item_metadata)
     {
-        parent::__construct();
-
         $this->load($item_metadata);
     }
 
     protected function load($item_metadata)
     {
-        $this->id = isset($item_metadata['id']) ? $item_metadata['id'] : 0;
-        $this->intervalId = isset($item_metadata['reminder']) && $item_metadata['reminder'] <= 1000 ? $item_metadata['reminder'] : 0;
-        $this->timestamp = isset($item_metadata['reminder']) && $item_metadata['reminder'] > 1000 ? $item_metadata['reminder'] : 0;
-        $this->sentAt = isset($item_metadata['sent_at']) && $item_metadata['sent_at'] != null ? $item_metadata['sent_at'] : 0;
+        $this->id = !empty($item_metadata['id']) ? $item_metadata['id'] : 0;
+        $this->intervalId = !empty($item_metadata['reminder']) && $item_metadata['reminder'] <= 1000 ? $item_metadata['reminder'] : 0;
+        $this->timestamp = !empty($item_metadata['reminder']) && $item_metadata['reminder'] > 1000 ? $item_metadata['reminder'] : 0;
+        $this->sentAt = !empty($item_metadata['sent_at']) && $item_metadata['sent_at'] != null ? $item_metadata['sent_at'] : 0;
     }
 
     public function store(&$item_metadata)

@@ -45,4 +45,22 @@ class UpStream_Model_Object
         return false;
     }
 
+    public static function timestampToYMD($timestamp)
+    {
+	    $offset = get_option( 'gmt_offset' );
+	    $sign = $offset < 0 ? '-' : '+';
+	    $hours = (int) $offset;
+	    $minutes = abs( ( $offset - (int) $offset ) * 60 );
+	    $offset = (int)sprintf( '%s%d%02d', $sign, abs( $hours ), $minutes );
+	    $calc_offset_seconds = $offset < 0 ? $offset * -1 * 60 : $offset * 60;
+
+        $date = date_i18n('Y-m-d', $timestamp + $calc_offset_seconds);
+        return $date;
+    }
+
+    public static function ymdToTimestamp($ymd)
+    {
+        return date_create_from_format('Y-m-d', $ymd);
+    }
+
 }
