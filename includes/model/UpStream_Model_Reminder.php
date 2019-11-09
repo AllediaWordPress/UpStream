@@ -6,8 +6,9 @@ if ( ! defined('ABSPATH')) {
 }
 
 
-class UpStream_Model_Reminder extends UpStream_Model_Object
+class UpStream_Model_Reminder
 {
+    public $id = 0;
 
     public $intervalId = 0;
 

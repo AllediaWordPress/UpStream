@@ -22,7 +22,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
     {
         parent::load($item_metadata);
 
-        $this->description = isset($item_metadata['description']) ? $item_metadata['description'] : '';
+        $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : '';
     }
 
     public function store($parent, &$item_metadata)

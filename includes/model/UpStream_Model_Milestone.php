@@ -17,6 +17,8 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     public $color = null;
 
+    public $reminders = [];
+
     /**
      * UpStream_Model_Milestone constructor.
      */
@@ -34,6 +36,14 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
         $res = get_post_meta($id, 'upst_assigned_to');
         foreach ($res as $r) $this->assignedTo[] = (int)$r;
+
+	    $res = get_post_meta($id, 'upst_reminders');
+        if (!empty($res)) {
+            foreach ($res as $reminder_data) {
+                $reminder = new UpStream_Model_Reminder((array)$reminder_data);
+                $this->reminders[] = $reminder;
+            }
+        }
 
         $this->type = UPSTREAM_ITEM_TYPE_MILESTONE;
     }

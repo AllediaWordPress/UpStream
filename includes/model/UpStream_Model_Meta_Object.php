@@ -20,10 +20,10 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
 
     protected function load($item_metadata)
     {
-        $this->id = isset($item_metadata['id']) ? $item_metadata['id'] : 0;
-        $this->title = isset($item_metadata['title']) ? $item_metadata['title'] : null;
-        $this->assignedTo = isset($item_metadata['assigned_to']) ? $item_metadata['assigned_to'] : [];
-        $this->createdBy = isset($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
+        $this->id = !empty($item_metadata['id']) ? $item_metadata['id'] : 0;
+        $this->title = !empty($item_metadata['title']) ? $item_metadata['title'] : null;
+        $this->assignedTo = !empty($item_metadata['assigned_to']) ? $item_metadata['assigned_to'] : [];
+        $this->createdBy = !empty($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
     }
 
     public function store($parent, &$item_metadata)

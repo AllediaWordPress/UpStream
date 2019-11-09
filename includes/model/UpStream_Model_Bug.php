@@ -30,10 +30,10 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
     {
         parent::load($item_metadata);
 
-        $this->description = isset($item_metadata['description']) ? $item_metadata['description'] : '';
-        $this->statusCode = isset($item_metadata['status']) ? $item_metadata['status'] : null;
-        $this->severityCode = isset($item_metadata['severity']) ? $item_metadata['severity'] : null;
-        $this->dueDate = isset($item_metadata['due_date']) ? $item_metadata['due_date'] : null;
+        $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : '';
+        $this->statusCode = !empty($item_metadata['status']) ? $item_metadata['status'] : null;
+        $this->severityCode = !empty($item_metadata['severity']) ? $item_metadata['severity'] : null;
+        $this->dueDate = !empty($item_metadata['due_date']) ? $item_metadata['due_date'] : null;
     }
 
     public function store($parent, &$item_metadata)

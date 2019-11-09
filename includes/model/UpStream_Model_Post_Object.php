@@ -35,7 +35,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         foreach ($fields as $field => $input) {
 
             if (is_string($input)) {
-                if (isset($metadata[$input])) {
+                if (!empty($metadata[$input])) {
 
                     if (count($metadata[$input]) > 0) {
                         $this->{$field} = $metadata[$input][0];
