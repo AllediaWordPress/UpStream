@@ -43,6 +43,9 @@ $pluginOptions = get_option('upstream_general');
                                 )); ?>
                             </a>
                         </li>
+
+                        <?php echo apply_filters('upstream_additional_nav_content', null); ?>
+
                         <li>
                             <a href="<?php echo esc_url(upstream_admin_support($pluginOptions)); ?>" target="_blank"
                                rel="noreferrer noopener">
@@ -54,8 +57,10 @@ $pluginOptions = get_option('upstream_general');
                                 <i class="fa fa-sign-out pull-right"></i><?php esc_html_e('Log Out', 'upstream'); ?>
                             </a>
                         </li>
+
                     </ul>
                 </li>
+
             </ul>
         </nav>
     </div>
