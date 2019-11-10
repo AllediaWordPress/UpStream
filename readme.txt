@@ -136,6 +136,12 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.29.5] - 2019-11-09 =
+* Fixed potential XSS vulnerability with certain fields
+* Fixed milestone counts on sidebar
+* Completed model fields, added saving (not currently used)
+* Added filters for customizing nav bar
+
 = [1.29.4] - 2019-11-02 =
 * Fixed milestones not saving on first submit
 * Fixed permissions bug that blocks editing some items if you are the creator
