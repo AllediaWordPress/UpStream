@@ -507,12 +507,26 @@ function countItemsForUserOnProject($itemType, $user_id, $project_id)
 
     $count = 0;
 
+    if ('milestones' === $itemType) {
+
+        $projectMilestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($project_id);
+
+        $total = 0;
+        if (count($projectMilestones) > 0) {
+            foreach ($projectMilestones as $milestone) {
+                $milestone = \UpStream\Factory::getMilestone($milestone);
+                if (in_array($user_id, $milestone->getAssignedTo())) {
+                    $count++;
+                }
+            }
+        }
+
+        return $count;
+    }
+
+
     $metas = (array)get_post_meta((int)$project_id, '_upstream_project_' . $itemType);
     $metas = count($metas) > 0 ? (array)$metas[0] : [];
-
-    if (isset($metas[0])) {
-        $metas = (array)$metas[0];
-    }
 
     if (is_array($metas) && count($metas) > 0) {
         foreach ($metas as $meta) {

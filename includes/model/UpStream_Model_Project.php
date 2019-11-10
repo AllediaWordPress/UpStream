@@ -18,6 +18,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public $client = 0;
 
+    public $statusCode = null;
+
     /**
      * UpStream_Model_Project constructor.
      */
@@ -25,8 +27,10 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     {
         parent::__construct($id, [
             'clientUsers' => function($m) { return isset($m['_upstream_project_client_users'][0]) ? unserialize($m['_upstream_project_client_users'][0]) : []; },
-            'client' => function($m) { return isset($m['_upstream_project_client'][0]) ? $m['_upstream_project_client'][0] : 0; },
-            'assignedTo' => '_upstream_project_owner',
+            'client' => '_upstream_project_client',
+            'statusCode' => '_upstream_project_status',
+            'description' => '_upstream_project_description',
+            'assignedTo' => function($m) { return isset($m['_upstream_project_owner']) ? $m['_upstream_project_owner'] : []; },
             ]);
 
         $this->type = UPSTREAM_ITEM_TYPE_PROJECT;
@@ -73,4 +77,35 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         return $categories;
     }
+
+
+    protected function storeCategories()
+    {
+        if (is_project_categorization_disabled()) {
+            return;
+        }
+
+        $res = wp_set_object_terms($this->id, $this->categories, 'project_category');
+
+        if ($res instanceof \WP_Error) {
+            // TODO: throw
+        }
+
+    }
+
+
+    public function store()
+    {
+        parent::store();
+
+//        if ($this->progress > 0) update_post_meta($this->id, '_upstream_project_members', $this->progress);
+//        if ($this->color != null) update_post_meta($this->id, '_upstream_project_activity', $this->color);
+        if ($this->client > 0) update_post_meta($this->id, '_upstream_project_client', $this->client);
+        if ($this->statusCode != null) update_post_meta($this->id, '_upstream_project_status', $this->statusCode);
+        if (count($this->assignedTo) > 0) update_post_meta($this->id, '_upstream_project_owner', $this->assignedTo[0]);
+
+
+        $this->storeCategories();
+    }
+
 }

@@ -13,14 +13,31 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
      */
     public function __construct($item_metadata)
     {
+        parent::__construct();
+
         $this->load($item_metadata);
     }
 
     protected function load($item_metadata)
     {
-        $this->id = isset($item_metadata['id']) ? $item_metadata['id'] : 0;
-        $this->title = isset($item_metadata['title']) ? $item_metadata['title'] : null;
-        $this->assignedTo = isset($item_metadata['assigned_to']) ? $item_metadata['assigned_to'] : [];
-        $this->created_by = isset($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
+        $this->id = !empty($item_metadata['id']) ? $item_metadata['id'] : 0;
+        $this->title = !empty($item_metadata['title']) ? $item_metadata['title'] : null;
+        $this->assignedTo = !empty($item_metadata['assigned_to']) ? $item_metadata['assigned_to'] : [];
+        $this->createdBy = !empty($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
     }
+
+    public function store($parent, &$item_metadata)
+    {
+        if (!($parent instanceof UpStream_Model_Post_Object)) {
+            // TODO: throw error
+        }
+
+        $item = [];
+        if ($this->id > 0) $item['id'] = $this->id;
+        if ($this->title != null) $item['title'] = $this->title;
+        if (count($this->assignedTo) > 0) $item['assigned_to'] = $this->assignedTo;
+        if ($this->createdBy > 0) $item['created_by'] = $this->createdBy;
+
+    }
+
 }

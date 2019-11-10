@@ -416,7 +416,7 @@
         // enable all fields in this row and reset them
         var $row = $group.find('.cmb-repeatable-grouping').last();
         $row.addClass('is-new');
-        $row.find('input, textarea, select').not(':button,:hidden').val('');
+        $row.find('input:not([type="checkbox"]), textarea, select').not(':button,:hidden').val('');
         $row.find(':input').prop({'disabled': false, 'readonly': false});
         $row.find('[data-user_assigned]').attr('data-user_assigned', '');
         $row.find('[data-user_created_by]').attr('data-user_created_by', '');

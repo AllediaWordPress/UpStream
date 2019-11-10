@@ -122,12 +122,17 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                 if (isset($object['value']) && is_array($object['value'])) {
                     $currentMilestoneIds = [];
 
-                    foreach ($object['value'] as $milestoneData) {
+                    for ($i = 0; $i < count($object['value']); $i++) {
+
+                        $milestoneData = $object['value'][$i];
+
                         // If doesn't have an id, we create the milestone.
                         if ( ! isset($milestoneData['id']) || EMPTY($milestoneData['id'])) {
                             $milestone = \UpStream\Factory::createMilestone($milestoneData['milestone']);
 
                             $milestone->setProjectId($object['id']);
+                            $object['value'][$i]['id'] = $milestone->getId();
+
                         } else {
                             // Update the milestone.
                             $milestone = \UpStream\Factory::getMilestone($milestoneData['id']);

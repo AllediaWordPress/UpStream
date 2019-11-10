@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.29.3
+ * Version: 1.29.5
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -45,7 +45,7 @@ if ( ! class_exists('UpStream')) :
          * Main UpStream Instance.
          */
         public static function instance()
-        {
+        { 
             if (is_null(self::$_instance)) {
                 self::$_instance = new self();
             }

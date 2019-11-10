@@ -88,7 +88,7 @@ $projects = upstream_user_projects();
                             <li id="nav-projects">
                                 <a href="<?php echo esc_attr($projectsListUrl); ?>">
                                     <i class="fa fa-columns"></i> <?php printf(__('All %s', 'upstream'),
-                                        $i18n['LB_PROJECTS']); ?>
+                                        esc_html($i18n['LB_PROJECTS'])); ?>
                                 </a>
 
                                 <?php do_action('upstream_sidebar_after_all_projects_link'); ?>
@@ -106,7 +106,7 @@ $projects = upstream_user_projects();
                         <li class="current-page active">
                             <a href="#">
                                 <i class="fa fa-folder"></i>
-                                <?php echo get_the_title($project_id); ?>
+                                <?php echo esc_html(get_the_title($project_id)); ?>
                             </a>
 
                             <ul class="nav child_menu" style="display: block;">
@@ -115,7 +115,7 @@ $projects = upstream_user_projects();
                                 <?php if ( ! $areMilestonesDisabledForThisProject && ! $areMilestonesDisabledAtAll): ?>
                                     <li id="nav-milestones">
                                         <a href="#milestones">
-                                            <i class="fa fa-flag"></i> <?php echo upstream_milestone_label_plural(); ?>
+                                            <i class="fa fa-flag"></i> <?php echo esc_html(upstream_milestone_label_plural()); ?>
                                             <?php
                                             if (function_exists('countItemsForUserOnProject')) {
                                                 $itemsCount = countItemsForUserOnProject(
@@ -129,8 +129,8 @@ $projects = upstream_user_projects();
 
                                             if ($itemsCount > 0): ?>
                                                 <span class="label label-info pull-right" data-toggle="tooltip"
-                                                      title="<?php _e('Assigned to me', 'upstream'); ?>"
-                                                      style="margin-top: 3px;"><?php echo $itemsCount; ?></span>
+                                                      title="<?php esc_html_e('Assigned to me', 'upstream'); ?>"
+                                                      style="margin-top: 3px;"><?php echo esc_html($itemsCount); ?></span>
                                             <?php endif; ?>
                                         </a>
                                     </li>
@@ -139,7 +139,7 @@ $projects = upstream_user_projects();
                                 <?php if ( ! $areTasksDisabledForThisProject && ! $areTasksDisabledAtAll): ?>
                                     <li id="nav-tasks">
                                         <a href="#tasks">
-                                            <i class="fa fa-wrench"></i> <?php echo $i18n['LB_TASKS']; ?>
+                                            <i class="fa fa-wrench"></i> <?php echo esc_html($i18n['LB_TASKS']); ?>
                                             <?php
                                             if (function_exists('countItemsForUserOnProject')) {
                                                 $itemsCount = countItemsForUserOnProject(
@@ -153,8 +153,8 @@ $projects = upstream_user_projects();
 
                                             if ($itemsCount > 0): ?>
                                                 <span class="label label-info pull-right" data-toggle="tooltip"
-                                                      title="<?php _e('Assigned to me', 'upstream'); ?>"
-                                                      style="margin-top: 3px;"><?php echo $itemsCount; ?></span>
+                                                      title="<?php esc_html_e('Assigned to me', 'upstream'); ?>"
+                                                      style="margin-top: 3px;"><?php echo esc_html($itemsCount); ?></span>
                                             <?php endif; ?>
                                             <?php do_action('upstream_sidebar_after_tasks_menu'); ?>
                                         </a>
@@ -164,7 +164,7 @@ $projects = upstream_user_projects();
                                 <?php if ( ! $areBugsDisabledAtAll && ! $areBugsDisabledForThisProject): ?>
                                     <li id="nav-bugs">
                                         <a href="#bugs">
-                                            <i class="fa fa-bug"></i> <?php echo $i18n['LB_BUGS']; ?>
+                                            <i class="fa fa-bug"></i> <?php echo esc_html($i18n['LB_BUGS']); ?>
                                             <?php
                                             if (function_exists('countItemsForUserOnProject')) {
                                                 $itemsCount = countItemsForUserOnProject(
@@ -178,8 +178,8 @@ $projects = upstream_user_projects();
 
                                             if ($itemsCount > 0): ?>
                                                 <span class="label label-info pull-right" data-toggle="tooltip"
-                                                      title="<?php _e('Assigned to me', 'upstream'); ?>"
-                                                      style="margin-top: 3px;"><?php echo $itemsCount; ?></span>
+                                                      title="<?php esc_html_e('Assigned to me', 'upstream'); ?>"
+                                                      style="margin-top: 3px;"><?php echo esc_html($itemsCount); ?></span>
                                             <?php endif; ?>
                                             <?php do_action('upstream_sidebar_after_bugs_menu'); ?>
                                         </a>
@@ -189,7 +189,7 @@ $projects = upstream_user_projects();
                                 <?php if ( ! $areFilesDisabledForThisProject && ! upstream_disable_files()): ?>
                                     <li id="nav-files">
                                         <a href="#files">
-                                            <i class="fa fa-file"></i> <?php echo upstream_file_label_plural(); ?>
+                                            <i class="fa fa-file"></i> <?php echo esc_html(upstream_file_label_plural()); ?>
                                         </a>
                                     </li>
                                 <?php endif; ?>
@@ -198,7 +198,7 @@ $projects = upstream_user_projects();
                                     <li id="nav-discussion">
                                         <a href="#discussion">
                                             <i class="fa fa-comments"></i>
-                                            <?php echo upstream_discussion_label(); ?>
+                                            <?php echo esc_html(upstream_discussion_label()); ?>
                                         </a>
                                     </li>
                                 <?php endif; ?>
@@ -224,9 +224,9 @@ $projects = upstream_user_projects();
                         <?php foreach ($projects as $project) : ?>
                             <?php if ($project_id != $project->id) : ?>
                                 <li class="current-page active">
-                                    <a href="<?php echo $project->permalink; ?>">
+                                    <a href="<?php echo esc_url($project->permalink); ?>">
                                         <i class="fa fa-folder"></i>
-                                        <?php echo $project->title ?>
+                                        <?php echo esc_html($project->title) ?>
                                     </a>
                                 </li>
                             <?php endif; ?>
@@ -239,7 +239,7 @@ $projects = upstream_user_projects();
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
             <a href="<?php echo esc_attr($projectsListUrl); ?>" data-toggle="tooltip" data-placement="top"
-               title="<?php printf(__('My %s', 'upstream'), $i18n['LB_PROJECTS']); ?>">
+               title="<?php printf(__('My %s', 'upstream'), esc_attr($i18n['LB_PROJECTS'])); ?>">
                 <i class="fa fa-home"></i>
             </a>
             <a href="<?php echo esc_url($supportUrl); ?>" data-toggle="tooltip" data-placement="top"

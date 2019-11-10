@@ -388,13 +388,13 @@ if ( ! empty($ordering)) {
                                                 </span>
                                             </th>
                                             <th class="is-clickable is-orderable" data-column="startDate" role="button">
-                                                <?php echo "Start Date"; ?>
+                                                <?php echo esc_html__("Start Date", 'upstream'); ?>
                                                 <span class="pull-right o-order-direction">
                                                   <i class="fa fa-sort"></i>
                                                 </span>
                                             </th>
                                             <th class="is-clickable is-orderable" data-column="endDate" role="button">
-                                                <?php echo "End Date"; ?>
+                                                <?php echo esc_html__("End Date", 'upstream'); ?>
                                                 <span class="pull-right o-order-direction">
                                                   <i class="fa fa-sort"></i>
                                                 </span>
@@ -450,7 +450,7 @@ if ( ! empty($ordering)) {
                                                         data-value="<?php echo esc_attr($project->title); ?>">
                                                         <?php do_action('upstream:frontend.project.details.before_title',
                                                             $project); ?>
-                                                        <a href="<?php echo $project->permalink; ?>">
+                                                        <a href="<?php echo esc_url($project->permalink); ?>">
                                                             <?php echo esc_html($project->title); ?>
                                                         </a>
                                                     </td>
@@ -536,16 +536,16 @@ if ( ! empty($ordering)) {
                                                                     aria-valuenow="<?php echo esc_attr($project->progress); ?>"
                                                                     aria-valuemin="0" aria-valuemax="100"
                                                                     style="width: <?php echo $project->progress; ?>%;">
-                                                            <span class="sr-only"><?php printf(
+                                                            <span class="sr-only"><?php echo esc_html(sprintf(
                                                                     $i18n['LB_COMPLETE'],
                                                                     $project->progress . '%'
-                                                                ); ?></span>
+                                                                )); ?></span>
                                                             </div>
                                                         </div>
-                                                        <small><?php printf(
+                                                        <small><?php echo esc_html(sprintf(
                                                                 $i18n['LB_COMPLETE'],
                                                                 $project->progress . '%'
-                                                            ); ?></small>
+                                                            )); ?></small>
                                                     </td>
                                                 <?php else: ?>
                                                     <td data-column="progress"
@@ -579,7 +579,7 @@ if ( ! empty($ordering)) {
                                                         data-order="<?php echo $statusOrder > 0 ? $statusOrder : '0'; ?>">
                                                         <?php if ($project->status !== null || empty($status['id']) || empty($status['name'])): ?>
                                                             <span class="label up-o-label"
-                                                                  style="background-color: <?php echo esc_attr($status['color']); ?>;"><?php echo !empty($status['name']) ? esc_html($status['name']) : $i18n['LB_NONE']; ?></span>
+                                                                  style="background-color: <?php echo esc_attr($status['color']); ?>;"><?php echo !empty($status['name']) ? esc_html($status['name']) : esc_html($i18n['LB_NONE']); ?></span>
                                                         <?php else: ?>
                                                             <i class="s-text-color-gray"><?php echo esc_html($i18n['LB_NONE']); ?></i>
                                                         <?php endif; ?>
@@ -635,8 +635,8 @@ if ( ! empty($ordering)) {
                                                                 }
                                                                 ?>
                                                                 <div class="form-group"
-                                                                     data-column="<?php echo $columnName; ?>">
-                                                                    <label><?php echo isset($column['label']) ? $column['label'] : ''; ?></label>
+                                                                     data-column="<?php echo esc_attr($columnName); ?>">
+                                                                    <label><?php echo isset($column['label']) ? esc_html($column['label']) : ''; ?></label>
                                                                     <?php UpStream\Frontend\renderTableColumnValue(
                                                                         $columnName,
                                                                         $columnValue,
@@ -667,7 +667,7 @@ if ( ! empty($ordering)) {
                                 <span class="p_count">
                                     <?php 
                                         if( $projectsListCount > 0 ) {
-                                            echo sprintf(_x(' %s found', 'upstream'), upstream_project_label_plural());
+                                            echo esc_html(sprintf(_x(' %s found', 'upstream'), upstream_project_label_plural()));
                                         } 
                                     ?>
                                 </span>

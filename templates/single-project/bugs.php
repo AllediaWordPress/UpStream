@@ -92,7 +92,7 @@ if ( ! upstream_are_bugs_disabled()
             <div class="x_title">
                 <h2>
                     <i class="fa fa-bars sortable_handler"></i>
-                    <i class="fa fa-bug"></i> <?php echo upstream_bug_label_plural(); ?>
+                    <i class="fa fa-bug"></i> <?php echo esc_html(upstream_bug_label_plural()); ?>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
@@ -114,7 +114,7 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_attr($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -122,17 +122,17 @@ if ( ! upstream_are_bugs_disabled()
                                 <div class="btn-group">
                                     <a href="#bugs-filters" role="button" class="btn btn-default btn-xs"
                                        data-toggle="collapse" aria-expanded="false" aria-controls="bugs-filters">
-                                        <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                        <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                     </a>
                                     <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -140,7 +140,7 @@ if ( ! upstream_are_bugs_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -154,18 +154,18 @@ if ( ! upstream_are_bugs_disabled()
                             <div>
                                 <a href="#bugs-filters" role="button" class="btn btn-default btn-xs"
                                    data-toggle="collapse" aria-expanded="false" aria-controls="bugs-filters">
-                                    <i class="fa fa-filter"></i> <?php _e('Toggle Filters', 'upstream'); ?>
+                                    <i class="fa fa-filter"></i> <?php esc_html_e('Toggle Filters', 'upstream'); ?>
                                 </a>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle btn-xs upstream-export-button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-download"></i> <?php _e('Export', 'upstream'); ?>
+                                        <i class="fa fa-download"></i> <?php esc_html_e('Export', 'upstream'); ?>
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="#" data-action="export" data-type="txt">
-                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'Plain Text',
                                                     'upstream'
                                                 ); ?>
@@ -173,7 +173,7 @@ if ( ! upstream_are_bugs_disabled()
                                         </li>
                                         <li>
                                             <a href="#" data-action="export" data-type="csv">
-                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php _e(
+                                                <i class="fa fa-file-code-o"></i>&nbsp;&nbsp;<?php esc_html_e(
                                                     'CSV',
                                                     'upstream'
                                                 ); ?>
@@ -190,7 +190,7 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input type="search" class="form-control"
-                                           placeholder="<?php echo $l['LB_TITLE']; ?>" data-column="title"
+                                           placeholder="<?php echo esc_attr($l['LB_TITLE']); ?>" data-column="title"
                                            data-compare-operator="contains">
                                 </div>
                             </div>
@@ -200,20 +200,20 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="assigned_to"
-                                            data-placeholder="<?php _e('Assignee', 'upstream'); ?>" multiple>
+                                            data-placeholder="<?php esc_attr_e('Assignee', 'upstream'); ?>" multiple>
                                         <option value></option>
-                                        <option value="__none__"><?php _e('Nobody', 'upstream'); ?></option>
-                                        <option value="<?php echo $currentUserId; ?>"><?php _e(
+                                        <option value="__none__"><?php esc_html_e('Nobody', 'upstream'); ?></option>
+                                        <option value="<?php echo $currentUserId; ?>"><?php esc_html_e(
                                                 'Me',
                                                 'upstream'
                                             ); ?></option>
-                                        <optgroup label="<?php _e('Users'); ?>">
+                                        <optgroup label="<?php esc_attr_e('Users'); ?>">
                                             <?php foreach ($users as $user_id => $userName): ?>
                                                 <?php if ($user_id === $currentUserId) {
                                                     continue;
                                                 } ?>
                                                 <option
-                                                        value="<?php echo $user_id; ?>"><?php echo $userName; ?></option>
+                                                        value="<?php echo $user_id; ?>"><?php echo esc_html($userName); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>
@@ -225,10 +225,10 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-asterisk"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="severity"
-                                            data-placeholder="<?php _e('Severity', 'upstream'); ?>" multiple>
+                                            data-placeholder="<?php esc_attr_e('Severity', 'upstream'); ?>" multiple>
                                         <option value></option>
-                                        <option value="__none__"><?php _e('None', 'upstream'); ?></option>
-                                        <optgroup label="<?php _e('Severity', 'upstream'); ?>">
+                                        <option value="__none__"><?php esc_html_e('None', 'upstream'); ?></option>
+                                        <optgroup label="<?php esc_attr_e('Severity', 'upstream'); ?>">
                                             <?php foreach ($severities as $severity): ?>
                                                 <option
                                                         value="<?php echo esc_attr($severity['id']); ?>"><?php echo esc_html($severity['name']); ?></option>
@@ -243,11 +243,11 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-bookmark"></i>
                                     </div>
                                     <select class="form-control o-select2" data-column="status"
-                                            data-placeholder="<?php _e('Status', 'upstream'); ?>" multiple>
+                                            data-placeholder="<?php esc_attr_e('Status', 'upstream'); ?>" multiple>
                                         <option value></option>
-                                        <option value="__none__" <?php echo $filter_closed_items ? 'selected' : ''; ?>><?php _e('None',
+                                        <option value="__none__" <?php echo $filter_closed_items ? 'selected' : ''; ?>><?php esc_html_e('None',
                                                 'upstream'); ?></option>
-                                        <optgroup label="<?php _e('Status', 'upstream'); ?>">
+                                        <optgroup label="<?php esc_html_e('Status', 'upstream'); ?>">
                                             <?php foreach ($statuses as $status): ?>
                                                 <?php
                                                 $attr = ' ';
@@ -255,8 +255,7 @@ if ( ! upstream_are_bugs_disabled()
                                                     $attr .= ' selected';
                                                 endif;
                                                 ?>
-                                                <option
-                                                        value="<?php echo esc_attr($status['id']); ?>"<?php echo $attr; ?>><?php echo esc_html($status['name']); ?></option>
+                                                <option value="<?php echo esc_attr($status['id']); ?>"<?php echo $attr; ?>><?php echo esc_html($status['name']); ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     </select>
@@ -268,7 +267,7 @@ if ( ! upstream_are_bugs_disabled()
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control o-datepicker"
-                                           placeholder="<?php echo $l['LB_DUE_DATE']; ?>"
+                                           placeholder="<?php echo esc_attr($l['LB_DUE_DATE']); ?>"
                                            id="tasks-filter-due_date_from">
                                 </div>
                                 <input type="hidden" id="tasks-filter-due_date_from_timestamp" data-column="due_date"

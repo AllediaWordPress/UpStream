@@ -166,28 +166,28 @@ if ($areBugsEnabled) {
             <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="min-width: 185px;">
                 <div class="panel panel-default" style="margin-bottom: 10px;">
                     <div class="panel-body" style="display: flex; position: relative;">
-                        <div data-toggle="tooltip" title="<?php _e('Open', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Open', 'upstream'); ?>">
                             <span class="label label-primary"><?php echo $milestonesCounts['open']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Assigned to me', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Assigned to me', 'upstream'); ?>">
                             <span class="label label-info"><?php echo $milestonesCounts['mine']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Overdue', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Overdue', 'upstream'); ?>">
                             <span class="label label-danger"><?php echo $milestonesCounts['overdue']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Completed', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Completed', 'upstream'); ?>">
                             <span class="label label-success"><?php echo $milestonesCounts['finished']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Total', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Total', 'upstream'); ?>">
                             <span class="label"
                                   style="background-color: #ecf0f1; color: #3A4E66;"><?php echo $milestonesCounts['total']; ?></span>
                         </div>
                         <i class="fa fa-flag fa-2x" data-toggle="tooltip"
-                           title="<?php printf(
+                           title="<?php echo esc_attr(sprintf(
                                '%s %s',
                                upstream_milestone_label_plural(),
                                __('Overview', 'upstream')
-                           ); ?>"
+                           )); ?>"
                            style="position: absolute; color: #ECF0F1; right: 8px; margin-top: -2px"></i>
                     </div>
                 </div>
@@ -198,28 +198,28 @@ if ($areBugsEnabled) {
             <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="min-width: 185px;">
                 <div class="panel panel-default" style="margin-bottom: 10px;">
                     <div class="panel-body" style="display: flex; position: relative;">
-                        <div data-toggle="tooltip" title="<?php _e('Open', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Open', 'upstream'); ?>">
                             <span class="label label-primary"><?php echo $tasksCounts['open']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Assigned to me', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Assigned to me', 'upstream'); ?>">
                             <span class="label label-info"><?php echo $tasksCounts['mine']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Overdue', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Overdue', 'upstream'); ?>">
                             <span class="label label-danger"><?php echo $tasksCounts['overdue']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Closed', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Closed', 'upstream'); ?>">
                             <span class="label label-success"><?php echo $tasksCounts['closed']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Total', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Total', 'upstream'); ?>">
                             <span class="label"
                                   style="background-color: #ecf0f1; color: #3A4E66;"><?php echo $tasksCounts['total']; ?></span>
                         </div>
                         <i class="fa fa-wrench fa-2x" data-toggle="tooltip"
-                           title="<?php printf(
+                           title="<?php echo esc_attr(sprintf(
                                '%s %s',
                                upstream_task_label_plural(),
                                __('Overview', 'upstream')
-                           ); ?>"
+                           )); ?>"
                            style="position: absolute; color: #ECF0F1; right: 8px; margin-top: -2px"></i>
                     </div>
                 </div>
@@ -230,28 +230,28 @@ if ($areBugsEnabled) {
             <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="min-width: 185px;">
                 <div class="panel panel-default" style="margin-bottom: 10px;">
                     <div class="panel-body" style="display: flex; position: relative;">
-                        <div data-toggle="tooltip" title="<?php _e('Open', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Open', 'upstream'); ?>">
                             <span class="label label-primary"><?php echo $bugsCounts['open']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Assigned to me', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Assigned to me', 'upstream'); ?>">
                             <span class="label label-info"><?php echo $bugsCounts['mine']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Overdue', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Overdue', 'upstream'); ?>">
                             <span class="label label-danger"><?php echo $bugsCounts['overdue']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Closed', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Closed', 'upstream'); ?>">
                             <span class="label label-success"><?php echo $bugsCounts['closed']; ?></span>
                         </div>
-                        <div data-toggle="tooltip" title="<?php _e('Total', 'upstream'); ?>">
+                        <div data-toggle="tooltip" title="<?php esc_attr_e('Total', 'upstream'); ?>">
                             <span class="label"
                                   style="background-color: #ecf0f1; color: #3A4E66;"><?php echo $bugsCounts['total']; ?></span>
                         </div>
                         <i class="fa fa-bug fa-2x" data-toggle="tooltip"
-                           title="<?php printf(
+                           title="<?php echo esc_attr(sprintf(
                                '%s %s',
                                upstream_bug_label_plural(),
                                __('Overview', 'upstream')
-                           ); ?>"
+                           )); ?>"
                            style="position: absolute; color: #ECF0F1; right: 8px; margin-top: -2px"></i>
                     </div>
                 </div>

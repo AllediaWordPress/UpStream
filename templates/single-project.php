@@ -133,11 +133,11 @@ while (have_posts()) : the_post(); ?>
                         ?>
                         <div class="row" id="project-section-details">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
-                                <h3 style="display: inline-block;"><?php echo get_the_title(get_the_ID()); ?></h3>
+                                <h3 style="display: inline-block;"><?php echo esc_html(get_the_title(get_the_ID())); ?></h3>
                                 <?php $status = upstream_project_status_color($id); ?>
                                 <?php if ( ! empty($status['status'])): ?>
                                     <span class="label up-o-label"
-                                          style="background-color: <?php echo esc_attr($status['color']); ?>"><?php echo $status['status']; ?></span>
+                                          style="background-color: <?php echo esc_attr($status['color']); ?>"><?php echo esc_html($status['status']); ?></span>
                                 <?php endif; ?>
                             </div>
 

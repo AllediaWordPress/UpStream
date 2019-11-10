@@ -5,6 +5,11 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+function upstream_esc_w($s)
+{
+    return wp_kses_post($s);
+}
+
 /**
  * Get a post id,
  * no matter where we are or what we are doing.
@@ -216,7 +221,7 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
         $tooltip = (bool)$displayTooltip ?
             sprintf(
                 'title="%s" data-toggle="tooltip" data-placement="top" data-original-title="%1$s"',
-                $userDisplayName
+                esc_attr($userDisplayName)
             ) : '';
         $return  = sprintf(
             '<img class="avatar" src="%s" %s />',
@@ -224,7 +229,7 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
             $tooltip
         );
     } else {
-        $return = '<span class="avatar_custom_text">' . $userDisplayName . '</span>';
+        $return = '<span class="avatar_custom_text">' . esc_html($userDisplayName) . '</span>';
     }
 
     return apply_filters('upstream_user_avatar', $return);
@@ -1803,7 +1808,7 @@ function upstream_get_users_display_name($users)
 
         $columnValue = [];
         foreach ($users as $user) {
-            $columnValue[] = $user->display_name;
+            $columnValue[] = esc_html($user->display_name);
         }
         unset($user, $users);
 
