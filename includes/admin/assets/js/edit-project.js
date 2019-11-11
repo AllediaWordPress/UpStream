@@ -423,6 +423,7 @@
         $row.find('[data-avatar_assigned]').attr('data-avatar_assigned', '');
         $row.find('[data-avatar_created_by]').attr('data-avatar_created_by', '');
         $row.find('.up-o-tab').removeClass('nav-tab-active');
+        $row.find('.dashicons-flag').removeAttr('style');
         $row.find('.up-o-tab[data-target=".up-c-tab-content-data"]').addClass('nav-tab-active');
 
         // Check if we have a defined default value in the attributes.
