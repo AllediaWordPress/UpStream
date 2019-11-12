@@ -178,10 +178,13 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                             $milestone->setNotes('');
                         }
 
-                        if (isset($milestoneData['color'])) {
-                            $milestone->setColor($milestoneData['color']);
-                        } else {
+                        // RSD: the colors get replaced because teh color widget isnt on this page
+                        if (!isset($milestoneData['color'])) {
+                        }
+                        elseif (empty($milestoneData['color'])) {
                             $milestone->setColor('');
+                        } else {
+                            $milestone->setColor($milestoneData['color']);
                         }
 
                         $currentMilestoneIds[] = $milestone->getId();

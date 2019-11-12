@@ -53,14 +53,18 @@ function upstream_post_id()
 // Url for logging out, depending on client or WP user
 function upstream_logout_url()
 {
+    $url = "";
+
     if (
         ( ! empty($_SESSION) && isset($_SESSION['upstream']) && isset($_SESSION['upstream']['user_id'])) ||
         ( ! is_user_logged_in())
     ) {
-        return '?action=logout';
+        $url= '?action=logout';
     } else {
-        return wp_logout_url(get_post_type_archive_link('project'));
+        $url= wp_logout_url(get_post_type_archive_link('project'));
     }
+
+    return apply_filters('upstream_logout_url', $url);
 }
 
 
