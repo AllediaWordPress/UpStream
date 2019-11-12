@@ -11,7 +11,7 @@
                         data-placeholder="{{ labels.none }}">
                     {% for projectId,projectName in projects %}
                         {% if projectId %}
-                            <option value="{{ projectId }}" {% if projectId in data.project_id %}selected{% endif %}>{{ projectName }}</option>
+                            <option value="{{ projectId }}" {% if projectId == data.project_id %}selected{% endif %}>{{ projectName }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
