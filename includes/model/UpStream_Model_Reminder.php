@@ -21,10 +21,10 @@ class UpStream_Model_Reminder
      */
     public function __construct($item_metadata)
     {
-        $this->load($item_metadata);
+        $this->loadFromArray($item_metadata);
     }
 
-    protected function load($item_metadata)
+    protected function loadFromArray($item_metadata)
     {
         $this->id = !empty($item_metadata['id']) ? $item_metadata['id'] : 0;
         $this->intervalId = !empty($item_metadata['reminder']) && $item_metadata['reminder'] <= 1000 ? $item_metadata['reminder'] : 0;
@@ -32,7 +32,7 @@ class UpStream_Model_Reminder
         $this->sentAt = !empty($item_metadata['sent_at']) && $item_metadata['sent_at'] != null ? $item_metadata['sent_at'] : 0;
     }
 
-    public function store(&$item_metadata)
+    public function storeToArray(&$item_metadata)
     {
         if (!empty($this->id)) $item_metadata['id'] = $this->id;
         if ($this->intervalId > 0) $item_metadata['reminder'] = $this->intervalId;

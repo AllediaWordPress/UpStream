@@ -11,24 +11,30 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
     /**
      * UpStream_Model_Fil constructor.
      */
-    public function __construct($item_metadata)
+    public function __construct($parent, $item_metadata)
     {
-        parent::__construct($item_metadata);
+        parent::__construct($parent, $item_metadata);
 
         $this->type = UPSTREAM_ITEM_TYPE_FILE;
     }
 
-    protected function load($item_metadata)
+    protected function loadFromArray($item_metadata)
     {
-        parent::load($item_metadata);
-
-        $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : '';
+        parent::loadFromArray($item_metadata);
     }
 
-    public function store($parent, &$item_metadata)
+    public function storeToArray(&$item_metadata)
     {
-        parent::store($parent, $item_metadata);
+        parent::storeToArray($item_metadata);
 
-        if ($this->statusCode != null) $item['status'] = $this->statusCode;
+//        if ($this->statusCode != null) $item['status'] = $this->statusCode;
     }
+
+    public static function create($parent, $title, $createdBy)
+    {
+        $item_metadata = ['title' => $title, 'created_by' => $createdBy];
+
+        return new self($parent, $item_metadata);
+    }
+
 }

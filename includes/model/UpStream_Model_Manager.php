@@ -24,6 +24,7 @@ class UpStream_Model_Manager
             $this->loadObject($object_type, $object_id, $parent_type, $parent_id);
         }
 
+        // todo: what if we cant find
         return $this->objects[$object_type][$object_id];
     }
 
@@ -59,6 +60,42 @@ class UpStream_Model_Manager
 
     }
 
+    public function createObject($object_type, $title, $createdBy, $parentId = 0)
+    {
+        switch ($object_type) {
+
+            case UPSTREAM_ITEM_TYPE_PROJECT:
+                return \UpStream_Model_Project::create($title, $createdBy);
+
+            case UPSTREAM_ITEM_TYPE_MILESTONE:
+                return \UpStream_Model_Milestone::create($title, $createdBy);
+
+            case UPSTREAM_ITEM_TYPE_TASK:
+                $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
+                return \UpStream_Model_Task::create($parent, $title, $createdBy);
+
+            case UPSTREAM_ITEM_TYPE_FILE:
+                $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
+                return \UpStream_Model_File::create($parent, $title, $createdBy);
+
+            case UPSTREAM_ITEM_TYPE_BUG:
+                $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
+                return \UpStream_Model_Bug::create($parent, $title, $createdBy);
+
+        }
+    }
+
+    public function setObjectFieldValue($object, $field_name, $field_value)
+    {
+        if (in_array($field_name, $object->setable)) {
+
+            $object->{$field_name} = $field_value;
+
+        } else {
+            // todo: handle cant set this value
+        }
+    }
+
     public static function get_instance()
     {
         if (empty(static::$instance)) {
@@ -68,4 +105,5 @@ class UpStream_Model_Manager
 
         return static::$instance;
     }
+
 }

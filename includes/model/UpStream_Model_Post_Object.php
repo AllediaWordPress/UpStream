@@ -9,9 +9,11 @@ if ( ! defined('ABSPATH')) {
 class UpStream_Model_Post_Object extends UpStream_Model_Object
 {
     
-    public $categories = [];
+    protected $categories = [];
 
-    public $parentId = 0;
+    protected $parentId = 0;
+
+    protected $postType = 'post';
 
     /**
      * UpStream_Model_Post_Object constructor.
@@ -69,7 +71,9 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
                 'post_title' => $this->title,
                 'post_author' => $this->createdBy,
                 'post_parent' => $this->parentId,
-                'post_content' => $this->description
+                'post_content' => $this->description,
+                'post_status' => 'publish',
+                'post_type' => $this->postType
             ];
 
             $res = wp_insert_post($post_arr, true);
@@ -81,6 +85,36 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             $this->id = (int)$res;
         }
 
+    }
+
+    public function __get($property)
+    {
+        switch ($property) {
+
+            case 'categories':
+            case 'parentId':
+                return $this->{$property};
+            default:
+                parent::__get($property);
+
+        }
+    }
+
+    public function __set($property, $value)
+    {
+        switch ($property) {
+
+            case 'id':
+                if (!filter_var($value, FILTER_VALIDATE_INT))
+                    throw new UpStream_Model_ArgumentException(__('ID must be a valid numeric.', 'upstream'));
+                $this->{$property} = $value;
+                break;
+
+            default:
+                parent::__set($property, $value);
+                break;
+
+        }
     }
 
 }
