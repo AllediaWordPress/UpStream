@@ -165,6 +165,11 @@ class Milestone extends Struct
      */
     protected $categories;
 
+
+    protected $endDate__YMD;
+    protected $startDate__YMD;
+
+
     /**
      * Milestone constructor.
      *
@@ -785,6 +790,34 @@ class Milestone extends Struct
         // Assume it is on MySQL date format.
         $this->updateMetadata([self::META_START_DATE => $startDate]);
 
+        return $this;
+    }
+
+    public function setStartDate__YMD($startDate__YMD)
+    {
+        $this->updateMetadata(['upst_start_date__YMD' => $startDate__YMD]);
+        return $this;
+    }
+
+    public function getEndDate__YMD()
+    {
+        if (!empty($this->endDate__YMD)) {
+            $this->endDate__YMD = $this->getMetadata('upst_end_date__YMD');
+        }
+        return $this->endDate__YMD;
+    }
+
+    public function getStartDate__YMD()
+    {
+        if (!empty($this->startDate__YMD)) {
+            $this->startDate__YMD = $this->getMetadata('upst_start_date__YMD');
+        }
+        return $this->startDate__YMD;
+    }
+
+    public function setEndDate__YMD($endDate__YMD)
+    {
+        $this->updateMetadata(['upst_end_date__YMD' => $endDate__YMD]);
         return $this;
     }
 

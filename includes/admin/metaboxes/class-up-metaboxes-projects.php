@@ -1001,7 +1001,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 }
 
                 // loop through number of rows
-                for ($i = 0; $i < 7; $i++) {
+                for ($i = 0; $i < 10; $i++) {
 
                     // add each row
                     $row[$i] = $cmb2GroupGrid->addRow();

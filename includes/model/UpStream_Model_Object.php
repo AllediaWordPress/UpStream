@@ -28,8 +28,8 @@ class UpStream_Model_Object
      */
     public function __construct($id = 0)
     {
-        if (!ctype_alnum($id))
-            throw new UpStream_Model_ArgumentException(__('ID must be a valid alphanumeric.', 'upstream'));
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $id))
+            throw new UpStream_Model_ArgumentException(sprintf(__('ID ..%s.. must be a valid alphanumeric.', 'upstream'), $id));
 
         $this->id = $id;
     }
@@ -59,7 +59,7 @@ class UpStream_Model_Object
             case 'description':
                 return $this->{$property};
             default:
-                throw new UpStream_Model_ArgumentException(__('This is not a valid property.', 'upstream'));
+                throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
                 break;
 
         }
@@ -70,8 +70,8 @@ class UpStream_Model_Object
         switch ($property) {
 
             case 'id':
-                if (!ctype_alnum($value))
-                    throw new UpStream_Model_ArgumentException(__('ID must be a valid alphanumeric.', 'upstream'));
+                if (!preg_match('/^[a-zA-Z0-9]+$/', $value))
+                    throw new UpStream_Model_ArgumentException(sprintf(__('ID %s must be a valid alphanumeric.', 'upstream'), $value));
                 $this->{$property} = $value;
                 break;
 
@@ -84,17 +84,21 @@ class UpStream_Model_Object
                 break;
 
             case 'assignedTo':
-                // TODO: check if the user exists
+                if (get_userdata($value) === false)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist.', 'upstream'), $value));
+
                 $this->{$property} = $value;
                 break;
 
             case 'createdBy':
-                // TODO: check if the user exists
+                if (get_userdata($value) === false)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist.', 'upstream'), $value));
+
                 $this->{$property} = $value;
                 break;
 
             default:
-                throw new UpStream_Model_ArgumentException(__('This is not a valid property.', 'upstream'));
+                throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
                 break;
 
         }
@@ -125,21 +129,14 @@ class UpStream_Model_Object
 
     public static function ymdToTimestamp($ymd)
     {
-        return date_create_from_format('Y-m-d', $ymd);
+        // TODO: check timezones with this
+        return date_create_from_format('Y-m-d', $ymd)->getTimestamp();
     }
 
     public static function isValidDate($ymd)
     {
-        $matches = array();
-        $pattern = '/^([0-9]{1,2})\\/([0-9]{1,2})\\/([0-9]{4})$/';
-
-        if (!preg_match($pattern, $ymd, $matches))
-            return false;
-
-        if (!checkdate($matches[2], $matches[1], $matches[3]))
-            return false;
-
-        return true;
+        $d = DateTime::createFromFormat('Y-m-d', $ymd);
+        return $d && $d->format('Y-m-d') == $ymd;
     }
 
 }

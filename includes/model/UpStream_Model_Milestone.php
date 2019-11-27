@@ -47,6 +47,8 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                     $this->reminders[] = $reminder;
                 }
             }
+        } else {
+            parent::__construct(0, []);
         }
 
         $this->type = UPSTREAM_ITEM_TYPE_MILESTONE;
@@ -116,11 +118,15 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
     {
         switch ($property) {
 
+            case 'notes':
+                return $this->description;
+
             case 'progress':
             case 'startDate':
             case 'endDate':
             case 'color':
                 return $this->{$property};
+
             default:
                 return parent::__get($property);
 
@@ -129,15 +135,31 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     public function __set($property, $value)
     {
-        // TODO: add checks
         switch ($property) {
 
             case 'progress':
+                if (!filter_var($value, FILTER_VALIDATE_INT) || (int)$value < 0 || (int)$value > 100)
+                    throw new UpStream_Model_ArgumentException(__('Argument must be numeric and between 0 and 100.', 'upstream'));
+
+                $this->{$property} = $value;
+                break;
+
             case 'startDate':
             case 'endDate':
+                if (!self::isValidDate($value))
+                    throw new UpStream_Model_ArgumentException(__('Argument is not a valid date.', 'upstream'));
+
+                $this->{$property} = $value;
+                break;
+
             case 'color':
                 $this->{$property} = $value;
                 break;
+
+            case 'notes':
+                $this->description = sanitize_textarea_field($value);
+                break;
+
             default:
                 parent::__set($property, $value);
                 break;
@@ -148,9 +170,12 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     public static function create($title, $createdBy)
     {
+        if (get_userdata($createdBy) === false)
+            throw new UpStream_Model_ArgumentException(__('User ID does not exist.', 'upstream'));
+
         $item = new \UpStream_Model_Milestone(0);
 
-        $item->title = $title;
+        $item->title = sanitize_text_field($title);
         $item->createdBy = $createdBy;
 
         return $item;

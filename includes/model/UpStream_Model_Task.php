@@ -18,6 +18,8 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
     protected $endDate = null;
 
+    protected $notes = '';
+
     protected $reminders = [];
 
     protected $metadataKey = '_upstream_project_tasks';
@@ -41,6 +43,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         $this->startDate = UpStream_Model_Object::loadDate($item_metadata, 'start_date');
         $this->endDate = UpStream_Model_Object::loadDate($item_metadata, 'end_date');
         $this->milestoneId = !empty($item_metadata['milestone']) ? $item_metadata['milestone'] : null;
+        $this->notes = !empty($item_metadata['notes']) ? $item_metadata['notes'] : '';
 
         if (!empty($item_metadata['reminders'])) {
             foreach ($item_metadata['reminders'] as $reminder_data) {
@@ -67,6 +70,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         if ($this->endDate != null) $item_metadata['end_date'] = UpStream_Model_Object::ymdToTimestamp($this->endDate);
         if ($this->startDate != null) $item_metadata['start_date__YMD'] = $this->startDate;
         if ($this->endDate != null) $item_metadata['end_date__YMD'] = $this->endDate;
+        if ($this->notes != null) $item_metadata['notes'] = $this->notes;
         if ($this->milestoneId > 0) $item_metadata['milestone'] = $this->milestoneId;
 
         $item_metadata['reminders'] = [];
@@ -106,7 +110,6 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
             case 'status':
                 break;
             case 'notes':
-                return $this->description;
             case 'milestoneId':
             case 'statusCode':
             case 'progress':
@@ -132,7 +135,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
                 break;
 
             case 'notes':
-                $this->description = sanitize_textarea_field($value);
+                $this->notes = sanitize_textarea_field($value);
                 break;
 
             case 'milestoneId':
@@ -167,7 +170,12 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
     public static function create($parent, $title, $createdBy)
     {
-        $item_metadata = ['title' => $title, 'created_by' => $createdBy];
+        if (get_userdata($createdBy) === false)
+            throw new UpStream_Model_ArgumentException(__('User ID does not exist.', 'upstream'));
+
+        $item_metadata =
+            ['title' => sanitize_text_field($title),
+            'created_by' => $createdBy];
 
         return new self($parent, $item_metadata);
     }

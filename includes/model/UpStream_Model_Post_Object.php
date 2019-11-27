@@ -22,7 +22,9 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
     {
         parent::__construct($id);
 
-        $this->load($id, $fields);
+        if ($id > 0) {
+            $this->load($id, $fields);
+        }
     }
 
     protected function load($id, $fields)
@@ -60,18 +62,18 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
 
             $post_arr = [
                 'ID' => $this->id,
-                'post_title' => $this->title,
-                'post_content' => $this->description
+                'post_title' => ($this->title == null ? '(New Item)' : $this->title),
+                'post_content' => ($this->description == null ? '' : $this->description)
             ];
 
             $res = wp_update_post($post_arr, true);
 
         } else {
             $post_arr = [
-                'post_title' => $this->title,
+                'post_title' => ($this->title == null ? '(New Item)' : $this->title),
                 'post_author' => $this->createdBy,
                 'post_parent' => $this->parentId,
-                'post_content' => $this->description,
+                'post_content' => ($this->description == null ? '' : $this->description),
                 'post_status' => 'publish',
                 'post_type' => $this->postType
             ];
@@ -94,8 +96,9 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             case 'categories':
             case 'parentId':
                 return $this->{$property};
+
             default:
-                parent::__get($property);
+                return parent::__get($property);
 
         }
     }

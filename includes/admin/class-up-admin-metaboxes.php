@@ -26,6 +26,9 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                 add_action('cmb2_admin_init', [$this, 'register_metaboxes']);
                 add_filter('cmb2_override_meta_value', [$this, 'getProjectMeta'], 10, 3);
                 add_filter('cmb2_override_meta_save', [$this, 'setProjectMeta'], 10, 3);
+                add_filter('cmb2_field_new_value', [$this, 'addVals'], 10, 3);
+                add_filter('cmb2_save_field__upstream_project_start', [$this, 'cmb2_save_field__upstream_project_start'], 10, 3);
+                add_filter('cmb2_save_field__upstream_project_end', [$this, 'cmb2_save_field__upstream_project_end'], 10, 3);
             }
 
             UpStream_Metaboxes_Clients::attachHooks();
@@ -79,12 +82,21 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         $startDateTimestamp = $data[$i]['start_date'];
                         $startDateTimestamp = $startDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['start_date'] = $startDateTimestamp;
+
+                        if (!empty($data[$i]['start_date__YMD'])) {
+                            $data[$i]['start_date'] = strtotime($data[$i]['start_date__YMD']);
+                        }
+
                     }
 
                     if (isset($data[$i]['end_date']) && is_numeric($data[$i]['end_date'])) {
                         $endDateTimestamp = $data[$i]['end_date'];
                         $endDateTimestamp = $endDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['end_date'] = $endDateTimestamp;
+
+                        if (!empty($data[$i]['end_date__YMD'])) {
+                            $data[$i]['end_date'] = strtotime($data[$i]['end_date__YMD']);
+                        }
                     }
                 }
             } else if ($field['field_id'] === '_upstream_project_bugs') {
@@ -101,11 +113,45 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         $dueDateTimestamp = $data[$i]['due_date'];
                         $dueDateTimestamp = $dueDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['due_date'] = $dueDateTimestamp;
+
+                        if (!empty($data[$i]['due_date__YMD'])) {
+                            $data[$i]['due_date'] = strtotime($data[$i]['due_date__YMD']);
+                        }
+
                     }
                 }
             }
 
             return $data;
+        }
+
+        public function addVals($new_value, $single, $args)
+        {
+            if (is_array($new_value)) {
+                for ($i = 0; $i < count($new_value); $i++) {
+
+                    foreach ($new_value[$i] as $key => $value) {
+
+                        if (stristr($key, 'date')) {
+                            $new_value[$i][$key . '__YMD'] = $_POST[$args['id']][$i][$key];
+                        }
+
+                    }
+
+                }
+            }
+
+            return $new_value;
+        }
+
+        public function cmb2_save_field__upstream_project_start($updated, $action, $r)
+        {
+            update_post_meta($_POST['post_ID'], '_upstream_project_start__YMD', $_POST['_upstream_project_start']);
+        }
+
+        public function cmb2_save_field__upstream_project_end($updated, $action, $r)
+        {
+            update_post_meta($_POST['post_ID'], '_upstream_project_end__YMD', $_POST['_upstream_project_end']);
         }
 
         /**
@@ -118,6 +164,25 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
          */
         public function setProjectMeta($check, $object, $form)
         {
+
+            $object_type = "";
+            if ($object['field_id'] === '_upstream_project_milestones') $object_type = 'milestone';
+            else if ($object['field_id'] === '_upstream_project_tasks') $object_type = 'task';
+            else if ($object['field_id'] === '_upstream_project_bugs') $object_type = 'bug';
+            else if ($object['field_id'] === '_upstream_project_files') $object_type = 'file';
+
+            if ($object_type) {
+                if (isset($object['value']) && is_array($object['value'])) {
+                    for ($i = 0; $i < count($object['value']); $i++) {
+                        $item = $object['value'][$i];
+                        if (isset($item['id'])) {
+                            do_action('upstream_item_pre_change', $object_type, $item['id'], $object['id'], $item);
+                        }
+                    }
+                }
+            }
+
+
             if ($object['field_id'] === '_upstream_project_milestones') {
                 if (isset($object['value']) && is_array($object['value'])) {
                     $currentMilestoneIds = [];
@@ -171,6 +236,20 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         } else {
                             $milestone->setEndDate('');
                         }
+
+
+                        if (isset($milestoneData['start_date__YMD'])) {
+                            $milestone->setStartDate__YMD($milestoneData['start_date__YMD']);
+                        } else {
+                            $milestone->setStartDate__YMD('');
+                        }
+
+                        if (isset($milestoneData['end_date__YMD'])) {
+                            $milestone->setEndDate__YMD($milestoneData['end_date__YMD']);
+                        } else {
+                            $milestone->setEndDate__YMD('');
+                        }
+
 
                         if (isset($milestoneData['notes'])) {
                             $milestone->setNotes($milestoneData['notes']);

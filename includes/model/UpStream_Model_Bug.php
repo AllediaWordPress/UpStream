@@ -17,6 +17,8 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 
     public $reminders = [];
 
+    protected $metadataKey = '_upstream_project_bugs';
+
     /**
      * UpStream_Model_Bug constructor.
      */
@@ -60,6 +62,73 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
             $reminder->storeToArray($r);
             $item_metadata['reminders'][] = $r;
         }
+    }
+
+    public function __get($property)
+    {
+        switch ($property) {
+
+            case 'severity':
+                $s = $this->getSeverities();
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($this->severityCode === $sKey)
+                        return $sValue;
+                }
+                return '';
+
+            case 'severityCode':
+                return $this->{$property};
+
+            default:
+                return parent::__get($property);
+        }
+    }
+
+    public function __set($property, $value)
+    {
+        switch ($property) {
+
+            case 'severity':
+                $s = $this->getSeverities();
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sValue) {
+                        $this->severityCode = $sKey;
+                        break;
+                    }
+                }
+
+                break;
+
+            case 'severityCode':
+                $s = $this->getSeverities();
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sKey) {
+                        $this->severityCode = $sKey;
+                        break;
+                    }
+                }
+
+                break;
+        }
+    }
+
+    protected function getSeverities()
+    {
+        $option     = get_option('upstream_bugs');
+        $severities = isset($option['severities']) ? $option['severities'] : '';
+        $array      = [];
+        if ($severities) {
+            foreach ($severities as $severity) {
+                if (isset($severity['name'])) {
+                    $array[$severity['id']] = $severity['name'];
+                }
+            }
+        }
+
+        return $array;
     }
 
     public static function create($parent, $title, $createdBy)

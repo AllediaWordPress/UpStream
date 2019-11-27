@@ -14,6 +14,10 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $files = [];
 
+    protected $startDate = null;
+
+    protected $endDate = null;
+
     protected $clientUsers = [];
 
     protected $client = 0;
@@ -35,6 +39,18 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 'client' => '_upstream_project_client',
                 'statusCode' => '_upstream_project_status',
                 'description' => '_upstream_project_description',
+                'startDate' => function ($m) {
+                    if (!empty($m['_upstream_project_start__YMD'][0]))
+                        return $m['_upstream_project_start__YMD'][0];
+                    elseif (!empty($m['_upstream_project_start'][0]))
+                        return UpStream_Model_Object::timestampToYMD($m['_upstream_project_start'][0]);
+                },
+                'endDate' => function ($m) {
+                    if (!empty($m['_upstream_project_end__YMD'][0]))
+                        return $m['_upstream_project_end__YMD'][0];
+                    elseif (!empty($m['_upstream_project_end'][0]))
+                        return UpStream_Model_Object::timestampToYMD($m['_upstream_project_end'][0]);
+                },
                 'assignedTo' => function ($m) {
                     return !empty($m['_upstream_project_owner'][0]) ? $m['_upstream_project_owner'] : [];
                 },
@@ -42,6 +58,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
             $this->loadChildren();
             $this->categories = $this->loadCategories();
+        } else {
+            parent::__construct(0, []);
         }
 
         $this->type = UPSTREAM_ITEM_TYPE_PROJECT;
@@ -109,7 +127,12 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         if ($this->client > 0) update_post_meta($this->id, '_upstream_project_client', $this->client);
         if ($this->statusCode != null) update_post_meta($this->id, '_upstream_project_status', $this->statusCode);
+        if ($this->description != null) update_post_meta($this->id, '_upstream_project_description', $this->description);
         if (count($this->assignedTo) > 0) update_post_meta($this->id, '_upstream_project_owner', $this->assignedTo[0]);
+        if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start__YMD', $this->startDate);
+        if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end__YMD', $this->endDate);
+        if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start', UpStream_Model_Object::ymdToTimestamp($this->startDate));
+        if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end', UpStream_Model_Object::ymdToTimestamp($this->endDate));
 
         $items = [];
         foreach ($this->tasks as $item) {
@@ -136,6 +159,18 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         update_post_meta($this->id, '_upstream_project_files', $items);
 
         $this->storeCategories();
+    }
+
+    public function addMetaObject($item)
+    {
+        if (!($item instanceof \UpStream_Model_Meta_Object))
+            throw new UpStream_Model_ArgumentException(__('Can only add objects of type UpStream_Model_Meta_Objact', 'upstream'));
+        elseif ($item instanceof UpStream_Model_Task)
+            $this->tasks[] = $item;
+        elseif ($item instanceof UpStream_Model_File)
+            $this->files[] = $item;
+        elseif ($item instanceof UpStream_Model_Bug)
+            $this->bugs[] = $item;
     }
 
     public function addTask($title, $createdBy)
@@ -167,6 +202,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         switch ($property) {
 
             case 'status':
+                // TODO: fill this in
                 break;
             case 'statusCode':
             case 'client':
@@ -188,12 +224,21 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
             case 'status':
                 break;
+
             case 'statusCode':
             case 'client':
             case 'clientUsers':
-            case 'description':
                 $this->{$property} = $value;
                 break;
+
+            case 'startDate':
+            case 'endDate':
+                if (!self::isValidDate($value))
+                    throw new UpStream_Model_ArgumentException(__('Argument is not a valid date.', 'upstream'));
+
+                $this->{$property} = $value;
+                break;
+
             default:
                 parent::__set($property, $value);
                 break;
@@ -208,9 +253,12 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public static function create($title, $createdBy)
     {
+        if (get_userdata($createdBy) === false)
+            throw new UpStream_Model_ArgumentException(__('User ID does not exist.', 'upstream'));
+
         $item = new \UpStream_Model_Project(0);
 
-        $item->title = $title;
+        $item->title = sanitize_text_field($title);
         $item->createdBy = $createdBy;
 
         return $item;

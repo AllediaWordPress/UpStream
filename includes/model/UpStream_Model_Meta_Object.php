@@ -56,7 +56,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
     public function store()
     {
         if (!($this->parent instanceof UpStream_Model_Post_Object)) {
-            // TODO: throw error
+            throw new UpStream_Model_ArgumentException(__('Parent is of the wrong type.', 'upstream'));
         }
 
         $added = false;
@@ -68,7 +68,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         if ($itemset && count($itemset) == 1 && is_array($itemset[0])) {
             // it's ok
         } else {
-            $itemset = [];
+            $itemset = [[]];
         }
 
         for ($i = 0; $i < count($itemset[0]); $i++) {
@@ -85,8 +85,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
             $itemset[0][] = $new_item;
         }
 
-        update_post_meta($this->parent->id, $this->metadataKey, $itemset[0]);
-
+        $r = update_post_meta($this->parent->id, $this->metadataKey, $itemset[0]);
     }
 
     public function __get($property)

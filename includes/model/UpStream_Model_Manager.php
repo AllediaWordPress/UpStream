@@ -85,17 +85,6 @@ class UpStream_Model_Manager
         }
     }
 
-    public function setObjectFieldValue($object, $field_name, $field_value)
-    {
-        if (in_array($field_name, $object->setable)) {
-
-            $object->{$field_name} = $field_value;
-
-        } else {
-            // todo: handle cant set this value
-        }
-    }
-
     public static function get_instance()
     {
         if (empty(static::$instance)) {
