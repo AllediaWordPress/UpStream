@@ -5,6 +5,16 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+if (! defined('UPSTREAM_ITEM_TYPE_PROJECT')) {
+
+    define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
+    define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
+    define('UPSTREAM_ITEM_TYPE_TASK', 'task');
+    define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
+    define('UPSTREAM_ITEM_TYPE_FILE', 'file');
+    define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
+
+}
 
 class UpStream_Model_Object
 {
@@ -80,12 +90,17 @@ class UpStream_Model_Object
                 break;
 
             case 'description':
-                $this->{$property} = sanitize_textarea_field($value);
+                $this->{$property} = wp_kses_post($value);
                 break;
 
             case 'assignedTo':
-                if (get_userdata($value) === false)
-                    throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist.', 'upstream'), $value));
+                if (!is_array($value))
+                    throw new UpStream_Model_ArgumentException(sprintf(__('Assigned to must be an array.', 'upstream'), $value));
+
+                foreach ($value as $uid) {
+                    if (get_userdata($uid) === false)
+                        throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist.', 'upstream'), $uid));
+                }
 
                 $this->{$property} = $value;
                 break;

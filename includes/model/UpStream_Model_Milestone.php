@@ -15,6 +15,8 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     protected $endDate = null;
 
+    protected $categoryIds = [];
+
     protected $color = null;
 
     protected $reminders = [];
@@ -62,11 +64,14 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
         $categories = wp_get_object_terms($this->id, 'upst_milestone_category');
 
-        if (isset($this->categories->errors)) {
-            return [];
+        $categoryIds = [];
+        if (!isset($this->categories->errors)) {
+            foreach ($categories as $category) {
+                $categoryIds[] = $category->id;
+            }
         }
 
-        return $categories;
+        $this->categoryIds = $categoryIds;
     }
 
     protected function storeCategories()
@@ -75,25 +80,12 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
             return;
         }
 
-        $res = wp_set_object_terms($this->id, $this->categories, 'upst_milestone_category');
+        $res = wp_set_object_terms($this->id, $this->categoryIds, 'upst_milestone_category');
 
         if ($res instanceof \WP_Error) {
             // TODO: throw
         }
 
-    }
-
-    public function getProject()
-    {
-        if ($this->parentId) {
-            try {
-                return \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $this->parentId);
-            } catch (\Exception $e) {
-
-            }
-        }
-
-        return null;
     }
 
     public function store()
@@ -122,6 +114,10 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 return $this->description;
 
             case 'progress':
+                // TODO: handle progress calc
+                break;
+
+            case 'categoryIds':
             case 'startDate':
             case 'endDate':
             case 'color':
@@ -137,11 +133,23 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
     {
         switch ($property) {
 
-            case 'progress':
-                if (!filter_var($value, FILTER_VALIDATE_INT) || (int)$value < 0 || (int)$value > 100)
-                    throw new UpStream_Model_ArgumentException(__('Argument must be numeric and between 0 and 100.', 'upstream'));
+            case 'parentId':
+                $project = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $value);
+                $this->parentId = $project->id;
+                break;
 
-                $this->{$property} = $value;
+            case 'categoryIds':
+                if (!is_array($value))
+                    throw new UpStream_Model_ArgumentException(__('Category IDs must be an array.', 'upstream'));
+
+                foreach ($value as $tid) {
+                    $id = get_term_by('id', $tid, 'project_category');
+                    if ($tid === false)
+                        throw new UpStream_Model_ArgumentException(sprintf(__('Term ID %s is invalid.', 'upstream'), $tid));
+                }
+
+                $this->categoryIds = $value;
+
                 break;
 
             case 'startDate':
@@ -168,7 +176,7 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
     }
 
 
-    public static function create($title, $createdBy)
+    public static function create($title, $createdBy, $parentId = 0)
     {
         if (get_userdata($createdBy) === false)
             throw new UpStream_Model_ArgumentException(__('User ID does not exist.', 'upstream'));
@@ -177,6 +185,11 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
         $item->title = sanitize_text_field($title);
         $item->createdBy = $createdBy;
+
+        if ($parentId > 0) {
+            $project = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
+            $item->parentId = $project->id;
+        }
 
         return $item;
     }

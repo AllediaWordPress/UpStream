@@ -20,11 +20,14 @@ class UpStream_Model_Manager
 
     public function getByID($object_type, $object_id, $parent_type = null, $parent_id = 0)
     {
-        if (!isset($this->objects[$object_type]) || !isset($this->objects[$object_type][$object_id])) {
+        if (empty($this->objects[$object_type]) || empty($this->objects[$object_type][$object_id])) {
             $this->loadObject($object_type, $object_id, $parent_type, $parent_id);
         }
 
-        // todo: what if we cant find
+        if (empty($this->objects[$object_type][$object_id])) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('This (ID = %s, TYPE = %s, PARENT ID = %s, PARENT TYPE = %s) is not a valid object', 'upstream'), $object_id, $object_type, $parent_id, $parent_type));
+        }
+
         return $this->objects[$object_type][$object_id];
     }
 
@@ -68,7 +71,7 @@ class UpStream_Model_Manager
                 return \UpStream_Model_Project::create($title, $createdBy);
 
             case UPSTREAM_ITEM_TYPE_MILESTONE:
-                return \UpStream_Model_Milestone::create($title, $createdBy);
+                return \UpStream_Model_Milestone::create($title, $createdBy, $parentId);
 
             case UPSTREAM_ITEM_TYPE_TASK:
                 $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);

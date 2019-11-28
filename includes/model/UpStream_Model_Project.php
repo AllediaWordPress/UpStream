@@ -18,6 +18,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $endDate = null;
 
+    protected $categoryIds = [];
+
     protected $clientUsers = [];
 
     protected $client = 0;
@@ -57,7 +59,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             ]);
 
             $this->loadChildren();
-            $this->categories = $this->loadCategories();
+            $this->loadCategories();
         } else {
             parent::__construct(0, []);
         }
@@ -98,11 +100,14 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         $categories = wp_get_object_terms($this->id, 'project_category');
 
-        if (isset($this->categories->errors)) {
-            return [];
+        $categoryIds = [];
+        if (!isset($this->categories->errors)) {
+            foreach ($categories as $category) {
+                $categoryIds[] = $category->term_id;
+            }
         }
 
-        return $categories;
+        $this->categoryIds = $categoryIds;
     }
 
 
@@ -112,14 +117,13 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             return;
         }
 
-        $res = wp_set_object_terms($this->id, $this->categories, 'project_category');
+        $res = wp_set_object_terms($this->id, $this->categoryIds, 'project_category');
 
         if ($res instanceof \WP_Error) {
             // TODO: throw
         }
 
     }
-
 
     public function store()
     {
@@ -183,8 +187,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public function addBug($title, $createdBy)
     {
-        $item = \UpStream_Model_File::create($this, $title, $createdBy);
-        $this->bug[] = $item;
+        $item = \UpStream_Model_Bug::create($this, $title, $createdBy);
+        $this->bugs[] = $item;
 
         return $item;
     }
@@ -192,7 +196,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     public function addFile($title, $createdBy)
     {
         $item = \UpStream_Model_File::create($this, $title, $createdBy);
-        $this->file[] = $item;
+        $this->files[] = $item;
 
         return $item;
     }
@@ -202,11 +206,20 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         switch ($property) {
 
             case 'status':
-                // TODO: fill this in
-                break;
+                $s = $this->getStatuses();
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($this->statusCode === $sKey)
+                        return $sValue;
+                }
+                return '';
+
             case 'statusCode':
             case 'client':
             case 'clientUsers':
+            case 'startDate':
+            case 'endDate':
+            case 'categoryIds':
             case 'tasks':
             case 'bugs':
             case 'files':
@@ -219,15 +232,68 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public function __set($property, $value)
     {
-        // TODO: add checks
         switch ($property) {
 
+            case 'categoryIds':
+                if (!is_array($value))
+                    throw new UpStream_Model_ArgumentException(__('Category IDs must be an array.', 'upstream'));
+
+                foreach ($value as $tid) {
+                    $id = get_term_by('id', $tid, 'project_category');
+                    if ($tid === false)
+                        throw new UpStream_Model_ArgumentException(sprintf(__('Term ID %s is invalid.', 'upstream'), $tid));
+                }
+
+                $this->categoryIds = $value;
+
+                break;
+
             case 'status':
+                $s = $this->getStatuses();
+                $sc = null;
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sValue) {
+                        $sc = $sKey;
+                        break;
+                    }
+                }
+
+                if ($sc == null)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('Status %s is invalid.', 'upstream'), $value));
+
+                $this->statusCode = $sc;
+
                 break;
 
             case 'statusCode':
+                $s = $this->getStatuses();
+                $sc = null;
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sKey) {
+                        $sc = $sKey;
+                        break;
+                    }
+                }
+
+                if ($sc == null)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('Status code %s is invalid.', 'upstream'), $value));
+
+                $this->statusCode = $sc;
+
+                break;
+
+            case 'assignedTo':
+                if (is_array($value) && count($value) != 1)
+                    throw new UpStream_Model_ArgumentException(__('For projects, assignedTo must be an array of length 1.', 'upstream'));
+
+                parent::__set($property, $value);
+                break;
+
             case 'client':
             case 'clientUsers':
+                // TODO: Check these
                 $this->{$property} = $value;
                 break;
 
@@ -249,6 +315,22 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     public function findMilestones()
     {
 
+    }
+
+    public function getStatuses()
+    {
+        $option   = get_option('upstream_projects');
+        $statuses = isset($option['statuses']) ? $option['statuses'] : '';
+        $array    = [];
+        if ($statuses) {
+            foreach ($statuses as $status) {
+                if (isset($status['type'])) {
+                    $array[$status['id']] = $status['name'];
+                }
+            }
+        }
+
+        return $array;
     }
 
     public static function create($title, $createdBy)

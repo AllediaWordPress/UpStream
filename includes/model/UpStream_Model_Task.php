@@ -107,15 +107,24 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
             case 'milestone':
                 return $this->getMilestone();
+
             case 'status':
-                break;
+                $s = $this->getStatuses();
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($this->statusCode === $sKey)
+                        return $sValue;
+                }
+                return '';
+
+            case 'statusCode':
             case 'notes':
             case 'milestoneId':
-            case 'statusCode':
             case 'progress':
             case 'startDate':
             case 'endDate':
                 return $this->{$property};
+
             default:
                 return parent::__get($property);
         }
@@ -126,30 +135,61 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         switch ($property) {
 
             case 'milestone':
-                if (!value instanceof UpStream_Model_Milestone)
+                if (!$value instanceof UpStream_Model_Milestone)
                     throw new UpStream_Model_ArgumentException(__('Argument must be of type milestone.', 'upstream'));
+                elseif ($value->id == 0)
+                    throw new UpStream_Model_ArgumentException(__('Milestone must be stored before setting.', 'upstream'));
 
                 return $this->setMilestone($value);
 
             case 'status':
-                break;
+                $s = $this->getStatuses();
+                $sc = null;
 
-            case 'notes':
-                $this->notes = sanitize_textarea_field($value);
-                break;
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sValue) {
+                        $sc = $sKey;
+                        break;
+                    }
+                }
 
-            case 'milestoneId':
-                // TODO: check valid milestone
-                $this->milestoneId = $value;
+                if ($sc == null)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('Status %s is invalid.', 'upstream'), $value));
+
+                $this->statusCode = $sc;
+
                 break;
 
             case 'statusCode':
-                // TODO: check status code
+                $s = $this->getStatuses();
+                $sc = null;
+
+                foreach ($s as $sKey => $sValue) {
+                    if ($value === $sKey) {
+                        $sc = $sKey;
+                        break;
+                    }
+                }
+
+                if ($sc == null)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('Status code %s is invalid.', 'upstream'), $value));
+
+                $this->statusCode = $sc;
+
+                break;
+
+            case 'notes':
+                $this->notes = wp_kses_post($value);
+                break;
+
+            case 'milestoneId':
+                $milestone = UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_MILESTONE, $value, UPSTREAM_ITEM_TYPE_PROJECT, $this->parent->id);
+                $this->milestoneId = $milestone->id;
                 break;
 
             case 'progress':
-                if (!filter_var($value, FILTER_VALIDATE_INT) || (int)$value < 0 || (int)$value > 100)
-                    throw new UpStream_Model_ArgumentException(__('Argument must be numeric and between 0 and 100.', 'upstream'));
+                if (!filter_var($value, FILTER_VALIDATE_INT) || (int)$value < 0 || (int)$value > 100 || ((int)$value) % 5 != 0)
+                    throw new UpStream_Model_ArgumentException(__('Argument must be a multiple of 5 between 0 and 100.', 'upstream'));
 
                 $this->{$property} = $value;
                 break;
@@ -166,6 +206,20 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
                 parent::__set($property, $value);
                 break;
         }
+    }
+
+    protected function getStatuses()
+    {
+        $option   = get_option('upstream_tasks');
+        $statuses = isset($option['statuses']) ? $option['statuses'] : '';
+        $array    = [];
+        if ($statuses) {
+            foreach ($statuses as $status) {
+                $array[$status['id']] = $status['name'];
+            }
+        }
+
+        return $array;
     }
 
     public static function create($parent, $title, $createdBy)

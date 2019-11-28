@@ -8,11 +8,12 @@ if ( ! defined('ABSPATH')) {
 
 class UpStream_Model_File extends UpStream_Model_Meta_Object
 {
+    public $file = null;
 
     protected $metadataKey = '_upstream_project_files';
 
     /**
-     * UpStream_Model_Fil constructor.
+     * UpStream_Model_File constructor.
      */
     public function __construct($parent, $item_metadata)
     {
