@@ -18,11 +18,9 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $endDate = null;
 
-    protected $categoryIds = [];
+    protected $clientUserIds = [];
 
-    protected $clientUsers = [];
-
-    protected $client = 0;
+    protected $clientId = 0;
 
     protected $statusCode = null;
 
@@ -35,10 +33,13 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     {
         if ($id > 0) {
             parent::__construct($id, [
-                'clientUsers' => function ($m) {
-                    return isset($m['_upstream_project_client_users'][0]) ? unserialize($m['_upstream_project_client_users'][0]) : [];
+                'clientUserIds' => function ($m) {
+                    $arr = isset($m['_upstream_project_client_users'][0]) ? unserialize($m['_upstream_project_client_users'][0]) : null;
+                    $arr = is_array($arr) ? $arr : [];
+                    $arr = array_filter($arr);
+                    return $arr;
                 },
-                'client' => '_upstream_project_client',
+                'clientId' => '_upstream_project_client',
                 'statusCode' => '_upstream_project_status',
                 'description' => '_upstream_project_description',
                 'startDate' => function ($m) {
@@ -101,7 +102,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         $categories = wp_get_object_terms($this->id, 'project_category');
 
         $categoryIds = [];
-        if (!isset($this->categories->errors)) {
+        if (!isset($categories->errors)) {
             foreach ($categories as $category) {
                 $categoryIds[] = $category->term_id;
             }
@@ -129,7 +130,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     {
         parent::store();
 
-        if ($this->client > 0) update_post_meta($this->id, '_upstream_project_client', $this->client);
+        if ($this->clientId > 0) update_post_meta($this->id, '_upstream_project_client', $this->clientId);
+        if ($this->clientUserIds != null) update_post_meta($this->id, '_upstream_project_client_users', $this->clientUserIds);
         if ($this->statusCode != null) update_post_meta($this->id, '_upstream_project_status', $this->statusCode);
         if ($this->description != null) update_post_meta($this->id, '_upstream_project_description', $this->description);
         if (count($this->assignedTo) > 0) update_post_meta($this->id, '_upstream_project_owner', $this->assignedTo[0]);
@@ -163,6 +165,9 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         update_post_meta($this->id, '_upstream_project_files', $items);
 
         $this->storeCategories();
+
+        $projectObject = new UpStream_Project($this->id);
+        $projectObject->update_project_meta();
     }
 
     public function addMetaObject($item)
@@ -215,8 +220,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 return '';
 
             case 'statusCode':
-            case 'client':
-            case 'clientUsers':
+            case 'clientId':
+            case 'clientUserIds':
             case 'startDate':
             case 'endDate':
             case 'categoryIds':
@@ -291,10 +296,29 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 parent::__set($property, $value);
                 break;
 
-            case 'client':
-            case 'clientUsers':
-                // TODO: Check these
-                $this->{$property} = $value;
+            case 'clientId':
+                // this will throw a model exception if the client doesn't exist
+                $client = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_CLIENT, $value);
+                $this->clientId = $client->id;
+                break;
+
+            case 'clientUserIds':
+                if ($this->clientId == 0)
+                    throw new UpStream_Model_ArgumentException(__('Cannot assign client users if the project has no client.', 'upstream'));
+
+                if (!is_array($value))
+                    throw new UpStream_Model_ArgumentException(__('Client user IDs must be an array.', 'upstream'));
+
+                if (count(array_unique($value)) != count($value))
+                        throw new UpStream_Model_ArgumentException(__('Input cannot contain duplicates.', 'upstream'));
+
+                $client = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_CLIENT, $this->clientId);
+                for ($i = 0; $i < count($value); $i++) {
+                    if (!$client->includesUser($value[$i]))
+                        throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist in this client.', 'upstream'), $value[$i]));
+                }
+                $this->clientUserIds = $value;
+
                 break;
 
             case 'startDate':
@@ -314,7 +338,27 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public function findMilestones()
     {
+        $posts = get_posts(
+            [
+                'post_type'      => 'upst_milestone',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => 'upst_project_id',
+                'meta_value'     => $this->id,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
+            ]
+        );
 
+        $milestones = [];
+
+        foreach ($posts as $post) {
+            $milestone = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_MILESTONE,
+                $post->ID, UPSTREAM_ITEM_TYPE_PROJECT, $this->id);
+            $milestones[] = $milestone;
+        }
+
+        return $milestones;
     }
 
     public function getStatuses()

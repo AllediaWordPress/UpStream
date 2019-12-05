@@ -8,8 +8,8 @@ if ( ! defined('ABSPATH')) {
 
 class UpStream_Model_Post_Object extends UpStream_Model_Object
 {
-    
-    protected $categories = [];
+
+    protected $categoryIds = [];
 
     protected $parentId = 0;
 
@@ -30,10 +30,29 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
     protected function load($id, $fields)
     {
         $post = get_post($id);
-        $metadata = get_post_meta($id);
 
+        if (!$post) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('Object with ID %s does not exist.', 'upstream'), $id));
+        }
+
+        $metadata = get_post_meta($id);
+        if (empty($metadata)) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('Object meta for ID %s does not exist.', 'upstream'), $id));
+        }
+
+        if (!isset($post->post_title)) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('Object %s title does not exist.', 'upstream'), $id));
+        }
         $this->title = $post->post_title;
+
+        if (!isset($post->post_author)) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('Object %s author does not exist.', 'upstream'), $id));
+        }
         $this->createdBy = $post->post_author;
+
+        if (!isset($post->post_content)) {
+            throw new UpStream_Model_ArgumentException(sprintf(__('Object %s content does not exist.', 'upstream'), $id));
+        }
         $this->description = $post->post_content;
 
         foreach ($fields as $field => $input) {
@@ -93,7 +112,6 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
     {
         switch ($property) {
 
-            case 'categories':
             case 'parentId':
                 return $this->{$property};
 

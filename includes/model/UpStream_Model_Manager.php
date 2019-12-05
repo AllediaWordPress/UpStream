@@ -8,12 +8,6 @@ if ( ! defined('ABSPATH')) {
 
 class UpStream_Model_Manager
 {
-    const PROJECT = "project";
-    const MILESTONE = "milestone";
-    const TASK = "task";
-    const BUG = "bug";
-    const FILE = "file";
-
     protected static $instance;
 
     protected $objects = [];
@@ -34,30 +28,32 @@ class UpStream_Model_Manager
     protected function loadObject($object_type, $object_id, $parent_type, $parent_id)
     {
         // TODO: add exceptions
-        if (self::PROJECT === $object_type) {
+        if (UPSTREAM_ITEM_TYPE_PROJECT === $object_type) {
 
             $project = new UpStream_Model_Project($object_id);
             $this->objects[$object_type][$object_id] = $project;
 
             foreach ($project->tasks as $item) {
-                $this->objects[self::TASK][$item->id] = $item;
+                $this->objects[UPSTREAM_ITEM_TYPE_TASK][$item->id] = $item;
             }
 
             foreach ($project->bugs as $item) {
-                $this->objects[self::BUG][$item->id] = $item;
+                $this->objects[UPSTREAM_ITEM_TYPE_BUG][$item->id] = $item;
             }
 
             foreach ($project->files as $item) {
-                $this->objects[self::FILE][$item->id] = $item;
+                $this->objects[UPSTREAM_ITEM_TYPE_FILE][$item->id] = $item;
             }
 
-        } else if (self::MILESTONE === $object_type) {
+        } else if (UPSTREAM_ITEM_TYPE_MILESTONE === $object_type) {
             $this->objects[$object_type][$object_id] = new UpStream_Model_Milestone($object_id);
-        } else if (self::TASK === $object_type) {
+        } else if (UPSTREAM_ITEM_TYPE_CLIENT === $object_type) {
+            $this->objects[$object_type][$object_id] = new UpStream_Model_Client($object_id);
+        } else if (UPSTREAM_ITEM_TYPE_TASK === $object_type) {
             $this->loadObject($parent_type, $parent_id, null, null);
-        } else if (self::BUG === $object_type) {
+        } else if (UPSTREAM_ITEM_TYPE_BUG === $object_type) {
             $this->loadObject($parent_type, $parent_id, null, null);
-        } else if (self::FILE === $object_type) {
+        } else if (UPSTREAM_ITEM_TYPE_FILE === $object_type) {
             $this->loadObject($parent_type, $parent_id, null, null);
         }
 
@@ -72,6 +68,9 @@ class UpStream_Model_Manager
 
             case UPSTREAM_ITEM_TYPE_MILESTONE:
                 return \UpStream_Model_Milestone::create($title, $createdBy, $parentId);
+
+            case UPSTREAM_ITEM_TYPE_CLIENT:
+                return \UpStream_Model_Client::create($title, $createdBy, $parentId);
 
             case UPSTREAM_ITEM_TYPE_TASK:
                 $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);

@@ -60,11 +60,13 @@ function upstream_load_admin_scripts($hook)
             'upstream'),
         'MSG_CONFIRM_CLEANUP_UPDATE_CACHE'  => __('Are you sure you want to cleanup the cached data about updates?',
             'upstream'),
+        'MSG_CONFIRM_IMPORT'  => __('Are you sure you want to perform an import? MAKE SURE YOU HAVE BACKED UP YOUR DATA FIRST!', 'upstream'),
         'MSG_CAPABILITIES_RESETED'          => __('Success!', 'upstream'),
         'MSG_CAPABILITIES_ERROR'            => __('Error!', 'upstream'),
         'MSG_PROJECTS_SUCCESS'              => __('Success!', 'upstream'),
         'MSG_PROJECTS_META_ERROR'           => __('Error!', 'upstream'),
         'MSG_CLEANUP_UPDATE_DATA_ERROR'     => __('Error cleaning up the cached data!', 'upstream'),
+        'MSG_IMPORT_ERROR'     => __('Error importing data!', 'upstream'),
         'datepickerDateFormat'              => upstreamGetDateFormatForJsDatepicker(),
     ]);
 

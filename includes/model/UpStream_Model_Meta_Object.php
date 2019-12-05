@@ -86,6 +86,10 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         }
 
         $r = update_post_meta($this->parent->id, $this->metadataKey, $itemset[0]);
+
+        $projectObject = new UpStream_Project($this->parent->id);
+        $projectObject->update_project_meta();
+
     }
 
     public function __get($property)

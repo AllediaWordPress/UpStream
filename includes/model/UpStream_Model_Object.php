@@ -9,6 +9,7 @@ if (! defined('UPSTREAM_ITEM_TYPE_PROJECT')) {
 
     define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
     define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
+    define('UPSTREAM_ITEM_TYPE_CLIENT', 'client');
     define('UPSTREAM_ITEM_TYPE_TASK', 'task');
     define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
     define('UPSTREAM_ITEM_TYPE_FILE', 'file');

@@ -15,8 +15,6 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     protected $endDate = null;
 
-    protected $categoryIds = [];
-
     protected $color = null;
 
     protected $reminders = [];
@@ -37,7 +35,7 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 'parentId' => 'upst_project_id'
             ]);
 
-            $this->categories = $this->loadCategories();
+            $this->loadCategories();
 
             $res = get_post_meta($id, 'upst_assigned_to');
             foreach ($res as $r) $this->assignedTo[] = (int)$r;
@@ -65,9 +63,9 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         $categories = wp_get_object_terms($this->id, 'upst_milestone_category');
 
         $categoryIds = [];
-        if (!isset($this->categories->errors)) {
+        if (!isset($categories->errors)) {
             foreach ($categories as $category) {
-                $categoryIds[] = $category->id;
+                $categoryIds[] = $category->term_id;
             }
         }
 

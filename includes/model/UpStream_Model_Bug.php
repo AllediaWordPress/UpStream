@@ -30,7 +30,6 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         $this->type = UPSTREAM_ITEM_TYPE_BUG;
     }
 
-
     protected function loadFromArray($item_metadata)
     {
         parent::loadFromArray($item_metadata);
@@ -48,8 +47,15 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 
         if (!empty($item_metadata['reminders'])) {
             foreach ($item_metadata['reminders'] as $reminder_data) {
-                $reminder = new UpStream_Model_Reminder(json_decode($reminder_data, true));
-                $this->reminders[] = $reminder;
+
+                try {
+                    $d = json_decode($reminder_data, true);
+                    $reminder = new UpStream_Model_Reminder($d);
+                    $this->reminders[] = $reminder;
+                } catch (\Exception $e) {
+                    // don't add anything else
+                }
+
             }
         }
     }

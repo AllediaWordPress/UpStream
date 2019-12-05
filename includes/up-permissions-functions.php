@@ -7,6 +7,19 @@ if ( ! defined('ABSPATH')) {
 
 /************************* BEGIN UPSTREAM V2 FUNCTIONALITY ******************************/
 
+
+if (! defined('UPSTREAM_ITEM_TYPE_PROJECT')) {
+
+    define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
+    define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
+    define('UPSTREAM_ITEM_TYPE_CLIENT', 'client');
+    define('UPSTREAM_ITEM_TYPE_TASK', 'task');
+    define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
+    define('UPSTREAM_ITEM_TYPE_FILE', 'file');
+    define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
+
+}
+
 define('UPSTREAM_PERMISSIONS_UNCHANGED', 0);
 define('UPSTREAM_PERMISSIONS_OVERRIDE_ALLOW', 1);
 define('UPSTREAM_PERMISSIONS_OVERRIDE_BLOCK', 2);
@@ -20,13 +33,6 @@ define('UPSTREAM_PERMISSIONS_ACTION_COPY', 'copy');
 define('UPSTREAM_PERMISSIONS_FILTER_OBJECT', 'upstream_permissions_filter_object');
 define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field');
 define('UPSTREAM_PERMISSIONS_FILTER_BYPASS', 'upstream_permissions_filter_bypass');
-
-define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
-define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
-define('UPSTREAM_ITEM_TYPE_TASK', 'task');
-define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
-define('UPSTREAM_ITEM_TYPE_FILE', 'file');
-define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
 
 function upstream_can_access_object($capability, $object_type, $object_id, $parent_type, $parent_id, $action, $is_admin_page = false)
 
