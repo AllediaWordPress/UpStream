@@ -626,7 +626,9 @@ class Milestones
         $key = "getMilestonesFromProject_NoPerms".((int)$projectId)."_".((int)$returnAsLegacyDataset);
 
         $milestones = \Upstream_Cache::get_instance()->get($key);
-        if ($milestones === false) {
+
+        // should be circumvented because it's only used on saves
+        if (true||$milestones === false) {
             $milestones = $this->getMilestonesFromProjectUncached_NoPerms((int)$projectId, $returnAsLegacyDataset);
             \Upstream_Cache::get_instance()->set($key, $milestones);
         }

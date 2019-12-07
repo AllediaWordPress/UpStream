@@ -37,7 +37,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
 
         $metadata = get_post_meta($id);
         if (empty($metadata)) {
-            throw new UpStream_Model_ArgumentException(sprintf(__('Object meta for ID %s does not exist.', 'upstream'), $id));
+            return;
         }
 
         if (!isset($post->post_title)) {

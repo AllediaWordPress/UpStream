@@ -494,6 +494,7 @@ class UpStream_Project
 
         $counted_tids = [];
 
+        $percentage_project = 0;
         $sum_project = 0;
         $count_project = 0;
 
