@@ -72,7 +72,9 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
             $defaults['address'] = __('Address', 'upstream');
             $defaults['users']   = __('Users', 'upstream');
 
-            if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php')) {
+            if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php') ||
+                is_plugin_active('UpStream-Custom-Fields/upstream-custom-fields.php')
+            ) {
                 $rowset = Model::fetchColumnFieldsForType('client', false);
 
                 if (count($rowset) > 0) {
@@ -123,7 +125,8 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
                     return;
                 }
             } else {
-                if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php')) {
+                if (is_plugin_active('upstream-custom-fields/upstream-custom-fields.php') ||
+                is_plugin_active('UpStream-Custom-Fields/upstream-custom-fields.php')) {
                     $rowset = Model::fetchColumnFieldsForType('client', false);
 
                     if (count($rowset) > 0) {

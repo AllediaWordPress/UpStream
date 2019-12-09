@@ -122,6 +122,10 @@ class Upstream_Task_List extends WP_List_Table
         $rowset   = self::get_tasks();
         $data     = [];
 
+        if (empty($rowset)) {
+            return $data;
+        }
+
         foreach ($rowset as $row) {
             if (isset($row['status'])
                 && ! empty($row['status'])
@@ -370,7 +374,7 @@ class Upstream_Task_List extends WP_List_Table
     {
         if (empty(self::$tasksStatuses)) {
             $rowset = self::get_tasks();
-            if (count($rowset) === 0) {
+            if (!$rowset || count($rowset) === 0) {
                 return;
             }
 

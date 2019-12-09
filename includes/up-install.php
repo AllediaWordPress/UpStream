@@ -184,41 +184,130 @@ function upstream_uninstall()
     flush_rewrite_rules();
 
     // RSD: deactivate any child plugins
-    if (is_plugin_active('UpStream-Reports-PDF/upstream-reports-pdf.php')) {
+    if (is_plugin_active('UpStream-Reports-PDF/upstream-reports-pdf.php') ||
+        is_plugin_active('upstream-reports-pdf/upstream-reports-pdf.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_reports_pdf');
     }
-    if (is_plugin_active('UpStream-Reports/upstream-reports.php')) {
+    if (is_plugin_active('UpStream-Reports/upstream-reports.php') ||
+        is_plugin_active('upstream-reports/upstream-reports.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_reports');
     }
-    if (is_plugin_active('UpStream-Copy-Project/upstream-copy-project.php')) {
+    if (is_plugin_active('UpStream-Copy-Project/upstream-copy-project.php') ||
+        is_plugin_active('upstream-copy-project/upstream-copy-project.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_copy_project');
     }
-    if (is_plugin_active('UpStream-Custom-Fields/upstream-custom-fields.php')) {
+    if (is_plugin_active('UpStream-Custom-Fields/upstream-custom-fields.php') ||
+        is_plugin_active('upstream-custom-fields/upstream-custom-fields.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_custom_fields');
     }
-    if (is_plugin_active('UpStream-Customizer/upstream-customizer.php')) {
+    if (is_plugin_active('UpStream-Customizer/upstream-customizer.php') ||
+        is_plugin_active('upstream-customizer/upstream-customizer.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_customizer');
     }
-    if (is_plugin_active('UpStream-Email-Notifications/upstream-email-notifications.php')) {
+    if (is_plugin_active('UpStream-Email-Notifications/upstream-email-notifications.php') ||
+        is_plugin_active('upstream-email-notifications/upstream-email-notifications.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_email_notifications');
     }
-    if (is_plugin_active('UpStream-Calendar-View/upstream-calendar-view.php')) {
+    if (is_plugin_active('UpStream-Calendar-View/upstream-calendar-view.php') ||
+        is_plugin_active('upstream-calendar-view/upstream-calendar-view.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_calendar_view');
     }
-    if (is_plugin_active('UpStream-Frontend-Edit/upstream-frontend-edit.php')) {
+    if (is_plugin_active('UpStream-Frontend-Edit/upstream-frontend-edit.php') ||
+        is_plugin_active('upstream-frontend-edit/upstream-frontend-edit.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_frontend_edit');
     }
-    if (is_plugin_active('UpStream-Project-Timeline/upstream-project-timeline.php')) {
+    if (is_plugin_active('UpStream-Project-Timeline/upstream-project-timeline.php') ||
+        is_plugin_active('upstream-project-timeline/upstream-project-timeline.php')
+    ) {
         add_action('update_option_active_plugins', 'upstream_deactivate_dependency_project_timeline');
     }
+
+    if (is_plugin_active('UpStream-Advanced-Permissions/upstream-advanced-permissions.php') ||
+        is_plugin_active('upstream-advanced-permissions/upstream-advanced-permissions.php')
+    ) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_advanced_permissions');
+    }
+
+    if (is_plugin_active('UpStream-API/upstream-api.php') ||
+        is_plugin_active('upstream-api/upstream-api.php')
+    ) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_api');
+    }
+
+    if (is_plugin_active('UpStream-Forms/upstream-forms.php') ||
+        is_plugin_active('upstream-forms/upstream-forms.php')
+    ) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_forms');
+    }
+
+    if (is_plugin_active('UpStream-Shortcodes/upstream-shortcodes.php') ||
+        is_plugin_active('upstream-shortcodes/upstream-shortcodes.php')
+    ) {
+        add_action('update_option_active_plugins', 'upstream_deactivate_dependency_shortcodes');
+    }
 }
+
+
+function upstream_deactivate_dependency_shortcodes()
+
+{
+    up_debug();
+
+    deactivate_plugins(['UpStream-Shortcodes/upstream-shortcodes.php',
+            'upstream-shortcodes/upstream-shortcodes.php']
+    );
+}
+
+function upstream_deactivate_dependency_forms()
+
+{
+    up_debug();
+
+    deactivate_plugins(['UpStream-Forms/upstream-forms.php',
+            'upstream-forms/upstream-forms.php']
+    );
+}
+
+function upstream_deactivate_dependency_api()
+
+{
+    up_debug();
+
+    deactivate_plugins(['UpStream-API/upstream-api.php',
+            'upstream-api/upstream-api.php']
+    );
+}
+
+
+function upstream_deactivate_dependency_advanced_permissions()
+
+{
+    up_debug();
+
+    deactivate_plugins(['UpStream-Advanced-Permissions/upstream-advanced-permissions.php',
+            'upstream-advanced-permissions/upstream-advanced-permissions.php']
+    );
+}
+
+
+
 
 function upstream_deactivate_dependency_calendar_view()
 
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Calendar-View/upstream-calendar-view.php');
+    deactivate_plugins(['UpStream-Calendar-View/upstream-calendar-view.php',
+        'upstream-calendar-view/upstream-calendar-view.php']
+    );
 }
 
 function upstream_deactivate_dependency_reports_pdf()
@@ -226,7 +315,8 @@ function upstream_deactivate_dependency_reports_pdf()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Reports-PDF/upstream-reports-pdf.php');
+    deactivate_plugins(['UpStream-Reports-PDF/upstream-reports-pdf.php',
+        'upstream-reports-pdf/upstream-reports-pdf.php']);
 }
 
 function upstream_deactivate_dependency_reports()
@@ -234,7 +324,8 @@ function upstream_deactivate_dependency_reports()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Reports/upstream-reports.php');
+    deactivate_plugins(['UpStream-Reports/upstream-reports.php',
+        'upstream-reports/upstream-reports.php']);
 }
 
 function upstream_deactivate_dependency_copy_project()
@@ -242,7 +333,8 @@ function upstream_deactivate_dependency_copy_project()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Copy-Project/upstream-copy-project.php');
+    deactivate_plugins(['UpStream-Copy-Project/upstream-copy-project.php',
+        'upstream-copy-project/upstream-copy-project.php']);
 }
 
 function upstream_deactivate_dependency_project_timeline()
@@ -250,7 +342,8 @@ function upstream_deactivate_dependency_project_timeline()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Project-Timeline/upstream-project-timeline.php');
+    deactivate_plugins(['UpStream-Project-Timeline/upstream-project-timeline.php',
+        'upstream-project-timeline/upstream-project-timeline.php']);
 }
 
 function upstream_deactivate_dependency_frontend_edit()
@@ -258,7 +351,8 @@ function upstream_deactivate_dependency_frontend_edit()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Frontend-Edit/upstream-frontend-edit.php');
+    deactivate_plugins(['UpStream-Frontend-Edit/upstream-frontend-edit.php',
+        'upstream-frontend-edit/upstream-frontend-edit.php']);
 }
 
 function upstream_deactivate_dependency_email_notifications()
@@ -266,7 +360,8 @@ function upstream_deactivate_dependency_email_notifications()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Email-Notifications/upstream-email-notifications.php');
+    deactivate_plugins(['UpStream-Email-Notifications/upstream-email-notifications.php',
+        'upstream-email-notifications/upstream-email-notifications.php']);
 }
 
 function upstream_deactivate_dependency_customizer()
@@ -274,7 +369,8 @@ function upstream_deactivate_dependency_customizer()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Customizer/upstream-customizer.php');
+    deactivate_plugins(['UpStream-Customizer/upstream-customizer.php',
+        'upstream-customizer/upstream-customizer.php']);
 }
 
 function upstream_deactivate_dependency_custom_fields()
@@ -282,7 +378,8 @@ function upstream_deactivate_dependency_custom_fields()
 {
     up_debug();
 
-    deactivate_plugins('UpStream-Custom-Fields/upstream-custom-fields.php');
+    deactivate_plugins(['UpStream-Custom-Fields/upstream-custom-fields.php',
+        'upstream-custom-fields/upstream-custom-fields.php']);
 }
 
 function upstream_add_default_options()

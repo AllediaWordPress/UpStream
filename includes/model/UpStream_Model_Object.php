@@ -69,10 +69,15 @@ class UpStream_Model_Object
             case 'createdBy':
             case 'description':
                 return $this->{$property};
-            default:
-                throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
-                break;
 
+            default:
+                $value = apply_filters('upstream_model_get_property_value', $this->type, $this->id, $property);
+
+                if ($value === false) {
+                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+                }
+
+                return $value;
         }
     }
 

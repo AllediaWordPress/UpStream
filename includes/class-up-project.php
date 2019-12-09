@@ -1,12 +1,14 @@
 <?php
-//This include shouldn't be necessary however the wp_check_post_lock call fails
-//in the frontend edit module which is odd
-@include_once 'wp-admin/includes/post.php';
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
     exit;
 }
+
+//This include shouldn't be necessary however the wp_check_post_lock call fails
+//in the frontend edit module which is odd
+@include_once ABSPATH . '/awp-admin/includes/post.php';
+
 
 /**
  * UpStream_Project Class
@@ -480,7 +482,11 @@ class UpStream_Project
         $tasks      = $this->get_meta('tasks');
         $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject_NoPerms($this->ID);
 
-        $wp_lock_check = wp_check_post_lock($this->ID);
+
+        $wp_lock_check = false;
+        if (function_exists('wp_check_post_lock')) {
+            $wp_lock_check = wp_check_post_lock($this->ID);
+        }
 
         if ($wp_lock_check) {
             $user_info = get_userdata($wp_lock_check);
