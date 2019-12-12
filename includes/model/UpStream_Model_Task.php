@@ -24,14 +24,14 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
     protected $metadataKey = '_upstream_project_tasks';
 
+    protected $type = UPSTREAM_ITEM_TYPE_TASK;
+
     /**
      * UpStream_Model_Task constructor.
      */
     public function __construct($parent, $item_metadata)
     {
         parent::__construct($parent, $item_metadata);
-
-        $this->type = UPSTREAM_ITEM_TYPE_TASK;
     }
 
     protected function loadFromArray($item_metadata)

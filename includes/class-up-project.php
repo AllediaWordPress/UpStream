@@ -7,7 +7,7 @@ if ( ! defined('ABSPATH')) {
 
 //This include shouldn't be necessary however the wp_check_post_lock call fails
 //in the frontend edit module which is odd
-@include_once ABSPATH . '/awp-admin/includes/post.php';
+@include_once ABSPATH . '/wp-admin/includes/post.php';
 
 
 /**

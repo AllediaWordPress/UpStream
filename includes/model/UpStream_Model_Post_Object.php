@@ -68,8 +68,10 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             } else if ($input instanceof Closure) {
                 $this->{$field} = $input($metadata);
             }
-
         }
+
+        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $metadata,
+            $this->type, $this->id);
     }
 
     protected function store()
@@ -101,9 +103,17 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         }
 
         if ($res instanceof \WP_Error) {
-            // todo THROW
+            throw new UpStream_Model_ArgumentException(sprintf(__('Could not load post with ID %s.', 'upstream'), $this->id));
         } else {
             $this->id = (int)$res;
+        }
+
+        $dataToStore = [];
+        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
+            $this->type, $this->id);
+
+        foreach ($dataToStore as $key => $value) {
+            update_post_meta($this->id, $key, maybe_unserialize($value));
         }
 
     }

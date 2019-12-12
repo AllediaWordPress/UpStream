@@ -19,6 +19,8 @@ class UpStream_Model_Client extends UpStream_Model_Post_Object
 
     protected $postType = 'client';
 
+    protected $type = UPSTREAM_ITEM_TYPE_CLIENT;
+
     /**
      * UpStream_Model_Client constructor.
      */

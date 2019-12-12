@@ -32,6 +32,7 @@ class UpStream_Model_Object
 
     protected $description = null;
 
+    protected $additionaFields = [];
 
     /**
      * UpStream_Model_Object constructor.
@@ -71,9 +72,13 @@ class UpStream_Model_Object
                 return $this->{$property};
 
             default:
-                $value = apply_filters('upstream_model_get_property_value', $this->type, $this->id, $property);
 
-                if ($value === false) {
+                if (array_key_exists($property, $this->additionaFields)) {
+
+                    $value = apply_filters('upstream_model_get_property_value', $this->additionaFields[$property], $this->type, $this->id, $property);
+                    return $value;
+
+                } else {
                     throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
                 }
 
@@ -119,9 +124,15 @@ class UpStream_Model_Object
                 break;
 
             default:
-                throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
-                break;
+                $orig_value = (array_key_exists($property, $this->additionaFields)) ? $this->additionaFields[$property] : null;
 
+                $propertyExists = apply_filters('upstream_model_property_exists', false, $this->type, $this->id, $property);
+                if (!$propertyExists) {
+                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+                }
+
+                $new_value = apply_filters('upstream_model_set_property_value', $orig_value, $this->type, $this->id, $property, $value);
+                $this->additionaFields[$property] = $new_value;
         }
     }
 

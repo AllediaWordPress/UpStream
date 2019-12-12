@@ -21,6 +21,8 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
     protected $postType = 'upst_milestone';
 
+    protected $type = UPSTREAM_ITEM_TYPE_MILESTONE;
+
     /**
      * UpStream_Model_Milestone constructor.
      */

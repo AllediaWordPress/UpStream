@@ -32,6 +32,8 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         $this->createdBy = !empty($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
         $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : null;
 
+        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $item_metadata,
+            $this->type, $this->id);
     }
 
     public function storeToArray(&$item_metadata)
@@ -50,6 +52,14 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         if (count($this->assignedTo) > 0) $item_metadata['assigned_to'] = $this->assignedTo;
         if ($this->createdBy > 0) $item_metadata['created_by'] = $this->createdBy;
         if ($this->description != null) $item_metadata['description'] = $this->description;
+
+        $dataToStore = [];
+        apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
+            $this->type, $this->id);
+
+        foreach ($dataToStore as $key => $value) {
+            $item_metadata[$key] = $value;
+        }
 
     }
 

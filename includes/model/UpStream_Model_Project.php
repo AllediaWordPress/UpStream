@@ -26,6 +26,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $postType = 'project';
 
+    protected $type = UPSTREAM_ITEM_TYPE_PROJECT;
+
     /**
      * UpStream_Model_Project constructor.
      */

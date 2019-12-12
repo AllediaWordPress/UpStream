@@ -14,6 +14,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
 
     protected $metadataKey = '_upstream_project_files';
 
+    protected $type = UPSTREAM_ITEM_TYPE_MILESTONE;
+
     /**
      * UpStream_Model_File constructor.
      */

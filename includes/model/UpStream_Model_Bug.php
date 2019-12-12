@@ -20,6 +20,9 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 
     protected $metadataKey = '_upstream_project_bugs';
 
+    protected $type = UPSTREAM_ITEM_TYPE_BUG;
+
+
     /**
      * UpStream_Model_Bug constructor.
      */
