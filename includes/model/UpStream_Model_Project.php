@@ -175,13 +175,25 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     public function addMetaObject($item)
     {
         if (!($item instanceof \UpStream_Model_Meta_Object))
-            throw new UpStream_Model_ArgumentException(__('Can only add objects of type UpStream_Model_Meta_Objact', 'upstream'));
+            throw new UpStream_Model_ArgumentException(__('Can only add objects of type UpStream_Model_Meta_Object', 'upstream'));
         elseif ($item instanceof UpStream_Model_Task)
             $this->tasks[] = $item;
         elseif ($item instanceof UpStream_Model_File)
             $this->files[] = $item;
         elseif ($item instanceof UpStream_Model_Bug)
             $this->bugs[] = $item;
+    }
+
+    public function &tasks() {
+        return $this->tasks;
+    }
+
+    public function &bugs() {
+        return $this->bugs;
+    }
+
+    public function &files() {
+        return $this->files;
     }
 
     public function addTask($title, $createdBy)
@@ -227,10 +239,11 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             case 'startDate':
             case 'endDate':
             case 'categoryIds':
+                return $this->{$property};
             case 'tasks':
             case 'bugs':
             case 'files':
-                return $this->{$property};
+                throw new UpStream_Model_ArgumentException(__('Not implemented. Use &tasks(), &files(), or &bugs().', 'upstream'));
             default:
                 return parent::__get($property);
 

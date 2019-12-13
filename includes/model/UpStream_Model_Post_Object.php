@@ -70,7 +70,14 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             }
         }
 
-        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $metadata,
+        $dataToLoad = [];
+        foreach ($metadata as $key => $val) {
+            if (is_array($val)) {
+                $dataToLoad[$key] = $val[0];
+            }
+        }
+
+        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $dataToLoad,
             $this->type, $this->id);
     }
 
@@ -113,7 +120,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             $this->type, $this->id);
 
         foreach ($dataToStore as $key => $value) {
-            update_post_meta($this->id, $key, maybe_unserialize($value));
+            update_post_meta($this->id, $key, $value);
         }
 
     }

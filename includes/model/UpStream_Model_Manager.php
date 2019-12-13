@@ -33,15 +33,15 @@ class UpStream_Model_Manager
             $project = new UpStream_Model_Project($object_id);
             $this->objects[$object_type][$object_id] = $project;
 
-            foreach ($project->tasks as $item) {
+            foreach ($project->tasks() as $item) {
                 $this->objects[UPSTREAM_ITEM_TYPE_TASK][$item->id] = $item;
             }
 
-            foreach ($project->bugs as $item) {
+            foreach ($project->bugs() as $item) {
                 $this->objects[UPSTREAM_ITEM_TYPE_BUG][$item->id] = $item;
             }
 
-            foreach ($project->files as $item) {
+            foreach ($project->files() as $item) {
                 $this->objects[UPSTREAM_ITEM_TYPE_FILE][$item->id] = $item;
             }
 

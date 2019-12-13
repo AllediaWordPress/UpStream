@@ -54,7 +54,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         if ($this->description != null) $item_metadata['description'] = $this->description;
 
         $dataToStore = [];
-        apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
+        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
             $this->type, $this->id);
 
         foreach ($dataToStore as $key => $value) {
