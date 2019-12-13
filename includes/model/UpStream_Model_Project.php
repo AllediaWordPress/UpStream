@@ -196,7 +196,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         return $this->files;
     }
 
-    public function addTask($title, $createdBy)
+    public function &addTask($title, $createdBy)
     {
         $item = \UpStream_Model_Task::create($this, $title, $createdBy);
         $this->tasks[] = $item;
@@ -204,7 +204,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         return $item;
     }
 
-    public function addBug($title, $createdBy)
+    public function &addBug($title, $createdBy)
     {
         $item = \UpStream_Model_Bug::create($this, $title, $createdBy);
         $this->bugs[] = $item;
@@ -212,7 +212,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         return $item;
     }
 
-    public function addFile($title, $createdBy)
+    public function &addFile($title, $createdBy)
     {
         $item = \UpStream_Model_File::create($this, $title, $createdBy);
         $this->files[] = $item;
