@@ -162,7 +162,7 @@ class UpStream_Model_Client extends UpStream_Model_Post_Object
     }
 
 
-    public static function create($title, $createdBy, $parentId = 0)
+    public static function create($title, $createdBy)
     {
         if (get_userdata($createdBy) === false)
             throw new UpStream_Model_ArgumentException(__('User ID does not exist.', 'upstream'));
