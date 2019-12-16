@@ -70,7 +70,7 @@ class UpStream_Model_Manager
                 return \UpStream_Model_Milestone::create($title, $createdBy, $parentId);
 
             case UPSTREAM_ITEM_TYPE_CLIENT:
-                return \UpStream_Model_Client::create($title, $createdBy, $parentId);
+                return \UpStream_Model_Client::create($title, $createdBy);
 
             case UPSTREAM_ITEM_TYPE_TASK:
                 $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
