@@ -68,6 +68,7 @@ class UpStream_Model_Object
             case 'title':
             case 'assignedTo':
             case 'createdBy':
+            case 'type':
             case 'description':
                 return $this->{$property};
 
