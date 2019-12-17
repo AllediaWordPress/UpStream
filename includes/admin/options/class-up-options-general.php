@@ -870,7 +870,11 @@ if ( ! class_exists('UpStream_Options_General')) :
 
                 if ($file) {
 
-                    UpStream_Import::importFile($file);
+                    $res = UpStream_Import::importFile($file);
+                    if ($res) {
+                        $return = $res;
+                        $abort = true;
+                    }
 
                 } else {
                     $return = 'error';

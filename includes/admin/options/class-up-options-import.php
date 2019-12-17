@@ -97,13 +97,13 @@ if ( ! class_exists('UpStream_Options_Import')) :
                             'before_row' => sprintf(
                                 '<h3>%s</h3><p>%s</p>',
                                 __('Import from File', 'upstream'),
-                                __('', 'upstream')
+                                __('Import data from a file.', 'upstream')
                             ),
                             'name'    => __('File to Import', 'upstream'),
                             'id'      => 'import_file',
                             'type'    => 'file',
                             'desc'    => __(
-                                '',
+                                'Upload a file to import. Must be one of the valid formats you can find on our website.',
                                 'upstream'
                             ),
                         ],
@@ -113,7 +113,7 @@ if ( ! class_exists('UpStream_Options_Import')) :
                             'type'    => 'up_button',
                             'label'   => __('Perform Import', 'upstream'),
                             'desc'    => __(
-                                '',
+                                'Click this to perform the import.',
                                 'upstream'
                             ),
                             'onclick' => 'upstream_import_file(event);',

@@ -20,19 +20,9 @@ class UpStream_Import_Exception extends Exception {}
  */
 class UpStream_Import
 {
-    protected $option_identify_project_by_id = true;
-    protected $option_identify_milestone_by_id = true;
-
     protected $option_created_by = 1;
 
     protected $columns = [];
-
-    protected $client_column = -1;
-    protected $project_column = -1;
-    protected $milestone_column = -1;
-    protected $task_column = -1;
-    protected $file_column = -1;
-    protected $bug_column = -1;
 
     protected $model_manager;
 
@@ -56,10 +46,26 @@ class UpStream_Import
     {
         if (true) {
 
+            $error = null;
             $importer = new UpStream_Import();
-            $arr = fgetcsv($file);
-            $importer->importTable($arr);
 
+            ini_set('auto_detect_line_endings',TRUE);
+            $handle = fopen($file,'r');
+
+            try {
+                $lineNo = 0;
+                while (($data = fgetcsv($handle)) !== FALSE) {
+                    $importer->importTableLine($data, $lineNo);
+                    $lineNo++;
+                }
+            } catch (\Exception $e) {
+                $error = "Line: " . $e->getMessage();
+            }
+
+            fclose($handle);
+            ini_set('auto_detect_line_endings',FALSE);
+
+            return $error;
         }
     }
 
@@ -74,23 +80,20 @@ class UpStream_Import
         return $newline;
     }
 
-    protected function importTable(&$arr)
+    protected function importTableLine(&$arr, $lineNo)
     {
-        if ( count($arr) < 1 ) {
-            throw new UpStream_Import_Exception(__('The imported file does not contain a header line.', 'upstream'));
-        }
-
-        self::loadHeader($arr[1]);
-
-        for ($i = 1; $i < count($arr); $i++) {
-
-            $line = $this->cleanLine($arr[$i]);
+        if ($lineNo == 0) {
+            $this->loadHeader($arr);
+        } else {
+            $line = $this->cleanLine($arr);
 
             // load project
             $projectId = $this->findItemField(UPSTREAM_ITEM_TYPE_PROJECT, 'id', $line);
             if (!$projectId) {
                 $title = $this->findItemField(UPSTREAM_ITEM_TYPE_PROJECT, 'title', $line);
-                $projectId = $this->findOrCreateItemByTitle(UPSTREAM_ITEM_TYPE_PROJECT, $title);
+                if ($title) {
+                    $projectId = $this->findOrCreateItemByTitle(UPSTREAM_ITEM_TYPE_PROJECT, $title);
+                }
             }
 
             $project = null;
@@ -102,13 +105,17 @@ class UpStream_Import
                 }
             }
 
-            // here project = null or a project
+            if ($project) {
+                $this->setFields($line, $project);
+            }
 
             // load milestone
             $milestoneId = $this->findItemField(UPSTREAM_ITEM_TYPE_MILESTONE, 'id', $line);
             if (!$milestoneId) {
                 $title = $this->findItemField(UPSTREAM_ITEM_TYPE_MILESTONE, 'title', $line);
-                $projectId = $this->findOrCreateItemByTitle(UPSTREAM_ITEM_TYPE_MILESTONE, $title, $project);
+                if ($title) {
+                    $milestoneId = $this->findOrCreateItemByTitle(UPSTREAM_ITEM_TYPE_MILESTONE, $title, $project);
+                }
             }
 
             $milestone = null;
@@ -120,15 +127,30 @@ class UpStream_Import
                 }
             }
 
-            // here project and milestone = null or object
+
+            if ($milestone) {
+                $this->setFields($line, $milestone);
+            }
 
             $this->importChildrenOfType(UPSTREAM_ITEM_TYPE_TASK, $project, $milestone, $line);
             $this->importChildrenOfType(UPSTREAM_ITEM_TYPE_FILE, $project, $milestone, $line);
             $this->importChildrenOfType(UPSTREAM_ITEM_TYPE_BUG, $project, $milestone, $line);
 
+
         }
     }
 
+    protected function findChildItem($type, &$project, $itemId)
+    {
+        if ($project) {
+            $pid = $project->id;
+
+            return $this->model_manager->getByID($type, $itemId, UPSTREAM_ITEM_TYPE_PROJECT, $project->id);
+
+        } else {
+            // TODO: what to do when there's no preoject
+        }
+    }
 
     protected function importChildrenOfType($type, &$project, &$milestone, &$line)
     {
@@ -136,12 +158,14 @@ class UpStream_Import
         $itemId = $this->findItemField($type, 'id', $line);
         if (!$itemId) {
             $title = $this->findItemField($type, 'title', $line);
-            $itemId = $this->findOrCreateItemByTitle($type, $title, $project, $milestone);
+            if ($title) {
+                $itemId = $this->findOrCreateItemByTitle($type, $title, $project, $milestone);
+            }
         }
 
         if ($itemId) {
             try {
-                $item = findTask($project, $milestone, $itemId);
+                $item = $this->findChildItem($type, $project, $itemId);
             } catch (\UpStream_Model_ArgumentException $e) {
                 throw new UpStream_Import_Exception(sprintf(__('Item %s with ID %s does not exist.', 'upstream'), $type, $itemId));
             }
@@ -155,7 +179,10 @@ class UpStream_Import
     {
 
         if ($type === UPSTREAM_ITEM_TYPE_PROJECT) {
-            return $this->model_manager->createObject($type, $title, $this->option_created_by);
+            $obj = $this->model_manager->createObject($type, $title, $this->option_created_by);
+            $obj->store();
+
+            return $obj->id;
         }
 
         if (!$project) {
@@ -168,7 +195,9 @@ class UpStream_Import
             $obj->milestone = milestone;
         }
 
-        return $obj;
+        $obj->store();
+
+        return $obj->id;
     }
 
     protected function findItemField($type, $field, &$line)
@@ -195,16 +224,25 @@ class UpStream_Import
     {
         $changed = false;
 
+        if (!$item) {
+            return;
+        }
+
         for ($i = 0; $i < count($line); $i++) {
 
+            if (!$this->columns[$i]) {
+                continue;
+            }
+
             if ($this->columns[$i]->itemType === $item->type) {
+                $val = null;
                 try {
                     $val = $item->{$this->columns[$i]->fieldName};
                 } catch (\UpStream_Model_ArgumentException $e) {
-                    throw new UpStream_Import_Exception($e->getMessage());
+                    // ignore this
                 }
 
-                if ($val != $line[$i]) {
+                if ($line[$i] && $val != $line[$i]) {
                     try {
                         $item->{$this->columns[$i]->fieldName} = $line[$i];
                         $changed = true;
@@ -234,7 +272,7 @@ class UpStream_Import
             if ($header[$i]) {
                 $parts = explode('.', $header[$i]);
 
-                if (count($parts < 2)) {
+                if (count($parts) < 2) {
                     throw new UpStream_Import_Exception(sprintf(__('Header column %s must be of the form item.field (example: project.title).', 'upstream'), $header[$i]));
                 }
 
@@ -250,33 +288,11 @@ class UpStream_Import
                 $s = new stdClass();
                 $s->itemType = $itemType;
                 $s->fieldName = $fieldName;
-
-                if ($this->option_identify_project_by_id && $itemType == UPSTREAM_ITEM_TYPE_PROJECT && $fieldName == 'id') {
-                    $this->project_column = $i;
-                } elseif (!$this->option_identify_project_by_id && $itemType == UPSTREAM_ITEM_TYPE_PROJECT && $fieldName == 'title') {
-                    $this->project_column = $i;
-                } elseif ($this->option_identify_milestone_by_id && $itemType == UPSTREAM_ITEM_TYPE_MILESTONE && $fieldName == 'id') {
-                    $this->milestone_column = $i;
-                } elseif (!$this->option_identify_milestone_by_id && $itemType == UPSTREAM_ITEM_TYPE_MILESTONE && $fieldName == 'title') {
-                    $this->milestone_column = $i;
-                } elseif ($itemType == UPSTREAM_ITEM_TYPE_TASK && $fieldName == 'title') {
-                    $this->task_column = $i;
-                } elseif ($itemType == UPSTREAM_ITEM_TYPE_FILE && $fieldName == 'title') {
-                    $this->file_column = $i;
-                } elseif ($itemType == UPSTREAM_ITEM_TYPE_BUG && $fieldName == 'title') {
-                    $this->bug_column = $i;
-                }
-
             }
 
             $this->columns[] = $s;
 
         }
-
-        if ($this->project_column < 0) {
-            throw new UpStream_Import_Exception(__('Could not find a valid project identifier column.', 'upstream'));
-        }
-
     }
 
 }
