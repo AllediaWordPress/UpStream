@@ -130,6 +130,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
             if (is_array($new_value)) {
                 for ($i = 0; $i < count($new_value); $i++) {
 
+                    if (!is_array($new_value[$i])) continue;
+
                     foreach ($new_value[$i] as $key => $value) {
 
                         if (stristr($key, 'date')) {
