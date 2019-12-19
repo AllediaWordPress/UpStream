@@ -865,21 +865,27 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             if ( ! $abort) {
 
-                $fileId = $_POST['fileId'];
-                $file = get_attached_file($fileId);
-
-                if ($file) {
-
-                    $res = UpStream_Import::importFile($file);
-                    if ($res) {
-                        $return = $res;
-                        $abort = true;
-                    }
-
+                if (!current_user_can('administrator')) {
+                    $return = __('You must be an administrator to import data.', 'upstream');
+                    $abort = true;
                 } else {
-                    $return = 'error';
-                    $abort  = true;
 
+                    $fileId = $_POST['fileId'];
+                    $file = get_attached_file($fileId);
+
+                    if ($file) {
+
+                        $res = UpStream_Import::importFile($file);
+                        if ($res) {
+                            $return = $res;
+                            $abort = true;
+                        }
+
+                    } else {
+                        $return = 'error';
+                        $abort = true;
+
+                    }
                 }
 
             }

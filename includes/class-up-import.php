@@ -49,6 +49,7 @@ class UpStream_Import
      */
     public static function importFile($file)
     {
+
         if (true) {
 
             $error = __('Import successful.', 'upstream');
@@ -96,7 +97,6 @@ class UpStream_Import
      */
     protected function importTableLine(&$arr, $lineNo)
     {
-        if ($lineNo>100) return;
         if ($lineNo == 0) {
             $this->loadHeader($arr);
         } else {
