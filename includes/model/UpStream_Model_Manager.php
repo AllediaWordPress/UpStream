@@ -59,6 +59,35 @@ class UpStream_Model_Manager
 
     }
 
+    public function loadAll()
+    {
+        $posts = get_posts([
+            'post_type' => 'project',
+            'post_status' => 'publish',
+            'numberposts' => -1
+        ]);
+
+        foreach ($posts as $post) {
+            $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $post->ID);
+        }
+    }
+
+    public function findAllByCallback($callback)
+    {
+        $return_items = [];
+
+        foreach ($this->objects as $type => $items) {
+            foreach ($items as $id => $item) {
+                $r = $callback($item);
+                if ($r) {
+                    $return_items[] = $item;
+                }
+            }
+        }
+
+        return $return_items;
+    }
+
     public function createObject($object_type, $title, $createdBy, $parentId = 0)
     {
         switch ($object_type) {

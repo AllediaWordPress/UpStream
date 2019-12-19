@@ -148,14 +148,20 @@ jQuery(function ($) {
                 }, 4000);
             },
             success: function (response) {
-                $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
-                $msg.addClass('upstream_float_success');
 
-                $btn.parent().append($msg);
+                if (response == '') {
 
-                window.setTimeout(function () {
-                    $msg.fadeOut();
-                }, 4000);
+                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
+                    $msg.addClass('upstream_float_success');
+
+                    $btn.parent().append($msg);
+
+                    window.setTimeout(function () {
+                        $msg.fadeOut();
+                    }, 4000);
+                } else {
+                    alert(response);
+                }
             },
             complete: function (jqXHR, textStatus) {
                 if (textStatus !== 'success') {

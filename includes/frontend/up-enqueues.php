@@ -119,7 +119,7 @@ function upstream_enqueue_styles_scripts()
         wp_enqueue_script('up-filesaver', $up_url . $js_dir . 'vendor/FileSaver.min.js', [], $up_ver, true);
         wp_enqueue_script('up-tableexport', $up_url . $js_dir . 'vendor/tableexport.min.js', [], $up_ver, true);
         wp_enqueue_script('up-select2', $up_url . $js_dir . 'vendor/select2.full.min.js', [], $up_ver, true);
-        wp_enqueue_script('up-chosen', $up_url . $lib_dir . '/chosen/chosen.jquery.min.js', ['jquery'], $up_ver, true);
+        wp_enqueue_script('up-chosen', $up_url . $lib_dir . '/chosen/chosen.jquery.js', ['jquery'], $up_ver, true);
         wp_enqueue_script('up-bootstrap', $up_url . $js_dir . 'bootstrap.min.js', ['jquery'], $up_ver, true);
         wp_enqueue_script('up-fastclick', $up_url . $js_dir . 'fastclick.js', ['jquery'], $up_ver, true);
         wp_enqueue_script('up-nprogress', $up_url . $js_dir . 'nprogress.js', ['jquery'], $up_ver, true);

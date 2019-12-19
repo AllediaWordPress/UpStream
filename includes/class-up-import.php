@@ -32,6 +32,7 @@ class UpStream_Import
     public function __construct()
     {
         $this->model_manager = \UpStream_Model_Manager::get_instance();
+        $this->model_manager->loadAll();
     }
 
     /**
@@ -42,6 +43,10 @@ class UpStream_Import
         $this->project_column = $project_column;
     }
 
+    /**
+     * @param $file
+     * @return string|null
+     */
     public static function importFile($file)
     {
         if (true) {
@@ -59,7 +64,7 @@ class UpStream_Import
                     $lineNo++;
                 }
             } catch (\Exception $e) {
-                $error = "Line: " . $e->getMessage();
+                $error = 'Error loading file: line ' . ($lineNo + 1) . ' ' . $e->getMessage();
             }
 
             fclose($handle);
@@ -69,6 +74,10 @@ class UpStream_Import
         }
     }
 
+    /**
+     * @param $line
+     * @return array
+     */
     protected function cleanLine(&$line)
     {
         $newline = [];
@@ -80,8 +89,16 @@ class UpStream_Import
         return $newline;
     }
 
+    /**
+     * @param $arr
+     * @param $lineNo
+     * @throws UpStream_Import_Exception
+     */
     protected function importTableLine(&$arr, $lineNo)
     {
+        if ($lineNo%100 == 0) {
+            print "dd";
+        }
         if ($lineNo == 0) {
             $this->loadHeader($arr);
         } else {
@@ -99,7 +116,7 @@ class UpStream_Import
             $project = null;
             if ($projectId) {
                 try {
-                    $project = $this->model_manager->getById(UPSTREAM_ITEM_TYPE_PROJECT, $projectId);
+                    $project = $this->model_manager->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $projectId);
                 } catch (\UpStream_Model_ArgumentException $e) {
                     throw new UpStream_Import_Exception(sprintf(__('Project with ID %s does not exist.', 'upstream'), $projectId));
                 }
@@ -121,7 +138,7 @@ class UpStream_Import
             $milestone = null;
             if ($milestoneId) {
                 try {
-                    $milestone = $this->model_manager->getById(UPSTREAM_ITEM_TYPE_MILESTONE, $milestoneId);
+                    $milestone = $this->model_manager->getByID(UPSTREAM_ITEM_TYPE_MILESTONE, $milestoneId);
                 } catch (\UpStream_Model_ArgumentException $e) {
                     throw new UpStream_Import_Exception(sprintf(__('Milestone with ID %s does not exist.', 'upstream'), $milestoneId));
                 }
@@ -140,6 +157,12 @@ class UpStream_Import
         }
     }
 
+    /**
+     * @param $type
+     * @param $project
+     * @param $itemId
+     * @return mixed
+     */
     protected function findChildItem($type, &$project, $itemId)
     {
         if ($project) {
@@ -152,6 +175,14 @@ class UpStream_Import
         }
     }
 
+
+    /**
+     * @param $type
+     * @param $project
+     * @param $milestone
+     * @param $line
+     * @throws UpStream_Import_Exception
+     */
     protected function importChildrenOfType($type, &$project, &$milestone, &$line)
     {
         // look for tasks
@@ -175,12 +206,30 @@ class UpStream_Import
 
     }
 
+    /**
+     * @param $type
+     * @param $title
+     * @param null $project
+     * @param null $milestone
+     * @return |null
+     */
     protected function findOrCreateItemByTitle($type, $title, $project = null, $milestone = null)
     {
 
         if ($type === UPSTREAM_ITEM_TYPE_PROJECT) {
-            $obj = $this->model_manager->createObject($type, $title, $this->option_created_by);
-            $obj->store();
+
+            $matches = $this->model_manager->findAllByCallback(function($item) use ($title) {
+                return $item->type === UPSTREAM_ITEM_TYPE_PROJECT && $item->title == $title;
+            });
+
+            $obj = null;
+
+            if (count($matches) > 0) {
+                $obj = $matches[0];
+            } else {
+                $obj = $this->model_manager->createObject($type, $title, $this->option_created_by);
+                $obj->store();
+            }
 
             return $obj->id;
         }
@@ -189,10 +238,18 @@ class UpStream_Import
             return null;
         }
 
-        $obj = $this->model_manager->createObject($type, $title, $this->option_created_by, $project->id);
+        $matches = $this->model_manager->findAllByCallback(function($item) use ($title, $type, $project) {
+            return $item->type === $type && $item->parentId == $project->id && $item->title == $title;
+        });
+
+        if (count($matches) > 0) {
+            $obj = $matches[0];
+        } else {
+            $obj = $this->model_manager->createObject($type, $title, $this->option_created_by, $project->id);
+        }
 
         if ($type === UPSTREAM_ITEM_TYPE_TASK && $milestone) {
-            $obj->milestone = milestone;
+            $obj->milestone = $milestone;
         }
 
         $obj->store();
@@ -200,6 +257,12 @@ class UpStream_Import
         return $obj->id;
     }
 
+    /**
+     * @param $type
+     * @param $field
+     * @param $line
+     * @return mixed|null
+     */
     protected function findItemField($type, $field, &$line)
     {
         for ($i = 0; $i < count($this->columns); $i++) {
@@ -247,7 +310,7 @@ class UpStream_Import
                         $item->{$this->columns[$i]->fieldName} = $line[$i];
                         $changed = true;
                     } catch (\UpStream_Model_ArgumentException $e) {
-                        throw new UpStream_Import_Exception($e->getMessage());
+                        throw new UpStream_Import_Exception('(column ' . ($i + 1) . ' / field ' . $this->columns[$i]->fieldName . ') ' . $e->getMessage());
                     }
                 }
             }
@@ -262,6 +325,10 @@ class UpStream_Import
     }
 
 
+    /**
+     * @param $header
+     * @throws UpStream_Import_Exception
+     */
     protected function loadHeader(&$header)
     {
         for ($i = 0; $i < count($header); $i++) {

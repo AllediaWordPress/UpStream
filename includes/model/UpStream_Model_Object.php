@@ -128,7 +128,7 @@ class UpStream_Model_Object
                     $new_value[] = $user->ID;
                 }
 
-                $this->{$property} = $new_value;
+                $this->assignedTo = $new_value;
                 break;
 
             case 'createdBy':

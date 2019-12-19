@@ -106,6 +106,14 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
     {
         switch ($property) {
 
+            case 'parentId':
+                if ($this->parent != null)
+                    return $this->parent->id;
+                return 0;
+
+            case 'parent':
+                return $this->parent;
+
             default:
                 return parent::__get($property);
         }
