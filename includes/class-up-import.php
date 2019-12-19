@@ -51,7 +51,7 @@ class UpStream_Import
     {
         if (true) {
 
-            $error = null;
+            $error = __('Import successful.', 'upstream');
             $importer = new UpStream_Import();
 
             ini_set('auto_detect_line_endings',TRUE);
@@ -64,7 +64,7 @@ class UpStream_Import
                     $lineNo++;
                 }
             } catch (\Exception $e) {
-                $error = 'Error loading file: line ' . ($lineNo + 1) . ' ' . $e->getMessage();
+                $error = __('Error loading file: line ', 'upstream') . ($lineNo + 1) . ' ' . $e->getMessage();
             }
 
             fclose($handle);
@@ -96,9 +96,7 @@ class UpStream_Import
      */
     protected function importTableLine(&$arr, $lineNo)
     {
-        if ($lineNo%100 == 0) {
-            print "dd";
-        }
+        if ($lineNo>100) return;
         if ($lineNo == 0) {
             $this->loadHeader($arr);
         } else {
@@ -307,10 +305,10 @@ class UpStream_Import
 
                 if ($line[$i] && $val != $line[$i]) {
                     try {
-                        $item->{$this->columns[$i]->fieldName} = $line[$i];
+                        $item->{$this->columns[$i]->fieldName} = htmlentities(iconv("cp1252", "utf-8", trim($line[$i])), ENT_IGNORE, "UTF-8");
                         $changed = true;
                     } catch (\UpStream_Model_ArgumentException $e) {
-                        throw new UpStream_Import_Exception('(column ' . ($i + 1) . ' / field ' . $this->columns[$i]->fieldName . ') ' . $e->getMessage());
+                        throw new UpStream_Import_Exception(sprintf(__('(column %s, field %s)', 'upstream'), $i+1, $this->columns[$i]->fieldName) . ' ' . $e->getMessage());
                     }
                 }
             }

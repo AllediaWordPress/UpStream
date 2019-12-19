@@ -125,6 +125,23 @@ jQuery(function ($) {
             return;
         }
 
+        var minutes, seconds, timer = 0, running = true;
+
+        setInterval(function () {
+
+            if (!running) return;
+
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            $('#upstream_import_elapsed_time').html(minutes + ":" + seconds);
+
+            timer++;
+        }, 1000);
+
         $.ajax({
             url: ajaxurl,
             type: 'post',
@@ -143,11 +160,17 @@ jQuery(function ($) {
 
                 $btn.after($msg);
 
+                running = false;
+                timer = 0;
+
                 window.setTimeout(function () {
                     $msg.fadeOut();
                 }, 4000);
             },
             success: function (response) {
+
+                running = false;
+                timer = 0;
 
                 if (response == '') {
 
