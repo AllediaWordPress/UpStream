@@ -161,11 +161,14 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 break;
 
             case 'color':
+                if (!preg_match('/\#[a-zA-Z0-9]{6}/', $value))
+                    throw new UpStream_Model_ArgumentException(sprintf(__('%s is not a valid hex string.', 'upstream'), $value));
+
                 $this->{$property} = $value;
                 break;
 
             case 'notes':
-                $this->description = sanitize_textarea_field($value);
+                $this->description = wp_kses_post($value);
                 break;
 
             default:

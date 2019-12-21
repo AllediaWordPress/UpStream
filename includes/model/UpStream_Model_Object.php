@@ -98,7 +98,10 @@ class UpStream_Model_Object
                 break;
 
             case 'title':
-                $this->{$property} = sanitize_text_field($value);
+                if (trim(sanitize_text_field($value)) == '')
+                    throw new UpStream_Model_ArgumentException(__('You must enter a title.', 'upstream'));
+
+                $this->{$property} = trim(sanitize_text_field($value));
                 break;
 
             case 'description':
@@ -123,7 +126,7 @@ class UpStream_Model_Object
                         $user = get_user_by('email', $uid);
 
                     if ($user === false)
-                        throw new UpStream_Model_ArgumentException(sprintf(__('User %s (%s) does not exist.', 'upstream'), $uid, $property));
+                        throw new UpStream_Model_ArgumentException(sprintf(__('User "%s" (for field %s) does not exist.', 'upstream'), $uid, $property));
 
                     $new_value[] = $user->ID;
                 }

@@ -172,6 +172,32 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         $projectObject->update_project_meta();
     }
 
+    public function hasMetaObject($item)
+    {
+        if (!($item instanceof \UpStream_Model_Meta_Object))
+            throw new UpStream_Model_ArgumentException(__('Argument must be of type UpStream_Model_Meta_Object', 'upstream'));
+        elseif ($item instanceof UpStream_Model_Task) {
+            foreach ($this->tasks() as $task) {
+                if ($task->id === $item->id)
+                    return true;
+            }
+        }
+        elseif ($item instanceof UpStream_Model_File) {
+            foreach ($this->files() as $file) {
+                if ($file->id === $item->id)
+                    return true;
+            }
+        }
+        elseif ($item instanceof UpStream_Model_Bug) {
+            foreach ($this->bugs() as $bug) {
+                if ($bug->id === $item->id)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     public function addMetaObject($item)
     {
         if (!($item instanceof \UpStream_Model_Meta_Object))
