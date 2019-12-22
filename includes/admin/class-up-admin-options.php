@@ -270,9 +270,15 @@ if ( ! class_exists('UpStream_Admin_Options')) :
                 $this->option_metabox[] = $bug_options->options();
             }
 
-            if (class_exists('UpStream_Options_Import')) {
-                $import_options = new UpStream_Options_Import();
-                $this->option_metabox[] = $import_options->options();
+
+            $options = (array)get_option('upstream_general');
+            $enable  = ! empty($options['beta_features']) && ! empty($options['beta_features'][0]) ? (string)$options['beta_features'][0] === '1' : false;
+
+            if ($enable) {
+                if (class_exists('UpStream_Options_Import')) {
+                    $import_options = new UpStream_Options_Import();
+                    $this->option_metabox[] = $import_options->options();
+                }
             }
 
             $container              = UpStream::instance()->get_container();

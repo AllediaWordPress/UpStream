@@ -788,6 +788,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
+                            'name'              => __('Beta Features', 'upstream'),
+                            'id'                => 'beta_features',
+                            'type'              => 'multicheck',
+                            'desc'              => __(
+                                'Ticking this box will enable beta features.',
+                                'upstream'
+                            ),
+                            'default'           => '',
+                            'options'           => [
+                                '1' => __('Enabled', 'upstream'),
+                            ],
+                            'select_all_button' => false,
+                        ],
+                        [
                             'name'              => __('Remove Data', 'upstream'),
                             'id'                => 'remove_data',
                             'type'              => 'multicheck',
