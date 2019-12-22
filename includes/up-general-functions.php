@@ -1602,20 +1602,27 @@ function userCanReceiveCommentRepliesNotification($user_id = 0)
  */
 function getMilestones()
 {
-    $data = [];
+    $posts = get_posts(
+        [
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'post_type'     => 'upst_milestone',
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ]
+    );
 
-    $milestones = (array)get_option('upstream_milestones');
-    if (isset($milestones['milestones'])) {
-        foreach ($milestones['milestones'] as $index => $milestone) {
-            if (isset($milestone['id'])) {
-                $milestone['order'] = $index;
+    $milestones = [];
 
-                $data[$milestone['id']] = $milestone;
-            }
+    if ( ! empty($posts)) {
+        foreach ($posts as $post) {
+            $data = $post;
+            $milestones[$post->ID] = $data;
         }
     }
 
-    return $data;
+    return $milestones;
+
 }
 
 /**
@@ -1631,8 +1638,8 @@ function getMilestonesTitles()
 
     $milestones = getMilestones();
     foreach ($milestones as $milestone) {
-        if (isset($milestone['id'])) {
-            $data[$milestone['id']] = $milestone['title'];
+        if (isset($milestone->ID)) {
+            $data[$milestone->ID] = $milestone->post_title;
         }
     }
 
