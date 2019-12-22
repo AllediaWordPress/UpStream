@@ -36,8 +36,15 @@ if ( ! defined('ABSPATH')) {
                 <div class="clearfix"></div>
             </div>
             <div class="x_content" style="display: <?php echo $collapseBox ? 'none' : 'block'; ?>;">
-      <?php upstreamRenderCommentsBox(); ?>
-    </div>
+                <?php
+                $r = upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $projectId, null, null, 'comments', UPSTREAM_PERMISSIONS_ACTION_VIEW);
+                if ($r) {
+                    ?>
+                    <?php upstreamRenderCommentsBox(); ?>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 <?php endif; ?>
