@@ -136,6 +136,11 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.30.0] - 2019-12-22 =
+* Completed model changes
+* General fixes to minor bugs
+* Added import functionality in beta
+
 = [1.29.9] - 2019-11-13 =
 * Milestone project fix
 
