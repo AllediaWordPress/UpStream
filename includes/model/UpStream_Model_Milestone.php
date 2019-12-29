@@ -140,15 +140,17 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
             case 'categoryIds':
                 if (!is_array($value))
-                    throw new UpStream_Model_ArgumentException(__('Category IDs must be an array.', 'upstream'));
+                    $value = [$value];
 
+                $categoryIds = [];
                 foreach ($value as $tid) {
-                    $id = get_term_by('id', $tid, 'project_category');
-                    if ($tid === false)
+                    $term = get_term_by('id', $tid, 'upst_milestone_category');
+                    if ($term === false)
                         throw new UpStream_Model_ArgumentException(sprintf(__('Term ID %s is invalid.', 'upstream'), $tid));
+                    $categoryIds[] = $term->term_id;
                 }
 
-                $this->categoryIds = $value;
+                $this->categoryIds = $categoryIds;
 
                 break;
 

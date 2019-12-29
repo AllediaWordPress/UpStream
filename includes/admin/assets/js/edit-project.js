@@ -259,11 +259,12 @@
             $group.find('.cmb-group-title').each(function () {
                 var $this = $(this);
                 var title = $this.next().find('[id$="milestone"]').val();
+                var id = $this.next().find('[id$="id"]').val();
                 var start = $this.next().find('[id$="start_date"]').val();
                 var end = $this.next().find('[id$="end_date"]').val();
                 var dates = '<div class="dates">' + start + ' - ' + end + '</div>';
                 if (title) {
-                    $this.html('<span class="title">' + title + '</span>' + dates);
+                    $this.html('<span class="title">' + title + '</span>'  + '<div class="dates">ID: ' + id + '</div>'+ dates);
                 }
             });
 
@@ -272,6 +273,7 @@
             $group.find('.cmb-group-title').each(function () {
                 var $this = $(this);
                 var title = $this.next().find('[id$="title"]').val();
+                var id = $this.next().find('[id$="id"]').val();
                 var grouptitle = $group.find('[data-grouptitle]').data('grouptitle');
                 if (!title) {
                     var $row = $this.parents('.cmb-row.cmb-repeatable-grouping');
@@ -279,7 +281,7 @@
                     var newtitle = grouptitle.replace('{#}', (rowindex + 1));
                     $this.html('<span class="title">' + newtitle + '</span>');
                 } else {
-                    $this.html('<span class="title">' + title + '</span>');
+                    $this.html('<span class="title">' + title + '</span>' + '<div class="dates">ID: ' + id + '</div>');
                 }
                 if (grouptitle == 'Task {#}')
                     displayProgress($group);
