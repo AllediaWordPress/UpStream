@@ -78,7 +78,7 @@ jQuery(function ($) {
             url: ajaxurl,
             type: 'post',
             data: {
-                action: 'upstream_admin_refresh_projects_meta',
+                action: 'upstream_import_file',
                 nonce: $btn.data('nonce')
             },
             beforeSend: function () {
@@ -114,6 +114,89 @@ jQuery(function ($) {
                 $btn.prop('disabled', false);
             }
         });
+    };
+
+    window.upstream_import_file = function(event) {
+
+        var $btn = $(event.target);
+        var label = $btn.text();
+
+        if (!confirm(upstreamAdmin.MSG_CONFIRM_IMPORT)) {
+            return;
+        }
+
+        var minutes, seconds, timer = 0, running = true;
+
+        setInterval(function () {
+
+            if (!running) return;
+
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            $('#upstream_import_elapsed_time').html(minutes + ":" + seconds);
+
+            timer++;
+        }, 1000);
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            data: {
+                action: 'upstream_admin_import_file',
+                nonce: $btn.data('nonce'),
+                fileId: $('#import_file_id').val()
+            },
+            beforeSend: function () {
+                $btn.text(upstreamAdmin.LB_REFRESHING);
+                $btn.prop('disabled', true);
+            },
+            error: function (response) {
+                $msg = $('<span>' + upstreamAdmin.MSG_IMPORT_ERROR + '</span>');
+                $msg.addClass('upstream_float_error');
+
+                $btn.after($msg);
+
+                running = false;
+                timer = 0;
+
+                window.setTimeout(function () {
+                    $msg.fadeOut();
+                }, 4000);
+            },
+            success: function (response) {
+
+                running = false;
+                timer = 0;
+
+                if (response == '') {
+
+                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
+                    $msg.addClass('upstream_float_success');
+
+                    $btn.parent().append($msg);
+
+                    window.setTimeout(function () {
+                        $msg.fadeOut();
+                    }, 4000);
+                } else {
+                    alert(response);
+                }
+            },
+            complete: function (jqXHR, textStatus) {
+                if (textStatus !== 'success') {
+
+                }
+
+                $btn.text(label);
+                $btn.prop('disabled', false);
+            }
+        });
+
+
     };
 
     window.upstream_cleanup_update_cache = function (event) {

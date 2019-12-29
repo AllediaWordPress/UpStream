@@ -1,12 +1,14 @@
 <?php
-//This include shouldn't be necessary however the wp_check_post_lock call fails
-//in the frontend edit module which is odd
-@include_once 'wp-admin/includes/post.php';
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH')) {
     exit;
 }
+
+//This include shouldn't be necessary however the wp_check_post_lock call fails
+//in the frontend edit module which is odd
+@include_once ABSPATH . '/wp-admin/includes/post.php';
+
 
 /**
  * UpStream_Project Class
@@ -478,9 +480,13 @@ class UpStream_Project
     public function update_tasks_milestones()
     {
         $tasks      = $this->get_meta('tasks');
-        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject_NoPerms($this->ID);
 
-        $wp_lock_check = wp_check_post_lock($this->ID);
+
+        $wp_lock_check = false;
+        if (function_exists('wp_check_post_lock')) {
+            $wp_lock_check = wp_check_post_lock($this->ID);
+        }
 
         if ($wp_lock_check) {
             $user_info = get_userdata($wp_lock_check);
@@ -492,59 +498,79 @@ class UpStream_Project
         $i      = 0;
         $totals = [];
 
-        if ( ! $milestones) {
-            return;
-        }
+        $counted_tids = [];
 
-        // loop through each milestone
-        foreach ($milestones as $milestone) {
-            //     ^ add reference to make changes
-            $milestone = \UpStream\Factory::getMilestone($milestone);
+        $percentage_project = 0;
+        $sum_project = 0;
+        $count_project = 0;
 
-            $sum   = 0;
-            $count = 0;
-            $open  = 0;
+        if (!empty($milestones)) {
 
-            $sum_project = 0;
-            $count_project = 0;
+            // loop through each milestone
+            foreach ($milestones as $milestone) {
+                //     ^ add reference to make changes
+                $milestone = \UpStream\Factory::getMilestone($milestone);
 
-            if ($tasks) {
-                // loop through each task
-                foreach ($tasks as $task) {
-                    // if a milestone has a task assigned to it
-                    if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
-                        $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
-                        $count++; // count
+                $sum = 0;
+                $count = 0;
+                $open = 0;
 
-                        // add open tasks count to the milestone
-                        if (( ! isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
-                            $open++;
+                if ($tasks) {
+                    // loop through each task
+                    foreach ($tasks as $task) {
+                        // if a milestone has a task assigned to it
+                        if (isset($task['milestone']) && (int)$task['milestone'] === $milestone->getId()) { // if it matches
+
+                            $counted_tids[] = $task['id'];
+
+                            $sum += isset($task['progress']) ? (int)$task['progress'] : 0; // add task progress to get the sum progress of all tasks
+                            $count++; // count
+
+                            // add open tasks count to the milestone
+                            if ((!isset($task['status']) || empty($task['status'])) || (isset($task['status']) && $this->is_open_tasks($task['status']))) {
+                                $open++;
+                            }
+                            $sum_project += isset($task['progress']) ? (int)$task['progress'] : 0;
+                            $count_project++;
                         }
                     }
+                }
+
+                // maths to work out total percentage of this milestone
+                $percentage = $count > 0 ? $sum / ($count * 100) * 100 : 0;
+                $percentage_project = $count_project > 0 ? $sum_project / ($count_project * 100) * 100 : 0;
+
+                $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
+                $milestone->setTaskCount($count); // add the number of tasks in this milestone
+
+                if (isset($open)) {
+                    $milestone->setTaskOpen($open++);
+                } // add the number of open tasks in this milestone
+
+                // make sure the milestone has at lea   st 1 task assigned otherwise it doesn't count
+                if ($count > 0) {
+                    $totals[$milestone->getId()]['count'] = $count;
+                    $totals[$milestone->getId()]['progress'] = $percentage;
+                }
+
+                $i++;
+            }
+
+        }
+
+        if (!empty($tasks)) {
+
+            foreach ($tasks as $task) {
+
+                if (!in_array($task['id'], $counted_tids)) {
 
                     $sum_project += isset($task['progress']) ? (int)$task['progress'] : 0;
                     $count_project++;
+                    $percentage_project = $count_project > 0 ? $sum_project / ($count_project * 100) * 100 : 0;
                 }
+
             }
 
-            // maths to work out total percentage of this milestone
-            $percentage = $count > 0 ? $sum / ($count * 100) * 100 : 0;
-            $percentage_project = $count_project > 0 ? $sum_project / ($count_project * 100) * 100 : 0;
-
-            $milestone->setProgress(round($percentage, 1)); // add the percentage into our new progress key
-            $milestone->setTaskCount($count); // add the number of tasks in this milestone
-
-            if (isset($open)) {
-                $milestone->setTaskOpen($open++);
-            } // add the number of open tasks in this milestone
-
-            // make sure the milestone has at lea   st 1 task assigned otherwise it doesn't count
-            if ($count > 0) {
-                $totals[$milestone->getId()]['count']    = $count;
-                $totals[$milestone->getId()]['progress'] = $percentage;
-            }
-
-            $i++;
         }
 
         update_post_meta($this->ID, '_upstream_project_tasks', $tasks);
@@ -604,7 +630,7 @@ class UpStream_Project
         $bugs       = $this->get_meta('bugs');
         $files      = $this->get_meta('files');
 
-        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject($this->ID);
+        $milestones = \UpStream\Milestones::getInstance()->getMilestonesFromProject_NoPerms($this->ID);
 
         $users = []; // start with fresh array
 

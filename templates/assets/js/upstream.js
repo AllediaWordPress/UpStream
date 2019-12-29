@@ -106,7 +106,6 @@ jQuery(document).ready(function ($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    // TODO: This is some kind of easy fix, maybe we can improve this
     var setContentHeight = function () {
         // reset height
         $('.right_col').css('min-height', $(window).height());

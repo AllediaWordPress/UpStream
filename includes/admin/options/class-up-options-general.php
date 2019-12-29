@@ -64,6 +64,7 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             add_action('wp_ajax_upstream_admin_reset_capabilities', [$this, 'reset_capabilities']);
             add_action('wp_ajax_upstream_admin_refresh_projects_meta', [$this, 'refresh_projects_meta']);
+            add_action('wp_ajax_upstream_admin_import_file', [$this, 'import_file']);
             add_action('wp_ajax_upstream_admin_cleanup_update_cache', [$this, 'cleanup_update_cache']);
             add_action('wp_ajax_upstream_admin_migrate_milestones_get_projects',
                 [$this, 'migrate_milestones_get_projects']);
@@ -569,7 +570,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'id'                => 'disable_milestones',
                             'type'              => 'multicheck',
                             'desc'              => __(
-                                'Ticking this box will disable the Milestones section on both the frontend and the admin area.',
+                                'Ticking this box will disable the Milestones section on both the frontend and the admin area. <strong>Warning: The project timeline and some other features require milestones to work properly.</strong>',
                                 'upstream'
                             ),
                             'default'           => '',
@@ -787,6 +788,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
+                            'name'              => __('Beta Features', 'upstream'),
+                            'id'                => 'beta_features',
+                            'type'              => 'multicheck',
+                            'desc'              => __(
+                                'Ticking this box will enable beta features.',
+                                'upstream'
+                            ),
+                            'default'           => '',
+                            'options'           => [
+                                '1' => __('Enabled', 'upstream'),
+                            ],
+                            'select_all_button' => false,
+                        ],
+                        [
                             'name'              => __('Remove Data', 'upstream'),
                             'id'                => 'remove_data',
                             'type'              => 'multicheck',
@@ -841,6 +856,52 @@ if ( ! class_exists('UpStream_Options_General')) :
                 $roles->add_default_caps($_POST['role']);
 
                 $return = 'success';
+            }
+
+            echo wp_json_encode($return);
+            exit();
+        }
+
+        public function import_file()
+        {
+            $return = '';
+            $abort  = false;
+
+            if ( ! isset($_POST['nonce'])) {
+                $return = 'error';
+                $abort  = true;
+            }
+
+            if ( ! wp_verify_nonce($_POST['nonce'], 'upstream_import_file')) {
+                $return = 'error';
+                $abort  = true;
+            }
+
+            if ( ! $abort) {
+
+                if (!current_user_can('administrator')) {
+                    $return = __('You must be an administrator to import data.', 'upstream');
+                    $abort = true;
+                } else {
+
+                    $fileId = $_POST['fileId'];
+                    $file = get_attached_file($fileId);
+
+                    if ($file) {
+
+                        $res = UpStream_Import::importFile($file);
+                        if ($res) {
+                            $return = $res;
+                            $abort = true;
+                        }
+
+                    } else {
+                        $return = 'error';
+                        $abort = true;
+
+                    }
+                }
+
             }
 
             echo wp_json_encode($return);

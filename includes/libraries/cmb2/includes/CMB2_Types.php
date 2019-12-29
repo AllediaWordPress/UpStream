@@ -11,11 +11,6 @@
  * @license   GPL-2.0+
  * @link      https://cmb2.io
  *
- * @method string _id()
- * @method string _name()
- * @method string _desc()
- * @method string _text()
- * @method string concat_attrs()
  */
 class CMB2_Types
 {

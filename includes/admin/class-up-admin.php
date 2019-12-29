@@ -99,7 +99,7 @@ class UpStream_Admin
         if ($statuses) {
             foreach ($statuses as $status) {
                 if ($status['id'] == $task_id) {
-                    if ($status['percent'] > $cur_per) {
+                    if (!empty($status['percent']) && $status['percent'] > $cur_per) {
                         echo $status['percent']; 
                         exit;
                     } else {

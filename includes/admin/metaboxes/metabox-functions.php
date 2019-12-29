@@ -380,7 +380,7 @@ function upstream_admin_output_task_hidden_data()
         foreach ($statuses as $status) {
             echo '<li>
                 <span class="status">' . esc_html($status['name']) . '</span>
-                <span class="color">' . esc_html($status['color']) . '</span>
+                <span class="color">' . esc_html(isset($status['color']) ? $status['color'] : '') . '</span>
                 </li>';
         }
         echo '</ul>';

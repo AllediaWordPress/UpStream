@@ -116,6 +116,10 @@ class Upstream_Bug_List extends WP_List_Table
 
         $data = [];
 
+        if (empty($rowset)) {
+            return $data;
+        }
+
         foreach ($rowset as $row) {
             if (isset($row['status'])
                 && ! empty($row['status'])
@@ -379,7 +383,7 @@ class Upstream_Bug_List extends WP_List_Table
     {
         if (empty(self::$bugsStatuses)) {
             $rowset = self::get_bugs();
-            if (count($rowset) === 0) {
+            if (empty($rowset) || count($rowset) === 0) {
                 return;
             }
 
@@ -409,7 +413,7 @@ class Upstream_Bug_List extends WP_List_Table
     {
         if (empty(self::$bugsSeverities)) {
             $rowset = self::get_bugs();
-            if (count($rowset) === 0) {
+            if (empty($rowset) || count($rowset) === 0) {
                 return;
             }
 

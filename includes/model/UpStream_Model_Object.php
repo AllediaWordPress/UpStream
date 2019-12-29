@@ -5,22 +5,34 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+if (! defined('UPSTREAM_ITEM_TYPE_PROJECT')) {
+
+    define('UPSTREAM_ITEM_TYPE_PROJECT', 'project');
+    define('UPSTREAM_ITEM_TYPE_MILESTONE', 'milestone');
+    define('UPSTREAM_ITEM_TYPE_CLIENT', 'client');
+    define('UPSTREAM_ITEM_TYPE_TASK', 'task');
+    define('UPSTREAM_ITEM_TYPE_BUG', 'bug');
+    define('UPSTREAM_ITEM_TYPE_FILE', 'file');
+    define('UPSTREAM_ITEM_TYPE_DISCUSSION', 'discussion');
+
+}
 
 class UpStream_Model_Object
 {
 
-    public $id = 0;
+    protected $id = 0;
 
-    public $type = null;
+    protected $type = null;
 
-    public $title = null;
+    protected $title = null;
 
-    public $assignedTo = [];
+    protected $assignedTo = [];
 
-    public $createdBy = 0;
+    protected $createdBy = 0;
 
-    public $description = '';
+    protected $description = null;
 
+    protected $additionaFields = [];
 
     /**
      * UpStream_Model_Object constructor.
@@ -28,6 +40,9 @@ class UpStream_Model_Object
      */
     public function __construct($id = 0)
     {
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $id))
+            throw new UpStream_Model_ArgumentException(sprintf(__('ID %s must be a valid alphanumeric.', 'upstream'), $id));
+
         $this->id = $id;
     }
 
@@ -45,6 +60,110 @@ class UpStream_Model_Object
         return false;
     }
 
+    public function __get($property)
+    {
+        switch ($property) {
+
+            case 'id':
+            case 'title':
+            case 'assignedTo':
+            case 'createdBy':
+            case 'type':
+            case 'description':
+                return $this->{$property};
+
+            default:
+
+                if (array_key_exists($property, $this->additionaFields)) {
+
+                    $value = apply_filters('upstream_model_get_property_value', $this->additionaFields[$property], $this->type, $this->id, $property);
+                    return $value;
+
+                } else {
+                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+                }
+
+                return $value;
+        }
+    }
+
+    public function __set($property, $value)
+    {
+        switch ($property) {
+
+            case 'id':
+                if (!preg_match('/^[a-zA-Z0-9]+$/', $value))
+                    throw new UpStream_Model_ArgumentException(sprintf(__('ID %s must be a valid alphanumeric.', 'upstream'), $value));
+                $this->{$property} = $value;
+                break;
+
+            case 'title':
+                if (trim(sanitize_text_field($value)) == '')
+                    throw new UpStream_Model_ArgumentException(__('You must enter a title.', 'upstream'));
+
+                $this->{$property} = trim(sanitize_text_field($value));
+                break;
+
+            case 'description':
+                $this->{$property} = wp_kses_post($value);
+                break;
+
+            case 'assignedTo':
+            case 'assignedTo:byUsername':
+            case 'assignedTo:byEmail':
+                if (!is_array($value))
+                    $value = [$value];
+
+                $new_value = [];
+
+                foreach ($value as $uid) {
+                    $user = false;
+                    if ($property === 'assignedTo')
+                        $user = get_user_by('id', $uid);
+                    if ($property === 'assignedTo:byUsername')
+                        $user = get_user_by('login', $uid);
+                    if ($property === 'assignedTo:byEmail')
+                        $user = get_user_by('email', $uid);
+
+                    if ($user === false)
+                        throw new UpStream_Model_ArgumentException(sprintf(__('User "%s" (for field %s) does not exist.', 'upstream'), $uid, $property));
+
+                    $new_value[] = $user->ID;
+                }
+
+                $this->assignedTo = $new_value;
+                break;
+
+            case 'createdBy':
+                if (get_userdata($value) === false)
+                    throw new UpStream_Model_ArgumentException(sprintf(__('User ID %s does not exist.', 'upstream'), $value));
+
+                $this->{$property} = $value;
+                break;
+
+            default:
+                $orig_value = (array_key_exists($property, $this->additionaFields)) ? $this->additionaFields[$property] : null;
+
+                $propertyExists = apply_filters('upstream_model_property_exists', false, $this->type, $this->id, $property);
+                if (!$propertyExists) {
+                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+                }
+
+                $new_value = apply_filters('upstream_model_set_property_value', $orig_value, $this->type, $this->id, $property, $value);
+                $this->additionaFields[$property] = $new_value;
+        }
+    }
+
+    public static function loadDate($data, $field)
+    {
+        if (!empty($data[$field . '__YMD'])) {
+            return $data[$field . '__YMD'];
+        } else if (!empty($data[$field])) {
+            return self::timestampToYMD($data[$field]);
+        }
+        return null;
+    }
+
     public static function timestampToYMD($timestamp)
     {
 	    $offset = get_option( 'gmt_offset' );
@@ -60,7 +179,14 @@ class UpStream_Model_Object
 
     public static function ymdToTimestamp($ymd)
     {
-        return date_create_from_format('Y-m-d', $ymd);
+        // TODO: check timezones with this
+        return date_create_from_format('Y-m-d', $ymd)->getTimestamp();
+    }
+
+    public static function isValidDate($ymd)
+    {
+        $d = DateTime::createFromFormat('Y-m-d', $ymd);
+        return $d && $d->format('Y-m-d') == $ymd;
     }
 
 }

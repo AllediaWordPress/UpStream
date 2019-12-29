@@ -588,6 +588,62 @@ class Milestones
      * @return array
      * @throws Exception
      */
+    public function getMilestonesFromProjectUncached_NoPerms($projectId, $returnAsLegacyDataset = false)
+    {
+        $posts = get_posts(
+            [
+                'post_type'      => Milestone::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_key'       => Milestone::META_PROJECT_ID,
+                'meta_value'     => $projectId,
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
+            ]
+        );
+
+        $milestones = [];
+
+        if ( ! empty($posts)) {
+            foreach ($posts as $post) {
+                if ($returnAsLegacyDataset) {
+                    $data = Factory::getMilestone($post)->convertToLegacyRowset();
+                } else {
+                    $data = $post;
+                }
+
+                $milestones[$post->ID] = $data;
+            }
+        }
+
+        return $milestones;
+    }
+
+
+    public function getMilestonesFromProject_NoPerms($projectId, $returnAsLegacyDataset = false)
+
+    {
+        $key = "getMilestonesFromProject_NoPerms".((int)$projectId)."_".((int)$returnAsLegacyDataset);
+
+        $milestones = \Upstream_Cache::get_instance()->get($key);
+
+        // should be circumvented because it's only used on saves
+        if (true||$milestones === false) {
+            $milestones = $this->getMilestonesFromProjectUncached_NoPerms((int)$projectId, $returnAsLegacyDataset);
+            \Upstream_Cache::get_instance()->set($key, $milestones);
+        }
+
+        return $milestones;
+
+    }
+
+    /**
+     * @param int  $projectId
+     * @param bool $returnAsLegacyDataset
+     *
+     * @return array
+     * @throws Exception
+     */
     public function getMilestonesFromProjectUncached($projectId, $returnAsLegacyDataset = false)
     {
         $posts = get_posts(
