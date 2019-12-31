@@ -508,33 +508,53 @@ function upstream_add_default_options()
 }
 
 
-/**
- * When a new Blog is created in multisite, see if UpStream is network activated, and run the installer
- *
- * @param int    $blog_id The Blog ID created
- * @param int    $user_id The User ID set as the admin
- * @param string $domain  The URL
- * @param string $path    Site Path
- * @param int    $site_id The Site ID
- * @param array  $meta    Blog Meta
- *
- * @return void
- * @since  1.0.0
- *
- */
-function upstream_new_blog_created($blog_id, $user_id, $domain, $path, $site_id, $meta)
-{
-    up_debug();
+if (version_compare(get_bloginfo('version'),'5.1', '>=')) {
 
-    if (is_plugin_active_for_network(plugin_basename(UPSTREAM_PLUGIN_FILE))) {
-        switch_to_blog($blog_id);
-        upstream_install();
-        restore_current_blog();
+    function upstream_new_blog_created($site)
+    {
+        up_debug();
+
+        $blog_id = $site->blog_id;
+
+        if (is_plugin_active_for_network(plugin_basename(UPSTREAM_PLUGIN_FILE))) {
+            switch_to_blog($blog_id);
+            upstream_install();
+            restore_current_blog();
+        }
     }
+
+    add_action('wp_insert_site', 'upstream_new_blog_created', 10, 6);
+
+} else {
+
+    /**
+     * When a new Blog is created in multisite, see if UpStream is network activated, and run the installer
+     *
+     * @param int $blog_id The Blog ID created
+     * @param int $user_id The User ID set as the admin
+     * @param string $domain The URL
+     * @param string $path Site Path
+     * @param int $site_id The Site ID
+     * @param array $meta Blog Meta
+     *
+     * @return void
+     * @since  1.0.0
+     *
+     */
+    function upstream_new_blog_created($blog_id, $user_id, $domain, $path, $site_id, $meta)
+    {
+        up_debug();
+
+        if (is_plugin_active_for_network(plugin_basename(UPSTREAM_PLUGIN_FILE))) {
+            switch_to_blog($blog_id);
+            upstream_install();
+            restore_current_blog();
+        }
+    }
+
+    add_action('wpmu_new_blog', 'upstream_new_blog_created', 10, 6);
+
 }
-
-add_action('wpmu_new_blog', 'upstream_new_blog_created', 10, 6);
-
 
 /**
  * Post-installation
