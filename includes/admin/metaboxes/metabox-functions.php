@@ -569,7 +569,7 @@ function upstreamRenderCommentsBox(
         $currentTimestamp  = time();
 
         foreach ($rowset as $row) {
-            $author = $users[(int)$row->user_id];
+            $author = isset($users[(int)$row->user_id]) ? $users[(int)$row->user_id] : $row->comment_author;
 
             $date          = DateTime::createFromFormat('Y-m-d H:i:s', $row->comment_date_gmt);
             $dateTimestamp = $date->getTimestamp();
@@ -597,7 +597,7 @@ function upstreamRenderCommentsBox(
                 ],
             ]));
 
-            if ($author->id == $user->ID) {
+            if (isset($author->id) && $author->id == $user->ID) {
                 $comment->currentUserCap->can_delete = true;
             }
 
@@ -669,7 +669,10 @@ function upstream_admin_display_message_item($comment, $comments = [], $renderCo
          id="comment-<?php echo $comment->id; ?>" data-id="<?php echo $comment->id; ?>">
         <div class="o-comment__body">
             <div class="o-comment__body__left">
+
+                <?php if (isset($comment->created_by->avatar)) { ?>
                 <img class="o-comment__user_photo" src="<?php echo $comment->created_by->avatar; ?>" width="30">
+                <?php } ?>
                 <?php if ( ! $isApproved && $currentUserCapabilities->can_moderate): ?>
                     <div class="u-text-center">
                         <i class="fa fa-eye-slash u-color-gray"
@@ -682,7 +685,7 @@ function upstream_admin_display_message_item($comment, $comments = [], $renderCo
             </div>
             <div class="o-comment__body__right">
                 <div class="o-comment__body__head">
-                    <div class="o-comment__user_name"><?php echo $comment->created_by->name; ?></div>
+                    <div class="o-comment__user_name"><?php echo  isset($comment->created_by->name) ? $comment->created_by->name : ''; ?></div>
                     <div class="o-comment__reply_info"></div>
                     <div class="o-comment__date"><?php echo $comment->created_at->humanized; ?>&nbsp;<small>
                             (<?php echo $comment->created_at->localized; ?>)
@@ -766,7 +769,9 @@ function upstream_display_message_item($comment, $comments = [], $renderControls
          id="comment-<?php echo $comment->id; ?>" data-id="<?php echo $comment->id; ?>">
         <div class="o-comment__body">
             <div class="o-comment__body__left">
+                <?php if (isset($comment->created_by->avatar)) { ?>
                 <img class="o-comment__user_photo" src="<?php echo $comment->created_by->avatar; ?>" width="30">
+                <?php } ?>
                 <?php if ( ! $isApproved && $currentUserCapabilities->can_moderate): ?>
                     <div class="u-text-center">
                         <i class="fa fa-eye-slash u-color-gray" data-toggle="tooltip"
@@ -779,7 +784,7 @@ function upstream_display_message_item($comment, $comments = [], $renderControls
             </div>
             <div class="o-comment__body__right">
                 <div class="o-comment__body__head">
-                    <div class="o-comment__user_name"><?php echo $comment->created_by->name; ?></div>
+                    <div class="o-comment__user_name"><?php echo isset($comment->created_by->name) ? $comment->created_by->name : ''; ?></div>
                     <div class="o-comment__reply_info"></div>
                     <div class="o-comment__date" data-toggle="tooltip"
                          title="<?php echo $comment->created_at->localized; ?>"><?php echo $comment->created_at->humanized; ?></div>
