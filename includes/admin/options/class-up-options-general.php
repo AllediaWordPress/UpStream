@@ -64,12 +64,15 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             add_action('wp_ajax_upstream_admin_reset_capabilities', [$this, 'reset_capabilities']);
             add_action('wp_ajax_upstream_admin_refresh_projects_meta', [$this, 'refresh_projects_meta']);
-            add_action('wp_ajax_upstream_admin_import_file', [$this, 'import_file']);
             add_action('wp_ajax_upstream_admin_cleanup_update_cache', [$this, 'cleanup_update_cache']);
             add_action('wp_ajax_upstream_admin_migrate_milestones_get_projects',
                 [$this, 'migrate_milestones_get_projects']);
             add_action('wp_ajax_upstream_admin_migrate_milestones_for_project',
                 [$this, 'migrate_milestones_for_project']);
+
+            add_action('wp_ajax_upstream_admin_import_file_prepare', [$this, 'import_file_prepare']);
+            add_action('wp_ajax_upstream_admin_import_file_section', [$this, 'import_file_section']);
+
         }
 
         /**
@@ -862,7 +865,43 @@ if ( ! class_exists('UpStream_Options_General')) :
             exit();
         }
 
-        public function import_file()
+        public function import_file_prepare()
+        {
+            if ( ! isset($_GET['nonce'])) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            if ( ! wp_verify_nonce($_GET['nonce'], 'upstream_import_file')) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            $return = [];
+
+            $fileId = $_GET['fileId'];
+            $file = get_attached_file($fileId);
+
+            if (!current_user_can('administrator')) {
+                $return = ['error' => __('You must be an administrator to import data.', 'upstream')];
+            }
+            elseif (!$file) {
+                $return = ['error' => __('No file found.', 'upstream')];
+            } else {
+
+                $res = UpStream_Import::prepareFile($file);
+                if ($res['message']) {
+                    $return = ['error' => $res['message']];
+                } else {
+                    $return = ['total' => $res['lines']];
+                }
+
+            }
+
+
+            echo wp_json_encode($return);
+            exit();
+        }
+
+        public function import_file_section($line_start)
         {
             $return = '';
             $abort  = false;
@@ -877,11 +916,15 @@ if ( ! class_exists('UpStream_Options_General')) :
                 $abort  = true;
             }
 
+            if ( ! isset($_POST['lineNo']) ) {
+                $return = 'error';
+                $abort  = true;
+            }
+
             if ( ! $abort) {
 
                 if (!current_user_can('administrator')) {
-                    $return = __('You must be an administrator to import data.', 'upstream');
-                    $abort = true;
+                    $return = ['success' => false, 'message' => __('You must be an administrator to import data.', 'upstream')];
                 } else {
 
                     $fileId = $_POST['fileId'];
@@ -889,19 +932,20 @@ if ( ! class_exists('UpStream_Options_General')) :
 
                     if ($file) {
 
-                        $res = UpStream_Import::importFile($file);
-                        if ($res) {
-                            $return = $res;
-                            $abort = true;
+                        $res = UpStream_Import::importFile($file, $line_start);
+                        if ( $res ) {
+                            $return = ['success' => false, 'message' => $res];
+                        } else {
+                            $return = ['success' => true];
                         }
 
                     } else {
-                        $return = 'error';
-                        $abort = true;
-
+                        $return = ['success' => false, 'message' => __('The file could not be found.', 'upstream')];
                     }
                 }
 
+            } else {
+                $return = ['success' => false, 'message' => __('A general error occurred.', 'upstream')];
             }
 
             echo wp_json_encode($return);

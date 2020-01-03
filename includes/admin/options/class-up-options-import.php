@@ -109,7 +109,6 @@ if ( ! class_exists('UpStream_Options_Import')) :
                             ),
                         ],
                         [
-                            'after_row' => '<center style="font-size:1.3em;color:red">'.__('This process takes up to 3 minutes per 100 lines of the imported file. Elapsed time: ', 'upstream') . '<span id="upstream_import_elapsed_time">0:00</span></center>',
                             'name'    => __('Perform Import', 'upstream'),
                             'id'      => 'perform_import',
                             'type'    => 'up_button',

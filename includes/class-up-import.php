@@ -47,12 +47,12 @@ class UpStream_Import
      * @param $file
      * @return string|null
      */
-    public static function importFile($file)
+    public static function importFile($file, $line_start)
     {
 
         if (true) {
 
-            $error = __('Import successful.', 'upstream');
+            $error = '';
             $importer = new UpStream_Import();
 
             ini_set('auto_detect_line_endings',TRUE);
@@ -61,8 +61,14 @@ class UpStream_Import
             try {
                 $lineNo = 0;
                 while (($data = fgetcsv($handle)) !== FALSE) {
-                    $importer->importTableLine($data, $lineNo);
+
+                    if ($lineNo >= $line_start) {
+                        $importer->importTableLine($data, $lineNo);
+                    }
                     $lineNo++;
+                    if ($lineNo >= $line_start + 30) {
+                        break;
+                    }
                 }
             } catch (\Exception $e) {
                 $error = __('Error loading file: line ', 'upstream') . ($lineNo + 1) . ' ' . $e->getMessage();
@@ -72,6 +78,34 @@ class UpStream_Import
             ini_set('auto_detect_line_endings',FALSE);
 
             return $error;
+        }
+    }
+
+    public static function prepareFile($file)
+    {
+
+        if (true) {
+
+            $message = '';
+            $importer = new UpStream_Import();
+
+            ini_set('auto_detect_line_endings',TRUE);
+            $handle = fopen($file,'r');
+
+            try {
+                $lineNo = 0;
+                while (($data = fgetcsv($handle)) !== FALSE) {
+                    // TODO: check each line for validity
+                    $lineNo++;
+                }
+            } catch (\Exception $e) {
+                $message = __('Error loading file: line ', 'upstream') . ($lineNo + 1) . ' ' . $e->getMessage();
+            }
+
+            fclose($handle);
+            ini_set('auto_detect_line_endings',FALSE);
+
+            return ['message' => $message, 'lines' => $lineNo];
         }
     }
 

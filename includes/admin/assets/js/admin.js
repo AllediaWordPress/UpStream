@@ -116,88 +116,135 @@ jQuery(function ($) {
         });
     };
 
-    window.upstream_import_file = function(event) {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    window.upstream_import_file = function (event) {
+        $('.upstream-option-subpanel').remove();
+
+        /**
+         * Prepare the terminal for output the migration data.
+         */
+        var $fieldWrapper = $('.cmb2-id-perform-import .cmb-td');
+        var $importWrapper = $('<div>').addClass('upstream-option-subpanel');
         var $btn = $(event.target);
-        var label = $btn.text();
+        var promptString = '';
 
-        if (!confirm(upstreamAdmin.MSG_CONFIRM_IMPORT)) {
-            return;
-        }
+        $fieldWrapper.append($importWrapper);
 
-        var minutes, seconds, timer = 0, running = true;
+        /**
+         * Initialize the terminal.
+         */
+        var terminal = $($importWrapper).terminal(
+            function (command) {
+                error('Please, just wait until the process finish.');
+            },
+            {
+                greetings: '======================================================\nUpStream - Import File\n======================================================',
+                name: 'upstream_import_file',
+                prompt: promptString
+            }
+        ).disable();
 
-        setInterval(function () {
+        var echo = function (text) {
+            terminal.echo(promptString + text);
+        };
 
-            if (!running) return;
+        var error = function (text) {
+            terminal.error(text);
+        };
 
-            minutes = parseInt(timer / 60, 10)
-            seconds = parseInt(timer % 60, 10);
+        $btn.prop('disabled', true);
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
+        var call = function (args) {
+            var data = args.data;
+            data.action = args.action;
+            data.nonce = $btn.data('nonce');
 
-            $('#upstream_import_elapsed_time').html(minutes + ":" + seconds);
+            $.ajax({
+                url: ajaxurl,
+                type: args.type,
+                data: data,
+                beforeSend: function () {
+                    if (typeof args.before !== 'undefined') {
+                        args.before();
+                    }
+                },
+                error: function (response) {
+                    error('Sorry, something is wrong...');
+                    error(response.status + ' ' + response.statusText);
+                },
+                success: function (response) {
+                    if (typeof args.after !== 'undefined') {
+                        args.after(response);
+                    }
+                }
+            });
+        };
 
-            timer++;
-        }, 1000);
+        var importData = function (i, total) {
+            call({
+                action: 'upstream_admin_import_file_section',
+                type: 'post',
+                data: {
+                    fileId: $('#import_file_id').val(),
+                    lineNo: i
+                },
+                before: function () {
+                    echo('Processing lines ' + i + ' to ' + (i+30 > total ? total : i+30) + '...This should take about 1 minute.');
+                },
+                after: function (response) {
+                    response = JSON.parse(response);
 
-        $.ajax({
-            url: ajaxurl,
-            type: 'post',
+                    if (typeof response.success === 'undefined' || !response.success) {
+                        error(response.message + '\n');
+                        $btn.prop('disabled', false);
+                    } else {
+                        echo('Section loaded successfullly.\n');
+
+                        if (i + 30 <= total) {
+                            importData(i + 30, total);
+                        } else {
+                            echo('\n\nDone.');
+                        }
+                    }
+                }
+            });
+        };
+
+        // Check how many projects with milestones we have
+        call({
+            action: 'upstream_admin_import_file_prepare',
+            type: 'get',
             data: {
-                action: 'upstream_admin_import_file',
-                nonce: $btn.data('nonce'),
                 fileId: $('#import_file_id').val()
             },
-            beforeSend: function () {
-                $btn.text(upstreamAdmin.LB_REFRESHING);
-                $btn.prop('disabled', true);
+            before: function () {
+                echo('Please wait... we are preparing the file for import.');
             },
-            error: function (response) {
-                $msg = $('<span>' + upstreamAdmin.MSG_IMPORT_ERROR + '</span>');
-                $msg.addClass('upstream_float_error');
+            after: function (response) {
+                response = JSON.parse(response);
 
-                $btn.after($msg);
+                if ('total' in response) {
+                    echo('Found ' + response.total +  ' items to import.\n');
+                    echo('');
+                    echo('Starting the import process...\n');
 
-                running = false;
-                timer = 0;
-
-                window.setTimeout(function () {
-                    $msg.fadeOut();
-                }, 4000);
-            },
-            success: function (response) {
-
-                running = false;
-                timer = 0;
-
-                if (response == '') {
-
-                    $msg = $('<span class="allex-success-message">' + upstreamAdmin.MSG_PROJECTS_SUCCESS + '</span>');
-                    $msg.addClass('upstream_float_success');
-
-                    $btn.parent().append($msg);
-
-                    window.setTimeout(function () {
-                        $msg.fadeOut();
-                    }, 4000);
+                    importData(0, response.total);
                 } else {
-                    alert(response);
+                    if ('error' in response) {
+                        echo(response.error);
+                    } else {
+                        echo('\nAn error occurred.');
+                    }
                 }
-            },
-            complete: function (jqXHR, textStatus) {
-                if (textStatus !== 'success') {
-
-                }
-
-                $btn.text(label);
-                $btn.prop('disabled', false);
             }
         });
-
-
     };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     window.upstream_cleanup_update_cache = function (event) {
         var $btn = $(event.target);
