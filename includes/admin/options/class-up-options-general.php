@@ -901,7 +901,7 @@ if ( ! class_exists('UpStream_Options_General')) :
             exit();
         }
 
-        public function import_file_section($line_start)
+        public function import_file_section()
         {
             $return = '';
             $abort  = false;
@@ -928,6 +928,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                 } else {
 
                     $fileId = $_POST['fileId'];
+                    $line_start = $_POST['lineNo'];
                     $file = get_attached_file($fileId);
 
                     if ($file) {

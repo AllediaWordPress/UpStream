@@ -192,7 +192,7 @@ jQuery(function ($) {
                     lineNo: i
                 },
                 before: function () {
-                    echo('Processing lines ' + i + ' to ' + (i+30 > total ? total : i+30) + '...This should take about 1 minute.');
+                    echo('Processing lines ' + i + ' to ' + (i+100 > total ? total : i+100) + '...This should take about 3 minutes.');
                 },
                 after: function (response) {
                     response = JSON.parse(response);
@@ -200,13 +200,15 @@ jQuery(function ($) {
                     if (typeof response.success === 'undefined' || !response.success) {
                         error(response.message + '\n');
                         $btn.prop('disabled', false);
+                        echo('End time:' + new Date());
                     } else {
                         echo('Section loaded successfullly.\n');
 
-                        if (i + 30 <= total) {
-                            importData(i + 30, total);
+                        if (i + 100 <= total) {
+                            importData(i + 100, total);
                         } else {
                             echo('\n\nDone.');
+                            echo('End time:' + new Date());
                         }
                     }
                 }
@@ -229,6 +231,7 @@ jQuery(function ($) {
                 if ('total' in response) {
                     echo('Found ' + response.total +  ' items to import.\n');
                     echo('');
+                    echo('Start time:' + new Date());
                     echo('Starting the import process...\n');
 
                     importData(0, response.total);

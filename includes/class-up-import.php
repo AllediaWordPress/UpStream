@@ -62,11 +62,11 @@ class UpStream_Import
                 $lineNo = 0;
                 while (($data = fgetcsv($handle)) !== FALSE) {
 
-                    if ($lineNo >= $line_start) {
+                    if ($lineNo == 0 || $lineNo >= $line_start) {
                         $importer->importTableLine($data, $lineNo);
                     }
                     $lineNo++;
-                    if ($lineNo >= $line_start + 30) {
+                    if ($lineNo >= $line_start + 100) {
                         break;
                     }
                 }
