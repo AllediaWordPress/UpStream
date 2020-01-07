@@ -23,12 +23,19 @@ function upstream_project_statuses_colors()
 
 function upstream_get_all_project_statuses()
 {
-    $data = [];
+	$data = Upstream_Cache::get_instance()->get('upstream_get_all_project_statuses');
 
-    $rowset = get_option('upstream_projects');
-    foreach ($rowset['statuses'] as $status) {
-        $data[$status['id']] = $status;
-    }
+	if ($data === false) {
+		$data = [];
+
+		$rowset = get_option( 'upstream_projects' );
+		foreach ( $rowset['statuses'] as $status ) {
+			$data[ $status['id'] ] = $status;
+		}
+
+		Upstream_Cache::get_instance()->set('upstream_get_all_project_statuses', $data);
+
+	}
 
     return $data;
 }
