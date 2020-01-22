@@ -3,6 +3,14 @@
         allowClear: true
     });
 
+
+    function randomString(length) {
+        var result = '';
+        var chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
+
     function initProject () {
         var $box = $(document.getElementById('post-body'));
 
@@ -433,6 +441,15 @@
             var $self = $(this);
             var $wrapper = $self.closest('.cmb-row,.form-group');
 
+             if (this.tagName === 'INPUT') {
+                var r = $(this);
+                var st = randomString(10);
+                // for datepicker duplication
+                if (r.attr('name') === 'chooseadate2') {
+                    r.attr('id', 'upstream_chooseadate2' + st);
+                    r.siblings('[name="chooseadate2_timestamp"]').attr('id', 'upstream_chooseadate2' + st + '_timestamp');
+                }
+            }
             if ($wrapper.data('default')) {
                 var defaultValue = $wrapper.data('default');
 

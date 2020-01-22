@@ -121,6 +121,9 @@ class UpStream_View
 
         $meta = [];
         foreach ($fmeta as $row) {
+            if (!isset($row['id'])) {
+                continue;
+            }
             if (upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_BUG, $row['id'], UPSTREAM_ITEM_TYPE_PROJECT, $projectId, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
                 $meta[] = $row;
             }

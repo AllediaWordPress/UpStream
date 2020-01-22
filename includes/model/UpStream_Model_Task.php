@@ -22,6 +22,8 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
     protected $reminders = [];
 
+    protected $timeRecords = [];
+
     protected $metadataKey = '_upstream_project_tasks';
 
     protected $type = UPSTREAM_ITEM_TYPE_TASK;
@@ -58,6 +60,21 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
             }
         }
+
+        if (!empty($item_metadata['records'])) {
+            foreach ($item_metadata['records'] as $tr_data) {
+
+                try {
+                    $d = json_decode($tr_data, true);
+                    $timeRecord = new UpStream_Model_TimeRecord($d);
+                    $this->timeRecords[] = $timeRecord;
+                } catch (\Exception $e) {
+                    // don't add anything else
+                }
+
+            }
+        }
+
     }
 
     public function storeToArray(&$item_metadata)
@@ -79,6 +96,14 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
             $r = [];
             $reminder->storeToArray($r);
             $item_metadata['reminders'][] = json_encode($r);
+        }
+
+        $item_metadata['time_records'] = [];
+
+        foreach ($this->timeRecords as $tr) {
+            $r = [];
+            $tr->storeToArray($r);
+            $item_metadata['records'][] = json_encode($r);
         }
     }
 
@@ -121,6 +146,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
             case 'notes':
             case 'milestoneId':
             case 'progress':
+            case 'timeRecords':
             case 'startDate':
             case 'endDate':
                 return $this->{$property};
@@ -198,6 +224,18 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
             case 'endDate':
                 if (!self::isValidDate($value))
                     throw new UpStream_Model_ArgumentException(__('Argument is not a valid date.', 'upstream'));
+
+                $this->{$property} = $value;
+                break;
+
+            case 'timeRecords':
+                if (!is_array($value))
+                    throw new UpStream_Model_ArgumentException(__('Argument must be an array of UpStream_Model_TimeRecord objects.', 'upstream'));
+
+                foreach ($value as $item) {
+                    if (!$item instanceof UpStream_Model_TimeRecord)
+                        throw new UpStream_Model_ArgumentException(__('Argument must be an array of UpStream_Model_TimeRecord objects.', 'upstream'));
+                }
 
                 $this->{$property} = $value;
                 break;
