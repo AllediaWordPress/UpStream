@@ -615,7 +615,7 @@ class Upstream_Task_List extends WP_List_Table
 
         // filtering
         $the_tasks = $tasks; // store the tasks array
-        $status    = (isset($_REQUEST['status']) ? $_REQUEST['status'] : 'all');
+        $status    = (isset($_REQUEST['status']) && $_REQUEST['status'] ? $_REQUEST['status'] : 'all');
         if ($status != 'all') {
             if ( ! empty($the_tasks)) {
                 $tasks = []; // reset the tasks array
@@ -628,7 +628,7 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $preset = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'all';
+        $preset = isset($_REQUEST['view']) && $_REQUEST['view'] ? $_REQUEST['view'] : 'all';
         if ($preset === 'mine') {
             $currentUserId = (int)get_current_user_id();
 
@@ -641,7 +641,7 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $project = (isset($_REQUEST['project']) ? $_REQUEST['project'] : '');
+        $project = (isset($_REQUEST['project']) && $_REQUEST['project'] ? $_REQUEST['project'] : '');
         if ( ! empty($tasks) && ! empty($project)) {
             foreach ($tasks as $key => $task) {
                 if ($task['project_id'] != $project) {
@@ -650,7 +650,7 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $assigned_to = isset($_REQUEST['assigned_to']) ? (int)$_REQUEST['assigned_to'] : 0;
+        $assigned_to = isset($_REQUEST['assigned_to']) && $_REQUEST['assigned_to'] ? (int)$_REQUEST['assigned_to'] : 0;
         if ($assigned_to > 0) {
             foreach ($tasks as $rowIndex => $row) {
                 $assignees = isset($row['assigned_to']) ? array_map('intval', (array)$row['assigned_to']) : [];
