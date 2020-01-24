@@ -222,7 +222,12 @@ class Upstream_Counts
         }
 
         // TODOPERM: should this be ID or name
-        $types = wp_list_pluck($statuses, 'type', 'id');
+        $types = [];
+        foreach ($statuses as $s) {
+        	if (isset($s['id']) && isset($s['type'])) {
+        		$types[$s['id']] = $s['type'];
+	        }
+        }
 
         $count = 0;
         foreach ($items as $key => $item) {

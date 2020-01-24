@@ -58,7 +58,9 @@ if ($areTasksEnabled) {
     $tasksOptions = get_option('upstream_tasks');
     $tasksMap     = [];
     foreach ($tasksOptions['statuses'] as $task) {
-        $tasksMap[$task['id']] = $task['type'];
+        if (isset($task['type'])) {
+            $tasksMap[$task['id']] = $task['type'];
+        }
     }
     unset($tasksOptions);
 

@@ -123,6 +123,14 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
             case 'color':
                 return $this->{$property};
 
+	        case 'categories':
+		        $categories = [];
+		        foreach ($this->categoryIds as $tid) {
+			        $term = get_term_by('id', $tid, 'upst_milestone_category');
+			        $categories[] = $term;
+		        }
+		        return $categories;
+
             default:
                 return parent::__get($property);
 

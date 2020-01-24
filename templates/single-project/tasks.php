@@ -29,7 +29,7 @@ if ( ! upstream_are_tasks_disabled()
 
         $statuses[$status['id']] = $status;
 
-        if ('open' === $status['type']) {
+        if (isset($status['type']) && 'open' === $status['type']) {
             $openStatuses[] = $status['id'];
         }
     }

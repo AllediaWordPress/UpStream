@@ -266,6 +266,15 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             case 'endDate':
             case 'categoryIds':
                 return $this->{$property};
+
+	        case 'categories':
+	        	$categories = [];
+		        foreach ($this->categoryIds as $tid) {
+			        $term = get_term_by('id', $tid, 'project_category');
+			        $categories[] = $term;
+		        }
+		        return $categories;
+
             case 'tasks':
             case 'bugs':
             case 'files':

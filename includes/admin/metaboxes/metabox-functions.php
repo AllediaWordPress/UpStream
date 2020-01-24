@@ -183,7 +183,14 @@ function upstream_output_overview_counts($field_args, $field)
         $options  = get_option('upstream_' . $itemType);
         $statuses = isset($options['statuses']) ? $options['statuses'] : [];
 
-        $statuses = wp_list_pluck($statuses, 'type', 'id');
+	    $types = [];
+	    foreach ($statuses as $s) {
+		    if (isset($s['id']) && isset($s['type'])) {
+			    $types[$s['id']] = $s['type'];
+		    }
+	    }
+
+	    $statuses = $types;
 
         foreach ($rowset as $row) {
             if (isset($row['assigned_to'])) {
@@ -359,7 +366,9 @@ function upstream_admin_get_task_statuses()
     $array    = [];
     if ($statuses) {
         foreach ($statuses as $status) {
-            $array[$status['id']] = $status['name'];
+            if (isset($status['name'])) {
+	            $array[ $status['id'] ] = $status['name'];
+            }
         }
     }
 

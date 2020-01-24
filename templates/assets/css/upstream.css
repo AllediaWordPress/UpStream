@@ -474,3 +474,10 @@ td .btn {
 .datepicker-dropdown {
     z-index: 999999 !important;
 }
+
+.upstream_time_record_table {
+    margin-left: 50px;
+}
+.upstream_time_record_table td, .upstream_time_record_table th {
+    padding: 5px;
+}
