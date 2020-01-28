@@ -70,7 +70,7 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         if ($this->statusCode != null) $item_metadata['status'] = $this->statusCode;
         if ($this->severityCode != null) $item_metadata['severity'] = $this->severityCode;
         if ($this->dueDate != null) $item_metadata['due_date'] = UpStream_Model_Object::ymdToTimestamp($this->dueDate);
-        if ($this->dueDate != null) $item_metadata['due_date__YMD'] = $this->dueDate;
+        if ($this->dueDate != null) $item_metadata['due_date.YMD'] = $this->dueDate;
 
         if ($this->fileId > 0) {
             $url = wp_get_attachment_url($this->fileId);

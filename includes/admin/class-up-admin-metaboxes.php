@@ -83,8 +83,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         $startDateTimestamp = $startDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['start_date'] = $startDateTimestamp;
 
-                        if (!empty($data[$i]['start_date__YMD'])) {
-                            $data[$i]['start_date'] = strtotime($data[$i]['start_date__YMD']);
+                        if (!empty($data[$i]['start_date.YMD'])) {
+                            $data[$i]['start_date'] = strtotime($data[$i]['start_date.YMD']);
                         }
 
                     }
@@ -94,8 +94,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         $endDateTimestamp = $endDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['end_date'] = $endDateTimestamp;
 
-                        if (!empty($data[$i]['end_date__YMD'])) {
-                            $data[$i]['end_date'] = strtotime($data[$i]['end_date__YMD']);
+                        if (!empty($data[$i]['end_date.YMD'])) {
+                            $data[$i]['end_date'] = strtotime($data[$i]['end_date.YMD']);
                         }
                     }
                 }
@@ -114,8 +114,8 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         $dueDateTimestamp = $dueDateTimestamp + ($offset > 0 ? $offset * 60 * 60 : 0);
                         $data[$i]['due_date'] = $dueDateTimestamp;
 
-                        if (!empty($data[$i]['due_date__YMD'])) {
-                            $data[$i]['due_date'] = strtotime($data[$i]['due_date__YMD']);
+                        if (!empty($data[$i]['due_date.YMD'])) {
+                            $data[$i]['due_date'] = strtotime($data[$i]['due_date.YMD']);
                         }
 
                     }
@@ -135,7 +135,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                     foreach ($new_value[$i] as $key => $value) {
 
                         if (stristr($key, 'date')) {
-                            $new_value[$i][$key . '__YMD'] = $_POST[$args['id']][$i][$key];
+                            $new_value[$i][$key . '.YMD'] = $_POST[$args['id']][$i][$key];
                         }
 
                     }
@@ -148,12 +148,12 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
         public function cmb2_save_field__upstream_project_start($updated, $action, $r)
         {
-            update_post_meta($_POST['post_ID'], '_upstream_project_start__YMD', $_POST['_upstream_project_start']);
+            update_post_meta($_POST['post_ID'], '_upstream_project_start.YMD', $_POST['_upstream_project_start']);
         }
 
         public function cmb2_save_field__upstream_project_end($updated, $action, $r)
         {
-            update_post_meta($_POST['post_ID'], '_upstream_project_end__YMD', $_POST['_upstream_project_end']);
+            update_post_meta($_POST['post_ID'], '_upstream_project_end.YMD', $_POST['_upstream_project_end']);
         }
 
         /**
@@ -240,14 +240,14 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                         }
 
 
-                        if (isset($milestoneData['start_date__YMD'])) {
-                            $milestone->setStartDate__YMD($milestoneData['start_date__YMD']);
+                        if (isset($milestoneData['start_date.YMD'])) {
+                            $milestone->setStartDate__YMD($milestoneData['start_date.YMD']);
                         } else {
                             $milestone->setStartDate__YMD('');
                         }
 
-                        if (isset($milestoneData['end_date__YMD'])) {
-                            $milestone->setEndDate__YMD($milestoneData['end_date__YMD']);
+                        if (isset($milestoneData['end_date.YMD'])) {
+                            $milestone->setEndDate__YMD($milestoneData['end_date.YMD']);
                         } else {
                             $milestone->setEndDate__YMD('');
                         }

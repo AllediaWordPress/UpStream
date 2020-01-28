@@ -156,7 +156,7 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
                     if (isset($statuses[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $statuses[$columnValue]['color'],
+                            isset($statuses[$columnValue]['color']) ? $statuses[$columnValue]['color'] : '',
                             $statuses[$columnValue]['name']
                         );
                     } else {

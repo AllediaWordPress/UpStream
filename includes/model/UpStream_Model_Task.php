@@ -85,8 +85,8 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         if ($this->progress >= 0) $item_metadata['progress'] = $this->progress;
         if ($this->startDate != null) $item_metadata['start_date'] = UpStream_Model_Object::ymdToTimestamp($this->startDate);
         if ($this->endDate != null) $item_metadata['end_date'] = UpStream_Model_Object::ymdToTimestamp($this->endDate);
-        if ($this->startDate != null) $item_metadata['start_date__YMD'] = $this->startDate;
-        if ($this->endDate != null) $item_metadata['end_date__YMD'] = $this->endDate;
+        if ($this->startDate != null) $item_metadata['start_date.YMD'] = $this->startDate;
+        if ($this->endDate != null) $item_metadata['end_date.YMD'] = $this->endDate;
         if ($this->notes != null) $item_metadata['notes'] = $this->notes;
         if ($this->milestoneId > 0) $item_metadata['milestone'] = $this->milestoneId;
 

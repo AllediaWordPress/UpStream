@@ -156,8 +156,8 @@ class UpStream_Model_Object
 
     public static function loadDate($data, $field)
     {
-        if (!empty($data[$field . '__YMD'])) {
-            return $data[$field . '__YMD'];
+        if (!empty($data[$field . '.YMD']) && self::isValidDate($data[$field . '.YMD'])) {
+            return $data[$field . '.YMD'];
         } else if (!empty($data[$field])) {
             return self::timestampToYMD($data[$field]);
         }

@@ -45,14 +45,14 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 'statusCode' => '_upstream_project_status',
                 'description' => '_upstream_project_description',
                 'startDate' => function ($m) {
-                    if (!empty($m['_upstream_project_start__YMD'][0]))
-                        return $m['_upstream_project_start__YMD'][0];
+                    if (!empty($m['_upstream_project_start.YMD'][0]))
+                        return $m['_upstream_project_start.YMD'][0];
                     elseif (!empty($m['_upstream_project_start'][0]))
                         return UpStream_Model_Object::timestampToYMD($m['_upstream_project_start'][0]);
                 },
                 'endDate' => function ($m) {
-                    if (!empty($m['_upstream_project_end__YMD'][0]))
-                        return $m['_upstream_project_end__YMD'][0];
+                    if (!empty($m['_upstream_project_end.YMD'][0]))
+                        return $m['_upstream_project_end.YMD'][0];
                     elseif (!empty($m['_upstream_project_end'][0]))
                         return UpStream_Model_Object::timestampToYMD($m['_upstream_project_end'][0]);
                 },
@@ -137,8 +137,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         if ($this->statusCode != null) update_post_meta($this->id, '_upstream_project_status', $this->statusCode);
         if ($this->description != null) update_post_meta($this->id, '_upstream_project_description', $this->description);
         if (count($this->assignedTo) > 0) update_post_meta($this->id, '_upstream_project_owner', $this->assignedTo[0]);
-        if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start__YMD', $this->startDate);
-        if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end__YMD', $this->endDate);
+        if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start.YMD', $this->startDate);
+        if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end.YMD', $this->endDate);
         if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start', UpStream_Model_Object::ymdToTimestamp($this->startDate));
         if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end', UpStream_Model_Object::ymdToTimestamp($this->endDate));
 

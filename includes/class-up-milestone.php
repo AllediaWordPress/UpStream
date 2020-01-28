@@ -794,14 +794,14 @@ class Milestone extends Struct
 
     public function setStartDate__YMD($startDate__YMD)
     {
-        $this->updateMetadata(['upst_start_date__YMD' => $startDate__YMD]);
+        $this->updateMetadata(['upst_start_date.YMD' => $startDate__YMD]);
         return $this;
     }
 
     public function getEndDate__YMD()
     {
         if (!empty($this->endDate__YMD)) {
-            $this->endDate__YMD = $this->getMetadata('upst_end_date__YMD');
+            $this->endDate__YMD = $this->getMetadata('upst_end_date.YMD');
         }
         return $this->endDate__YMD;
     }
@@ -809,14 +809,14 @@ class Milestone extends Struct
     public function getStartDate__YMD()
     {
         if (!empty($this->startDate__YMD)) {
-            $this->startDate__YMD = $this->getMetadata('upst_start_date__YMD');
+            $this->startDate__YMD = $this->getMetadata('upst_start_date.YMD');
         }
         return $this->startDate__YMD;
     }
 
     public function setEndDate__YMD($endDate__YMD)
     {
-        $this->updateMetadata(['upst_end_date__YMD' => $endDate__YMD]);
+        $this->updateMetadata(['upst_end_date.YMD' => $endDate__YMD]);
         return $this;
     }
 

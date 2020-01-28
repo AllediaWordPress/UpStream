@@ -97,8 +97,8 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         if ($this->color != null) update_post_meta($this->id, 'upst_color', $this->color);
         if ($this->startDate != null) update_post_meta($this->id, 'upst_start_date', $this->startDate);
         if ($this->endDate != null) update_post_meta($this->id, 'upst_end_date', $this->endDate);
-        if ($this->startDate != null) update_post_meta($this->id, 'upst_start_date__YMD', $this->startDate);
-        if ($this->endDate != null) update_post_meta($this->id, 'upst_end_date__YMD', $this->endDate);
+        if ($this->startDate != null) update_post_meta($this->id, 'upst_start_date.YMD', $this->startDate);
+        if ($this->endDate != null) update_post_meta($this->id, 'upst_end_date.YMD', $this->endDate);
 
         delete_post_meta($this->id, 'upst_assigned_to');
         foreach ($this->assignedTo as $a) add_post_meta($this->id, 'upst_assigned_to', $a);
