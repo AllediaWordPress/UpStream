@@ -366,6 +366,7 @@ class UpStream_Import
         for ($i = 0; $i < count($header); $i++) {
 
             $header[$i] = trim($header[$i]);
+            $header[$i] = trim($header[$i], chr(239).chr(187).chr(191));
             $s = null;
 
             if ($header[$i]) {

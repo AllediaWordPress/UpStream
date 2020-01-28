@@ -112,7 +112,7 @@ class UpStream_Model_Object
             case 'assignedTo:byUsername':
             case 'assignedTo:byEmail':
                 if (!is_array($value))
-                    $value = [$value];
+                    $value = explode(',', $value);
 
                 $new_value = [];
 
@@ -121,9 +121,9 @@ class UpStream_Model_Object
                     if ($property === 'assignedTo')
                         $user = get_user_by('id', $uid);
                     if ($property === 'assignedTo:byUsername')
-                        $user = get_user_by('login', $uid);
+                        $user = get_user_by('login', trim($uid));
                     if ($property === 'assignedTo:byEmail')
-                        $user = get_user_by('email', $uid);
+                        $user = get_user_by('email', trim($uid));
 
                     if ($user === false)
                         throw new UpStream_Model_ArgumentException(sprintf(__('User "%s" (for field %s) does not exist.', 'upstream'), $uid, $property));

@@ -285,7 +285,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                                 <span class="count" style="background-color: %2$s">%3$s</span> %4$s
                             </span>',
                                 esc_attr(strtolower($taskStatus['name'])),
-                                esc_attr($taskStatus['color']),
+                                esc_attr(isset($taskStatus['color']) ? $taskStatus['color'] : ''),
                                 $count,
                                 $taskStatus['name']
                             );
