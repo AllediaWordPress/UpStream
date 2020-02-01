@@ -51,6 +51,13 @@ if ( ! upstream_are_tasks_disabled()
 
     $rowset = UpStream_View::getTasks($projectId);
 
+    foreach (array_keys($rowset) as $key) {
+        if (!empty($rowset[$key]['milestone'])) {
+            $m = \UpStream\Factory::getMilestone($rowset[$key]['milestone']);
+            $rowset[$key]['milestone_order'] = $m->getName();
+        }
+    }
+
     // If should archive closed items, we filter the rowset.
     if ($archiveClosedItems) {
         foreach ($rowset as $id => $task) {
