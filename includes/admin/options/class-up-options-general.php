@@ -704,6 +704,24 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'default'    => '1',
                             'desc'       => __('Check this to send a notification to the owner and creator of a milestone, task, or bug when someone comments on it.'),
                         ],
+                        /**
+                         * Localization
+                         */
+                        [
+                            'name'       => __('Localization', 'upstream'),
+                            'id'         => 'local_title',
+                            'type'       => 'title',
+                            'before_row' => '<hr>',
+                            'desc'       => __('General options for localization, such as times.',
+                                'upstream'),
+                        ],
+                        [
+                            'name'    => __('Work Hours Per Day', 'upstream'),
+                            'id'      => 'local_work_hours_per_day',
+                            'type'    => 'text',
+                            'desc'    => __('The number of work hours per day (used in determining days of work).', 'upstream-time-tracking'),
+                            'default' => 8,
+                        ],
 
                         /**
                          * Maintenance
