@@ -107,6 +107,17 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         }
     }
 
+    public function calculateElapsedTime()
+    {
+        $total = 0;
+
+        foreach ($this->timeRecords as $tr) {
+            $total += $tr->elapsedTime;
+        }
+
+        return $total;
+    }
+
     public function getMilestone()
     {
         if ($this->milestoneId) {

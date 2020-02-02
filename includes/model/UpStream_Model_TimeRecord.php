@@ -16,7 +16,7 @@ class UpStream_Model_TimeRecord
 
     protected $elapsedTime = 0;
 
-    protected $note = null;
+    protected $note = '';
 
     /**
      * UpStream_Model_Reminder constructor.
@@ -42,11 +42,20 @@ class UpStream_Model_TimeRecord
             $this->elapsedTime = $hours;
         }
 
-        if (!empty($this->id)) $item_metadata['id'] = $this->id;
-        if (!empty($this->user)) $item_metadata['user'] = $this->user;
-        if ($this->startTimestamp >= 0) $item_metadata['startTimestamp'] = $this->startTimestamp;
-        if ($this->elapsedTime >= 0) $item_metadata['elapsedTime'] = $this->elapsedTime;
-        if (!empty($this->note)) $item_metadata['note'] = $this->note;
+        $item_metadata['id'] = $this->id;
+        $item_metadata['user'] = $this->user;
+        $item_metadata['startTimestamp'] = $this->startTimestamp;
+        $item_metadata['elapsedTime'] = $this->elapsedTime;
+        $item_metadata['note'] = $this->note;
+    }
+
+    public static function workHoursPerDay()
+    {
+        $options = get_option('upstream_general');
+        $optionName = 'local_work_hours_per_day';
+        $hrs = isset($options[$optionName]) ? (int)$options[$optionName] : 8;
+
+        return $hrs;
     }
 
     public function startTiming()
@@ -69,13 +78,16 @@ class UpStream_Model_TimeRecord
 
     public static function formatElapsed($elapsed)
     {
-        return round($elapsed, 1) . ' hours';
+        $days = floor($elapsed / self::workHoursPerDay());
+        $hours = $elapsed - ($days * self::workHoursPerDay());
+        return round($days, 0) . ' days' . ($hours > 0 ? ', ' . round($hours, 1) . ' hours' : '');
     }
 
     public function __get($property)
     {
         switch ($property) {
 
+            case 'id':
             case 'startTimestamp':
             case 'user':
             case 'note':
@@ -104,7 +116,7 @@ class UpStream_Model_TimeRecord
                 $this->{$property} = $value;
                 break;
 
-            case 'notes':
+            case 'note':
                 $this->{$property} = wp_kses_post($value);
                 break;
 

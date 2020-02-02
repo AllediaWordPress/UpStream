@@ -113,6 +113,20 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         $this->categoryIds = $categoryIds;
     }
 
+    public function calculateElapsedTime()
+    {
+        $total = 0;
+
+        foreach ($this->tasks as $task) {
+            $total += $task->calculateElapsedTime();
+        }
+
+        foreach ($this->bugs as $bug) {
+            $total += $bug->calculateElapsedTime();
+        }
+
+        return $total;
+    }
 
     protected function storeCategories()
     {
