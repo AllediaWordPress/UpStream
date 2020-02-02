@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UpStream\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upstream\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-12-16 21:11-0500\n"
+"POT-Creation-Date: 2020-01-31 15:52-0500\n"
+"PO-Revision-Date: 2020-01-31 15:56-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: includes/admin/class-up-admin-tasks-page.php:45
 #: includes/class-up-milestones.php:436 templates/single-project/details.php:63
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: includes/admin/class-up-admin-bugs-page.php:45
 #: includes/admin/class-up-admin-tasks-page.php:46
@@ -87,7 +87,7 @@ msgstr "Tutti"
 
 #: includes/admin/class-up-admin-bugs-page.php:78
 #: includes/admin/class-up-admin-tasks-page.php:85
-#: includes/admin/metaboxes/metabox-functions.php:218
+#: includes/admin/metaboxes/metabox-functions.php:225
 msgid "Mine"
 msgstr "Miei"
 
@@ -126,7 +126,7 @@ msgstr "Filtro"
 #: includes/admin/class-up-admin-tasks-page.php:483
 #: includes/admin/class-up-admin-tasks-page.php:490
 #: includes/admin/class-up-admin-tasks-page.php:498
-#: includes/admin/metaboxes/metabox-functions.php:627
+#: includes/admin/metaboxes/metabox-functions.php:636
 #: includes/class-up-milestones.php:471
 #: includes/class-up-project-activity.php:607
 #: includes/frontend/up-table-functions.php:107
@@ -202,6 +202,8 @@ msgstr "utenti"
 msgid "user"
 msgstr "utente"
 
+#. Plugin Name of the plugin/theme
+#. Author of the plugin/theme
 #: includes/admin/class-up-admin-options.php:68
 #: includes/admin/class-up-admin.php:540
 msgid "UpStream"
@@ -454,43 +456,43 @@ msgid "Comment reply notifications"
 msgstr "Commentare le notifiche di risposta"
 
 #: includes/admin/class-up-admin.php:553
-#: includes/admin/options/class-up-options-general.php:148
-#: includes/admin/options/class-up-options-general.php:162
-#: includes/admin/options/class-up-options-general.php:176
-#: includes/admin/options/class-up-options-general.php:288
-#: includes/admin/options/class-up-options-general.php:302
-#: includes/admin/options/class-up-options-general.php:386
-#: includes/admin/options/class-up-options-general.php:400
-#: includes/admin/options/class-up-options-general.php:414
-#: includes/admin/options/class-up-options-general.php:428
-#: includes/admin/options/class-up-options-general.php:442
-#: includes/admin/options/class-up-options-general.php:456
-#: includes/admin/options/class-up-options-general.php:481
-#: includes/admin/options/class-up-options-general.php:495
-#: includes/admin/options/class-up-options-general.php:509
-#: includes/admin/options/class-up-options-general.php:523
-#: includes/admin/options/class-up-options-general.php:537
-#: includes/admin/options/class-up-options-general.php:593
+#: includes/admin/options/class-up-options-general.php:151
+#: includes/admin/options/class-up-options-general.php:165
+#: includes/admin/options/class-up-options-general.php:179
+#: includes/admin/options/class-up-options-general.php:291
+#: includes/admin/options/class-up-options-general.php:305
+#: includes/admin/options/class-up-options-general.php:389
+#: includes/admin/options/class-up-options-general.php:403
+#: includes/admin/options/class-up-options-general.php:417
+#: includes/admin/options/class-up-options-general.php:431
+#: includes/admin/options/class-up-options-general.php:445
+#: includes/admin/options/class-up-options-general.php:459
+#: includes/admin/options/class-up-options-general.php:484
+#: includes/admin/options/class-up-options-general.php:498
+#: includes/admin/options/class-up-options-general.php:512
+#: includes/admin/options/class-up-options-general.php:526
+#: includes/admin/options/class-up-options-general.php:540
+#: includes/admin/options/class-up-options-general.php:596
 msgid "Yes"
 msgstr "Si"
 
 #: includes/admin/class-up-admin.php:558
-#: includes/admin/options/class-up-options-general.php:147
-#: includes/admin/options/class-up-options-general.php:161
-#: includes/admin/options/class-up-options-general.php:175
-#: includes/admin/options/class-up-options-general.php:287
-#: includes/admin/options/class-up-options-general.php:301
-#: includes/admin/options/class-up-options-general.php:385
-#: includes/admin/options/class-up-options-general.php:399
-#: includes/admin/options/class-up-options-general.php:413
-#: includes/admin/options/class-up-options-general.php:427
-#: includes/admin/options/class-up-options-general.php:441
-#: includes/admin/options/class-up-options-general.php:455
-#: includes/admin/options/class-up-options-general.php:480
-#: includes/admin/options/class-up-options-general.php:494
-#: includes/admin/options/class-up-options-general.php:508
-#: includes/admin/options/class-up-options-general.php:536
-#: includes/admin/options/class-up-options-general.php:592
+#: includes/admin/options/class-up-options-general.php:150
+#: includes/admin/options/class-up-options-general.php:164
+#: includes/admin/options/class-up-options-general.php:178
+#: includes/admin/options/class-up-options-general.php:290
+#: includes/admin/options/class-up-options-general.php:304
+#: includes/admin/options/class-up-options-general.php:388
+#: includes/admin/options/class-up-options-general.php:402
+#: includes/admin/options/class-up-options-general.php:416
+#: includes/admin/options/class-up-options-general.php:430
+#: includes/admin/options/class-up-options-general.php:444
+#: includes/admin/options/class-up-options-general.php:458
+#: includes/admin/options/class-up-options-general.php:483
+#: includes/admin/options/class-up-options-general.php:497
+#: includes/admin/options/class-up-options-general.php:511
+#: includes/admin/options/class-up-options-general.php:539
+#: includes/admin/options/class-up-options-general.php:595
 msgid "No"
 msgstr "No"
 
@@ -584,7 +586,7 @@ msgstr ""
 "ancora correlati a questo cliente."
 
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:395
-#: includes/admin/options/class-up-options-general.php:725
+#: includes/admin/options/class-up-options-general.php:746
 #: includes/class-up-roles.php:81
 msgid "UpStream Client User"
 msgstr "Utente UpStream"
@@ -648,8 +650,6 @@ msgstr "Stiamo migrando gli utenti"
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:819
 #: includes/class-up-comments.php:289 includes/class-up-comments.php:402
 #: includes/class-up-comments.php:510 includes/class-up-comments.php:629
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:339
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:347
 msgid "You're not allowed to do this."
 msgstr "Non sei autorizzato a farlo."
 
@@ -663,7 +663,6 @@ msgstr "Non sei autorizzato a farlo."
 #: includes/class-up-comments.php:394 includes/class-up-comments.php:476
 #: includes/class-up-comments.php:624 includes/class-up-comments.php:748
 #: includes/class-up-comments.php:765
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:343
 msgid "Invalid request."
 msgstr "Richiesta non valida."
 
@@ -895,7 +894,7 @@ msgid "Invalid Project."
 msgstr "Progetto non valido."
 
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:1954
-#: includes/admin/metaboxes/metabox-functions.php:589
+#: includes/admin/metaboxes/metabox-functions.php:598
 #: includes/class-up-comment.php:579 includes/class-up-comments.php:921
 #, php-format
 msgctxt "%s = human-readable time difference"
@@ -906,69 +905,69 @@ msgstr "%s fa"
 msgid "Missing some required fields"
 msgstr "Mancano alcuni campi obbligatori"
 
-#: includes/admin/metaboxes/metabox-functions.php:213
+#: includes/admin/metaboxes/metabox-functions.php:220
 #: includes/admin/options/class-up-options-bugs.php:156
 #: includes/admin/options/class-up-options-projects.php:160
 #: includes/admin/options/class-up-options-tasks.php:160
-#: templates/single-project/overview.php:169
-#: templates/single-project/overview.php:201
-#: templates/single-project/overview.php:233
+#: templates/single-project/overview.php:171
+#: templates/single-project/overview.php:203
+#: templates/single-project/overview.php:235
 msgid "Open"
 msgstr "Aperto"
 
-#: includes/admin/metaboxes/metabox-functions.php:258
+#: includes/admin/metaboxes/metabox-functions.php:265
 msgid "Last 10"
 msgstr "Ultimi 10"
 
-#: includes/admin/metaboxes/metabox-functions.php:262
+#: includes/admin/metaboxes/metabox-functions.php:269
 msgid "Last 20"
 msgstr "Ultimi 20"
 
-#: includes/admin/metaboxes/metabox-functions.php:266
+#: includes/admin/metaboxes/metabox-functions.php:273
 msgid "View All"
 msgstr "Vedi Tutti"
 
-#: includes/admin/metaboxes/metabox-functions.php:677
-#: includes/admin/metaboxes/metabox-functions.php:774
+#: includes/admin/metaboxes/metabox-functions.php:689
+#: includes/admin/metaboxes/metabox-functions.php:788
 msgid "This comment and its replies are not visible by regular users."
 msgstr ""
 "Questo commento e le relative risposte non sono visibili dagli utenti "
 "normali."
 
-#: includes/admin/metaboxes/metabox-functions.php:703
+#: includes/admin/metaboxes/metabox-functions.php:715
 #: includes/admin/up-enqueues.php:123
 msgid "Unapprove"
 msgstr "Non approvare"
 
-#: includes/admin/metaboxes/metabox-functions.php:709
+#: includes/admin/metaboxes/metabox-functions.php:721
 #: includes/admin/up-enqueues.php:125
 msgid "Approve"
 msgstr "Approvare"
 
-#: includes/admin/metaboxes/metabox-functions.php:718
+#: includes/admin/metaboxes/metabox-functions.php:730
 #: includes/admin/up-enqueues.php:115
 msgid "Reply"
 msgstr "Rispondi"
 
-#: includes/admin/metaboxes/metabox-functions.php:726
+#: includes/admin/metaboxes/metabox-functions.php:738
 #: includes/admin/up-enqueues.php:121
 msgid "Delete"
 msgstr "Elimina"
 
-#: includes/admin/metaboxes/metabox-functions.php:1032
+#: includes/admin/metaboxes/metabox-functions.php:1046
 msgid "Not Assigned"
 msgstr "Non assegnato"
 
-#: includes/admin/metaboxes/metabox-functions.php:1137
+#: includes/admin/metaboxes/metabox-functions.php:1151
 msgid "No project selected"
 msgstr "Nessun progetto selezionato"
 
-#: includes/admin/metaboxes/metabox-functions.php:1141
+#: includes/admin/metaboxes/metabox-functions.php:1155
 #: includes/admin/up-enqueues.php:134
 msgid "No client selected"
 msgstr "Nessun cliente selezionato"
 
-#: includes/admin/metaboxes/metabox-functions.php:1151
+#: includes/admin/metaboxes/metabox-functions.php:1165
 msgid "No users found"
 msgstr "Nessun utente trovato"
 
@@ -1044,8 +1043,8 @@ msgstr ""
 #: includes/admin/options/class-up-options-bugs.php:157
 #: includes/admin/options/class-up-options-projects.php:161
 #: includes/admin/options/class-up-options-tasks.php:161
-#: templates/single-project/overview.php:210
-#: templates/single-project/overview.php:242
+#: templates/single-project/overview.php:212
+#: templates/single-project/overview.php:244
 msgid "Closed"
 msgstr "Chiuso"
 
@@ -1159,27 +1158,28 @@ msgstr ""
 "Progetti, Obiettivi, Attività e Bugs."
 
 #: includes/admin/options/class-up-options-extensions.php:209
-#, fuzzy
-#| msgid "Update Permissions"
 msgid "Advanced Permissions"
-msgstr "Aggiorna autorizzazioni"
+msgstr "Permessi avanzati"
 
 #: includes/admin/options/class-up-options-extensions.php:211
+#, fuzzy
 msgid ""
 "This extension allows you to set permissions by user or role for objects and "
 "individual fields."
 msgstr ""
+"Questa estensione permette di impostare i permessi per utente o ruolo per "
+"gli oggetti e i singoli campi."
 
 #: includes/admin/options/class-up-options-general.php:61
-#: includes/admin/options/class-up-options-general.php:133
+#: includes/admin/options/class-up-options-general.php:136
 msgid "General"
 msgstr "Generale"
 
-#: includes/admin/options/class-up-options-general.php:138
+#: includes/admin/options/class-up-options-general.php:141
 msgid "Filter Closed Items"
 msgstr "Filtra elementi chiusi"
 
-#: includes/admin/options/class-up-options-general.php:143
+#: includes/admin/options/class-up-options-general.php:146
 msgid ""
 "Choose whether Projects, Tasks and Bugs will only display items that have "
 "“open” statuses. Items with “closed” statuses will still be loaded on the "
@@ -1192,11 +1192,11 @@ msgstr ""
 "visualizzarli. Questa opzione si applica solo se \"Archivia elementi chiusi"
 "\" è impostato su \"No\""
 
-#: includes/admin/options/class-up-options-general.php:152
+#: includes/admin/options/class-up-options-general.php:155
 msgid "Archive Closed Items"
 msgstr "Archivia elementi chiusi"
 
-#: includes/admin/options/class-up-options-general.php:157
+#: includes/admin/options/class-up-options-general.php:160
 msgid ""
 "Using the Archive feature means that Closed items are not loaded on the "
 "frontend. This can speed up your site if you have projects with many items. "
@@ -1207,23 +1207,23 @@ msgstr ""
 "progetti con molti elementi. Non utilizzare la funzione Archivia se si "
 "desidera che gli utenti trovino elementi chiusi."
 
-#: includes/admin/options/class-up-options-general.php:166
+#: includes/admin/options/class-up-options-general.php:169
 #, fuzzy
 msgid "Show Users' Names"
 msgstr "Mostra i nomi degli utenti"
 
-#: includes/admin/options/class-up-options-general.php:171
+#: includes/admin/options/class-up-options-general.php:174
 #, fuzzy
 msgid "Show names on Project list (Front page)"
 msgstr "Mostra i nomi nell'elenco dei progetti (pagina principale)"
 
-#: includes/admin/options/class-up-options-general.php:180
+#: includes/admin/options/class-up-options-general.php:183
 #, fuzzy
 #| msgid "Project Progress Icons"
 msgid "Project Users Roles"
 msgstr "Icone di avanzamento del progetto"
 
-#: includes/admin/options/class-up-options-general.php:183
+#: includes/admin/options/class-up-options-general.php:186
 #, fuzzy
 msgid ""
 "Select the user roles that should be used to filter the list of users on "
@@ -1232,11 +1232,11 @@ msgstr ""
 "Selezionare i ruoli utente che devono essere utilizzati per filtrare "
 "l'elenco degli utenti sui progetti."
 
-#: includes/admin/options/class-up-options-general.php:195
+#: includes/admin/options/class-up-options-general.php:198
 msgid "Labels"
 msgstr "Etichette"
 
-#: includes/admin/options/class-up-options-general.php:199
+#: includes/admin/options/class-up-options-general.php:202
 msgid ""
 "Here you can change the labels of various items. You could change Client to "
 "Customer or Bugs to Issues for example.<br>These labels will change on the "
@@ -1246,46 +1246,46 @@ msgstr ""
 "esempio, modificare Client in Cliente o Bug in Problemi.<br>Queste etichette "
 "cambieranno sia sul frontend che nell'area di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:205
+#: includes/admin/options/class-up-options-general.php:208
 msgid "Project Label"
 msgstr "Etichetta Progetto"
 
-#: includes/admin/options/class-up-options-general.php:210
+#: includes/admin/options/class-up-options-general.php:213
 msgid "Client Label"
 msgstr "Etichetta cliente"
 
-#: includes/admin/options/class-up-options-general.php:215
+#: includes/admin/options/class-up-options-general.php:218
 msgid "Milestone Label"
 msgstr "Etichetta Obiettivo"
 
-#: includes/admin/options/class-up-options-general.php:220
+#: includes/admin/options/class-up-options-general.php:223
 #, fuzzy
 #| msgid "Milestone Label"
 msgid "Milestone Categories Label"
 msgstr "Etichetta Obiettivo"
 
-#: includes/admin/options/class-up-options-general.php:225
+#: includes/admin/options/class-up-options-general.php:228
 msgid "Task Label"
 msgstr "Etichetta attività"
 
-#: includes/admin/options/class-up-options-general.php:230
+#: includes/admin/options/class-up-options-general.php:233
 msgid "Bug Label"
 msgstr "Etichetta bug"
 
-#: includes/admin/options/class-up-options-general.php:235
+#: includes/admin/options/class-up-options-general.php:238
 msgid "File Label"
 msgstr "Etichetta file"
 
-#: includes/admin/options/class-up-options-general.php:240
+#: includes/admin/options/class-up-options-general.php:243
 msgid "Discussion Label"
 msgstr "Etichetta discussione"
 
-#: includes/admin/options/class-up-options-general.php:249
+#: includes/admin/options/class-up-options-general.php:252
 #, php-format
 msgid "%s Area"
 msgstr "%s Area"
 
-#: includes/admin/options/class-up-options-general.php:254
+#: includes/admin/options/class-up-options-general.php:257
 #, php-format
 msgid ""
 "Various options for the %1s login page and the frontend view. <br>%2s can "
@@ -1295,89 +1295,89 @@ msgstr ""
 "puoi vedere le loro pratiche visitando %3s (L’URL è disponibile dopo aver "
 "aggiunto un %s)."
 
-#: includes/admin/options/class-up-options-general.php:265
+#: includes/admin/options/class-up-options-general.php:268
 msgid "Login Page Heading"
 msgstr "Intestazione pagina di accesso"
 
-#: includes/admin/options/class-up-options-general.php:268
+#: includes/admin/options/class-up-options-general.php:271
 msgid "The heading used on the client login page."
 msgstr "Intestazione utilizzata nella pagina di accesso del cliente."
 
-#: includes/admin/options/class-up-options-general.php:271
+#: includes/admin/options/class-up-options-general.php:274
 msgid "Login Page Text"
 msgstr "Testo della pagina di accesso"
 
-#: includes/admin/options/class-up-options-general.php:274
+#: includes/admin/options/class-up-options-general.php:277
 msgid "Text or instructions that can be added below the login form."
 msgstr ""
 "Testo o istruzioni che possono essere aggiunte sotto il modulo di accesso."
 
-#: includes/admin/options/class-up-options-general.php:278
+#: includes/admin/options/class-up-options-general.php:281
 msgid "Login Page Client Logo"
 msgstr "Logo pagina di accesso"
 
-#: includes/admin/options/class-up-options-general.php:282
+#: includes/admin/options/class-up-options-general.php:285
 msgid ""
 "Choose whether Client's Logo should be displayed on login page if available."
 msgstr ""
 "Scegliere se il logo del cliente deve essere visualizzato nella pagina di "
 "accesso, se disponibile."
 
-#: includes/admin/options/class-up-options-general.php:292
+#: includes/admin/options/class-up-options-general.php:295
 msgid "Login Page Project Name"
 msgstr "Pagina di accesso Nome progetto"
 
-#: includes/admin/options/class-up-options-general.php:296
+#: includes/admin/options/class-up-options-general.php:299
 msgid "Choose whether Project's name should be displayed on login page."
 msgstr ""
 "Scegli se il nome del progetto debba essere mostrato sulla pagina di accesso."
 
-#: includes/admin/options/class-up-options-general.php:306
+#: includes/admin/options/class-up-options-general.php:309
 msgid "Admin Email"
 msgstr "Email amministratore"
 
-#: includes/admin/options/class-up-options-general.php:309
+#: includes/admin/options/class-up-options-general.php:312
 msgid "The email address that clients can use to contact you."
 msgstr ""
 "Indirizzo di posta elettronica che i clienti possono utilizzare per "
 "contattarti."
 
-#: includes/admin/options/class-up-options-general.php:312
+#: includes/admin/options/class-up-options-general.php:315
 msgid "Admin Support Link Label"
 msgstr "Etichetta collegamento supporto amministratore"
 
-#: includes/admin/options/class-up-options-general.php:315
+#: includes/admin/options/class-up-options-general.php:318
 msgid "Label that describes the Admin Support Link."
 msgstr "Etichetta che descrive il collegamento al supporto tecnico."
 
-#: includes/admin/options/class-up-options-general.php:316
+#: includes/admin/options/class-up-options-general.php:319
 #: includes/up-general-functions.php:797
 msgid "Contact Admin"
 msgstr "Email amministratore"
 
-#: includes/admin/options/class-up-options-general.php:319
+#: includes/admin/options/class-up-options-general.php:322
 msgid "Admin Support Link"
 msgstr "Etichetta collegamento supporto amministratore"
 
-#: includes/admin/options/class-up-options-general.php:323
+#: includes/admin/options/class-up-options-general.php:326
 msgid "Link to contact form or knowledge base to help clients obtain support."
 msgstr ""
 "Collegamento al modulo di contatto o alla Knowledge Base per aiutare i "
 "clienti a ottenere supporto."
 
-#: includes/admin/options/class-up-options-general.php:332
+#: includes/admin/options/class-up-options-general.php:335
 msgid "Media"
 msgstr "Media"
 
-#: includes/admin/options/class-up-options-general.php:335
+#: includes/admin/options/class-up-options-general.php:338
 msgid "Options to configure the list of media attachments."
 msgstr "Opzioni per configurare l'elenco degli allegati multimediali."
 
-#: includes/admin/options/class-up-options-general.php:339
+#: includes/admin/options/class-up-options-general.php:342
 msgid "Who can see all the media?"
 msgstr "Chi può vedere tutti i media?"
 
-#: includes/admin/options/class-up-options-general.php:342
+#: includes/admin/options/class-up-options-general.php:345
 msgid ""
 "For security, UpStream users can normally only access their own media "
 "uploads. Select the roles who can see all the entire media library."
@@ -1386,11 +1386,11 @@ msgstr ""
 "solo ai propri caricamenti multimediali. Selezionare i ruoli che possono "
 "visualizzare l'intera libreria multimediale."
 
-#: includes/admin/options/class-up-options-general.php:351
+#: includes/admin/options/class-up-options-general.php:354
 msgid "Who can post images in comments?"
 msgstr "Chi può pubblicare immagini nei commenti?"
 
-#: includes/admin/options/class-up-options-general.php:354
+#: includes/admin/options/class-up-options-general.php:357
 msgid ""
 "By default, not all WordPress users can upload images. Select the roles who "
 "can add images to UpStream comments."
@@ -1399,20 +1399,20 @@ msgstr ""
 "caricare immagini. Selezionare i ruoli che possono aggiungere immagini ai "
 "commenti UpStream."
 
-#: includes/admin/options/class-up-options-general.php:366
+#: includes/admin/options/class-up-options-general.php:369
 msgid "Collapse Sections"
 msgstr "Comprimi sezioni"
 
-#: includes/admin/options/class-up-options-general.php:370
+#: includes/admin/options/class-up-options-general.php:373
 msgid "Options to collapse different sections on the client area on frontend."
 msgstr ""
 "Opzioni per comprimere diverse sezioni nell'area clienti sul front-end."
 
-#: includes/admin/options/class-up-options-general.php:376
+#: includes/admin/options/class-up-options-general.php:379
 msgid "Collapse Project Details box"
 msgstr "Chiudi la finestra di dettaglio del progetto"
 
-#: includes/admin/options/class-up-options-general.php:380
+#: includes/admin/options/class-up-options-general.php:383
 msgid ""
 "Choose whether to collapse the Project Details box automatically when a user "
 "opens a project page."
@@ -1420,11 +1420,11 @@ msgstr ""
 "Scegli se chiudere la finestra di dettaglio del progetto automaticamente "
 "quando un utente apre una pagina di un progetto."
 
-#: includes/admin/options/class-up-options-general.php:390
+#: includes/admin/options/class-up-options-general.php:393
 msgid "Collapse Project Milestones box"
 msgstr "Chiudi la finestra degli Obiettivi del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:394
+#: includes/admin/options/class-up-options-general.php:397
 msgid ""
 "Choose whether to collapse the Milestones box automatically when a user "
 "opens a project page."
@@ -1432,11 +1432,11 @@ msgstr ""
 "Scegli se chiudere automaticamente la finestra degli Obiettivi quando un "
 "utente apre la pagina di un Progetto."
 
-#: includes/admin/options/class-up-options-general.php:404
+#: includes/admin/options/class-up-options-general.php:407
 msgid "Collapse Project Tasks box"
 msgstr "Chiudi la finestra delle Attività del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:408
+#: includes/admin/options/class-up-options-general.php:411
 msgid ""
 "Choose whether to collapse the Tasks box automatically when a user opens a "
 "project page."
@@ -1444,11 +1444,11 @@ msgstr ""
 "Scegli se chiudere automaticamente la finestra delle Attività quando un "
 "utente apre la pagina di un Progetto."
 
-#: includes/admin/options/class-up-options-general.php:418
+#: includes/admin/options/class-up-options-general.php:421
 msgid "Collapse Project Bugs box"
 msgstr "Chiudi la finestra dei Bugs del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:422
+#: includes/admin/options/class-up-options-general.php:425
 msgid ""
 "Choose whether to collapse the Bugs box automatically when a user opens a "
 "project page."
@@ -1456,11 +1456,11 @@ msgstr ""
 "Scegli se chiudere automaticamente la finestra dei Bugs quando un utente "
 "apre la pagina di un Progetto."
 
-#: includes/admin/options/class-up-options-general.php:432
+#: includes/admin/options/class-up-options-general.php:435
 msgid "Collapse Project Files box"
 msgstr "Chiudi la finestra dei File del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:436
+#: includes/admin/options/class-up-options-general.php:439
 msgid ""
 "Choose whether to collapse the Files box automatically when a user opens a "
 "project page."
@@ -1468,11 +1468,11 @@ msgstr ""
 "Scegli se chiudere la finestra dei File automaticamente quando un utente "
 "apre una pagina di un Progetto."
 
-#: includes/admin/options/class-up-options-general.php:446
+#: includes/admin/options/class-up-options-general.php:449
 msgid "Collapse Project Discussion box"
 msgstr "Chiudi la finestra delle Discussioni del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:450
+#: includes/admin/options/class-up-options-general.php:453
 msgid ""
 "Choose whether to collapse the Discussion box automatically when a user "
 "opens a project page."
@@ -1480,30 +1480,30 @@ msgstr ""
 "Scegli se chiudere la finestra delle Discussioni automaticamente quando un "
 "utente apre una pagina di un Progetto."
 
-#: includes/admin/options/class-up-options-general.php:464
+#: includes/admin/options/class-up-options-general.php:467
 msgid "Toggle Features"
 msgstr "Attiva/disattiva funzionalità"
 
-#: includes/admin/options/class-up-options-general.php:467
+#: includes/admin/options/class-up-options-general.php:470
 msgid "Options to toggle different sections and features."
 msgstr "Opzioni per attivare/disattivare diverse sezioni e funzioni."
 
-#: includes/admin/options/class-up-options-general.php:471
+#: includes/admin/options/class-up-options-general.php:474
 msgid "Disable Clients and Client Users"
 msgstr "Disabilita Clienti e Utenti"
 
-#: includes/admin/options/class-up-options-general.php:475
+#: includes/admin/options/class-up-options-general.php:478
 msgid ""
 "Choose whether if Clients and Client Users can be added and used on Projects."
 msgstr ""
 "Scegli se i clienti e gli utenti possono essere aggiunti e utilizzati nei "
 "Progetti."
 
-#: includes/admin/options/class-up-options-general.php:485
+#: includes/admin/options/class-up-options-general.php:488
 msgid "Select all client's users by default"
 msgstr "Selezionare tutti gli utenti del cliente per impostazione predefinita"
 
-#: includes/admin/options/class-up-options-general.php:489
+#: includes/admin/options/class-up-options-general.php:492
 msgid ""
 "Choose whether if all client's users should be checked by default after "
 "change or select the client."
@@ -1511,46 +1511,46 @@ msgstr ""
 "Scegliere se tutti gli utenti del cliente devono essere controllati per "
 "impostazione predefinita dopo la modifica o la selezione del cliente."
 
-#: includes/admin/options/class-up-options-general.php:499
+#: includes/admin/options/class-up-options-general.php:502
 msgid "Disable Projects Categorization"
 msgstr "Disabilita la categorizzazione dei Progetti"
 
-#: includes/admin/options/class-up-options-general.php:503
+#: includes/admin/options/class-up-options-general.php:506
 msgid ""
 "Choose whether Projects can be sorted into categories by managers and users."
 msgstr ""
 "Scegli se i Progetti possono essere ordinate in base alle categorie da "
 "manager e utenti."
 
-#: includes/admin/options/class-up-options-general.php:513
+#: includes/admin/options/class-up-options-general.php:516
 msgid "Project Progress Icons"
 msgstr "Icone di avanzamento del progetto"
 
-#: includes/admin/options/class-up-options-general.php:517
+#: includes/admin/options/class-up-options-general.php:520
 msgid ""
 "Choose whether to display the Project Progress Icons section on frontend."
 msgstr ""
 "Scegli se mostrare la sezione delle icone di avanzamento del Progetto sul "
 "frontend."
 
-#: includes/admin/options/class-up-options-general.php:522
+#: includes/admin/options/class-up-options-general.php:525
 msgid "Do not show"
 msgstr "Non mostrare"
 
-#: includes/admin/options/class-up-options-general.php:527
+#: includes/admin/options/class-up-options-general.php:530
 msgid "Disable Project Details"
 msgstr "Disabilita i dettagli del Progetto"
 
-#: includes/admin/options/class-up-options-general.php:531
+#: includes/admin/options/class-up-options-general.php:534
 msgid "Choose whether to display the Project Details section on frontend."
 msgstr ""
 "Scegli se mostrare la sezione dei dettagli di un Progetto sul frontend."
 
-#: includes/admin/options/class-up-options-general.php:541
+#: includes/admin/options/class-up-options-general.php:544
 msgid "Disable Bugs"
 msgstr "Disabilita bug"
 
-#: includes/admin/options/class-up-options-general.php:545
+#: includes/admin/options/class-up-options-general.php:548
 #, fuzzy
 #| msgid ""
 #| "Checking this box will disable the Bugs section on both the frontend and "
@@ -1562,15 +1562,15 @@ msgstr ""
 "Selezionando questa casella si disabilita la sezione Bug sia sul frontend "
 "che sull'area di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:550
+#: includes/admin/options/class-up-options-general.php:553
 msgid "Disable the Bugs section?"
 msgstr "Disattivare la sezione Bug?"
 
-#: includes/admin/options/class-up-options-general.php:555
+#: includes/admin/options/class-up-options-general.php:558
 msgid "Disable Tasks"
 msgstr "Disabilita le attività per questo progetto"
 
-#: includes/admin/options/class-up-options-general.php:559
+#: includes/admin/options/class-up-options-general.php:562
 msgid ""
 "Ticking this box will disable the Tasks section on both the frontend and the "
 "admin area."
@@ -1578,15 +1578,15 @@ msgstr ""
 "Spuntare questa casella disabiliterà la sezione dei Compiti sia nel frontend "
 "che nella pagina di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:564
+#: includes/admin/options/class-up-options-general.php:567
 msgid "Disable the Tasks section?"
 msgstr "Disabilita le attività?"
 
-#: includes/admin/options/class-up-options-general.php:569
+#: includes/admin/options/class-up-options-general.php:572
 msgid "Disable Milestones"
 msgstr "Disabilita gli Obiettivi per questo progetto"
 
-#: includes/admin/options/class-up-options-general.php:573
+#: includes/admin/options/class-up-options-general.php:576
 #, fuzzy
 #| msgid ""
 #| "Checking this box will disable the Milestones section on both the "
@@ -1599,17 +1599,17 @@ msgstr ""
 "Selezionando questa casella si disattiverà la sezione Obiettivi sia sul "
 "frontend che sull'area di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:578
+#: includes/admin/options/class-up-options-general.php:581
 msgid "Disable the Milestones section?"
 msgstr "Disabilitare la sezione Obiettivi?"
 
-#: includes/admin/options/class-up-options-general.php:583
+#: includes/admin/options/class-up-options-general.php:586
 #, fuzzy
 #| msgid "Disable Milestones"
 msgid "Disable Milestone Categories"
 msgstr "Disabilita gli Obiettivi per questo progetto"
 
-#: includes/admin/options/class-up-options-general.php:587
+#: includes/admin/options/class-up-options-general.php:590
 #, fuzzy
 #| msgid ""
 #| "Checking this box will disable the Milestones section on both the "
@@ -1621,11 +1621,11 @@ msgstr ""
 "Selezionando questa casella si disattiverà la sezione Obiettivi sia sul "
 "frontend che sull'area di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:598
+#: includes/admin/options/class-up-options-general.php:601
 msgid "Disable Files"
 msgstr "Disabilita i File"
 
-#: includes/admin/options/class-up-options-general.php:602
+#: includes/admin/options/class-up-options-general.php:605
 #, fuzzy
 #| msgid ""
 #| "Checking this box will disable the Files section on both the frontend and "
@@ -1637,15 +1637,15 @@ msgstr ""
 "Selezionando questa casella si disabilita la sezione File sia nell'area "
 "front-end che nell'area di amministrazione."
 
-#: includes/admin/options/class-up-options-general.php:607
+#: includes/admin/options/class-up-options-general.php:610
 msgid "Disable the Files section?"
 msgstr "Disattivare la sezione File?"
 
-#: includes/admin/options/class-up-options-general.php:612
+#: includes/admin/options/class-up-options-general.php:615
 msgid "Disable Discussion on Projects"
 msgstr "Disabilita la Discussione sui Progetti"
 
-#: includes/admin/options/class-up-options-general.php:616
+#: includes/admin/options/class-up-options-general.php:619
 msgid ""
 "Either allow comments on projects on both the frontend and the admin area or "
 "hide the section."
@@ -1653,125 +1653,151 @@ msgstr ""
 "Consente i commenti sui progetti sia sul frontend che sull’area di "
 "amministrazione o nasconde la sezione."
 
-#: includes/admin/options/class-up-options-general.php:621
+#: includes/admin/options/class-up-options-general.php:624
 msgid "Allow comments on projects"
 msgstr "Permetti commenti sui Progetti"
 
-#: includes/admin/options/class-up-options-general.php:622
-#: includes/admin/options/class-up-options-general.php:636
-#: includes/admin/options/class-up-options-general.php:650
-#: includes/admin/options/class-up-options-general.php:664
-#: includes/admin/options/class-up-options-general.php:678
+#: includes/admin/options/class-up-options-general.php:625
+#: includes/admin/options/class-up-options-general.php:639
+#: includes/admin/options/class-up-options-general.php:653
+#: includes/admin/options/class-up-options-general.php:667
+#: includes/admin/options/class-up-options-general.php:681
 msgid "Disable section"
 msgstr "Disattiva sezione"
 
-#: includes/admin/options/class-up-options-general.php:626
+#: includes/admin/options/class-up-options-general.php:629
 msgid "Disable Discussion on Milestones"
 msgstr "Disabilita la Discussione sugli Obiettivi"
 
-#: includes/admin/options/class-up-options-general.php:630
-#: includes/admin/options/class-up-options-general.php:644
-#: includes/admin/options/class-up-options-general.php:658
-#: includes/admin/options/class-up-options-general.php:672
+#: includes/admin/options/class-up-options-general.php:633
+#: includes/admin/options/class-up-options-general.php:647
+#: includes/admin/options/class-up-options-general.php:661
+#: includes/admin/options/class-up-options-general.php:675
 #, php-format
 msgid "Either allow comments on %s or hide the section."
 msgstr "Consentire commenti su %s o nascondere la sezione."
 
-#: includes/admin/options/class-up-options-general.php:631
+#: includes/admin/options/class-up-options-general.php:634
 #: includes/up-labels.php:46
 msgid "Milestones"
 msgstr "Obiettivi"
 
-#: includes/admin/options/class-up-options-general.php:635
+#: includes/admin/options/class-up-options-general.php:638
 msgid "Allow comments on Milestones"
 msgstr "Consenti commenti sugli Obiettivi"
 
-#: includes/admin/options/class-up-options-general.php:640
+#: includes/admin/options/class-up-options-general.php:643
 msgid "Disable Discussion on Tasks"
 msgstr "Disabilita le discussioni sulle Attività"
 
-#: includes/admin/options/class-up-options-general.php:645
+#: includes/admin/options/class-up-options-general.php:648
 #: includes/up-labels.php:62
 msgid "Tasks"
 msgstr "Attività"
 
-#: includes/admin/options/class-up-options-general.php:649
+#: includes/admin/options/class-up-options-general.php:652
 msgid "Allow comments on Tasks"
 msgstr "Permetti commenti sulle Attività"
 
-#: includes/admin/options/class-up-options-general.php:654
+#: includes/admin/options/class-up-options-general.php:657
 msgid "Disable Discussion on Bugs"
 msgstr "Disabilita le discussioni sui Bug"
 
-#: includes/admin/options/class-up-options-general.php:659
+#: includes/admin/options/class-up-options-general.php:662
 #: includes/up-labels.php:66
 msgid "Bugs"
 msgstr "Bugs"
 
-#: includes/admin/options/class-up-options-general.php:663
+#: includes/admin/options/class-up-options-general.php:666
 msgid "Allow comments on Bugs"
 msgstr "Consenti commenti su Bug"
 
-#: includes/admin/options/class-up-options-general.php:668
+#: includes/admin/options/class-up-options-general.php:671
 msgid "Disable Discussion on Files"
 msgstr "Disattiva discussione sui file"
 
-#: includes/admin/options/class-up-options-general.php:673
+#: includes/admin/options/class-up-options-general.php:676
 #: includes/up-labels.php:70
 msgid "Files"
 msgstr "Files"
 
-#: includes/admin/options/class-up-options-general.php:677
+#: includes/admin/options/class-up-options-general.php:680
 msgid "Allow comments on Files"
 msgstr "Consenti commenti su File"
 
-#: includes/admin/options/class-up-options-general.php:682
+#: includes/admin/options/class-up-options-general.php:685
 #, fuzzy
 msgid "Show all projects in the frontend sidebar"
 msgstr "Mostra tutti i progetti nella barra laterale del frontend"
 
-#: includes/admin/options/class-up-options-general.php:685
+#: includes/admin/options/class-up-options-general.php:688
 #, fuzzy
 msgid "If enabled, all projects will be displayed in the sidebar on frontend."
 msgstr ""
 "Se abilitato, tutti i progetti saranno visualizzati nella barra laterale del "
 "frontend."
 
-#: includes/admin/options/class-up-options-general.php:689
+#: includes/admin/options/class-up-options-general.php:692
 #, fuzzy
 msgid "Show only the current project"
 msgstr "Mostra solo il progetto corrente"
 
-#: includes/admin/options/class-up-options-general.php:690
+#: includes/admin/options/class-up-options-general.php:693
 msgid "Show all projects"
 msgstr "Mostra tutti i corsi"
 
-#: includes/admin/options/class-up-options-general.php:694
+#: includes/admin/options/class-up-options-general.php:697
+#, fuzzy
 msgid "Send Notifications for New Comments"
-msgstr ""
+msgstr "Inviare notifiche per nuovi commenti"
 
-#: includes/admin/options/class-up-options-general.php:698
-#: includes/admin/options/class-up-options-general.php:786
+#: includes/admin/options/class-up-options-general.php:701
+#: includes/admin/options/class-up-options-general.php:807
+#: includes/admin/options/class-up-options-general.php:821
 #: includes/admin/options/class-up-options-milestones.php:108
 msgid "Enabled"
 msgstr "Abilitato"
 
-#: includes/admin/options/class-up-options-general.php:699
+#: includes/admin/options/class-up-options-general.php:702
 #: includes/admin/options/class-up-options-milestones.php:109
 msgid "Disabled"
 msgstr "Disabilitato"
 
-#: includes/admin/options/class-up-options-general.php:702
+#: includes/admin/options/class-up-options-general.php:705
+#, fuzzy
 msgid ""
 "Check this to send a notification to the owner and creator of a milestone, "
 "task, or bug when someone comments on it."
 msgstr ""
+"Controlla questo per inviare una notifica al proprietario e al creatore di "
+"una pietra miliare, di un compito o di un bug quando qualcuno lo commenta."
 
-#: includes/admin/options/class-up-options-general.php:709
+#: includes/admin/options/class-up-options-general.php:711
+msgid "Localization"
+msgstr "Localizzazione"
+
+#: includes/admin/options/class-up-options-general.php:715
+#, fuzzy
+msgid "General options for localization, such as times."
+msgstr "Opzioni generali per la localizzazione, come ad esempio gli orari."
+
+#: includes/admin/options/class-up-options-general.php:719
+#, fuzzy
+msgid "Work Hours Per Day"
+msgstr "Ore di lavoro al giorno"
+
+#: includes/admin/options/class-up-options-general.php:722
+#, fuzzy
+msgid "The number of work hours per day (used in determining days of work)."
+msgstr ""
+"Il numero di ore di lavoro al giorno (utilizzato per determinare i giorni di "
+"lavoro)."
+
+#: includes/admin/options/class-up-options-general.php:730
 msgid "Maintenance"
 msgstr "Manutenzione"
 
-#: includes/admin/options/class-up-options-general.php:713
+#: includes/admin/options/class-up-options-general.php:734
 msgid ""
 "General options for maintenance only. Be careful enabling any of these "
 "options."
@@ -1779,25 +1805,25 @@ msgstr ""
 "Opzioni generali solo per la manutenzione. Prestare attenzione "
 "all'abilitazione di una di queste opzioni."
 
-#: includes/admin/options/class-up-options-general.php:717
+#: includes/admin/options/class-up-options-general.php:738
 msgid "Add default UpStream capabilities"
 msgstr "Aggiungere le funzionalità UpStream predefinite"
 
-#: includes/admin/options/class-up-options-general.php:722
+#: includes/admin/options/class-up-options-general.php:743
 msgid "Administrator"
 msgstr "Amministratore"
 
-#: includes/admin/options/class-up-options-general.php:723
+#: includes/admin/options/class-up-options-general.php:744
 #: includes/class-up-roles.php:40
 msgid "UpStream Manager"
 msgstr "UpStream Manager"
 
-#: includes/admin/options/class-up-options-general.php:724
+#: includes/admin/options/class-up-options-general.php:745
 #: includes/class-up-roles.php:73 upstream.php:614
 msgid "UpStream User"
 msgstr "Utente UpStream"
 
-#: includes/admin/options/class-up-options-general.php:734
+#: includes/admin/options/class-up-options-general.php:755
 msgid ""
 "Clicking this button will reset all the capabilities to the default set for "
 "the following user roles: administrator, upstream_manager, upstream_user and "
@@ -1808,15 +1834,15 @@ msgstr ""
 "upstream_manager, upstream_user e upstream_client_user. Questa operazione "
 "non può essere annullata."
 
-#: includes/admin/options/class-up-options-general.php:741
+#: includes/admin/options/class-up-options-general.php:762
 msgid "Update Project Data"
 msgstr "Aggiorna dati progetto"
 
-#: includes/admin/options/class-up-options-general.php:744
+#: includes/admin/options/class-up-options-general.php:765
 msgid "Update"
 msgstr "Aggiorna"
 
-#: includes/admin/options/class-up-options-general.php:746
+#: includes/admin/options/class-up-options-general.php:767
 msgid ""
 "Clicking this button will recalculate the data for all the projects, "
 "including: project members, milestones' tasks statuses, created time, "
@@ -1828,19 +1854,19 @@ msgstr ""
 "di creazione, l'autore del progetto. Questa operazione non può essere "
 "annullata e può richiedere del tempo se si dispone di molti progetti."
 
-#: includes/admin/options/class-up-options-general.php:753
+#: includes/admin/options/class-up-options-general.php:774
 #, fuzzy
 #| msgid "Disable Milestones"
 msgid "Migrate Legacy Milestones"
 msgstr "Disabilita gli Obiettivi per questo progetto"
 
-#: includes/admin/options/class-up-options-general.php:756
+#: includes/admin/options/class-up-options-general.php:777
 #, fuzzy
 #| msgid "Start Date"
 msgid "Start migration"
 msgstr "Data Inizio"
 
-#: includes/admin/options/class-up-options-general.php:758
+#: includes/admin/options/class-up-options-general.php:779
 #, fuzzy
 #| msgid ""
 #| "Clicking this button will recalculate the data for all the projects, "
@@ -1858,15 +1884,15 @@ msgstr ""
 "di creazione, l'autore del progetto. Questa operazione non può essere "
 "annullata e può richiedere del tempo se si dispone di molti progetti."
 
-#: includes/admin/options/class-up-options-general.php:765
+#: includes/admin/options/class-up-options-general.php:786
 msgid "Cleanup Plugin's Update Cache"
 msgstr "Pulizia della Cache di aggiornamento del plug-in"
 
-#: includes/admin/options/class-up-options-general.php:768
+#: includes/admin/options/class-up-options-general.php:789
 msgid "Cleanup"
 msgstr "Pulizia"
 
-#: includes/admin/options/class-up-options-general.php:770
+#: includes/admin/options/class-up-options-general.php:791
 msgid ""
 "If you’re having problems seeing UpStream extension updates, click this "
 "button and you see any new plugin releases."
@@ -1874,11 +1900,11 @@ msgstr ""
 "Se riscontri problemi con gli aggiornamenti delle estensioni UpStream, fai "
 "clic su questo pulsante per visualizzare eventuali nuove versioni del plugin."
 
-#: includes/admin/options/class-up-options-general.php:777
+#: includes/admin/options/class-up-options-general.php:798
 msgid "Debug"
 msgstr "Debug"
 
-#: includes/admin/options/class-up-options-general.php:781
+#: includes/admin/options/class-up-options-general.php:802
 #, fuzzy
 #| msgid ""
 #| "Checking this box will enable special debug code and a new menu to "
@@ -1890,11 +1916,22 @@ msgstr ""
 "Selezionando questa casella verranno attivati codice di debug speciale e un "
 "nuovo menu per esaminare le informazioni di debug."
 
-#: includes/admin/options/class-up-options-general.php:791
+#: includes/admin/options/class-up-options-general.php:812
+#, fuzzy
+#| msgid "Toggle Features"
+msgid "Beta Features"
+msgstr "Attiva/disattiva funzionalità"
+
+#: includes/admin/options/class-up-options-general.php:816
+#, fuzzy
+msgid "Ticking this box will enable beta features."
+msgstr "Selezionando questa casella si abiliteranno le funzioni beta."
+
+#: includes/admin/options/class-up-options-general.php:826
 msgid "Remove Data"
 msgstr "Rimuovi Dati"
 
-#: includes/admin/options/class-up-options-general.php:795
+#: includes/admin/options/class-up-options-general.php:830
 #, fuzzy
 #| msgid ""
 #| "Checking this box will delete all UpStream data when plugin is "
@@ -1905,53 +1942,74 @@ msgstr ""
 "Selezionando questa casella si elimineranno tutti i dati UpStream quando il "
 "plugin viene disinstallato."
 
-#: includes/admin/options/class-up-options-general.php:800
+#: includes/admin/options/class-up-options-general.php:835
 msgid "Remove all data on uninstall?"
 msgstr "Rimuovi tutti i dati dopo la disinstallazione?"
 
-#: includes/admin/options/class-up-options-general.php:961
-#: includes/admin/options/class-up-options-general.php:965
-#: includes/admin/options/class-up-options-general.php:996
-#: includes/admin/options/class-up-options-general.php:1000
+#: includes/admin/options/class-up-options-general.php:889
+#: includes/admin/options/class-up-options-general.php:893
+#: includes/admin/options/class-up-options-general.php:1048
+#: includes/admin/options/class-up-options-general.php:1052
+#: includes/admin/options/class-up-options-general.php:1083
+#: includes/admin/options/class-up-options-general.php:1087
 msgid "Invalid Nonce"
 msgstr "Nonce non valido"
 
-#: includes/admin/options/class-up-options-general.php:1006
+#: includes/admin/options/class-up-options-general.php:902
+#: includes/admin/options/class-up-options-general.php:945
+#, fuzzy
+msgid "You must be an administrator to import data."
+msgstr "Per importare i dati è necessario essere un amministratore."
+
+#: includes/admin/options/class-up-options-general.php:905
+msgid "No file found."
+msgstr "Nessun file trovato."
+
+#: includes/admin/options/class-up-options-general.php:962
+msgid "The file could not be found."
+msgstr "Impossibile trovare il file."
+
+#: includes/admin/options/class-up-options-general.php:967
+#, fuzzy
+msgid "A general error occurred."
+msgstr "Si è verificato un errore generale."
+
+#: includes/admin/options/class-up-options-general.php:1093
 msgid "Invalid project id"
 msgstr "ID del progetto non valida"
 
 #: includes/admin/options/class-up-options-import.php:61
-#, fuzzy
-#| msgid "Important!"
 msgid "Import"
-msgstr "Importante!"
-
-#: includes/admin/options/class-up-options-import.php:99
-msgid "Import from File"
-msgstr ""
+msgstr "Importa"
 
 #: includes/admin/options/class-up-options-import.php:100
-msgid "Import data from a file."
-msgstr ""
+msgid "Import from File"
+msgstr "Importa da file"
 
-#: includes/admin/options/class-up-options-import.php:102
+#: includes/admin/options/class-up-options-import.php:101
 #, fuzzy
-#| msgid "Failed to import %s %s"
-msgid "File to Import"
-msgstr "Impossibile importare %s %s"
+msgid "Import data from a file."
+msgstr "Importare i dati da un file."
 
-#: includes/admin/options/class-up-options-import.php:106
+#: includes/admin/options/class-up-options-import.php:103
+msgid "File to Import"
+msgstr "File da importare"
+
+#: includes/admin/options/class-up-options-import.php:107
+#, fuzzy
 msgid ""
 "Upload a file to import. Must be one of the valid formats you can find on "
 "our website."
 msgstr ""
+"Caricare un file da importare. Deve essere uno dei formati validi che potete "
+"trovare sul nostro sito web."
 
-#: includes/admin/options/class-up-options-import.php:111
-#: includes/admin/options/class-up-options-import.php:114
+#: includes/admin/options/class-up-options-import.php:112
+#: includes/admin/options/class-up-options-import.php:115
 msgid "Perform Import"
-msgstr ""
+msgstr "Importa"
 
-#: includes/admin/options/class-up-options-import.php:116
+#: includes/admin/options/class-up-options-import.php:117
 #, fuzzy
 #| msgid "Invalid Post Type for the given post."
 msgid "Click this to perform the import."
@@ -1976,7 +2034,6 @@ msgid "0%"
 msgstr "0%"
 
 #: includes/admin/options/class-up-options-tasks.php:170
-#, fuzzy
 msgid "5%"
 msgstr "5%"
 
@@ -1985,7 +2042,6 @@ msgid "10%"
 msgstr "10%"
 
 #: includes/admin/options/class-up-options-tasks.php:172
-#, fuzzy
 msgid "15%"
 msgstr "15%"
 
@@ -1994,7 +2050,6 @@ msgid "20%"
 msgstr "20%"
 
 #: includes/admin/options/class-up-options-tasks.php:174
-#, fuzzy
 msgid "25%"
 msgstr "25%"
 
@@ -2003,7 +2058,6 @@ msgid "30%"
 msgstr "30%"
 
 #: includes/admin/options/class-up-options-tasks.php:176
-#, fuzzy
 msgid "35%"
 msgstr "35%"
 
@@ -2012,7 +2066,6 @@ msgid "40%"
 msgstr "40%"
 
 #: includes/admin/options/class-up-options-tasks.php:178
-#, fuzzy
 msgid "45%"
 msgstr "45%"
 
@@ -2021,7 +2074,6 @@ msgid "50%"
 msgstr "50%"
 
 #: includes/admin/options/class-up-options-tasks.php:180
-#, fuzzy
 msgid "55%"
 msgstr "55%"
 
@@ -2030,7 +2082,6 @@ msgid "60%"
 msgstr "60%"
 
 #: includes/admin/options/class-up-options-tasks.php:182
-#, fuzzy
 msgid "65%"
 msgstr "65%"
 
@@ -2047,7 +2098,6 @@ msgid "80%"
 msgstr "80%"
 
 #: includes/admin/options/class-up-options-tasks.php:186
-#, fuzzy
 msgid "85%"
 msgstr "85%"
 
@@ -2056,7 +2106,6 @@ msgid "90%"
 msgstr "90%"
 
 #: includes/admin/options/class-up-options-tasks.php:188
-#, fuzzy
 msgid "95%"
 msgstr "95%"
 
@@ -2095,10 +2144,13 @@ msgstr ""
 "aggiornamenti?"
 
 #: includes/admin/up-enqueues.php:63
+#, fuzzy
 msgid ""
 "Are you sure you want to perform an import? MAKE SURE YOU HAVE BACKED UP "
 "YOUR DATA FIRST!"
 msgstr ""
+"Sei sicuro di voler effettuare un'importazione? ASSICURATEVI DI AVER "
+"ESEGUITO PRIMA IL BACKUP DEI VOSTRI DATI!"
 
 #: includes/admin/up-enqueues.php:64 includes/admin/up-enqueues.php:66
 msgid "Success!"
@@ -2113,8 +2165,9 @@ msgid "Error cleaning up the cached data!"
 msgstr "Errore durante la pulizia dei dati memorizzati nella cache!"
 
 #: includes/admin/up-enqueues.php:69
+#, fuzzy
 msgid "Error importing data!"
-msgstr ""
+msgstr "Errore nell'importazione dei dati!"
 
 #: includes/admin/up-enqueues.php:113
 msgid "Cancel"
@@ -2334,32 +2387,44 @@ msgstr "Elemento non valido."
 msgid "Invalid action nonce."
 msgstr "Elemento non valido."
 
-#: includes/class-up-import.php:97
-#, php-format
-msgid "Project with ID %s does not exist."
-msgstr ""
+#: includes/class-up-import.php:74 includes/class-up-import.php:102
+#, fuzzy
+msgid "Error loading file: line "
+msgstr "Errore nel caricamento del file: linea"
 
-#: includes/class-up-import.php:119
+#: includes/class-up-import.php:153
+#, fuzzy, php-format
+msgid "Project with ID %s does not exist."
+msgstr "Il progetto con ID %s non esiste."
+
+#: includes/class-up-import.php:175
 #, fuzzy, php-format
 #| msgid "This Milestone doesn't exist anymore."
 msgid "Milestone with ID %s does not exist."
 msgstr "Questo obiettivo non esiste più."
 
-#: includes/class-up-import.php:163
-#, php-format
+#: includes/class-up-import.php:233
+#, fuzzy, php-format
 msgid "Item %s with ID %s does not exist."
-msgstr ""
+msgstr "L'articolo %s con ID %s non esiste."
 
-#: includes/class-up-import.php:268
-#, php-format
+#: includes/class-up-import.php:345
+#, fuzzy, php-format
+msgid "(column %s, field %s)"
+msgstr "(colonna %s, campo %s)"
+
+#: includes/class-up-import.php:376
+#, fuzzy, php-format
 msgid ""
 "Header column %s must be of the form item.field (example: project.title)."
 msgstr ""
+"La colonna di intestazione %s deve essere del modulo item.field (esempio: "
+"titolo del progetto)."
 
-#: includes/class-up-import.php:276
-#, php-format
+#: includes/class-up-import.php:384
+#, fuzzy, php-format
 msgid "Item type %s is not valid."
-msgstr ""
+msgstr "Il tipo di articolo %s non è valido."
 
 #: includes/class-up-milestone.php:188
 msgid "Invalid Post Type for the given post."
@@ -2788,178 +2853,221 @@ msgstr "Attualmente non sono presenti file"
 msgid "In reply to"
 msgstr "In risposta a"
 
-#: includes/model/UpStream_Model_Bug.php:133
+#: includes/model/UpStream_Model_Bug.php:170
 #: includes/model/UpStream_Model_File.php:97
-#, php-format
+#, fuzzy, php-format
 msgid "File ID %s is invalid."
-msgstr ""
+msgstr "L'ID file %s non è valido."
 
-#: includes/model/UpStream_Model_Bug.php:150
-#, php-format
+#: includes/model/UpStream_Model_Bug.php:187
+#, fuzzy, php-format
 msgid "Severity %s is invalid."
-msgstr ""
+msgstr "La gravità %s non è valida."
 
-#: includes/model/UpStream_Model_Bug.php:167
-#, php-format
+#: includes/model/UpStream_Model_Bug.php:204
+#, fuzzy, php-format
 msgid "Severity code %s is invalid."
-msgstr ""
+msgstr "Il codice di gravità %s non è valido."
 
-#: includes/model/UpStream_Model_Bug.php:184
-#: includes/model/UpStream_Model_Project.php:283
-#: includes/model/UpStream_Model_Task.php:157
-#, php-format
+#: includes/model/UpStream_Model_Bug.php:221
+#: includes/model/UpStream_Model_Project.php:334
+#: includes/model/UpStream_Model_Task.php:194
+#, fuzzy, php-format
 msgid "Status %s is invalid."
-msgstr ""
+msgstr "Lo stato %s non è valido."
 
-#: includes/model/UpStream_Model_Bug.php:202
-#: includes/model/UpStream_Model_Project.php:301
-#: includes/model/UpStream_Model_Task.php:175
-#, php-format
+#: includes/model/UpStream_Model_Bug.php:239
+#: includes/model/UpStream_Model_Project.php:352
+#: includes/model/UpStream_Model_Task.php:212
+#, fuzzy, php-format
 msgid "Status code %s is invalid."
-msgstr ""
+msgstr "Il codice di stato %s non è valido."
 
-#: includes/model/UpStream_Model_Bug.php:209
-#: includes/model/UpStream_Model_Milestone.php:158
-#: includes/model/UpStream_Model_Project.php:342
-#: includes/model/UpStream_Model_Task.php:200
+#: includes/model/UpStream_Model_Bug.php:246
+#: includes/model/UpStream_Model_Milestone.php:168
+#: includes/model/UpStream_Model_Project.php:393
+#: includes/model/UpStream_Model_Task.php:237
+#, fuzzy
 msgid "Argument is not a valid date."
-msgstr ""
+msgstr "L'argomentazione non è una data valida."
+
+#: includes/model/UpStream_Model_Bug.php:253
+#: includes/model/UpStream_Model_Bug.php:257
+#: includes/model/UpStream_Model_Task.php:244
+#: includes/model/UpStream_Model_Task.php:248
+#, fuzzy
+msgid "Argument must be an array of UpStream_Model_TimeRecord objects."
+msgstr "L'argomento deve essere un array di oggetti UpStream_Model_TimeRecord."
 
 #: includes/model/UpStream_Model_Client.php:88
 #: includes/model/UpStream_Model_Client.php:91
-#: includes/model/UpStream_Model_Object.php:136
+#: includes/model/UpStream_Model_Object.php:139
 #, fuzzy, php-format
 #| msgid "Users IDs cannot be empty."
 msgid "User ID %s does not exist."
 msgstr "Gli ID utente non possono essere vuoti."
 
 #: includes/model/UpStream_Model_Client.php:95
-#, php-format
+#, fuzzy, php-format
 msgid "User ID %s is already attached."
-msgstr ""
+msgstr "L'ID utente %s è già allegato."
 
 #: includes/model/UpStream_Model_Client.php:115
-#, php-format
+#, fuzzy, php-format
 msgid "User ID %s is not attached."
-msgstr ""
+msgstr "L'ID utente %s non è collegato."
 
 #: includes/model/UpStream_Model_Client.php:168
-#: includes/model/UpStream_Model_Milestone.php:182
-#: includes/model/UpStream_Model_Project.php:398
-#: includes/model/UpStream_Model_Task.php:228
+#: includes/model/UpStream_Model_Milestone.php:195
+#: includes/model/UpStream_Model_Project.php:449
+#: includes/model/UpStream_Model_Task.php:277
 #, fuzzy
 #| msgid "Users IDs cannot be empty."
 msgid "User ID does not exist."
 msgstr "Gli ID utente non possono essere vuoti."
 
 #: includes/model/UpStream_Model_Manager.php:22
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "This (ID = %s, TYPE = %s, PARENT ID = %s, PARENT TYPE = %s) is not a valid "
 "object"
 msgstr ""
+"Questo (ID = %s, TYPE = %s, PARENT ID = %s, PARENT ID = %s, PARENT TYPE = "
+"%s) non è un oggetto valido"
 
 #: includes/model/UpStream_Model_Meta_Object.php:69
+#, fuzzy
 msgid "Parent is of the wrong type."
-msgstr ""
+msgstr "Il genitore è del tipo sbagliato."
 
-#: includes/model/UpStream_Model_Milestone.php:143
-#: includes/model/UpStream_Model_Project.php:259
-msgid "Category IDs must be an array."
-msgstr ""
-
-#: includes/model/UpStream_Model_Milestone.php:148
-#: includes/model/UpStream_Model_Project.php:264
-#, php-format
+#: includes/model/UpStream_Model_Milestone.php:157
+#: includes/model/UpStream_Model_Project.php:314
+#, fuzzy, php-format
 msgid "Term ID %s is invalid."
-msgstr ""
+msgstr "Il termine ID %s non è valido."
+
+#: includes/model/UpStream_Model_Milestone.php:175
+#, fuzzy, php-format
+msgid "%s is not a valid hex string."
+msgstr "%s non è una stringa esadecimale valida."
 
 #: includes/model/UpStream_Model_Object.php:44
 #: includes/model/UpStream_Model_Object.php:96
-#, php-format
+#: includes/model/UpStream_Model_TimeRecord.php:115
+#, fuzzy, php-format
 msgid "ID %s must be a valid alphanumeric."
-msgstr ""
+msgstr "L'ID %s deve essere un valido alfanumerico."
 
 #: includes/model/UpStream_Model_Object.php:83
-#: includes/model/UpStream_Model_Object.php:146
-#, php-format
+#: includes/model/UpStream_Model_Object.php:149
+#: includes/model/UpStream_Model_TimeRecord.php:105
+#: includes/model/UpStream_Model_TimeRecord.php:152
+#, fuzzy, php-format
 msgid "This (%s) is not a valid property."
-msgstr ""
+msgstr "Questa (%s) non è una proprietà valida."
 
-#: includes/model/UpStream_Model_Object.php:126
-#, php-format
-msgid "User %s (%s) does not exist."
-msgstr ""
+#: includes/model/UpStream_Model_Object.php:102
+#, fuzzy
+msgid "You must enter a title."
+msgstr "È necessario inserire un titolo."
+
+#: includes/model/UpStream_Model_Object.php:129
+#: includes/model/UpStream_Model_TimeRecord.php:137
+#, fuzzy, php-format
+#| msgid "Users IDs cannot be empty."
+msgid "User \"%s\" (for field %s) does not exist."
+msgstr "Gli ID utente non possono essere vuoti."
 
 #: includes/model/UpStream_Model_Post_Object.php:35
-#, php-format
+#, fuzzy, php-format
 msgid "Object with ID %s does not exist."
-msgstr ""
+msgstr "L'oggetto con ID %s non esiste."
 
 #: includes/model/UpStream_Model_Post_Object.php:44
-#, php-format
+#, fuzzy, php-format
 msgid "Object %s title does not exist."
-msgstr ""
+msgstr "Il titolo dell'oggetto %s non esiste."
 
 #: includes/model/UpStream_Model_Post_Object.php:49
-#, php-format
+#, fuzzy, php-format
 msgid "Object %s author does not exist."
-msgstr ""
+msgstr "L'autore dell'oggetto %s non esiste."
 
 #: includes/model/UpStream_Model_Post_Object.php:54
-#, php-format
+#, fuzzy, php-format
 msgid "Object %s content does not exist."
-msgstr ""
+msgstr "L'oggetto %s contenuto non esiste."
 
 #: includes/model/UpStream_Model_Post_Object.php:113
-#, php-format
+#, fuzzy, php-format
 msgid "Could not load post with ID %s."
-msgstr ""
+msgstr "Impossibile caricare il palo con ID %s."
 
 #: includes/model/UpStream_Model_Post_Object.php:147
+#, fuzzy
 msgid "ID must be a valid numeric."
-msgstr ""
+msgstr "L'ID deve essere un numero valido."
 
-#: includes/model/UpStream_Model_Project.php:178
+#: includes/model/UpStream_Model_Project.php:192
+#, fuzzy
+msgid "Argument must be of type UpStream_Model_Meta_Object"
+msgstr "L'argomento deve essere di tipo UpStream_Model_Meta_Object"
+
+#: includes/model/UpStream_Model_Project.php:218
+#, fuzzy
 msgid "Can only add objects of type UpStream_Model_Meta_Object"
-msgstr ""
+msgstr "Può aggiungere solo oggetti di tipo UpStream_Model_Meta_Object"
 
-#: includes/model/UpStream_Model_Project.php:246
+#: includes/model/UpStream_Model_Project.php:295
+#, fuzzy
 msgid "Not implemented. Use &tasks(), &files(), or &bugs()."
-msgstr ""
+msgstr "Non implementato. Usa &task(), &file(), o &bugs()."
 
-#: includes/model/UpStream_Model_Project.php:309
+#: includes/model/UpStream_Model_Project.php:360
+#, fuzzy
 msgid "For projects, assignedTo must be an array of length 1."
-msgstr ""
+msgstr "Per i progetti, assignedTo deve essere un array di lunghezza 1."
 
-#: includes/model/UpStream_Model_Project.php:322
+#: includes/model/UpStream_Model_Project.php:373
+#, fuzzy
 msgid "Cannot assign client users if the project has no client."
 msgstr ""
+"Non è possibile assegnare utenti clienti se il progetto non ha un cliente."
 
-#: includes/model/UpStream_Model_Project.php:325
+#: includes/model/UpStream_Model_Project.php:376
+#, fuzzy
 msgid "Client user IDs must be an array."
-msgstr ""
+msgstr "Gli ID utente del cliente devono essere un array."
 
-#: includes/model/UpStream_Model_Project.php:328
+#: includes/model/UpStream_Model_Project.php:379
+#, fuzzy
 msgid "Input cannot contain duplicates."
-msgstr ""
+msgstr "L'input non può contenere duplicati."
 
-#: includes/model/UpStream_Model_Project.php:333
-#, php-format
+#: includes/model/UpStream_Model_Project.php:384
+#, fuzzy, php-format
 msgid "User ID %s does not exist in this client."
-msgstr ""
+msgstr "L'ID utente %s non esiste in questo cliente."
 
-#: includes/model/UpStream_Model_Task.php:139
+#: includes/model/UpStream_Model_Task.php:176
+#, fuzzy
 msgid "Argument must be of type milestone."
-msgstr ""
+msgstr "L'argomentazione deve essere di tipo miliare."
 
-#: includes/model/UpStream_Model_Task.php:141
+#: includes/model/UpStream_Model_Task.php:178
+#, fuzzy
 msgid "Milestone must be stored before setting."
-msgstr ""
+msgstr "La pietra miliare deve essere memorizzata prima dell'impostazione."
 
-#: includes/model/UpStream_Model_Task.php:192
+#: includes/model/UpStream_Model_Task.php:229
+#, fuzzy
 msgid "Argument must be a multiple of 5 between 0 and 100."
-msgstr ""
+msgstr "L'argomentazione deve essere un multiplo di 5 tra 0 e 100."
+
+#: includes/model/UpStream_Model_TimeRecord.php:145
+#, fuzzy, php-format
+msgid "This (%s) is not a number."
+msgstr "Questo (%s) non è un numero."
 
 #: includes/up-general-functions.php:277
 #, php-format
@@ -3025,18 +3133,18 @@ msgstr "Per favore, considera l'aggiornamento del tuo WordPress."
 msgid "Go Back"
 msgstr "Torna indietro"
 
-#: includes/up-install.php:589
+#: includes/up-install.php:609
 msgid "Success! UpStream is up and running."
 msgstr "Perfetto. UpStream è installato e funzionante."
 
-#: includes/up-install.php:591
+#: includes/up-install.php:611
 msgid ""
 "Step 1. Please go through each settings tab below and configure the options."
 msgstr ""
 "Passo 1. Si prega di passare attraverso ogni scheda delle impostazioni qui "
 "sotto e configurare le opzioni."
 
-#: includes/up-install.php:595
+#: includes/up-install.php:615
 msgid ""
 "Step 2. Add a new Client by navigating to <strong>Projects > New Client</"
 "strong>"
@@ -3044,7 +3152,7 @@ msgstr ""
 "Passaggio 2. Aggiungi un nuovo Cliente accendendo a <strong>Progetto > Nuovo "
 "Cliente</strong>"
 
-#: includes/up-install.php:599
+#: includes/up-install.php:619
 msgid ""
 "Step 3. Add your first Project by navigating to <strong>Projects > New "
 "Project</strong>"
@@ -3052,12 +3160,12 @@ msgstr ""
 "Passaggio 3. Aggiungi una nuova Attività accendendo a <strong>Attività > "
 "Aggiungi Attività</strong>"
 
-#: includes/up-install.php:838
+#: includes/up-install.php:858
 #, fuzzy
 msgid "UpStream needs to be reactivated."
 msgstr "UpStream deve essere riattivato."
 
-#: includes/up-install.php:840
+#: includes/up-install.php:860
 #, fuzzy
 msgid ""
 "In order to complete the upgrade to this version, you will need to "
@@ -3451,7 +3559,7 @@ msgstr "Scegli tra i %s più usati"
 msgid "Default color"
 msgstr "Colore predefinito"
 
-#: includes/up-project-functions.php:632 templates/archive-project.php:48
+#: includes/up-project-functions.php:639 templates/archive-project.php:48
 #: templates/global/sidebar.php:22
 msgid "Ends at"
 msgstr "Fino alle"
@@ -3508,9 +3616,9 @@ msgid "It seems that you're not participating in any project right now."
 msgstr "Sembra che tu non sia inserito in alcun progetto al momento."
 
 #: templates/global/sidebar.php:132 templates/global/sidebar.php:156
-#: templates/global/sidebar.php:181 templates/single-project/overview.php:172
-#: templates/single-project/overview.php:204
-#: templates/single-project/overview.php:236
+#: templates/global/sidebar.php:181 templates/single-project/overview.php:174
+#: templates/single-project/overview.php:206
+#: templates/single-project/overview.php:238
 msgid "Assigned to me"
 msgstr "Assegnato a me"
 
@@ -3577,25 +3685,25 @@ msgstr "Aperto"
 msgid "invalid user"
 msgstr "utente non valido"
 
-#: templates/single-project/overview.php:175
-#: templates/single-project/overview.php:207
-#: templates/single-project/overview.php:239
+#: templates/single-project/overview.php:177
+#: templates/single-project/overview.php:209
+#: templates/single-project/overview.php:241
 msgid "Overdue"
 msgstr "Scaduti"
 
-#: templates/single-project/overview.php:178
+#: templates/single-project/overview.php:180
 msgid "Completed"
 msgstr "Completato"
 
-#: templates/single-project/overview.php:181
-#: templates/single-project/overview.php:213
-#: templates/single-project/overview.php:245
+#: templates/single-project/overview.php:183
+#: templates/single-project/overview.php:215
+#: templates/single-project/overview.php:247
 msgid "Total"
 msgstr "Totale"
 
-#: templates/single-project/overview.php:189
-#: templates/single-project/overview.php:221
-#: templates/single-project/overview.php:253
+#: templates/single-project/overview.php:191
+#: templates/single-project/overview.php:223
+#: templates/single-project/overview.php:255
 msgid "Overview"
 msgstr "Riepilogo"
 
@@ -3642,164 +3750,131 @@ msgstr ""
 "A partire da <strong>%s</strong> <code>%s</code> la funzionalità è stata "
 "rimossa dal ruolo <code>%s</code>."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:193
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:110
-msgid "Installed Extensions"
-msgstr "Estensioni installate"
+#. Description of the plugin/theme
+#, fuzzy
+msgid "A WordPress Project Management plugin by UpStream."
+msgstr "Un plugin WordPress Project Management di UpStream."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:194
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:111
-msgid "Browse More Extensions"
-msgstr "Sfoglia altre estensioni"
+#. Author URI of the plugin/theme
+#, fuzzy
+msgid "https://upstreamplugin.com"
+msgstr "https://upstreamplugin.com"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:195
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:112
-msgid "Enter your license key"
-msgstr "Inserisci il tuo codice licenza"
+#~ msgid "Installed Extensions"
+#~ msgstr "Estensioni installate"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:196
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:113
-msgid "Activate"
-msgstr "Attiva"
+#~ msgid "Browse More Extensions"
+#~ msgstr "Sfoglia altre estensioni"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:197
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:114
-msgid "License Key"
-msgstr "Codice di licenza"
+#~ msgid "Enter your license key"
+#~ msgstr "Inserisci il tuo codice licenza"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:198
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:115
-msgid "Change"
-msgstr "Cambia"
+#~ msgid "Activate"
+#~ msgstr "Attiva"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:199
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:116
-msgid "Get Pro Add-ons!"
-msgstr "Ottieni i componenti aggiuntivi Pro!"
+#~ msgid "License Key"
+#~ msgstr "Codice di licenza"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:352
-msgid "Invalid plugin name."
-msgstr "Nome del plug-in non valido."
+#~ msgid "Change"
+#~ msgstr "Cambia"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:357
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:388
-msgid "Invalid addon name."
-msgstr "Nome componente aggiuntivo non valido."
+#~ msgid "Get Pro Add-ons!"
+#~ msgstr "Ottieni i componenti aggiuntivi Pro!"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:362
-msgid "Invalid addon EDD ID."
-msgstr "EDD ID non valido."
+#~ msgid "Invalid plugin name."
+#~ msgstr "Nome del plug-in non valido."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:367
-msgid "Invalid license key."
-msgstr "Numero di licenza non valido."
+#~ msgid "Invalid addon name."
+#~ msgstr "Nome componente aggiuntivo non valido."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:384
-msgid "Invalid add-on."
-msgstr "Componente aggiuntivo non valido."
+#~ msgid "Invalid addon EDD ID."
+#~ msgstr "EDD ID non valido."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:416
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:428
-msgid "An error occurred. Please, try again or contact the support team."
-msgstr "Si è verificato un errore. Riprovare o contattare il team di supporto."
+#~ msgid "Invalid license key."
+#~ msgstr "Numero di licenza non valido."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:516
-msgid "Please enter a valid license key to enable automatic updates."
-msgstr ""
-"Immettere un codice di licenza valido per abilitare gli aggiornamenti "
-"automatici."
+#~ msgid "Invalid add-on."
+#~ msgstr "Componente aggiuntivo non valido."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:518
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:555
-msgid "Enter License Key"
-msgstr "Inserisci Chiave Licenza"
+#~ msgid "An error occurred. Please, try again or contact the support team."
+#~ msgstr ""
+#~ "Si è verificato un errore. Riprovare o contattare il team di supporto."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:529
-msgid "Sorry, we couldn’t access the files for this update."
-msgstr ""
-"Siamo spiacenti, non è stato possibile accedere ai file per questo "
-"aggiornamento."
+#~ msgid "Please enter a valid license key to enable automatic updates."
+#~ msgstr ""
+#~ "Immettere un codice di licenza valido per abilitare gli aggiornamenti "
+#~ "automatici."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:530
-msgid "Please click this link for more details."
-msgstr "Fare clic su questo collegamento per ulteriori dettagli."
+#~ msgid "Enter License Key"
+#~ msgstr "Inserisci Chiave Licenza"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:117
-msgid "Please, wait..."
-msgstr "Attendere..."
+#~ msgid "Sorry, we couldn’t access the files for this update."
+#~ msgstr ""
+#~ "Siamo spiacenti, non è stato possibile accedere ai file per questo "
+#~ "aggiornamento."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:118
-msgid "Please, enter a license key."
-msgstr "Per favore, inserisci una chiave di licenza."
+#~ msgid "Please click this link for more details."
+#~ msgstr "Fare clic su questo collegamento per ulteriori dettagli."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:119
-msgid "If the error persists, please contact the support team."
-msgstr "Se l'errore persiste, contattare il team di supporto."
+#~ msgid "Please, wait..."
+#~ msgstr "Attendere..."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:121
-msgid ""
-"Awesome, it seems like you have all the add-ons installed. Thank you for "
-"supporting us."
-msgstr ""
-"Impressionante, sembra che tu abbia tutti i componenti aggiuntivi "
-"installati. Grazie per averci sostenuto."
+#~ msgid "Please, enter a license key."
+#~ msgstr "Per favore, inserisci una chiave di licenza."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:123
-msgid "Invalid license"
-msgstr "Licenza non valida"
+#~ msgid "If the error persists, please contact the support team."
+#~ msgstr "Se l'errore persiste, contattare il team di supporto."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:124
-msgid "Activated"
-msgstr "Attivato"
+#~ msgid ""
+#~ "Awesome, it seems like you have all the add-ons installed. Thank you for "
+#~ "supporting us."
+#~ msgstr ""
+#~ "Impressionante, sembra che tu abbia tutti i componenti aggiuntivi "
+#~ "installati. Grazie per averci sostenuto."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:125
-msgid "This license key was not found."
-msgstr "Questo codice di licenza non è stato trovato."
+#~ msgid "Invalid license"
+#~ msgstr "Licenza non valida"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:126
-msgid "This license key is disabled."
-msgstr "Questo codice di licenza è disabilitato."
+#~ msgid "Activated"
+#~ msgstr "Attivato"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:127
-msgid "This license key has expired."
-msgstr "Questo codice di licenza è scaduto."
+#~ msgid "This license key was not found."
+#~ msgstr "Questo codice di licenza non è stato trovato."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:128
-msgid ""
-"This license key has no activations left. Please, consider upgrading your "
-"plan."
-msgstr ""
-"A questa chiave di licenza non sono rimaste attivazioni. Per favore, prendi "
-"in considerazione l'aggiornamento del tuo piano."
+#~ msgid "This license key is disabled."
+#~ msgstr "Questo codice di licenza è disabilitato."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:237
-msgid "Ok, you deserve it"
-msgstr "Ok, te lo meriti"
+#~ msgid "This license key has expired."
+#~ msgstr "Questo codice di licenza è scaduto."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:238
-msgid "I already did"
-msgstr "L’ho già fatto"
+#~ msgid ""
+#~ "This license key has no activations left. Please, consider upgrading your "
+#~ "plan."
+#~ msgstr ""
+#~ "A questa chiave di licenza non sono rimaste attivazioni. Per favore, "
+#~ "prendi in considerazione l'aggiornamento del tuo piano."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:239
-msgid "No, not good enough for now"
-msgstr "No, non abbastanza per ora"
+#~ msgid "Ok, you deserve it"
+#~ msgstr "Ok, te lo meriti"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:87
-msgid "Upgrade"
-msgstr "Aggiorna"
+#~ msgid "I already did"
+#~ msgstr "L’ho già fatto"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:147
-msgid "Save"
-msgstr "Salva"
+#~ msgid "No, not good enough for now"
+#~ msgstr "No, non abbastanza per ora"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:149
+#~ msgid "Upgrade"
+#~ msgstr "Aggiorna"
+
+#~ msgid "Save"
+#~ msgstr "Salva"
+
 #, php-format
-msgid "off the %s extensions"
-msgstr "%s delle estensioni"
+#~ msgid "off the %s extensions"
+#~ msgstr "%s delle estensioni"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:150
-msgid "Get it"
-msgstr "Ottieni"
+#~ msgid "Get it"
+#~ msgstr "Ottieni"
 
 #, fuzzy
 #~ msgid "Repeating Field Group using a Grid"
@@ -4335,14 +4410,6 @@ msgstr "Ottieni"
 
 #~ msgid "No terms"
 #~ msgstr "Nessun termine"
-
-#, fuzzy
-#~ msgid "A WordPress Project Management plugin by UpStream."
-#~ msgstr "Un plugin WordPress Project Management di UpStream."
-
-#, fuzzy
-#~ msgid "https://upstreamplugin.com"
-#~ msgstr "https://upstreamplugin.com"
 
 #~ msgid "or assign posts to an existing user:"
 #~ msgstr "o assegnare i post di un utente esistente:"

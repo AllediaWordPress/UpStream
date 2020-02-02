@@ -481,3 +481,18 @@ td .btn {
 .upstream_time_record_table td, .upstream_time_record_table th {
     padding: 5px;
 }
+
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.ui-tooltip {
+    z-index: 10000 !important;
+}
