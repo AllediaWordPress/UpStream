@@ -126,6 +126,8 @@ while (have_posts()) : the_post(); ?>
             <?php do_action('upstream_single_project_before_overview'); ?>
     </div>
 
+	    <?php do_action('upstream_single_project_top'); ?>
+
         <div id="project-dashboard" class="sortable">
             <?php foreach ($sections as $section) : ?>
                 <?php switch ($section) :

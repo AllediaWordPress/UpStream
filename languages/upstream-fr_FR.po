@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UpStream\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upstream\n"
-"POT-Creation-Date: 2020-01-31 12:29-0500\n"
-"PO-Revision-Date: 2020-01-31 12:31-0500\n"
+"POT-Creation-Date: 2020-02-04 16:33-0500\n"
+"PO-Revision-Date: 2020-02-04 16:33-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: upstream.php\n"
@@ -67,8 +67,8 @@ msgstr "Date d'échéance"
 #: includes/frontend/up-table-functions.php:439
 #: templates/archive-project.php:57 templates/global/sidebar.php:31
 #: templates/single-project/bugs.php:246 templates/single-project/bugs.php:250
-#: templates/single-project/tasks.php:241
-#: templates/single-project/tasks.php:244
+#: templates/single-project/tasks.php:248
+#: templates/single-project/tasks.php:251
 msgid "Status"
 msgstr "Statuts"
 
@@ -146,7 +146,7 @@ msgstr "Filtre"
 #: templates/single-project/details.php:119
 #: templates/single-project/files.php:46
 #: templates/single-project/milestones.php:32
-#: templates/single-project/tasks.php:69
+#: templates/single-project/tasks.php:76
 msgid "none"
 msgstr "aucun"
 
@@ -185,7 +185,7 @@ msgstr "Adresse"
 #: templates/single-project/bugs.php:210 templates/single-project/files.php:183
 #: templates/single-project/files.php:208
 #: templates/single-project/milestones.php:169
-#: templates/single-project/tasks.php:224
+#: templates/single-project/tasks.php:231
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -415,7 +415,7 @@ msgstr "Progression"
 #: includes/frontend/up-table-functions.php:406
 #: templates/single-project/bugs.php:68 templates/single-project/files.php:48
 #: templates/single-project/milestones.php:35
-#: templates/single-project/tasks.php:71
+#: templates/single-project/tasks.php:78
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -750,7 +750,7 @@ msgstr "Date de début"
 #: includes/frontend/up-table-functions.php:75
 #: includes/frontend/up-table-functions.php:224
 #: templates/single-project/milestones.php:34
-#: templates/single-project/tasks.php:70
+#: templates/single-project/tasks.php:77
 msgid "Notes"
 msgstr "Notes"
 
@@ -763,7 +763,7 @@ msgstr "Désactiver les jalons pour ce projet"
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:652
 #: templates/single-project/bugs.php:203 templates/single-project/files.php:201
 #: templates/single-project/milestones.php:162
-#: templates/single-project/tasks.php:217
+#: templates/single-project/tasks.php:224
 msgid "Assignee"
 msgstr "Assigné"
 
@@ -774,7 +774,7 @@ msgstr "Assigné"
 #: templates/single-project/bugs.php:207 templates/single-project/files.php:180
 #: templates/single-project/files.php:205
 #: templates/single-project/milestones.php:166
-#: templates/single-project/tasks.php:221
+#: templates/single-project/tasks.php:228
 msgid "Me"
 msgstr "Moi"
 
@@ -784,7 +784,7 @@ msgstr "Moi"
 #: includes/admin/metaboxes/class-up-metaboxes-projects.php:746
 #: templates/single-project/bugs.php:205 templates/single-project/files.php:203
 #: templates/single-project/milestones.php:164
-#: templates/single-project/tasks.php:219
+#: templates/single-project/tasks.php:226
 msgid "Nobody"
 msgstr "Personne"
 
@@ -800,7 +800,7 @@ msgstr "Personne"
 #: includes/frontend/up-table-functions.php:435
 #: templates/archive-project.php:50 templates/global/sidebar.php:24
 #: templates/single-project/bugs.php:65 templates/single-project/files.php:45
-#: templates/single-project/tasks.php:68
+#: templates/single-project/tasks.php:75
 msgid "Title"
 msgstr "Titre"
 
@@ -815,8 +815,8 @@ msgstr "Titre"
 #: includes/libraries/cmb2/includes/CMB2_Field.php:1423
 #: templates/archive-project.php:61 templates/global/sidebar.php:35
 #: templates/single-project/bugs.php:230 templates/single-project/bugs.php:248
-#: templates/single-project/tasks.php:242
-#: templates/single-project/tasks.php:269
+#: templates/single-project/tasks.php:249
+#: templates/single-project/tasks.php:276
 msgid "None"
 msgstr "Aucun"
 
@@ -2681,8 +2681,8 @@ msgstr "Copier"
 #: templates/single-project/files.php:151
 #: templates/single-project/milestones.php:102
 #: templates/single-project/milestones.php:136
-#: templates/single-project/tasks.php:157
-#: templates/single-project/tasks.php:191
+#: templates/single-project/tasks.php:164
+#: templates/single-project/tasks.php:198
 msgid "CSV"
 msgstr "CSV"
 
@@ -4430,8 +4430,8 @@ msgstr "Déconnexion"
 #: templates/single-project/files.php:99 templates/single-project/files.php:131
 #: templates/single-project/milestones.php:82
 #: templates/single-project/milestones.php:115
-#: templates/single-project/tasks.php:137
-#: templates/single-project/tasks.php:170
+#: templates/single-project/tasks.php:144
+#: templates/single-project/tasks.php:177
 msgid "Toggle Filters"
 msgstr "Outil de filtre"
 
@@ -4441,8 +4441,8 @@ msgstr "Outil de filtre"
 #: templates/single-project/files.php:136
 #: templates/single-project/milestones.php:87
 #: templates/single-project/milestones.php:121
-#: templates/single-project/tasks.php:142
-#: templates/single-project/tasks.php:176
+#: templates/single-project/tasks.php:149
+#: templates/single-project/tasks.php:183
 msgid "Export"
 msgstr "Exporter"
 
@@ -4452,8 +4452,8 @@ msgstr "Exporter"
 #: templates/single-project/files.php:143
 #: templates/single-project/milestones.php:94
 #: templates/single-project/milestones.php:128
-#: templates/single-project/tasks.php:149
-#: templates/single-project/tasks.php:183
+#: templates/single-project/tasks.php:156
+#: templates/single-project/tasks.php:190
 msgid "Plain Text"
 msgstr "Texte brut"
 
@@ -4495,14 +4495,14 @@ msgstr "Mot de passe"
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: templates/single-project/bugs.php:70 templates/single-project/tasks.php:73
-#: templates/single-project/tasks.php:82
+#: templates/single-project/bugs.php:70 templates/single-project/tasks.php:80
+#: templates/single-project/tasks.php:89
 #, fuzzy, php-format
 msgctxt "%s: column name. Error message when data reference is not found"
 msgid "invalid %s"
 msgstr "invalide %s"
 
-#: templates/single-project/bugs.php:71 templates/single-project/tasks.php:74
+#: templates/single-project/bugs.php:71 templates/single-project/tasks.php:81
 msgid "User"
 msgstr "Utilisateur"
 
@@ -4523,13 +4523,13 @@ msgid "Uploader"
 msgstr "Téléchargeur"
 
 #: templates/single-project/milestones.php:30
-#: templates/single-project/tasks.php:77
+#: templates/single-project/tasks.php:84
 #, fuzzy
 msgid "Starting after"
 msgstr "Commençant après"
 
 #: templates/single-project/milestones.php:31
-#: templates/single-project/tasks.php:78
+#: templates/single-project/tasks.php:85
 #, fuzzy
 msgid "Ending before"
 msgstr "Finir avant"
@@ -4566,7 +4566,7 @@ msgstr "Total"
 msgid "Overview"
 msgstr "Aperçu"
 
-#: templates/single-project/tasks.php:76
+#: templates/single-project/tasks.php:83
 msgid "invalid milestone"
 msgstr "jalon invalide"
 

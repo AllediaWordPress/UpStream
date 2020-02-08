@@ -33,6 +33,7 @@ define('UPSTREAM_PERMISSIONS_ACTION_COPY', 'copy');
 define('UPSTREAM_PERMISSIONS_FILTER_OBJECT', 'upstream_permissions_filter_object');
 define('UPSTREAM_PERMISSIONS_FILTER_FIELD', 'upstream_permissions_filter_field');
 define('UPSTREAM_PERMISSIONS_FILTER_BYPASS', 'upstream_permissions_filter_bypass');
+define('UPSTREAM_PERMISSIONS_FILTER_PAGE_ACCESS', 'upstream_permissions_filter_page_access');
 
 function upstream_can_access_object($capability, $object_type, $object_id, $parent_type, $parent_id, $action, $is_admin_page = false)
 
@@ -312,7 +313,7 @@ function upstream_user_can_access_project($user_id, $project_id)
     }
 
     $user = $user_id instanceof \WP_User ? $user_id : new \WP_User($user_id);
-    if ($user->ID === 0) {
+    if ($user->ID === 0 && !apply_filters('upstream_permissions_filter_page_access', false)) {
         return false;
     }
 

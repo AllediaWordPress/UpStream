@@ -52,11 +52,16 @@ $pluginOptions = get_option('upstream_general');
                                 <i class="fa fa-question-circle pull-right"></i><?php echo esc_html(upstream_admin_support_label($pluginOptions)); ?>
                             </a>
                         </li>
+
+                        <?php if (is_user_logged_in()): ?>
+
                         <li>
                             <a href="<?php echo esc_url(upstream_logout_url()); ?>">
                                 <i class="fa fa-sign-out pull-right"></i><?php esc_html_e('Log Out', 'upstream'); ?>
                             </a>
                         </li>
+
+                        <?php endif; ?>
 
                     </ul>
                 </li>

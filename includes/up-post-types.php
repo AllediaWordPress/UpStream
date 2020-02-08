@@ -46,7 +46,7 @@ function upstream_setup_post_types()
 
     $project_args = [
         'labels'             => $project_labels,
-        'public'             => false,
+        'public'             => true,
         'publicly_queryable' => true,
         'show_ui'            => true,
         'show_in_menu'       => true,

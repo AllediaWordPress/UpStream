@@ -496,7 +496,7 @@ function upstream_users_name($id = 0, $show_email = false)
 function upstream_get_users_projects($user)
 {
     $user = $user instanceof \WP_User ? $user : new \WP_User($user);
-    if ($user->ID === 0) {
+    if ($user->ID === 0  && !apply_filters('upstream_permissions_filter_page_access', false)) {
         return [];
     }
 

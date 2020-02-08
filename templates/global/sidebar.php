@@ -61,6 +61,8 @@ $projects = upstream_user_projects();
             </a>
         </div>
         <div class="clearfix"></div>
+
+        <?php if (is_user_logged_in()): ?>
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
@@ -71,6 +73,7 @@ $projects = upstream_user_projects();
                 <p><?php echo esc_html($currentUser->role); ?></p>
             </div>
         </div>
+        <?php endif; ?>
 
         <!-- /menu profile quick info -->
         <br/>

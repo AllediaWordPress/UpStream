@@ -85,7 +85,7 @@ class UpStream_Template_Loader
         /*
          * Login page if not logged in
          */
-        if ( ! upstream_is_user_logged_in()) {
+        if ( ! apply_filters('upstream_permissions_filter_page_access', false) && ! upstream_is_user_logged_in() ) {
             $file                      = 'login.php';
             $GLOBALS['login_template'] = true;
         }

@@ -204,6 +204,7 @@ if ( ! empty($ordering)) {
         <?php do_action('upstream_single_project_before_overview'); ?>
     </div>
 
+    <?php do_action('upstream_archive_project_top'); ?>
 
     <div class="">
         <?php if ($projectsView) : ?>
