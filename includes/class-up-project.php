@@ -338,7 +338,15 @@ class UpStream_Project
             return null;
         }
 
-        $types = wp_list_pluck($statuses, 'type', 'name');
+        //$types = wp_list_pluck($statuses, 'type', 'name');
+        // RSD: fix for nulls causing a warning
+        $types = [];
+        foreach ($statuses as $s) {
+            if (isset($s['name']) && isset($s['type'])) {
+                $types[$s['name']] = $s['type'];
+            }
+        }
+
 
         foreach ($types as $key => $value) {
             if ($key == $this->get_meta('status')) {

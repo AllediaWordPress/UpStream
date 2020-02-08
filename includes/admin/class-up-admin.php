@@ -588,6 +588,15 @@ class UpStream_Admin
     {
         if (is_array($value)) {
             $value = self::createMissingIdsInSet($value);
+
+            $i = 0;
+            while ($i < count($value)) {
+                if (!isset($value[$i]['name'])) {
+                    array_splice($value, $i, 1);
+                } else {
+                    $i++;
+                }
+            }
         }
 
         return $value;
