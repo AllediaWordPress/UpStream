@@ -68,7 +68,8 @@ function upstream_project_status_color($project_id = 0)
         ) {
             foreach ($rowset['statuses'] as $row) {
                 if (isset($row['id'])
-                    && $row['id'] === $projectStatusId
+                    && $row['id'] === $projectStatusId &&
+                    isset($row['name']) && isset($row['color'])
                 ) {
                     $status['status'] = $row['name'];
                     $status['color']  = $row['color'];

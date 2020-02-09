@@ -14,6 +14,12 @@ class UpStream_Model_Manager
 
     public function getByID($object_type, $object_id, $parent_type = null, $parent_id = 0)
     {
+        if (!in_array($object_type, [ UPSTREAM_ITEM_TYPE_CLIENT, UPSTREAM_ITEM_TYPE_PROJECT, UPSTREAM_ITEM_TYPE_MILESTONE, UPSTREAM_ITEM_TYPE_TASK, UPSTREAM_ITEM_TYPE_BUG, UPSTREAM_ITEM_TYPE_FILE ])) {
+            throw new \UpStream_Model_ArgumentException(sprintf(__('Item type %s is not valid.', 'upstream'), $object_type));
+        } else if (!$parent_id && in_array($object_type, [ UPSTREAM_ITEM_TYPE_TASK, UPSTREAM_ITEM_TYPE_BUG, UPSTREAM_ITEM_TYPE_FILE ])) {
+
+        }
+
         if (empty($this->objects[$object_type]) || empty($this->objects[$object_type][$object_id])) {
             $this->loadObject($object_type, $object_id, $parent_type, $parent_id);
         }
@@ -123,6 +129,8 @@ class UpStream_Model_Manager
                 $parent = $this->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $parentId);
                 return \UpStream_Model_Bug::create($parent, $title, $createdBy);
 
+            default:
+                throw new \UpStream_Model_ArgumentException(sprintf(__('Item type %s is not valid.', 'upstream'), $object_type));
         }
     }
 
