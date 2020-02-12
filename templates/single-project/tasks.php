@@ -53,8 +53,12 @@ if ( ! upstream_are_tasks_disabled()
 
     foreach (array_keys($rowset) as $key) {
         if (!empty($rowset[$key]['milestone'])) {
-            $m = \UpStream\Factory::getMilestone($rowset[$key]['milestone']);
-            $rowset[$key]['milestone_order'] = $m->getName();
+            try {
+                $m = \UpStream\Factory::getMilestone($rowset[$key]['milestone']);
+                $rowset[$key]['milestone_order'] = $m->getName();
+            } catch (\Exception $e) {
+                $rowset[$key]['milestone'] = '';
+            }
         }
     }
 

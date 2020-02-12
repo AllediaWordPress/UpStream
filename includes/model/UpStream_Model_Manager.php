@@ -134,6 +134,43 @@ class UpStream_Model_Manager
         }
     }
 
+    public function deleteObject($object_type, $object_id, $parent_type, $parent_id)
+    {
+        // throws exception if the object doesn't exist...
+        $obj = $this->getByID($object_type, $object_id, $parent_type, $parent_id);
+
+        switch ($object_type) {
+
+            case UPSTREAM_ITEM_TYPE_PROJECT:
+                wp_delete_post($object_id);
+                break;
+
+            case UPSTREAM_ITEM_TYPE_MILESTONE:
+                if (class_exists('\UpStream\Factory')) {
+                    $milestone = \UpStream\Factory::getMilestone($object_id);
+
+                    if ( ! empty($milestone)) {
+                        $milestone->delete();
+                    }
+                }
+                break;
+
+            case UPSTREAM_ITEM_TYPE_CLIENT:
+
+            case UPSTREAM_ITEM_TYPE_TASK:
+
+            case UPSTREAM_ITEM_TYPE_FILE:
+
+            case UPSTREAM_ITEM_TYPE_BUG:
+
+            default:
+                throw new \UpStream_Model_ArgumentException(sprintf(__('Item type %s is not valid.', 'upstream'), $object_type));
+        }
+
+        unset($this->objects[$object_type][$object_id]);
+
+    }
+
     public static function get_instance()
     {
         if (empty(static::$instance)) {
