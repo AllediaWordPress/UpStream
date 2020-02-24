@@ -646,7 +646,10 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
             //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
 
         } elseif ($columnType === 'wysiwyg') {
-            $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
+            // replace newlines if not HTML
+            if (!stristr($columnValue, '&lt;')) {
+                $columnValue = preg_replace('/(?!>[\s]*).\r?\n(?![\s]*<)/', '$0<br />', trim((string)$columnValue));
+            }
             if (strlen($columnValue) > 0) {
                 $html = upstream_esc_w(sprintf('<blockquote>%s</blockquote>', html_entity_decode($columnValue)));
             } else {
