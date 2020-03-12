@@ -695,14 +695,20 @@ jQuery(document).ready(function ($) {
             e.preventDefault();
 
             var self = $(this);
-            var filterColumn = self.attr('data-column');
-            //var value = self.val().trim();
-            var value = self.val();
 
-            var wrapper = $(self.parents('.c-data-table__filters'));
-            $('.form-control[data-column="' + filterColumn + '"]', wrapper).val(value);
+            if (!self.attr('data-searchurl') || typeof(self.attr('data-searchurl')) === 'undefined') {
+                var filterColumn = self.attr('data-column');
+                //var value = self.val().trim();
+                var value = self.val();
 
-            sortTable(filterColumn, value, $(self.parents('form').get(0)));
+                var wrapper = $(self.parents('.c-data-table__filters'));
+                $('.form-control[data-column="' + filterColumn + '"]', wrapper).val(value);
+
+                sortTable(filterColumn, value, $(self.parents('form').get(0)));
+            } else if (e.keyCode == 13) {
+                var searchurl = self.attr('data-searchurl');
+                window.location = searchurl.replace('_SEARCH_STR_',  encodeURIComponent(self.val()) );
+            }
         });
 
         // Expand rows in tables.

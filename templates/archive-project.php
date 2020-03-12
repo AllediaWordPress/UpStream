@@ -12,7 +12,7 @@ if ( ! defined('ABSPATH')) {
 
 // Some hosts disable this function, so let's make sure it is enabled before call it.
 if (function_exists('set_time_limit')) {
-    set_time_limit(120);
+    set_time_limit(1200);
 }
 
 
@@ -34,7 +34,18 @@ add_action('init', function() {
 }, 9);
 
 
-$pluginOptions     = get_option('upstream_general');
+$pluginOptions = get_option('upstream_projects');
+$optionName = 'project_number_per_page';
+$total_per_page = isset($pluginOptions[$optionName]) ? (int)$pluginOptions[$optionName] : 1000;
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+if ($page <= 1) $page = 1;
+$display_start = ($page-1)*$total_per_page;
+
+$project_page_url = get_post_type_archive_link('project');
+
 $areClientsEnabled = ! is_clients_disabled();
 
 $archiveClosedItems = upstream_archive_closed_items();
@@ -88,9 +99,21 @@ foreach ($projectStatuses as $statusId => $status) {
 }
 
 $projectsList = [];
+$countPos = 0;
+$totalProjects =0;
 if (isset($currentUser->projects)) {
     if (is_array($currentUser->projects) && count($currentUser->projects) > 0) {
         foreach ($currentUser->projects as $project_id => $project) {
+
+            $project = new UpStream_Project($project_id);
+            $start = $project->get_meta('start');
+            if (!$start) $start = 0;
+            $end = $project->get_meta('end');
+            if (!$end) $end = 0;
+            $prog = $project->get_meta('progress');
+            if (!$prog) $prog = 0;
+            $stat =  $project->get_meta('status');
+
             $data = (object)[
                 'id'                 => $project_id,
                 'author'             => (int)$project->post_author,
@@ -100,10 +123,10 @@ if (isset($currentUser->projects)) {
                 'slug'               => $project->post_name,
                 'status'             => $project->post_status,
                 'permalink'          => get_permalink($project_id),
-                'startDateTimestamp' => (int)upstream_project_start_date($project_id),
-                'endDateTimestamp'   => (int)upstream_project_end_date($project_id),
-                'progress'           => (float)upstream_project_progress($project_id),
-                'status'             => (string)upstream_project_status($project_id),
+                'startDateTimestamp' => (int)$start,
+                'endDateTimestamp'   => (int)$end,
+                'progress'           => (float)$prog,
+                'status'             => (string)$stat,
                 'clientName'         => null,
                 'categories'         => [],
                 'features'           => [
@@ -117,6 +140,16 @@ if (isset($currentUser->projects)) {
                     continue;
                 }
             }
+
+            if (!empty($search) && !stristr($project->post_title, $search)) {
+                continue;
+            }
+
+            $totalProjects++;
+            $countPos++;
+
+            if ($countPos-1 < $display_start) continue;
+            if ($countPos-1 >= $display_start+$total_per_page) continue;
 
             $data->startDate = (string)upstream_format_date($data->startDateTimestamp);
             $data->endDate   = (string)upstream_format_date($data->endDateTimestamp);
@@ -224,18 +257,26 @@ if ( ! empty($ordering)) {
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <?php if ($projectsListCount > 0): ?>
+                            <?php if ($projectsListCount > 0 || !empty($search)): ?>
                                 <div class="c-data-table table-responsive">
-                                    <form class="form-inline c-data-table__filters" data-target="#projects">
+                                    <form class="form-inline c-data-table__filters" data-target="#projects" method="get" action="<?php print $project_page_url ?>">
                                         <div class="hidden-xs">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-search"></i>
                                                     </div>
-                                                    <input type="search" class="form-control"
-                                                           placeholder="<?php echo esc_attr($i18n['LB_TITLE']); ?>"
-                                                           data-column="title" data-compare-operator="contains">
+
+                                                        <input type="search" class="form-control"
+                                                               placeholder="<?php echo esc_attr($i18n['LB_TITLE']); ?>"
+                                                               <?php if ($totalProjects > $total_per_page || !empty($search)) { ?>
+                                                                    data-searchurl="<?php print esc_url(add_query_arg('search', '_SEARCH_STR_', $project_page_url)); ?>"
+                                                               <?php } ?>
+                                                                <?php if (!empty($search)) { ?>
+                                                                    value="<?php print esc_attr($search); ?>"
+                                                                <?php } ?>
+                                                               data-column="title" data-compare-operator="contains">
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -658,20 +699,25 @@ if ( ! empty($ordering)) {
                                         </tbody>
                                     </table>
                                 </div>
-                                <span id="pro_count" class="p_count">
-                                    <?php 
-                                        if( $projectsListCount > 0 ) {
-                                            echo $projectsListCount; 
-                                        }
-                                    ?>
-                                </span>
+
                                 <span class="p_count">
-                                    <?php 
-                                        if( $projectsListCount > 0 ) {
-                                            echo esc_html(sprintf(_x(' %s found', 'upstream'), upstream_project_label_plural()));
-                                        } 
-                                    ?>
+                                    Showing <?php print $display_start+1; ?> to <?php print min($display_start+$total_per_page, $totalProjects) ?> of <?php print $totalProjects ?>
                                 </span>
+                            <?php if ($totalProjects > $total_per_page) { ?>
+                            <span class="pagination">
+                                <?php if ($page > 1) { ?>  <a href="<?php print esc_url(add_query_arg('page', $page-1, $project_page_url)); ?>">&lt; Previous</a> <?php } ?>
+
+                                    <select name="" onchange="if (this.value) window.location='<?php print esc_url(add_query_arg('page', '__PAGE_N_', $project_page_url)); ?>'.replace('__PAGE_N_',this.value);">
+                                        <option>(Jump to page...)</option>
+                                        <?php for ($j = 0; $j < ceil($totalProjects/$total_per_page); $j++): ?>
+                                        <option value="<?php print $j+1 ?>"><?php print $j+1; ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+
+                                <?php if ($display_start + $total_per_page < $totalProjects) { ?> <a href="<?php print esc_url(add_query_arg('page', $page+1, $project_page_url)); ?>">Next &gt;</a> <?php } ?>
+                            </span>
+
+                            <?php } ?>
                             <?php else: ?>
                                 <p><?php _e(
                                         "It seems that you're not participating in any project right now.",

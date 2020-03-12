@@ -164,6 +164,20 @@ if ( ! class_exists('UpStream_Options_Projects')) :
                             ],
                         ],
 
+
+                        [
+                            'name' => __('Other Settings', 'upstream'),
+                            'id'   => 'project_other_settings',
+                            'type' => 'title',
+                            'desc' => __('Additional settings for projects in UpStream.', 'upstream')
+                        ],
+                        [
+                            'name'    => __('Number of Projects Per Page on Frontend', 'upstream'),
+                            'id'      => 'project_number_per_page',
+                            'type'    => 'text',
+                            'desc'    => __('The number of projects per page to display on front end.', 'upstream'),
+                            'default' => 1000,
+                        ],
                     ],
                 ]
             );
