@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 4.5
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 1.30.4
+Stable tag: 1.30.5
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -136,7 +136,13 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-= [1.30.3] - 2020-02-09 =
+= [1.30.5] - 2020-03-14 =
+* Add pagination on projects page on front end
+* Add setting for choosing how many projects to show per page
+* Fix broken HTML in frontend details section within tables
+* Added delete functions to model
+
+= [1.30.4] - 2020-02-09 =
 * Fix bug when deleting status options
 * Fix warning when there is a blank color in status
 * Add upstream_archive_project_top and upstream_single_project_top actions to add to top of pages
