@@ -103,7 +103,14 @@ $countPos = 0;
 $totalProjects =0;
 if (isset($currentUser->projects)) {
     if (is_array($currentUser->projects) && count($currentUser->projects) > 0) {
-        foreach ($currentUser->projects as $project_id => $project) {
+
+        $projects_list = $currentUser->projects;
+        uasort($projects_list, function($a, $b) {
+            if (!isset($a->post_title) || !isset($b->post_title)) return 0;
+            return strcasecmp($a->post_title, $b->post_title);
+        });
+
+        foreach ($projects_list as $project_id => $project) {
 
             $project = new UpStream_Project($project_id);
             $start = $project->get_meta('start');
@@ -446,8 +453,8 @@ if ( ! empty($ordering)) {
                                                     role="button">
                                                     <?php echo esc_html($i18n['LB_CLIENT']); ?>
                                                     <span class="pull-right o-order-direction">
-                          <i class="fa fa-sort"></i>
-                        </span>
+                                                  <i class="fa fa-sort"></i>
+                                                </span>
                                                 </th>
                                                 <th data-column="client-users">
                                                     <?php printf(__('%s Users', 'upstream'), $i18n['LB_CLIENT']); ?>
@@ -459,14 +466,14 @@ if ( ! empty($ordering)) {
                                             <th class="is-clickable is-orderable" data-column="progress" role="button">
                                                 <?php echo esc_html($i18n['LB_PROGRESS']); ?>
                                                 <span class="pull-right o-order-direction">
-                          <i class="fa fa-sort"></i>
-                        </span>
+                                              <i class="fa fa-sort"></i>
+                                            </span>
                                             </th>
                                             <th class="is-clickable is-orderable" data-column="status" role="button">
                                                 <?php echo esc_html($i18n['LB_STATUS']); ?>
                                                 <span class="pull-right o-order-direction">
-                          <i class="fa fa-sort"></i>
-                        </span>
+                                          <i class="fa fa-sort"></i>
+                                        </span>
                                             </th>
                                             <th style="max-width: 250px;" data-column="categories">
                                                 <?php echo esc_html($i18n['LB_CATEGORIES']); ?>
