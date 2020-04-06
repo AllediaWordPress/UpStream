@@ -478,7 +478,8 @@ if ( ! class_exists('UpStream')) :
             $editOtherProjectsPermissionWereRemoved = (bool)get_option('upstream:role_upstream_users:drop_edit_others_projects');
             if ( ! $editOtherProjectsPermissionWereRemoved) {
                 $role = get_role('upstream_user');
-                $role->remove_cap('edit_others_projects');
+                if ($role)
+                    $role->remove_cap('edit_others_projects');
                 unset($role);
 
                 update_option('upstream:role_upstream_users:drop_edit_others_projects', 1);
