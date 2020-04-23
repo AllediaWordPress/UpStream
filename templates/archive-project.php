@@ -33,6 +33,8 @@ add_action('init', function() {
     }
 }, 9);
 
+//include "report-parameters.php";
+//return;
 
 $pluginOptions = get_option('upstream_projects');
 $optionName = 'project_number_per_page';
