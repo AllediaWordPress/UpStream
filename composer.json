@@ -35,9 +35,5 @@
     "pimple/pimple": "^3.2",
     "alledia/wordpress-plugin-framework": "dev-master",
     "alledia/wordpress-plugin-builder": "dev-development"
-  },
-  "require-dev": {
-    "brain/monkey": "^2.2",
-    "lucatume/wp-browser": "^2.2"
   }
 }
