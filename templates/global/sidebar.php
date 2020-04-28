@@ -49,6 +49,7 @@ if ($isSingle) {
 }
 
 $projects = upstream_user_projects();
+$reports = UpStream_Report_Generator::getReports();
 ?>
 
 <?php do_action('upstream_before_sidebar'); ?>
@@ -209,6 +210,26 @@ $projects = upstream_user_projects();
                                 <?php do_action('upstream_sidebar_after_single_menu'); ?>
                             </ul>
                         </li>
+
+<?php if (false): ?>
+                        <li class="">
+                            <a href="#">
+                                <i class="fa fa-bar-chart"></i>
+
+                                <?php esc_html_e('Reports', 'upstream'); ?>
+                            </a>
+
+                            <ul class="nav child_menu">
+                                <?php foreach ($reports as $report): ?>
+                                <li id="nav-reports">
+                                    <a target="_blank" href="">
+                                        <i class="fa fa-file-text"></i> <?php echo esc_html($report->title); ?>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+<?php endif; ?>
 
                         <?php do_action('upstream_sidebar_menu'); ?>
                     </ul>

@@ -356,6 +356,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 break;
 
             case 'assignedTo':
+            case 'assignedTo:byUsername':
+            case 'assignedTo:byEmail':
                 if (is_array($value) && count($value) != 1)
                     throw new UpStream_Model_ArgumentException(__('For projects, assignedTo must be an array of length 1.', 'upstream'));
 
@@ -401,6 +403,14 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         }
     }
+
+    public static function fields()
+    {
+        $fields = parent::fields();
+
+        return $fields;
+    }
+
 
     public function findMilestones()
     {

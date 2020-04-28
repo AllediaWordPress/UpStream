@@ -145,7 +145,7 @@ if (isset($currentUser->projects)) {
 
             // If should archive closed items, we filter the rowset.
             if ($archiveClosedItems) {
-                if ( ! empty($data->status) && ! in_array($data->status, $openStatuses)) {
+                 if ( ! empty($data->status) && ! in_array($data->status, $openStatuses)) {
                     continue;
                 }
             }

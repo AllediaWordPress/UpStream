@@ -60,6 +60,26 @@ class UpStream_Model_Object
         return false;
     }
 
+    public static function fields()
+    {
+        return [
+            'id' => [ 'type' => 'id', 'title' => __('ID'), 'search' => false, 'display' => false ],
+            'title' => [ 'type' => 'string', 'title' => __('Title'), 'search' => true, 'display' => true  ],
+            'description' => [ 'type' => 'text', 'title' => __('Description'), 'search' => true, 'display' => true  ],
+            'createdBy' => [ 'type' => 'user_id', 'title' => __('Created By'), 'search' => true, 'display' => true  ],
+            'assignedTo' => [
+                'type' => 'user_id',
+                'title' => __('Assigned To'),
+                'variants' => [
+                    'assignedTo:byEmail' => [ 'type' => 'email' ],
+                    'assignedTo:byUsername' => [ 'type' => 'string' ],
+                ],
+                'search' => true,
+                'display' => true
+            ],
+        ];
+    }
+
     public function __get($property)
     {
         switch ($property) {

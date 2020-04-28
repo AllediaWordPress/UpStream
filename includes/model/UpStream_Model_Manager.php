@@ -104,6 +104,24 @@ class UpStream_Model_Manager
         return $return_items;
     }
 
+    public function findAccessibleProjects()
+    {
+        $return_items = [];
+
+        foreach ($this->objects[UPSTREAM_ITEM_TYPE_PROJECT] as $id => $item) {
+            $access = upstream_override_access_object(false, UPSTREAM_ITEM_TYPE_PROJECT,
+                $id, null, 0, UPSTREAM_PERMISSIONS_ACTION_VIEW);
+            if ($access) {
+                $return_items[] = $item;
+            }
+        }
+
+        usort($return_items, function($item1, $item2) { return strcasecmp($item1->title, $item2->title); });
+
+        return $return_items;
+
+    }
+
     public function createObject($object_type, $title, $createdBy, $parentId = 0)
     {
         switch ($object_type) {
