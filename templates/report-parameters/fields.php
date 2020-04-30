@@ -5,6 +5,8 @@ $users = (array)upstream_project_users_dropdown();
 
 foreach ($fields as $field_name => $field):
     $fname = 'project_' . $field_name;
+
+    if (!$field['search']) continue;
 ?>
 <div class="row">
 

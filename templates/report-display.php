@@ -41,17 +41,7 @@ upstream_get_template_part('global/header.php');
 upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
 
-?>
-
-    <div class="right_col" role="main">
-
-        <form>
-            <div id="report-parameters-project">
-                <?php upstream_get_template_part('report-parameters/projects.php'); ?>
-            </div>
-        </form>
-    </div>
-<?php
+UpStream_Report_Generator::executeReport();
 
 include_once 'global/footer.php';
 ?>

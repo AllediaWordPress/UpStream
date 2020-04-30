@@ -38,4 +38,15 @@ class UpStream_Report_Generator
         return $reports;
     }
 
+    public static function loadReport($id)
+    {
+        $reports = self::getReports();
+
+    }
+
+    public static function executeReport()
+    {
+        print_r($_POST);
+    }
+
 }

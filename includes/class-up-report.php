@@ -28,10 +28,24 @@ class UpStream_Report
     {
     }
 
+    function getParameterOptions()
+    {
+        return [];
+    }
+
+    function executeReport($params)
+    {
+
+    }
 }
 
 class UpStream_Report_Projects extends UpStream_Report
 {
     public $title = 'Projects';
     public $id = 'projects';
+
+    function executeReport($params)
+    {
+
+    }
 }

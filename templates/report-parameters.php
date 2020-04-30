@@ -44,10 +44,12 @@ upstream_get_template_part('global/top-nav.php');
 
     <div class="right_col" role="main">
 
-        <form>
+        <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="post">
             <div id="report-parameters-project">
                 <?php upstream_get_template_part('report-parameters/projects.php'); ?>
             </div>
+
+           <input type="submit" name="submit" value="Submit">
         </form>
     </div>
 <?php
