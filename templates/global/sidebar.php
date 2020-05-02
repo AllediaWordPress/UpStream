@@ -49,7 +49,7 @@ if ($isSingle) {
 }
 
 $projects = upstream_user_projects();
-$reports = UpStream_Report_Generator::getReports();
+$reports = UpStream_Report_Generator::getAllReports();
 ?>
 
 <?php do_action('upstream_before_sidebar'); ?>

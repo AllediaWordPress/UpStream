@@ -31,22 +31,29 @@ class UpStream_Report_Generator
         return [$r];
     }
 
-    public static function getReports()
+    public static function getAllReports()
     {
         $reports = self::getBuiltinReports();
         $reports = apply_filters('upstream_list_reports', $reports);
         return $reports;
     }
 
-    public static function loadReport($id)
+    public static function getReport($id)
     {
-        $reports = self::getReports();
+        $reports = self::getAllReports();
 
+        foreach ($reports as $r) {
+            if ($r->id === $id) {
+                return $r;
+            }
+        }
+
+        return null;
     }
 
-    public static function executeReport()
+    public static function executeReport($report)
     {
-        print_r($_POST);
+        $report->executeReport($_POST);
     }
 
 }

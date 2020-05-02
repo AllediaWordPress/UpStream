@@ -67,16 +67,7 @@ class UpStream_Model_Object
             'title' => [ 'type' => 'string', 'title' => __('Title'), 'search' => true, 'display' => true  ],
             'description' => [ 'type' => 'text', 'title' => __('Description'), 'search' => true, 'display' => true  ],
             'createdBy' => [ 'type' => 'user_id', 'title' => __('Created By'), 'search' => true, 'display' => true  ],
-            'assignedTo' => [
-                'type' => 'user_id',
-                'title' => __('Assigned To'),
-                'variants' => [
-                    'assignedTo:byEmail' => [ 'type' => 'email' ],
-                    'assignedTo:byUsername' => [ 'type' => 'string' ],
-                ],
-                'search' => true,
-                'display' => true
-            ],
+            'assignedTo' => [ 'type' => 'user_id', 'is_array' => true, 'title' => __('Assigned To'), 'search' => true, 'display' => true ],
         ];
     }
 

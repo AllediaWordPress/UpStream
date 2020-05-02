@@ -35,19 +35,28 @@ add_action('init', function() {
     }
 }, 9);
 
-
 upstream_get_template_part('global/header.php');
 upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
+
+$report = UpStream_Report_Generator::getReport($_GET['report']);
+if (!$report) {
+    return;
+}
+
+
 
 ?>
 
     <div class="right_col" role="main">
 
         <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="post">
+
+            <?php if (is_array($report->getFieldOption('projects'))): ?>
             <div id="report-parameters-project">
                 <?php upstream_get_template_part('report-parameters/projects.php'); ?>
             </div>
+            <?php endif; ?>
 
            <input type="submit" name="submit" value="Submit">
         </form>

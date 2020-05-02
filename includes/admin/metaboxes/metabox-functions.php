@@ -970,6 +970,8 @@ function upstream_get_project_roles()
     return $roles;
 }
 
+
+
 /**
  * Returns all users with select roles.
  * For use in dropdowns.
@@ -1027,6 +1029,74 @@ function upstream_admin_get_all_project_users()
     }
 
     return $users;
+}
+
+function upstream_get_viewable_users()
+{
+    $key = 'upstream_get_viewable_users';
+
+    $users = Upstream_Cache::get_instance()->get($key);
+    if ($users === false) {
+
+        $results = [];
+        $found_uids = [];
+
+        $user_client_ids = [];
+        if (current_user_can('upstream_client_user')) {
+            $user_client_ids = upstream_get_users_client_ids(upstream_current_user_id());
+        }
+
+        $args = [
+            'post_type' => 'client',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'no_found_rows' => true, // for performance
+        ];
+        $clients = get_posts($args);
+        if ($clients) {
+            foreach ($clients as $client) {
+
+                if (current_user_can('upstream_manager') ||
+                    current_user_can('administrator') ||
+                    in_array($client->ID, $user_client_ids)) {
+                    $cu = upstream_get_all_client_users($client->ID);
+
+                    $usrs = [];
+                    foreach ($cu as $usr) {
+                        $usrs[] = $usr->id;
+                    }
+
+                    $results[$cu->ID] = $usrs;
+                    $found_uids[] = $usr->id;
+                }
+
+            }
+        }
+
+
+        $roles = upstream_get_project_roles();
+
+        $args = [
+            'fields' => ['ID', 'display_name'],
+            'role__in' => $roles,
+        ];
+
+        $systemUsers = get_users($args);
+        $usrs = [];
+
+        foreach ($systemUsers as $su) {
+            if (!in_array($su->ID, $found_uids)) {
+                $usrs[] = $su->ID;
+            }
+        }
+
+        $results[0] = $usrs;
+        $users = $results;
+        Upstream_Cache::get_instance()->set($key, $users);
+    }
+
+    return $users;
+
 }
 
 
@@ -1101,6 +1171,7 @@ function upstream_get_all_client_users($client_id = 0)
 {
     // Get the currently selected client id.
     if (empty($client_id) || $client_id < 0) {
+        /* TODO ??????????? WHAT IS THIS */
         $client_id = (int)get_post_meta($field->object_id, '_upstream_project_client', true);
     }
 

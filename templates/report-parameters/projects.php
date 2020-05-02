@@ -7,7 +7,6 @@ if ( ! defined('ABSPATH')) {
 $mm = \UpStream_Model_Manager::get_instance();
 $projects = $mm->findAccessibleProjects();
 
-$categories = get_terms([ 'taxonomy' => 'project_category' ]);
 
 ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -21,27 +20,17 @@ $categories = get_terms([ 'taxonomy' => 'project_category' ]);
         <div class="x_content">
 
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-left">
-                    <p class="title"><?php echo esc_html(upstream_project_label_plural()); ?></p>
+                <p class="title"><?php echo esc_html(upstream_project_label_plural()); ?></p>
 
-                    <select class="form-control" multiple name="p1">
-                        <?php foreach ($projects as $project): ?>
-                            <option><?php esc_html_e($project->title); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-left">
-                    <p class="title"><?php echo esc_html(upstream_project_label_plural()); ?></p>
-
-                    <select class="form-control" multiple name="p2">
-                        <?php foreach ($categories as $category): ?>
-                            <option><?php esc_html_e($category->name); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <select class="form-control" multiple name="p1">
+                    <?php foreach ($projects as $project): ?>
+                        <option><?php esc_html_e($project->title); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
-            <?php upstream_get_template_part('report-parameters/fields.php'); ?>
+            <?php upstream_get_template_part('report-parameters/search-fields.php'); ?>
+            <?php upstream_get_template_part('report-parameters/display-fields.php'); ?>
 
 
         </div>

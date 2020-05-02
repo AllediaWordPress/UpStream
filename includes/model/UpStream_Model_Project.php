@@ -408,6 +408,9 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
     {
         $fields = parent::fields();
 
+        $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Project::getStatuses' ];
+        $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Project::getCategories', 'is_array' => 'true' ];
+
         return $fields;
     }
 
@@ -437,7 +440,19 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         return $milestones;
     }
 
-    public function getStatuses()
+    public static function getCategories()
+    {
+        $tid_to_term = [];
+        $terms = get_terms(array('taxonomy' => 'project_category', 'hide_empty' => true));
+
+        foreach ($terms as $term) {
+            $tid_to_term[$term->term_id] = $term->name;
+        }
+
+        return $tid_to_term;
+    }
+
+    public static function getStatuses()
     {
         $option   = get_option('upstream_projects');
         $statuses = isset($option['statuses']) ? $option['statuses'] : '';

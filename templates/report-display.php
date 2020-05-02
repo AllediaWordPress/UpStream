@@ -41,7 +41,14 @@ upstream_get_template_part('global/header.php');
 upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
 
-UpStream_Report_Generator::executeReport();
+
+$report = UpStream_Report_Generator::getReport($_GET['report']);
+if (!$report) {
+    return;
+}
+
+
+UpStream_Report_Generator::executeReport($report);
 
 include_once 'global/footer.php';
 ?>
