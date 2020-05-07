@@ -1,10 +1,16 @@
 <?php
 
-$fields = UpStream_Model_Project::fields();
-$users = upstream_get_viewable_users();
+// Prevent direct access.
+if ( ! defined('ABSPATH') || !isset($sectionId)) {
+    exit;
+}
+
+$users_info = upstream_get_viewable_users();
+
+$users = $users_info['by_uid'];
 
 foreach ($fields as $field_name => $field):
-    $fname = 'project_' . $field_name;
+    $fname = 'upstream_report__' . $sectionId . '_' . $field_name;
 
     if (!$field['search']) continue;
 ?>
@@ -27,6 +33,11 @@ foreach ($fields as $field_name => $field):
                 <option value="<?php echo $key; ?>"><?php echo esc_html($value); ?></option>
             <?php endforeach; ?>
         </select>
+    <?php elseif ($field['type'] === 'date'):
+        ?>
+        Between
+        <input type="text" class="r-datepicker" name="<?php print $fname ?>_start"> and
+        <input type="text" class="r-datepicker" name="<?php print $fname ?>_end">
     <?php endif; ?>
 
 </div>

@@ -28,6 +28,16 @@ class UpStream_Report
     {
     }
 
+    /**
+     * Gets all of the parameter options to show when someone sets up a report. This is
+     * a form {
+     *   ID : { type : project, task, etc,
+     *          field1 : ...,
+     *          field2 : ... }
+     * }
+     *
+     * @return array of all options to be used for the report parameters page
+     */
     public function getAllFieldOptions()
     {
         return [];
@@ -63,6 +73,10 @@ class UpStream_Report
         return false;
     }
 
+    protected static function combineArray($arr)
+    {
+        return implode(', ', $arr);
+    }
 
     protected function parseProjectParams($params, $prefix)
     {
@@ -72,7 +86,48 @@ class UpStream_Report
             return $item instanceof UpStream_Model_Project;
         };
 
-        $this->parseFields($params, $prefix, $item_additional_check_callback);
+        foreach ($field_options as $sectionId => $optionsInfo) {
+            $prefix = $sectionId . '_';
+            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+
+        }
+        return $items;
+    }
+
+    private static function dateBetween($lower_bound, $upper_bound, $val)
+    {
+        if (!$val) {
+            return false;
+        }
+
+        try {
+            if (!$lower_bound) {
+                $lower_bound = new DateTime('9999-01-01');
+            }
+            else {
+                $lower_bound = new DateTime($lower_bound);
+            }
+            if (!$upper_bound) {
+                $upper_bound = new DateTime('9999-01-01');
+            }
+            else {
+                $upper_bound = new DateTime($upper_bound);
+            }
+
+            $val = new DateTime($val);
+            $d1 = $lower_bound->diff($val)->format('%R%a');
+            $d2 = $val->diff($upper_bound)->format('%R%a');
+
+            if ($d1 < 0) {
+                return false;
+            }
+            if ($d2 < 0) {
+                return false;
+            }
+            return true;
+        } catch (\Exception $e) {
+            return true;
+        }
     }
 
     protected function parseFields($params, $prefix, $item_additional_check_callback)
@@ -100,11 +155,15 @@ class UpStream_Report
                             return false;
                     }
                 } else {
-                    if (trim($value) == '') continue;
-
                     if ($field['type'] === 'string' || $field['type'] === 'text') {
+                        if (trim($value) == '') continue;
+
                         if (!stristr($item->{$field_name}, $value))
                             return false;
+                    } elseif ($field['type'] === 'date') {
+                        $value_start = $params[$prefix . $field_name . '_start'];
+                        $value_end = $params[$prefix . $field_name . '_end'];
+                        return self::dateBetween($value_start, $value_end, $item->{$field_name});
                     } elseif ($item->{$field_name} != $value) {
                         //return false;
                     }
@@ -121,9 +180,14 @@ class UpStream_Report
     public function executeReport($params)
     {
 
-        $display_fields = $params['display'];
+        $display_fields = $params['display_fields'];
         $items = $this->getIncludedItems($params);
         $data = [];
+
+        $users_info = upstream_get_viewable_users();
+        $users = $users_info['by_uid'];
+
+        $columns = [];
 
         for ($i = 0; $i < count($items); $i++) {
 
@@ -133,7 +197,11 @@ class UpStream_Report
 
             foreach ($fields as $field_name => $field) {
                 if ($field['display'] && in_array($field_name, $display_fields)) {
+
+                    $columns[$field_name] = $field;
+
                     $val = $item->{$field_name};
+                    $f = null;
 
                     if (!is_array($val)) {
                         $val = [$val];
@@ -145,21 +213,71 @@ class UpStream_Report
                             if (isset($options[$val[$j]]))
                                 $val[$j] = $options[$val[$j]];
                         } elseif ($field['type'] === 'user_id') {
-
+                            if (isset($users[$val[$j]]))
+                                $val[$j] = $users[$val[$j]];
+                        } elseif ($field['type'] === 'date') {
+                            if ($val[$j]) {
+                                $dp = explode('-', $val[$j]);
+                                $val[$j] = 'Date(' . $dp[0] . ',' . ($dp[1]-1) . ',' . $dp[2] . ')';
+                                $f = null;
+                            } else {
+                                // TODO: this is hacked to work with Google Charts which won't accept a null date
+                                $val[$j] = 'Date(2020,1,1)';
+                                $f = '(empty)';
+                            }
                         }
                     } // end for
+
+                    $row[] = $this->makeItem($val, $f);
                 }
             } // end foreach
 
+            $data[] = ['c' => $row];
         }
 
+        $columnInfo = $this->makeColumnInfo($columns);
 
+        return [ 'cols' => $columnInfo, 'rows' => $data ];
+    }
+
+    protected function makeItem($val, $f = null)
+    {
+        $r = [ 'v' => self::combineArray($val) ];
+        if ($f) {
+            $r['f'] = $f;
+        }
+        return $r;
     }
 
     public function getIncludedItems($params)
     {
         return [];
     }
+
+    protected function makeColumnInfo(&$columns)
+    {
+        $columnInfo = [];
+
+        foreach ($columns as $cid => $column) {
+            $ci = [];
+            $ci['id'] = $cid;
+            $ci['label'] = $column['title'];
+
+            switch ($column['type']) {
+
+                case 'date':
+                    $ci['type'] = 'date';
+                    break;
+
+                default:
+                    $ci['type'] = 'string';
+            }
+            $columnInfo[] = $ci;
+        }
+
+        return $columnInfo;
+    }
+
 }
 
 class UpStream_Report_Projects extends UpStream_Report
@@ -169,11 +287,17 @@ class UpStream_Report_Projects extends UpStream_Report
 
     public function getAllFieldOptions()
     {
-        return ['projects' => []];
+        return ['projects' => [ 'type' => 'project' ]];
     }
 
     public function getIncludedItems($params)
     {
         $items = self::parseProjectParams($params, 'project_');
+
+        return $items;
     }
+}
+
+class UpStream_Report_Gantt extends UpStream_Report {
+
 }

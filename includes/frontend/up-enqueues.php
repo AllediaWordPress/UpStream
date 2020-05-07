@@ -141,6 +141,9 @@ function upstream_enqueue_styles_scripts()
             true
         );
 
+        if (isset($_GET['report'])) {
+            wp_enqueue_script('up-google-charts', 'https://www.gstatic.com/charts/loader.js', ['jquery'], $up_ver, false);
+        }
 
         $noDataStringTemplate = _x(
             "You haven't created any %s yet",

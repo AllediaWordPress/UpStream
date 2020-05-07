@@ -92,6 +92,10 @@ class UpStream_Model_Manager
     {
         $return_items = [];
 
+        if (count($this->objects) == 0) {
+            $this->loadAll();
+        }
+
         foreach ($this->objects as $type => $items) {
             foreach ($items as $id => $item) {
                 $r = $callback($item);
@@ -108,8 +112,12 @@ class UpStream_Model_Manager
     {
         $return_items = [];
 
+        if (count($this->objects) == 0) {
+            $this->loadAll();
+        }
+
         foreach ($this->objects[UPSTREAM_ITEM_TYPE_PROJECT] as $id => $item) {
-            $access = upstream_override_access_object(false, UPSTREAM_ITEM_TYPE_PROJECT,
+            $access = upstream_can_access_object('view_project', UPSTREAM_ITEM_TYPE_PROJECT,
                 $id, null, 0, UPSTREAM_PERMISSIONS_ACTION_VIEW);
             if ($access) {
                 $return_items[] = $item;

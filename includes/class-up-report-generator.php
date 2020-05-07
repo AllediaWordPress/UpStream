@@ -51,9 +51,26 @@ class UpStream_Report_Generator
         return null;
     }
 
+    public static function getReportFieldsFromPost($remove)
+    {
+        $report_fields = [];
+        foreach ($_POST as $key => $value) {
+            if (stristr($key, 'upstream_report__')) {
+                if ($remove) {
+                    $report_fields[str_replace('upstream_report__', '', $key)] = $value;
+                } else {
+                    $report_fields[$key] = $value;
+                }
+            }
+        }
+
+        return $report_fields;
+    }
+
     public static function executeReport($report)
     {
-        $report->executeReport($_POST);
+        $data = $report->executeReport(self::getReportFieldsFromPost(true));
+        return $data;
     }
 
 }

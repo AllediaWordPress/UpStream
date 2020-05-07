@@ -7,6 +7,7 @@ if ( ! defined('ABSPATH')) {
 $mm = \UpStream_Model_Manager::get_instance();
 $projects = $mm->findAccessibleProjects();
 
+$fields = UpStream_Model_Project::fields();
 
 ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -29,8 +30,8 @@ $projects = $mm->findAccessibleProjects();
                 </select>
             </div>
 
-            <?php upstream_get_template_part('report-parameters/search-fields.php'); ?>
-            <?php upstream_get_template_part('report-parameters/display-fields.php'); ?>
+            <?php include('search-fields.php'); ?>
+            <?php include('display-fields.php'); ?>
 
 
         </div>

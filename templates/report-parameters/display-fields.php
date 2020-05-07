@@ -4,7 +4,7 @@ $fields = UpStream_Model_Project::fields();
 ?>
 <div class="row">
 
-    <select name="display_fields" multiple>
+    <select name="upstream_report__display_fields[]" multiple>
         <?php foreach ($fields as $field_name => $field) {
             if ($field['display']) {
                 ?>

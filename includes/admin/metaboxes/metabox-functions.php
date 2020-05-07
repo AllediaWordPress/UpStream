@@ -1039,7 +1039,8 @@ function upstream_get_viewable_users()
     if ($users === false) {
 
         $results = [];
-        $found_uids = [];
+        $uid_to_name = [];
+        $cid_to_client_name = [];
 
         $user_client_ids = [];
         if (current_user_can('upstream_client_user')) {
@@ -1063,11 +1064,12 @@ function upstream_get_viewable_users()
 
                     $usrs = [];
                     foreach ($cu as $usr) {
-                        $usrs[] = $usr->id;
+                        $usrs[] = $usr['id'];
+                        $uid_to_name[$usr['id']] = $usr['display_name'];
                     }
 
-                    $results[$cu->ID] = $usrs;
-                    $found_uids[] = $usr->id;
+                    $results[$client->ID] = $usrs;
+                    $cid_to_client_name[$client->ID] = $client->post_title;
                 }
 
             }
@@ -1085,13 +1087,17 @@ function upstream_get_viewable_users()
         $usrs = [];
 
         foreach ($systemUsers as $su) {
-            if (!in_array($su->ID, $found_uids)) {
+            if (!isset($uid_to_name[$su->ID])) {
                 $usrs[] = $su->ID;
+                $uid_to_name[$su->ID] = $su->display_name;
             }
         }
 
         $results[0] = $usrs;
-        $users = $results;
+
+        uasort($uid_to_name, function($a, $b) { return strcasecmp($a,$b);});
+
+        $users = array('by_client'=> $results, 'by_uid'=>$uid_to_name, 'cid_to_name'=>$cid_to_client_name);
         Upstream_Cache::get_instance()->set($key, $users);
     }
 

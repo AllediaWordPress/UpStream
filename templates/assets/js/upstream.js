@@ -161,6 +161,8 @@ jQuery(document).ready(function ($) {
         setContentHeight();
     });
 
+    var cmp = window.location.href
+
     // check active menu
     $('#sidebar-menu').find('a[href="' + window.location.href.split('?')[0] + '"]').parent('li').addClass('current-page');
 
@@ -744,6 +746,16 @@ jQuery(document).ready(function ($) {
         }
 
         try {
+            $('.r-datepicker').datepicker({
+                todayBtn: 'linked',
+                clearBtn: true,
+                autoclose: true,
+                keyboardNavigation: false,
+                format: 'yyyy-mm-dd'
+            }).on('change', function (e) {
+
+            });
+
             $('.o-datepicker').datepicker({
                 todayBtn: 'linked',
                 clearBtn: true,

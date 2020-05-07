@@ -211,30 +211,36 @@ $reports = UpStream_Report_Generator::getAllReports();
                             </ul>
                         </li>
 
-<?php if (false): ?>
-                        <li class="">
-                            <a href="#">
-                                <i class="fa fa-bar-chart"></i>
-
-                                <?php esc_html_e('Reports', 'upstream'); ?>
-                            </a>
-
-                            <ul class="nav child_menu">
-                                <?php foreach ($reports as $report): ?>
-                                <li id="nav-reports">
-                                    <a target="_blank" href="">
-                                        <i class="fa fa-file-text"></i> <?php echo esc_html($report->title); ?>
-                                    </a>
-                                </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
-<?php endif; ?>
-
                         <?php do_action('upstream_sidebar_menu'); ?>
                     </ul>
                 </div>
             <?php endif; ?>
+
+
+            <div class="menu_section">
+                <ul class="nav side-menu">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-bar-chart"></i>
+
+                            <?php esc_html_e('Reports', 'upstream'); ?>
+                        </a>
+
+                        <ul class="nav child_menu">
+                            <?php foreach ($reports as $report):
+                                $rurl = add_query_arg('report', $report->id, esc_attr($projectsListUrl));
+                                ?>
+                                <li id="nav-reports">
+                                    <a target="_blank" href="<?php echo esc_url($rurl); ?>">
+                                        <i class="fa fa-file-text"></i> <?php echo esc_html($report->title); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
 
             <?php
             $minProjectsCount = $isSingle ? 1 : 0;

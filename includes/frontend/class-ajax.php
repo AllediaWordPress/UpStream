@@ -29,6 +29,19 @@ class UpStream_Ajax
         add_action('wp_ajax_upstream_ordering_update', [$this, 'orderingUpdate']);
         add_action('wp_ajax_upstream_collapse_update', [$this, 'collapseUpdate']);
         add_action('wp_ajax_upstream_panel_order_update', [$this, 'panelOrderUpdate']);
+
+        add_action('wp_ajax_upstream_report_data', [$this, 'reportData']);
+
+    }
+
+    public function reportData()
+    {
+        $this->verifyNonce();
+
+        $report = UpStream_Report_Generator::getReport($_POST['report']);
+        $data = UpStream_Report_Generator::executeReport($report);
+
+        $this->output($data);
     }
 
     /**

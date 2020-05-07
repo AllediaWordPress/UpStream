@@ -44,7 +44,7 @@ if (!$report) {
     return;
 }
 
-
+foreach ($report->getAllFieldOptions() as $sectionId => $optionInfo):
 
 ?>
 
@@ -52,9 +52,9 @@ if (!$report) {
 
         <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="post">
 
-            <?php if (is_array($report->getFieldOption('projects'))): ?>
+            <?php if ($optionInfo['type'] == 'project'): ?>
             <div id="report-parameters-project">
-                <?php upstream_get_template_part('report-parameters/projects.php'); ?>
+                <?php include('report-parameters/projects.php'); ?>
             </div>
             <?php endif; ?>
 
@@ -62,6 +62,8 @@ if (!$report) {
         </form>
     </div>
 <?php
+
+endforeach;
 
 include_once 'global/footer.php';
 ?>
