@@ -188,6 +188,31 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         }
     }
 
+    public static function getCategories()
+    {
+        $tid_to_term = [];
+        $terms = get_terms(array('taxonomy' => 'upst_milestone_category', 'hide_empty' => true));
+
+        foreach ($terms as $term) {
+            $tid_to_term[$term->term_id] = $term->name;
+        }
+
+        return $tid_to_term;
+    }
+
+    public static function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['description'] = [ 'type' => 'text', 'title' => __('Notes'), 'search' => true, 'display' => true  ];
+        $fields['color'] = [ 'type' => 'color', 'title' => __('color'), 'search' => false, 'display' => true  ];
+        $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
+        $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
+        $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Milestone::getCategories', 'is_array' => 'true' ];
+
+        return $fields;
+    }
+
 
     public static function create($title, $createdBy, $parentId = 0)
     {

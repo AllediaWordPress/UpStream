@@ -94,20 +94,51 @@ class UpStream_Report
         return $items;
     }
 
+    protected function parseTaskParams($params, $prefix)
+    {
+        $field_options = $this->getAllFieldOptions();
+
+        $item_additional_check_callback = function($item) {
+            return $item instanceof UpStream_Model_Task;
+        };
+
+        foreach ($field_options as $sectionId => $optionsInfo) {
+            $prefix = $sectionId . '_';
+            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+
+        }
+        return $items;
+    }
+
+    protected function parseMilestoneParams($params, $prefix)
+    {
+        $field_options = $this->getAllFieldOptions();
+
+        $item_additional_check_callback = function($item) {
+            return $item instanceof UpStream_Model_Milestone;
+        };
+
+        foreach ($field_options as $sectionId => $optionsInfo) {
+            $prefix = $sectionId . '_';
+            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+
+        }
+        return $items;
+    }
+
     private static function dateBetween($lower_bound, $upper_bound, $val)
     {
-        if (!$val) {
-            return false;
-        }
+        if (empty($upper_bound) && empty($lower_bound)) return true;
+        if (!$val) return false;
 
         try {
-            if (!$lower_bound) {
-                $lower_bound = new DateTime('9999-01-01');
+            if (empty($lower_bound)) {
+                $lower_bound = new DateTime('1970-01-01');
             }
             else {
                 $lower_bound = new DateTime($lower_bound);
             }
-            if (!$upper_bound) {
+            if (empty($upper_bound)) {
                 $upper_bound = new DateTime('9999-01-01');
             }
             else {
@@ -122,6 +153,31 @@ class UpStream_Report
                 return false;
             }
             if ($d2 < 0) {
+                return false;
+            }
+            return true;
+        } catch (\Exception $e) {
+            return true;
+        }
+    }
+
+    private static function numberBetween($lower_bound, $upper_bound, $val)
+    {
+        if (empty($upper_bound) && empty($lower_bound)) return true;
+        if (!$val) return false;
+
+        try {
+            if (empty($lower_bound) || !is_numeric($lower_bound)) {
+                $lower_bound = -999999;
+            }
+            if (empty($upper_bound) || !is_numeric($upper_bound)) {
+                $upper_bound = 999999;
+            }
+
+            if ($val < $lower_bound) {
+                return false;
+            }
+            if ($val > $upper_bound) {
                 return false;
             }
             return true;
@@ -147,6 +203,7 @@ class UpStream_Report
                 }
 
                 $value = $params[$prefix . $field_name];
+                if (empty($value)) continue;
 
                 if (is_array($value)) {
                     if ($field['type'] === 'user_id' || $field['type'] === 'select') {
@@ -156,14 +213,21 @@ class UpStream_Report
                     }
                 } else {
                     if ($field['type'] === 'string' || $field['type'] === 'text') {
-                        if (trim($value) == '') continue;
-
+                        if (!stristr($item->{$field_name}, $value))
+                            return false;
+                    } elseif ($field['type'] === 'color') {
                         if (!stristr($item->{$field_name}, $value))
                             return false;
                     } elseif ($field['type'] === 'date') {
                         $value_start = $params[$prefix . $field_name . '_start'];
                         $value_end = $params[$prefix . $field_name . '_end'];
-                        return self::dateBetween($value_start, $value_end, $item->{$field_name});
+                        if (!self::dateBetween($value_start, $value_end, $item->{$field_name}))
+                            return false;
+                    } elseif ($field['type'] === 'number') {
+                        $value_start = $params[$prefix . $field_name . '_lower'];
+                        $value_end = $params[$prefix . $field_name . '_upper'];
+                        if (!self::numberBetween($value_start, $value_end, $item->{$field_name}))
+                            return false;
                     } elseif ($item->{$field_name} != $value) {
                         //return false;
                     }
@@ -177,7 +241,7 @@ class UpStream_Report
         return $items;
     }
 
-    public function executeReport($params)
+    public function executeReport($params, $rowCallback = null)
     {
 
         $display_fields = $params['display_fields'];
@@ -195,9 +259,10 @@ class UpStream_Report
             $fields = $items[$i]->fields();
             $row = [];
 
-            foreach ($fields as $field_name => $field) {
-                if ($field['display'] && in_array($field_name, $display_fields)) {
+            foreach ($display_fields as $field_name) {
+                if (isset($fields[$field_name]) && $fields[$field_name]['display']) {
 
+                    $field = $fields[$field_name];
                     $columns[$field_name] = $field;
 
                     $val = $item->{$field_name};
@@ -218,7 +283,7 @@ class UpStream_Report
                         } elseif ($field['type'] === 'date') {
                             if ($val[$j]) {
                                 $dp = explode('-', $val[$j]);
-                                $val[$j] = 'Date(' . $dp[0] . ',' . ($dp[1]-1) . ',' . $dp[2] . ')';
+                                $val[$j] = 'Date(' . $dp[0] . ',' . sprintf('%02d', $dp[1]-1) . ',' . $dp[2] . ')';
                                 $f = null;
                             } else {
                                 // TODO: this is hacked to work with Google Charts which won't accept a null date
@@ -232,7 +297,13 @@ class UpStream_Report
                 }
             } // end foreach
 
-            $data[] = ['c' => $row];
+            if ($rowCallback != null) {
+                $row = call_user_func($rowCallback, $row);
+            }
+
+            if ($row != null) {
+                $data[] = ['c' => $row];
+            }
         }
 
         $columnInfo = $this->makeColumnInfo($columns);
@@ -282,7 +353,7 @@ class UpStream_Report
 
 class UpStream_Report_Projects extends UpStream_Report
 {
-    public $title = 'Projects';
+    public $title = 'Projects by Criteria';
     public $id = 'projects';
 
     public function getAllFieldOptions()
@@ -298,6 +369,145 @@ class UpStream_Report_Projects extends UpStream_Report
     }
 }
 
-class UpStream_Report_Gantt extends UpStream_Report {
+class UpStream_Report_Milestones extends UpStream_Report
+{
+    public $title = 'Milestones by Criteria';
+    public $id = 'milestones';
 
+    public function getAllFieldOptions()
+    {
+        return ['milestones' => [ 'type' => 'milestone' ]];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseMilestoneParams($params, 'milestone_');
+
+        return $items;
+    }
+}
+
+class UpStream_Report_Tasks extends UpStream_Report
+{
+    public $title = 'Tasks by Criteria';
+    public $id = 'tasks';
+
+    public function getAllFieldOptions()
+    {
+        return ['tasks' => [ 'type' => 'task' ]];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseTaskParams($params, 'task_');
+
+        return $items;
+    }
+}
+
+class UpStream_Report_Milestone_Gantt_Chart extends UpStream_Report
+{
+    public $title = 'Gantt Chart by Milestone';
+    public $id = 'milestones_gantt';
+
+    public function getAllFieldOptions()
+    {
+        return ['milestones' => [ 'type' => 'milestone' ]];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseMilestoneParams($params, 'milestone_');
+
+        return $items;
+    }
+
+    public function executeReport($params)
+    {
+        $params['display_fields'] = ['id', 'title', 'color', 'startDate', 'endDate'];
+        $data = parent::executeReport($params, function($row) {
+
+            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
+                //don't show items with no date
+                return null;
+            }
+
+            $row[] = null;
+            $row[] = null;
+            $row[] = null;
+
+            return $row;
+        });
+
+        $data['cols'][2] = [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'];
+        $data['cols'][] = [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'];
+        $data['cols'][] = [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'];
+        $data['cols'][] = [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string'];
+
+        usort($data['rows'], function ($a, $b) {
+            $sa = $a['c'][3]['v'];
+            $sb = $b['c'][3]['v'];
+            $ea = $a['c'][4]['v'];
+            $eb = $b['c'][4]['v'];
+            return $sa == $sb ? strcmp($ea, $eb) : strcmp($sa, $sb);
+        });
+
+        $colors = [];
+        for ($i = 0; $i < count($data['rows']); $i++) {
+            $colors[] = ['color' => $data['rows'][$i]['c'][2]['v']];
+            $data['rows'][$i]['c'][2]['v'] = $data['rows'][$i]['c'][0]['v'];
+        }
+
+        $data['options'] = [ 'gantt' => [ 'palette' => $colors ] ];
+
+        return $data;
+    }
+}
+
+class UpStream_Report_Task_Gantt_Chart extends UpStream_Report
+{
+    public $title = 'Gantt Chart by Task';
+    public $id = 'task_gantt';
+
+    public function getAllFieldOptions()
+    {
+        return ['task' => [ 'type' => 'task' ]];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseTaskParams($params, 'task_');
+
+        return $items;
+    }
+
+    public function executeReport($params)
+    {
+        $params['display_fields'] = ['id', 'title', 'startDate', 'endDate', 'progress'];
+        $data = parent::executeReport($params, function($row) {
+
+            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
+                //don't show items with no date
+                return null;
+            }
+
+            $newrow = [ $row[0], $row[1], $row[0], $row[2], $row[3], null, $row[4], null ];
+
+            return $newrow;
+        });
+
+        $d = $data['cols'];
+        $data['cols'] = [
+            $d[0],
+            $d[1],
+            [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'],
+            $d[2],
+            $d[3],
+            [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'],
+            [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'],
+            [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string']
+            ];
+
+        return $data;
+    }
 }

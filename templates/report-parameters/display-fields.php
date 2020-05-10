@@ -1,6 +1,5 @@
 <?php
 
-$fields = UpStream_Model_Project::fields();
 ?>
 <div class="row">
 

@@ -26,9 +26,14 @@ class UpStream_Report_Generator
             return [];
         }
 
-        $r = new UpStream_Report_Projects();
+        $r = [];
+        $r[] = new UpStream_Report_Projects();
+        $r[] = new UpStream_Report_Milestones();
+        $r[] = new UpStream_Report_Tasks();
+        $r[] = new UpStream_Report_Milestone_Gantt_Chart();
+        $r[] = new UpStream_Report_Task_Gantt_Chart();
 
-        return [$r];
+        return $r;
     }
 
     public static function getAllReports()

@@ -266,7 +266,20 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         }
     }
 
-    protected function getStatuses()
+
+    public static function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Bug::getStatuses' ];
+        $fields['severityCode'] = [ 'type' => 'select', 'title' => __('Severity'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Bug::getSeverities' ];
+        $fields['dueDate'] = [ 'type' => 'date', 'title' => __('Due Date'), 'search' => true, 'display' => true ];
+
+        return $fields;
+    }
+
+
+    public static function getStatuses()
     {
         $option   = get_option('upstream_bugs');
         $statuses = isset($option['statuses']) ? $option['statuses'] : '';
@@ -282,7 +295,7 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         return $array;
     }
 
-    protected function getSeverities()
+    public static function getSeverities()
     {
         $option     = get_option('upstream_bugs');
         $severities = isset($option['severities']) ? $option['severities'] : '';

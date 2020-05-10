@@ -63,7 +63,7 @@ class UpStream_Model_Object
     public static function fields()
     {
         return [
-            'id' => [ 'type' => 'id', 'title' => __('ID'), 'search' => false, 'display' => false ],
+            'id' => [ 'type' => 'id', 'title' => __('ID'), 'search' => false, 'display' => true ],
             'title' => [ 'type' => 'string', 'title' => __('Title'), 'search' => true, 'display' => true  ],
             'description' => [ 'type' => 'text', 'title' => __('Description'), 'search' => true, 'display' => true  ],
             'createdBy' => [ 'type' => 'user_id', 'title' => __('Created By'), 'search' => true, 'display' => true  ],

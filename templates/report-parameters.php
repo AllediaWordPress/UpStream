@@ -44,26 +44,23 @@ if (!$report) {
     return;
 }
 
-foreach ($report->getAllFieldOptions() as $sectionId => $optionInfo):
-
 ?>
 
     <div class="right_col" role="main">
 
         <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="post">
 
-            <?php if ($optionInfo['type'] == 'project'): ?>
-            <div id="report-parameters-project">
-                <?php include('report-parameters/projects.php'); ?>
-            </div>
-            <?php endif; ?>
+            <?php foreach ($report->getAllFieldOptions() as $sectionId => $optionInfo): ?>
+                <div id="report-parameters-<?php echo $optionInfo['type'] ?>>">
+                    <?php include('report-parameters/section.php'); ?>
+                </div>
+            <?php endforeach; ?>
 
            <input type="submit" name="submit" value="Submit">
         </form>
     </div>
-<?php
 
-endforeach;
+<?php
 
 include_once 'global/footer.php';
 ?>

@@ -52,7 +52,7 @@ if (!$report) {
 
 jQuery(document).ready(function ($) {
     // Load the Visualization API and the piechart package.
-    google.charts.load('current', {'packages': ['corechart', 'table']});
+    google.charts.load('current', {'packages': [ 'gantt']});
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -74,18 +74,35 @@ jQuery(document).ready(function ($) {
 
         // Create our data table out of JSON data loaded from server.
         var data = new google.visualization.DataTable(jsonData);
+        var jo = JSON.parse(jsonData);
+        var options = [];
 
+        if ('options' in jo) {
+            options = jo['options'];
+        }
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.Table(document.getElementById('table_div'));
-        chart.draw(data, {width: 400, height: 240});
+        var chart = new google.visualization.Gantt(document.getElementById('table_div'));
+        chart.draw(data, options);
     }
 });
 </script>
 
 <div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" data-section="report-parameters-<?php echo $sectionId; ?>">
+            <div class="x_title">
+                <h2>
+                    <?php esc_html_e($report->title); ?>
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
 
-<div id="table_div"></div>
+                <div id="table_div"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <?php
 

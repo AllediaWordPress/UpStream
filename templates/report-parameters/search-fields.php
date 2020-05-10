@@ -26,18 +26,22 @@ foreach ($fields as $field_name => $field):
             <option value="<?php echo $user_id; ?>"><?php echo esc_html($username); ?></option>
             <?php endforeach; ?>
         </select>
-    <?php elseif ($field['type'] === 'select'):
-        ?>
+    <?php elseif ($field['type'] === 'select'): ?>
         <select name="<?php print $fname ?>[]" multiple>
             <?php foreach (call_user_func($field['options_cb']) as $key => $value): ?>
                 <option value="<?php echo $key; ?>"><?php echo esc_html($value); ?></option>
             <?php endforeach; ?>
         </select>
-    <?php elseif ($field['type'] === 'date'):
-        ?>
+    <?php elseif ($field['type'] === 'number'): ?>
+        Between
+        <input type="text" name="<?php print $fname ?>_lower"> and
+        <input type="text" name="<?php print $fname ?>_upper">
+        <input type="hidden" name="<?php print $fname ?>" value="number">
+    <?php elseif ($field['type'] === 'date'): ?>
         Between
         <input type="text" class="r-datepicker" name="<?php print $fname ?>_start"> and
         <input type="text" class="r-datepicker" name="<?php print $fname ?>_end">
+        <input type="hidden" name="<?php print $fname ?>" value="date">
     <?php endif; ?>
 
 </div>

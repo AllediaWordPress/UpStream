@@ -232,7 +232,7 @@ $reports = UpStream_Report_Generator::getAllReports();
                                 ?>
                                 <li id="nav-reports">
                                     <a target="_blank" href="<?php echo esc_url($rurl); ?>">
-                                        <i class="fa fa-file-text"></i> <?php echo esc_html($report->title); ?>
+                                        <i class="fa fa-file-text"></i> <?php esc_html_e($report->title); ?>
                                     </a>
                                 </li>
                             <?php endforeach; ?>
