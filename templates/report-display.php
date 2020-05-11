@@ -81,6 +81,9 @@ jQuery(document).ready(function ($) {
             options = jo['options'];
         }
 
+        options['width'] = '100%';
+        options['height'] = 500;
+
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.Gantt(document.getElementById('table_div'));
         chart.draw(data, options);

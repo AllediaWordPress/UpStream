@@ -71,6 +71,12 @@ class UpStream_Model_Object
         ];
     }
 
+    public static function customFields($fields, $type, $id = 0)
+    {
+        $list = apply_filters('upstream_model_list_properties', [], $type, $id);
+        return array_merge($fields, $list);
+    }
+
     public function __get($property)
     {
         switch ($property) {
@@ -88,10 +94,17 @@ class UpStream_Model_Object
                 if (array_key_exists($property, $this->additionaFields)) {
 
                     $value = apply_filters('upstream_model_get_property_value', $this->additionaFields[$property], $this->type, $this->id, $property);
-                    return $value;
 
                 } else {
-                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+
+                    $propertyExists = apply_filters('upstream_model_property_exists', false, $this->type, $this->id, $property);
+                    if (!$propertyExists) {
+                        throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
+                    }
+
+                    $this->additionaFields[$property] = null;
+
+                    return null;
                 }
 
                 return $value;

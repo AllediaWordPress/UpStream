@@ -3,7 +3,8 @@ jQuery(function ($) {
 
     if (typeof(Allex) === 'undefined') {
         if (location.protocol === 'https:') {
-            alert("You are using HTTPS, but some files are loading via HTTP. Please check Settings -> General in your WordPress admin dashboard to make sure WordPress Address and Site Address are both HTTPS.\n\nAfter you have done this, make sure your cache is cleared. It may take some time for the change to take effect.");
+            alert("You are using HTTPS, but some files are loading via HTTP. Please check Settings -> General in your WordPress admin dashboard to make sure WordPress Address and Site Address are both HTTPS.\n\nAfter you have done this, make sure your cache is cleared. It may take some time for the change to take effect.  If you don't have this option, look for Settings -> Local SSL and check '" +
+                "Enable Upgrade All Connections to HTTPS'.");
         }
         else {
             alert("Cannot find Allex library. Please check your settings to ensure that it is available.");

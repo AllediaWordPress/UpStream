@@ -75,22 +75,40 @@ function upstream_check_min_requirements()
     }
 }
 
+
+function upstream_install_debug($message)
+{
+
+    $message = sprintf('[%s] %s', date('Y-m-d H:i:s T O'), $message) . "\n";
+    error_log($message, 3, str_replace('//', '/', WP_CONTENT_DIR . '/debug-upstream.log'));
+}
+
 function upstream_install($network_wide = false)
 {
     global $wpdb;
 
+    upstream_install_debug('upstream_check_min_requirements');
     upstream_check_min_requirements();
 
     if (is_multisite() && $network_wide) {
+        upstream_install_debug('is_multisite/network wide');
+
         foreach ($wpdb->get_col("SELECT blog_id FROM $wpdb->blogs LIMIT 100") as $blog_id) {
+            upstream_install_debug('handling blog' . $blog_id);
             switch_to_blog($blog_id);
+
+            upstream_install_debug('upstream_run_install');
             upstream_run_install();
+
+            upstream_install_debug('restore_current_blog');
             restore_current_blog();
         }
     } else {
+        upstream_install_debug('upstream_run_install');
         upstream_run_install();
     }
 
+    upstream_install_debug('flush_rewrite_rules');
     flush_rewrite_rules();
 }
 
@@ -106,23 +124,31 @@ add_action('upstream_update_data', 'upstream_update_data', 10, 2);
  */
 function upstream_run_install()
 {
-    // RSD: to ensure the current user has manage_upstream capability
+
+    upstream_install_debug('wp_get_current_user');
     $user = wp_get_current_user();
+
+    upstream_install_debug('user->add_cap');
     $user->add_cap('manage_upstream');
 
     // Setup the Downloads Custom Post Type
+    upstream_install_debug('upstream_setup_post_types');
     upstream_setup_post_types();
 
     // Setup the Download Taxonomies
+    upstream_install_debug('upstream_setup_taxonomies');
     upstream_setup_taxonomies();
 
     // Add the default options
+    upstream_install_debug('upstream_add_default_options');
     upstream_add_default_options();
 
     // Clear the permalinks
+    upstream_install_debug('flush_rewrite_rules');
     flush_rewrite_rules(false);
 
     // Add upgraded_from option
+    upstream_install_debug('current_version = get_option');
     $current_version = get_option('upstream_version', false);
     $freshInstall    = empty($current_version);
 
@@ -130,23 +156,31 @@ function upstream_run_install()
         update_option('upstream_version_upgraded_from', $current_version);
     }
 
+    upstream_install_debug('update_option');
     update_option('upstream_version', UPSTREAM_VERSION);
 
     // Create UpStream roles
+    upstream_install_debug('roles = new UpStream_Roles');
     $roles = new UpStream_Roles;
+
+    upstream_install_debug('roles->add_roles');
     $roles->add_roles();
 
     if ($freshInstall) {
+        upstream_install_debug('upstream_run_fresh_install');
         upstream_run_fresh_install();
 
         // Make sure we don't redirect if activating from network, or bulk.
         if ( ! is_network_admin() && ! isset($_GET['activate-multi'])) {
             // Add the transient to redirect
+            upstream_install_debug('set_transient');
             set_transient('_upstream_activation_redirect', true, 30);
         }
     } else {
+        upstream_install_debug('upstream_run_reinstall');
         upstream_run_reinstall();
 
+        upstream_install_debug('do_action');
         do_action('upstream_update_data', $current_version, UPSTREAM_VERSION);
     }
 }

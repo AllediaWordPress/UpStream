@@ -14,6 +14,8 @@ if ( ! defined('ABSPATH')) {
  */
 function upstream_setup_post_types()
 {
+    up_debug();
+
     $project_base = upstream_get_project_base();
     $client_base  = upstream_get_client_base();
 

@@ -268,6 +268,8 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Task::getStatuses' ];
         $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true  ];
 
+        $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_TASK);
+
         return $fields;
     }
 

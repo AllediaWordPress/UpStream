@@ -192,10 +192,11 @@ class UpStream_Report
 
         $items = $mm->findAllByCallback(function($item) use ($params, $prefix, $item_additional_check_callback) {
 
-            $fields = $item->fields();
-            if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
+           if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
                 return false;
             }
+
+            $fields = $item->fields();
 
             foreach ($fields as $field_name => $field) {
                 if (!$field['search']) {
