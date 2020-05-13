@@ -28,6 +28,13 @@ class UpStream_Report
     {
     }
 
+    public function getDisplayOptions()
+    {
+        return [
+            'visualization_type' => 'Table'
+        ];
+    }
+
     /**
      * Gets all of the parameter options to show when someone sets up a report. This is
      * a form {
@@ -64,6 +71,9 @@ class UpStream_Report
             $comparator = function($a, $b) { return $a == $b; };
         }
 
+        if (!is_array($haystack)) $haystack = [$haystack];
+        if (!is_array($needles)) $needles = [$needles];
+
         for ($j = 0; $j < count($haystack); $j++) {
             for ($i = 0; $i < count($needles); $i++) {
                 if ($comparator($needles[$i], $haystack[$j])) return true;
@@ -78,51 +88,57 @@ class UpStream_Report
         return implode(', ', $arr);
     }
 
-    protected function parseProjectParams($params, $prefix)
+    protected function parseProjectParams($params, $sectionId)
     {
+        $prefix = $sectionId . '_';
         $field_options = $this->getAllFieldOptions();
 
-        $item_additional_check_callback = function($item) {
-            return $item instanceof UpStream_Model_Project;
+        $ids = $params[$prefix . 'id'];
+
+        $item_additional_check_callback = function($item) use ($ids) {
+            return ($item instanceof UpStream_Model_Project) &&
+                (count($ids) == 0 || in_array($item->id, $ids));
         };
 
-        foreach ($field_options as $sectionId => $optionsInfo) {
-            $prefix = $sectionId . '_';
-            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+        $optionsInfo = $field_options[$sectionId];
+        $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
 
-        }
         return $items;
     }
 
-    protected function parseTaskParams($params, $prefix)
+    protected function parseTaskParams($params, $sectionId)
     {
+        $prefix = $sectionId . '_';
         $field_options = $this->getAllFieldOptions();
 
-        $item_additional_check_callback = function($item) {
-            return $item instanceof UpStream_Model_Task;
+        $ids = $params[$prefix . 'id'];
+
+        $item_additional_check_callback = function($item) use ($ids) {
+            return ($item instanceof UpStream_Model_Task) &&
+                (count($ids) == 0 || in_array($item->id, $ids));
         };
 
-        foreach ($field_options as $sectionId => $optionsInfo) {
-            $prefix = $sectionId . '_';
-            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+        $optionsInfo = $field_options[$sectionId];
+        $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
 
-        }
         return $items;
     }
 
-    protected function parseMilestoneParams($params, $prefix)
+    protected function parseMilestoneParams($params, $sectionId)
     {
+        $prefix = $sectionId . '_';
         $field_options = $this->getAllFieldOptions();
 
-        $item_additional_check_callback = function($item) {
-            return $item instanceof UpStream_Model_Milestone;
+        $ids = $params[$prefix . 'id'];
+
+        $item_additional_check_callback = function($item) use ($ids) {
+            return ($item instanceof UpStream_Model_Milestone) &&
+                (count($ids) == 0 || in_array($item->id, $ids));
         };
 
-        foreach ($field_options as $sectionId => $optionsInfo) {
-            $prefix = $sectionId . '_';
-            $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+        $optionsInfo = $field_options[$sectionId];
+        $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
 
-        }
         return $items;
     }
 
@@ -192,11 +208,10 @@ class UpStream_Report
 
         $items = $mm->findAllByCallback(function($item) use ($params, $prefix, $item_additional_check_callback) {
 
-           if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
+            $fields = $item->fields();
+            if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
                 return false;
             }
-
-            $fields = $item->fields();
 
             foreach ($fields as $field_name => $field) {
                 if (!$field['search']) {
@@ -208,7 +223,6 @@ class UpStream_Report
 
                 if (is_array($value)) {
                     if ($field['type'] === 'user_id' || $field['type'] === 'select') {
-                        $value = empty($field['is_array']) ? [$value] : $value;
                         if (! $this->arrayIn($value, $item->{$field_name}))
                             return false;
                     }
@@ -357,6 +371,14 @@ class UpStream_Report_Projects extends UpStream_Report
     public $title = 'Projects by Criteria';
     public $id = 'projects';
 
+    public function getDisplayOptions()
+    {
+        return [
+            'show_display_fields_box' => true,
+            'visualization_type' => 'Table'
+        ];
+    }
+
     public function getAllFieldOptions()
     {
         return ['projects' => [ 'type' => 'project' ]];
@@ -364,7 +386,7 @@ class UpStream_Report_Projects extends UpStream_Report
 
     public function getIncludedItems($params)
     {
-        $items = self::parseProjectParams($params, 'project_');
+        $items = self::parseProjectParams($params, 'projects');
 
         return $items;
     }
@@ -375,6 +397,14 @@ class UpStream_Report_Milestones extends UpStream_Report
     public $title = 'Milestones by Criteria';
     public $id = 'milestones';
 
+    public function getDisplayOptions()
+    {
+        return [
+            'show_display_fields_box' => true,
+            'visualization_type' => 'Table'
+        ];
+    }
+
     public function getAllFieldOptions()
     {
         return ['milestones' => [ 'type' => 'milestone' ]];
@@ -382,7 +412,7 @@ class UpStream_Report_Milestones extends UpStream_Report
 
     public function getIncludedItems($params)
     {
-        $items = self::parseMilestoneParams($params, 'milestone_');
+        $items = self::parseMilestoneParams($params, 'milestones');
 
         return $items;
     }
@@ -393,6 +423,14 @@ class UpStream_Report_Tasks extends UpStream_Report
     public $title = 'Tasks by Criteria';
     public $id = 'tasks';
 
+    public function getDisplayOptions()
+    {
+        return [
+            'show_display_fields_box' => true,
+            'visualization_type' => 'Table'
+        ];
+    }
+
     public function getAllFieldOptions()
     {
         return ['tasks' => [ 'type' => 'task' ]];
@@ -400,9 +438,64 @@ class UpStream_Report_Tasks extends UpStream_Report
 
     public function getIncludedItems($params)
     {
-        $items = self::parseTaskParams($params, 'task_');
+        $items = self::parseTaskParams($params, 'tasks');
 
         return $items;
+    }
+}
+
+class UpStream_Report_Project_Gantt_Chart extends UpStream_Report
+{
+    public $title = 'Gantt Chart by Project';
+    public $id = 'project_gantt';
+
+    public function getAllFieldOptions()
+    {
+        return ['projects' => [ 'type' => 'project' ]];
+    }
+
+    public function getDisplayOptions()
+    {
+        return [
+            'visualization_type' => 'Gantt'
+        ];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseProjectParams($params, 'projects');
+
+        return $items;
+    }
+
+    public function executeReport($params)
+    {
+        $params['display_fields'] = ['id', 'title', 'startDate', 'endDate'];
+        $data = parent::executeReport($params, function($row) {
+
+            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
+                //don't show items with no date
+                return null;
+            }
+
+            $newrow = [ $row[0], $row[1], $row[0], $row[2], $row[3], null, null, null ];
+
+            return $newrow;
+        });
+
+        $d = $data['cols'];
+        $data['cols'] = [
+            $d[0],
+            $d[1],
+            [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'],
+            $d[2],
+            $d[3],
+            [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'],
+            [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'],
+            [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string']
+        ];
+
+        return $data;
     }
 }
 
@@ -416,9 +509,16 @@ class UpStream_Report_Milestone_Gantt_Chart extends UpStream_Report
         return ['milestones' => [ 'type' => 'milestone' ]];
     }
 
+    public function getDisplayOptions()
+    {
+        return [
+            'visualization_type' => 'Gantt'
+        ];
+    }
+
     public function getIncludedItems($params)
     {
-        $items = self::parseMilestoneParams($params, 'milestone_');
+        $items = self::parseMilestoneParams($params, 'milestones');
 
         return $items;
     }
@@ -472,12 +572,19 @@ class UpStream_Report_Task_Gantt_Chart extends UpStream_Report
 
     public function getAllFieldOptions()
     {
-        return ['task' => [ 'type' => 'task' ]];
+        return ['tasks' => [ 'type' => 'task' ]];
+    }
+
+    public function getDisplayOptions()
+    {
+        return [
+            'visualization_type' => 'Gantt'
+        ];
     }
 
     public function getIncludedItems($params)
     {
-        $items = self::parseTaskParams($params, 'task_');
+        $items = self::parseTaskParams($params, 'tasks');
 
         return $items;
     }

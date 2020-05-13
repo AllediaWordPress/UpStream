@@ -44,6 +44,8 @@ if (!$report) {
     return;
 }
 
+$display_fields = [];
+
 ?>
 
     <div class="right_col" role="main">
@@ -55,6 +57,8 @@ if (!$report) {
                     <?php include('report-parameters/section.php'); ?>
                 </div>
             <?php endforeach; ?>
+
+            <?php include('report-parameters/display-fields.php'); ?>
 
            <input type="submit" name="submit" value="Submit">
         </form>

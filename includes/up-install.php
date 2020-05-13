@@ -293,8 +293,6 @@ function upstream_uninstall()
 function upstream_deactivate_dependency_shortcodes()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Shortcodes/upstream-shortcodes.php',
             'upstream-shortcodes/upstream-shortcodes.php']
     );
@@ -303,8 +301,6 @@ function upstream_deactivate_dependency_shortcodes()
 function upstream_deactivate_dependency_forms()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Forms/upstream-forms.php',
             'upstream-forms/upstream-forms.php']
     );
@@ -313,8 +309,6 @@ function upstream_deactivate_dependency_forms()
 function upstream_deactivate_dependency_api()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-API/upstream-api.php',
             'upstream-api/upstream-api.php']
     );
@@ -324,8 +318,6 @@ function upstream_deactivate_dependency_api()
 function upstream_deactivate_dependency_advanced_permissions()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Advanced-Permissions/upstream-advanced-permissions.php',
             'upstream-advanced-permissions/upstream-advanced-permissions.php']
     );
@@ -337,8 +329,6 @@ function upstream_deactivate_dependency_advanced_permissions()
 function upstream_deactivate_dependency_calendar_view()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Calendar-View/upstream-calendar-view.php',
         'upstream-calendar-view/upstream-calendar-view.php']
     );
@@ -347,8 +337,6 @@ function upstream_deactivate_dependency_calendar_view()
 function upstream_deactivate_dependency_reports_pdf()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Reports-PDF/upstream-reports-pdf.php',
         'upstream-reports-pdf/upstream-reports-pdf.php']);
 }
@@ -356,8 +344,6 @@ function upstream_deactivate_dependency_reports_pdf()
 function upstream_deactivate_dependency_reports()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Reports/upstream-reports.php',
         'upstream-reports/upstream-reports.php']);
 }
@@ -365,8 +351,6 @@ function upstream_deactivate_dependency_reports()
 function upstream_deactivate_dependency_copy_project()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Copy-Project/upstream-copy-project.php',
         'upstream-copy-project/upstream-copy-project.php']);
 }
@@ -374,8 +358,6 @@ function upstream_deactivate_dependency_copy_project()
 function upstream_deactivate_dependency_project_timeline()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Project-Timeline/upstream-project-timeline.php',
         'upstream-project-timeline/upstream-project-timeline.php']);
 }
@@ -383,8 +365,6 @@ function upstream_deactivate_dependency_project_timeline()
 function upstream_deactivate_dependency_frontend_edit()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Frontend-Edit/upstream-frontend-edit.php',
         'upstream-frontend-edit/upstream-frontend-edit.php']);
 }
@@ -392,8 +372,6 @@ function upstream_deactivate_dependency_frontend_edit()
 function upstream_deactivate_dependency_email_notifications()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Email-Notifications/upstream-email-notifications.php',
         'upstream-email-notifications/upstream-email-notifications.php']);
 }
@@ -401,8 +379,6 @@ function upstream_deactivate_dependency_email_notifications()
 function upstream_deactivate_dependency_customizer()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Customizer/upstream-customizer.php',
         'upstream-customizer/upstream-customizer.php']);
 }
@@ -410,16 +386,12 @@ function upstream_deactivate_dependency_customizer()
 function upstream_deactivate_dependency_custom_fields()
 
 {
-    up_debug();
-
     deactivate_plugins(['UpStream-Custom-Fields/upstream-custom-fields.php',
         'upstream-custom-fields/upstream-custom-fields.php']);
 }
 
 function upstream_add_default_options()
 {
-    up_debug();
-
     // general options
     $general = get_option('upstream_general');
     if ( ! $general || empty($general)) {
@@ -546,13 +518,19 @@ if (version_compare(get_bloginfo('version'),'5.1', '>=')) {
 
     function upstream_new_blog_created($site)
     {
-        up_debug();
+        upstream_install_debug('upstream_new_blog_created ' . $site);
 
         $blog_id = $site->blog_id;
 
         if (is_plugin_active_for_network(plugin_basename(UPSTREAM_PLUGIN_FILE))) {
+
+            upstream_install_debug('switch_to_blog');
             switch_to_blog($blog_id);
+
+            upstream_install_debug('upstream_install');
             upstream_install();
+
+            upstream_install_debug('restore_current_blog');
             restore_current_blog();
         }
     }

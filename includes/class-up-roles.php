@@ -36,7 +36,12 @@ class UpStream_Roles
     {
         global $wp_roles;
 
+        if (function_exists('upstream_install_debug')) upstream_install_debug('add_roles entry');
+
         if ( ! $wp_roles->is_role('upstream_manager')) {
+
+            if (function_exists('upstream_install_debug')) upstream_install_debug('add_roles upstream_manager');
+
             add_role('upstream_manager', __('UpStream Manager', 'upstream'), [
                 'read'                   => true,
                 'edit_posts'             => true,
@@ -70,6 +75,8 @@ class UpStream_Roles
         }
 
         if ( ! $wp_roles->is_role('upstream_user')) {
+            if (function_exists('upstream_install_debug')) upstream_install_debug('add_roles upstream_user');
+
             add_role('upstream_user', __('UpStream User', 'upstream'), [
                 'read'         => true,
                 'edit_posts'   => true,
@@ -78,6 +85,8 @@ class UpStream_Roles
         }
 
         if ( ! $wp_roles->is_role('upstream_client_user')) {
+            if (function_exists('upstream_install_debug')) upstream_install_debug('add_roles upstream_client_user');
+
             add_role('upstream_client_user', __('UpStream Client User', 'upstream'), [
                 'read'         => true,
                 'upload_files' => true,
@@ -99,15 +108,23 @@ class UpStream_Roles
     {
         global $wp_roles;
 
+        if (function_exists('upstream_install_debug')) upstream_install_debug('add_default_caps entry');
+
         if (class_exists('WP_Roles')) {
             if ( ! isset($wp_roles)) {
                 $wp_roles = new WP_Roles();
             }
         }
 
+        if (function_exists('upstream_install_debug')) upstream_install_debug('wp_roles');
+
         if (is_object($wp_roles)) {
 
+            if (function_exists('upstream_install_debug')) upstream_install_debug('is_object wp_roles');
+
             if (is_null($role)) {
+                if (function_exists('upstream_install_debug')) upstream_install_debug('is_null wp_roles');
+
                 $rolesName = [
                     'administrator',
                     'upstream_manager',
@@ -118,7 +135,12 @@ class UpStream_Roles
                 $rolesName = [$role];
             }
 
+            if (function_exists('upstream_install_debug')) upstream_install_debug('foreach rolesName');
+
             foreach ($rolesName as $roleName) {
+
+                if (function_exists('upstream_install_debug')) upstream_install_debug('handling ' . $roleName);
+
                 switch ($roleName) {
                     case 'administrator':
                         // Add the main post type capabilities

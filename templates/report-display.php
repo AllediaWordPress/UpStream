@@ -46,13 +46,16 @@ $report = UpStream_Report_Generator::getReport($_GET['report']);
 if (!$report) {
     return;
 }
+
+$display_options = $report->getDisplayOptions();
+
 ?>
 
 <script type="text/javascript">
 
 jQuery(document).ready(function ($) {
     // Load the Visualization API and the piechart package.
-    google.charts.load('current', {'packages': [ 'gantt']});
+    google.charts.load('current', {'packages': [ 'table', 'gantt']});
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -75,19 +78,35 @@ jQuery(document).ready(function ($) {
         // Create our data table out of JSON data loaded from server.
         var data = new google.visualization.DataTable(jsonData);
         var jo = JSON.parse(jsonData);
-        var options = [];
+        var options = {};
 
         if ('options' in jo) {
             options = jo['options'];
         }
 
-        options['width'] = '100%';
-        options['height'] = 500;
+        if (jo['rows'].length == 0) {
+            jQuery('#table_div').html('Report query returned no results.');
+        }
+        else {
+            options.width = '100%';
+            options.height = 500;
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.Gantt(document.getElementById('table_div'));
-        chart.draw(data, options);
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.<?php print $display_options['visualization_type'] ?>(document.getElementById('table_div'));
+            chart.draw(data, options);
+
+            $('#export_csv').click(function () {
+                var csvFormattedDataTable = google.visualization.dataTableToCsv(data);
+                var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
+                this.href = encodedUri;
+                this.download = 'table-data.csv';
+                this.target = '_blank';
+            });
+
+            $('#export_div').css('display', 'block');
+        }
     }
+
 });
 </script>
 
@@ -101,8 +120,11 @@ jQuery(document).ready(function ($) {
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
                 <div id="table_div"></div>
+                <div id="export_div" style="display:none;margin-top:20px">
+                    <button id="export_csv" class="btn btn-success">Export CSV</button>
+                    <button id="export_pdf" class="btn btn-info">Export PDF</button>
+                </div>
             </div>
         </div>
     </div>
