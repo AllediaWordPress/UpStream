@@ -205,7 +205,7 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         $fields = parent::fields();
 
         $fields['description'] = [ 'type' => 'text', 'title' => __('Notes'), 'search' => true, 'display' => true  ];
-        $fields['color'] = [ 'type' => 'color', 'title' => __('color'), 'search' => false, 'display' => true  ];
+        $fields['color'] = [ 'type' => 'color', 'title' => __('Color'), 'search' => false, 'display' => true  ];
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
         $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Milestone::getCategories', 'is_array' => 'true' ];

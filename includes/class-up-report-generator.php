@@ -33,6 +33,7 @@ class UpStream_Report_Generator
         $r[] = new UpStream_Report_Project_Gantt_Chart();
         $r[] = new UpStream_Report_Milestone_Gantt_Chart();
         $r[] = new UpStream_Report_Task_Gantt_Chart();
+        $r[] = new UpStream_Report_Task_Progress_Chart();
 
         return $r;
     }

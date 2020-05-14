@@ -355,6 +355,10 @@ class UpStream_Report
                     $ci['type'] = 'date';
                     break;
 
+                case 'number':
+                    $ci['type'] = 'number';
+                    break;
+
                 default:
                     $ci['type'] = 'string';
             }
@@ -368,8 +372,12 @@ class UpStream_Report
 
 class UpStream_Report_Projects extends UpStream_Report
 {
-    public $title = 'Projects by Criteria';
     public $id = 'projects';
+
+    public function __construct()
+    {
+        $this->title = __('Project Table', 'upstream-reporting');
+    }
 
     public function getDisplayOptions()
     {
@@ -394,8 +402,12 @@ class UpStream_Report_Projects extends UpStream_Report
 
 class UpStream_Report_Milestones extends UpStream_Report
 {
-    public $title = 'Milestones by Criteria';
     public $id = 'milestones';
+
+    public function __construct()
+    {
+        $this->title = __('Milestone Table', 'upstream-reporting');
+    }
 
     public function getDisplayOptions()
     {
@@ -420,8 +432,12 @@ class UpStream_Report_Milestones extends UpStream_Report
 
 class UpStream_Report_Tasks extends UpStream_Report
 {
-    public $title = 'Tasks by Criteria';
     public $id = 'tasks';
+
+    public function __construct()
+    {
+        $this->title = __('Task Table', 'upstream-reporting');
+    }
 
     public function getDisplayOptions()
     {
@@ -446,8 +462,12 @@ class UpStream_Report_Tasks extends UpStream_Report
 
 class UpStream_Report_Project_Gantt_Chart extends UpStream_Report
 {
-    public $title = 'Gantt Chart by Project';
     public $id = 'project_gantt';
+
+    public function __construct()
+    {
+        $this->title = __('Project Gantt Chart', 'upstream-reporting');
+    }
 
     public function getAllFieldOptions()
     {
@@ -501,8 +521,13 @@ class UpStream_Report_Project_Gantt_Chart extends UpStream_Report
 
 class UpStream_Report_Milestone_Gantt_Chart extends UpStream_Report
 {
-    public $title = 'Gantt Chart by Milestone';
     public $id = 'milestones_gantt';
+
+
+    public function __construct()
+    {
+        $this->title = __('Milestone Gantt Chart', 'upstream-reporting');
+    }
 
     public function getAllFieldOptions()
     {
@@ -567,8 +592,12 @@ class UpStream_Report_Milestone_Gantt_Chart extends UpStream_Report
 
 class UpStream_Report_Task_Gantt_Chart extends UpStream_Report
 {
-    public $title = 'Gantt Chart by Task';
     public $id = 'task_gantt';
+
+    public function __construct()
+    {
+        $this->title = __('Task Gantt Chart', 'upstream-reporting');
+    }
 
     public function getAllFieldOptions()
     {
@@ -615,6 +644,43 @@ class UpStream_Report_Task_Gantt_Chart extends UpStream_Report
             [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'],
             [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string']
             ];
+
+        return $data;
+    }
+}
+
+class UpStream_Report_Task_Progress_Chart extends UpStream_Report
+{
+    public $id = 'task_progress';
+
+    public function __construct()
+    {
+        $this->title = __('Task Progress Chart', 'upstream-reporting');
+    }
+
+    public function getAllFieldOptions()
+    {
+        return ['tasks' => [ 'type' => 'task' ]];
+    }
+
+    public function getDisplayOptions()
+    {
+        return [
+            'visualization_type' => 'BarChart'
+        ];
+    }
+
+    public function getIncludedItems($params)
+    {
+        $items = self::parseTaskParams($params, 'tasks');
+
+        return $items;
+    }
+
+    public function executeReport($params)
+    {
+        $params['display_fields'] = ['title', 'progress'];
+        $data = parent::executeReport($params);
 
         return $data;
     }

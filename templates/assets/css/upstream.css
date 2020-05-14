@@ -496,3 +496,14 @@ td .btn {
 .ui-tooltip {
     z-index: 10000 !important;
 }
+
+#export_div {
+    display: none;
+}
+
+@media print
+{
+    #export_div {
+        display: none !important;
+    }
+}

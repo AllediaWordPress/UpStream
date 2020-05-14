@@ -55,7 +55,7 @@ $display_options = $report->getDisplayOptions();
 
 jQuery(document).ready(function ($) {
     // Load the Visualization API and the piechart package.
-    google.charts.load('current', {'packages': [ 'table', 'gantt']});
+    google.charts.load('current', {'packages': ['corechart', 'table', 'gantt']});
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -95,12 +95,16 @@ jQuery(document).ready(function ($) {
             var chart = new google.visualization.<?php print $display_options['visualization_type'] ?>(document.getElementById('table_div'));
             chart.draw(data, options);
 
-            $('#export_csv').click(function () {
+            $('body').on('click', '#export_csv', function () {
                 var csvFormattedDataTable = google.visualization.dataTableToCsv(data);
                 var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
                 this.href = encodedUri;
                 this.download = 'table-data.csv';
                 this.target = '_blank';
+            });
+
+            $('#print').click(function () {
+                window.print();
             });
 
             $('#export_div').css('display', 'block');
@@ -121,9 +125,9 @@ jQuery(document).ready(function ($) {
             </div>
             <div class="x_content">
                 <div id="table_div"></div>
-                <div id="export_div" style="display:none;margin-top:20px">
-                    <button id="export_csv" class="btn btn-success">Export CSV</button>
-                    <button id="export_pdf" class="btn btn-info">Export PDF</button>
+                <div id="export_div">
+                    <a id="export_csv" class="btn btn-success">Export CSV</a>
+                    <a id="print" class="btn btn-info">Print or Save to PDF</a>
                 </div>
             </div>
         </div>
