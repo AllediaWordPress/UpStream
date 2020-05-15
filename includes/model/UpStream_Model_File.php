@@ -14,7 +14,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
 
     protected $metadataKey = '_upstream_project_files';
 
-    protected $type = UPSTREAM_ITEM_TYPE_MILESTONE;
+    protected $type = UPSTREAM_ITEM_TYPE_FILE;
 
     /**
      * UpStream_Model_File constructor.
@@ -82,6 +82,22 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
             case 'fileId':
                 return $this->{$property};
 
+            case 'filename':
+                $fileId = $this->{$property};
+                if ($fileId > 0) {
+                    $file = get_attached_file($fileId);
+                    return $file ? basename($file) : '';
+                }
+                return '';
+
+            case 'fileURL':
+                $fileId = $this->{$property};
+                if ($fileId > 0) {
+                    $url = wp_get_attachment_url($fileId);
+                    return $url || '';
+                }
+                return '';
+
             default:
                 return parent::__get($property);
         }
@@ -103,6 +119,18 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
                 parent::__set($property, $value);
                 break;
         }
+    }
+
+
+    public static function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['fileId'] = [ 'type' => 'file', 'title' => __('File'), 'search' => true, 'display' => true ];
+
+        $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_FILE);
+
+        return $fields;
     }
 
     public static function create($parent, $title, $createdBy)

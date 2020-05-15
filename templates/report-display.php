@@ -55,7 +55,7 @@ $display_options = $report->getDisplayOptions();
 
 jQuery(document).ready(function ($) {
     // Load the Visualization API and the piechart package.
-    google.charts.load('current', {'packages': ['corechart', 'table', 'gantt']});
+    google.charts.load('current', {'packages': ['corechart', 'table', 'gantt', 'calendar']});
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);

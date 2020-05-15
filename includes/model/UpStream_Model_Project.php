@@ -22,6 +22,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $clientId = 0;
 
+    protected $progress = 0;
+
     protected $statusCode = null;
 
     protected $postType = 'project';
@@ -42,6 +44,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                     return $arr;
                 },
                 'clientId' => '_upstream_project_client',
+                'progress' => '_upstream_project_progress',
                 'statusCode' => '_upstream_project_status',
                 'description' => '_upstream_project_description',
                 'startDate' => function ($m) {
@@ -115,6 +118,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public function calculateElapsedTime()
     {
+        // TODO: check for bugs disabled
+
         $total = 0;
 
         foreach ($this->tasks as $task) {
@@ -155,6 +160,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end.YMD', $this->endDate);
         if ($this->startDate != null) update_post_meta($this->id, '_upstream_project_start', UpStream_Model_Object::ymdToTimestamp($this->startDate));
         if ($this->endDate != null) update_post_meta($this->id, '_upstream_project_end', UpStream_Model_Object::ymdToTimestamp($this->endDate));
+        if ($this->progress != null) update_post_meta($this->id, '_upstream_project_progress', $this->progress);
 
         $items = [];
         foreach ($this->tasks as $item) {
@@ -273,6 +279,9 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
                 }
                 return '';
 
+            case 'elapsedTime':
+                return $this->calculateElapsedTime();
+
             case 'statusCode':
             case 'clientId':
             case 'clientUserIds':
@@ -281,7 +290,10 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             case 'categoryIds':
                 return $this->{$property};
 
-	        case 'categories':
+            case 'progress':
+                return round($this->{$property});
+
+            case 'categories':
 	        	$categories = [];
 		        foreach ($this->categoryIds as $tid) {
 			        $term = get_term_by('id', $tid, 'project_category');
@@ -412,6 +424,9 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Project::getCategories', 'is_array' => 'true' ];
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
+        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true ];
+
+        $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_PROJECT);
 
         return $fields;
     }

@@ -140,7 +140,7 @@ if (isset($currentUser->projects)) {
                 'permalink'          => get_permalink($project_id),
                 'startDateTimestamp' => (int)$start,
                 'endDateTimestamp'   => (int)$end,
-                'progress'           => (float)$prog,
+                'progress'           => (float)round($prog),
                 'status'             => (string)$stat,
                 'clientName'         => null,
                 'categories'         => [],

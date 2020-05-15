@@ -738,6 +738,10 @@ class Upstream_Admin_Tasks_Page
 
     public function plugin_menu()
     {
+        if (!function_exists('upstream_count_assigned_to_open')) {
+            require_once UPSTREAM_PLUGIN_DIR . '/includes/up-project-functions.php';
+        }
+
         $count = (int)upstream_count_assigned_to_open('tasks');
         if ( ! isUserEitherManagerOrAdmin()  /* RSD: removed for new perms && $count <= 0 */) {
             return;

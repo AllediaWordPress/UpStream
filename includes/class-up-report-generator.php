@@ -18,31 +18,11 @@ if ( ! defined('ABSPATH') || class_exists('UpStream_Report_Generator')) {
  */
 class UpStream_Report_Generator
 {
-
-    public static function getBuiltinReports()
-
-    {
-        if (!class_exists('UpStream_Report')) {
-            return [];
-        }
-
-        $r = [];
-        $r[] = new UpStream_Report_Projects();
-        $r[] = new UpStream_Report_Milestones();
-        $r[] = new UpStream_Report_Tasks();
-        $r[] = new UpStream_Report_Project_Gantt_Chart();
-        $r[] = new UpStream_Report_Milestone_Gantt_Chart();
-        $r[] = new UpStream_Report_Task_Gantt_Chart();
-        $r[] = new UpStream_Report_Task_Progress_Chart();
-
-        return $r;
-    }
+    public static $reports = [];
 
     public static function getAllReports()
     {
-        $reports = self::getBuiltinReports();
-        $reports = apply_filters('upstream_list_reports', $reports);
-        return $reports;
+        return self::$reports;
     }
 
     public static function getReport($id)
@@ -80,4 +60,9 @@ class UpStream_Report_Generator
         return $data;
     }
 
+}
+
+function upstream_register_report($r)
+{
+    \UpStream_Report_Generator::$reports[] = $r;
 }

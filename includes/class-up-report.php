@@ -124,6 +124,24 @@ class UpStream_Report
         return $items;
     }
 
+    protected function parseBugParams($params, $sectionId)
+    {
+        $prefix = $sectionId . '_';
+        $field_options = $this->getAllFieldOptions();
+
+        $ids = $params[$prefix . 'id'];
+
+        $item_additional_check_callback = function($item) use ($ids) {
+            return ($item instanceof UpStream_Model_Bug) &&
+                (count($ids) == 0 || in_array($item->id, $ids));
+        };
+
+        $optionsInfo = $field_options[$sectionId];
+        $items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+
+        return $items;
+    }
+
     protected function parseMilestoneParams($params, $sectionId)
     {
         $prefix = $sectionId . '_';
@@ -179,8 +197,8 @@ class UpStream_Report
 
     private static function numberBetween($lower_bound, $upper_bound, $val)
     {
-        if (empty($upper_bound) && empty($lower_bound)) return true;
-        if (!$val) return false;
+        if ((empty($upper_bound) && $upper_bound!= 0) && (empty($lower_bound) && $lower_bound !=0)) return true;
+        if (empty($val)) $val = 0;
 
         try {
             if (empty($lower_bound) || !is_numeric($lower_bound)) {
@@ -400,288 +418,6 @@ class UpStream_Report_Projects extends UpStream_Report
     }
 }
 
-class UpStream_Report_Milestones extends UpStream_Report
-{
-    public $id = 'milestones';
-
-    public function __construct()
-    {
-        $this->title = __('Milestone Table', 'upstream-reporting');
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'show_display_fields_box' => true,
-            'visualization_type' => 'Table'
-        ];
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['milestones' => [ 'type' => 'milestone' ]];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseMilestoneParams($params, 'milestones');
-
-        return $items;
-    }
-}
-
-class UpStream_Report_Tasks extends UpStream_Report
-{
-    public $id = 'tasks';
-
-    public function __construct()
-    {
-        $this->title = __('Task Table', 'upstream-reporting');
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'show_display_fields_box' => true,
-            'visualization_type' => 'Table'
-        ];
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['tasks' => [ 'type' => 'task' ]];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseTaskParams($params, 'tasks');
-
-        return $items;
-    }
-}
-
-class UpStream_Report_Project_Gantt_Chart extends UpStream_Report
-{
-    public $id = 'project_gantt';
-
-    public function __construct()
-    {
-        $this->title = __('Project Gantt Chart', 'upstream-reporting');
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['projects' => [ 'type' => 'project' ]];
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'visualization_type' => 'Gantt'
-        ];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseProjectParams($params, 'projects');
-
-        return $items;
-    }
-
-    public function executeReport($params)
-    {
-        $params['display_fields'] = ['id', 'title', 'startDate', 'endDate'];
-        $data = parent::executeReport($params, function($row) {
-
-            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
-                //don't show items with no date
-                return null;
-            }
-
-            $newrow = [ $row[0], $row[1], $row[0], $row[2], $row[3], null, null, null ];
-
-            return $newrow;
-        });
-
-        $d = $data['cols'];
-        $data['cols'] = [
-            $d[0],
-            $d[1],
-            [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'],
-            $d[2],
-            $d[3],
-            [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'],
-            [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'],
-            [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string']
-        ];
-
-        return $data;
-    }
-}
-
-class UpStream_Report_Milestone_Gantt_Chart extends UpStream_Report
-{
-    public $id = 'milestones_gantt';
-
-
-    public function __construct()
-    {
-        $this->title = __('Milestone Gantt Chart', 'upstream-reporting');
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['milestones' => [ 'type' => 'milestone' ]];
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'visualization_type' => 'Gantt'
-        ];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseMilestoneParams($params, 'milestones');
-
-        return $items;
-    }
-
-    public function executeReport($params)
-    {
-        $params['display_fields'] = ['id', 'title', 'color', 'startDate', 'endDate'];
-        $data = parent::executeReport($params, function($row) {
-
-            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
-                //don't show items with no date
-                return null;
-            }
-
-            $row[] = null;
-            $row[] = null;
-            $row[] = null;
-
-            return $row;
-        });
-
-        $data['cols'][2] = [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'];
-        $data['cols'][] = [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'];
-        $data['cols'][] = [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'];
-        $data['cols'][] = [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string'];
-
-        usort($data['rows'], function ($a, $b) {
-            $sa = $a['c'][3]['v'];
-            $sb = $b['c'][3]['v'];
-            $ea = $a['c'][4]['v'];
-            $eb = $b['c'][4]['v'];
-            return $sa == $sb ? strcmp($ea, $eb) : strcmp($sa, $sb);
-        });
-
-        $colors = [];
-        for ($i = 0; $i < count($data['rows']); $i++) {
-            $colors[] = ['color' => $data['rows'][$i]['c'][2]['v']];
-            $data['rows'][$i]['c'][2]['v'] = $data['rows'][$i]['c'][0]['v'];
-        }
-
-        $data['options'] = [ 'gantt' => [ 'palette' => $colors ] ];
-
-        return $data;
-    }
-}
-
-class UpStream_Report_Task_Gantt_Chart extends UpStream_Report
-{
-    public $id = 'task_gantt';
-
-    public function __construct()
-    {
-        $this->title = __('Task Gantt Chart', 'upstream-reporting');
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['tasks' => [ 'type' => 'task' ]];
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'visualization_type' => 'Gantt'
-        ];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseTaskParams($params, 'tasks');
-
-        return $items;
-    }
-
-    public function executeReport($params)
-    {
-        $params['display_fields'] = ['id', 'title', 'startDate', 'endDate', 'progress'];
-        $data = parent::executeReport($params, function($row) {
-
-            if ($row[3]['f'] == '(empty)' || $row[4]['f'] == '(empty)') {
-                //don't show items with no date
-                return null;
-            }
-
-            $newrow = [ $row[0], $row[1], $row[0], $row[2], $row[3], null, $row[4], null ];
-
-            return $newrow;
-        });
-
-        $d = $data['cols'];
-        $data['cols'] = [
-            $d[0],
-            $d[1],
-            [ 'id' => 'resource', 'label' => 'Resource', 'type' => 'string'],
-            $d[2],
-            $d[3],
-            [ 'id' => 'duration', 'label' => 'Duration', 'type' => 'number'],
-            [ 'id' => 'pct', 'label' => 'Percent Complete', 'type' => 'number'],
-            [ 'id' => 'dependencies', 'label' => 'Dependencies', 'type' => 'string']
-            ];
-
-        return $data;
-    }
-}
-
-class UpStream_Report_Task_Progress_Chart extends UpStream_Report
-{
-    public $id = 'task_progress';
-
-    public function __construct()
-    {
-        $this->title = __('Task Progress Chart', 'upstream-reporting');
-    }
-
-    public function getAllFieldOptions()
-    {
-        return ['tasks' => [ 'type' => 'task' ]];
-    }
-
-    public function getDisplayOptions()
-    {
-        return [
-            'visualization_type' => 'BarChart'
-        ];
-    }
-
-    public function getIncludedItems($params)
-    {
-        $items = self::parseTaskParams($params, 'tasks');
-
-        return $items;
-    }
-
-    public function executeReport($params)
-    {
-        $params['display_fields'] = ['title', 'progress'];
-        $data = parent::executeReport($params);
-
-        return $data;
-    }
+if (class_exists('UpStream_Report_Generator') && function_exists('upstream_register_report')) {
+    upstream_register_report(new UpStream_Report_Projects());
 }

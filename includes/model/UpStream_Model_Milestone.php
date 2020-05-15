@@ -106,6 +106,18 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         $this->storeCategories();
     }
 
+    public function calculateElapsedTime()
+    {
+        $total = 0;
+        $tasks = &$this->tasks();
+
+        foreach ($tasks as $task) {
+            $total += $task->calculateElapsedTime();
+        }
+
+        return $total;
+    }
+
     public function __get($property)
     {
         switch ($property) {
@@ -114,22 +126,25 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 return $this->description;
 
             case 'progress':
-                // TODO: handle progress calc
-                break;
-
             case 'categoryIds':
             case 'startDate':
             case 'endDate':
             case 'color':
                 return $this->{$property};
 
-	        case 'categories':
+            case 'elapsedTime':
+                return $this->calculateElapsedTime();
+
+            case 'categories':
 		        $categories = [];
 		        foreach ($this->categoryIds as $tid) {
 			        $term = get_term_by('id', $tid, 'upst_milestone_category');
 			        $categories[] = $term;
 		        }
 		        return $categories;
+
+            case 'tasks':
+                throw new UpStream_Model_ArgumentException(__('Not implemented. Use &tasks().', 'upstream'));
 
             default:
                 return parent::__get($property);
@@ -145,6 +160,9 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 $project = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $value);
                 $this->parentId = $project->id;
                 break;
+
+            case 'elapsedTime':
+                return $this->calculateElapsedTime();
 
             case 'categoryIds':
                 if (!is_array($value))
@@ -200,6 +218,25 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         return $tid_to_term;
     }
 
+    public function &tasks()
+    {
+        if ($this->parentId == 0) {
+            return [];
+        }
+
+        $my_tasks = [];
+        $project = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $this->parentId);
+        $tasks = &$project->tasks();
+
+        foreach ($tasks as $task) {
+            if ($task->milestoneId == $this->id) {
+                $my_tasks[] = $task;
+            }
+        }
+
+        return $my_tasks;
+    }
+
     public static function fields()
     {
         $fields = parent::fields();
@@ -209,10 +246,12 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
         $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Milestone::getCategories', 'is_array' => 'true' ];
+        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true ];
+
+        $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_MILESTONE);
 
         return $fields;
     }
-
 
     public static function create($title, $createdBy, $parentId = 0)
     {

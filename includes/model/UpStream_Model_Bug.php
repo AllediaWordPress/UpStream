@@ -148,6 +148,9 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
                 }
                 return '';
 
+            case 'elapsedTime':
+                return $this->calculateElapsedTime();
+
             case 'dueDate':
             case 'fileId':
             case 'timeRecords':
@@ -274,6 +277,8 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Bug::getStatuses' ];
         $fields['severityCode'] = [ 'type' => 'select', 'title' => __('Severity'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Bug::getSeverities' ];
         $fields['dueDate'] = [ 'type' => 'date', 'title' => __('Due Date'), 'search' => true, 'display' => true ];
+
+        $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_BUG);
 
         return $fields;
     }

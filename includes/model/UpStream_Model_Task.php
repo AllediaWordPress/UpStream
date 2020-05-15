@@ -153,6 +153,9 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
                 }
                 return '';
 
+            case 'elapsedTime':
+                return $this->calculateElapsedTime();
+
             case 'statusCode':
             case 'notes':
             case 'milestoneId':

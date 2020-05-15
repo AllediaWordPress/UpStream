@@ -50,6 +50,7 @@ if ($isSingle) {
 
 $projects = upstream_user_projects();
 $reports = UpStream_Report_Generator::getAllReports();
+usort($reports, function ($a, $b) { return strcmp($a->title, $b->title); });
 ?>
 
 <?php do_action('upstream_before_sidebar'); ?>
