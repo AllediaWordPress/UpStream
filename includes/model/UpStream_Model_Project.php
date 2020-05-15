@@ -75,6 +75,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected function loadChildren()
     {
+        // TODO: check if these are disabled
         $itemset = get_post_meta($this->id, '_upstream_project_tasks');
         if ($itemset && count($itemset) == 1 && is_array($itemset[0])) {
             foreach ($itemset[0] as $item) {
@@ -118,8 +119,6 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     public function calculateElapsedTime()
     {
-        // TODO: check for bugs disabled
-
         $total = 0;
 
         foreach ($this->tasks as $task) {
