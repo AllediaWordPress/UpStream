@@ -38,8 +38,10 @@ class UpStream_Ajax
     {
         $this->verifyNonce();
 
-        $report = UpStream_Report_Generator::getReport($_POST['report']);
-        $data = UpStream_Report_Generator::executeReport($report);
+        $urg = UpStream_Report_Generator::get_instance();
+
+        $report = $urg->getReport($_POST['report']);
+        $data = $urg->executeReport($report);
 
         $this->output($data);
     }

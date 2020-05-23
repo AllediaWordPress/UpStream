@@ -42,7 +42,7 @@ upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
 
 
-$report = UpStream_Report_Generator::getReport($_GET['report']);
+$report = UpStream_Report_Generator::get_instance()->getReport($_GET['report']);
 if (!$report) {
     return;
 }
@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
 
     function drawChart() {
 
-        data = <?php echo json_encode(UpStream_Report_Generator::getReportFieldsFromPost(false)); ?>;
+        data = <?php echo json_encode(UpStream_Report_Generator::get_instance()->getReportFieldsFromPost(false)); ?>;
         data['report'] = '<?php echo $report->id; ?>';
         data['action'] = 'upstream_report_data';
         data['nonce'] = upstream.security;

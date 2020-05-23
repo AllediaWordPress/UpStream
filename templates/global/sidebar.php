@@ -49,7 +49,7 @@ if ($isSingle) {
 }
 
 $projects = upstream_user_projects();
-$reports = UpStream_Report_Generator::getAllReports();
+$reports = UpStream_Report_Generator::get_instance()->getAllReports();
 usort($reports, function ($a, $b) { return strcmp($a->title, $b->title); });
 ?>
 

@@ -80,6 +80,21 @@ function upstream_disable_bugs()
     return $disable_bugs[0] == 'yes';
 }
 
+function upstream_filesytem_enabled()
+
+{
+    return true;
+}
+
+function upstream_filesystem_max_size()
+{
+    return 10000000;
+}
+
+function upstream_filesystem_path()
+{
+    return "c:/keys";
+}
 
 /**
  * set a unique id.

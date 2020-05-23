@@ -436,6 +436,12 @@
         $row.find('.dashicons-flag').removeAttr('style');
         $row.find('.up-o-tab[data-target=".up-c-tab-content-data"]').addClass('nav-tab-active');
 
+        // upfs
+        $row.find('.upfs-hidden').each(function() {
+            $(this).attr('type', 'file');
+            $(this).parent().children('a').remove();
+        });
+
         // Check if we have a defined default value in the attributes.
         $row.find('input, textarea, select').each(function () {
             var $self = $(this);

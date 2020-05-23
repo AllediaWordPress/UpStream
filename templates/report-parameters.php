@@ -39,7 +39,7 @@ upstream_get_template_part('global/header.php');
 upstream_get_template_part('global/sidebar.php');
 upstream_get_template_part('global/top-nav.php');
 
-$report = UpStream_Report_Generator::getReport($_GET['report']);
+$report = UpStream_Report_Generator::get_instance()->getReport($_GET['report']);
 if (!$report) {
     return;
 }

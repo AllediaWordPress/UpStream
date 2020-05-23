@@ -75,6 +75,29 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 // Add select2 field type sanitization callback.
                 add_action('cmb2_sanitize_select2', [$this, 'sanitizeSelect2Field'], 10, 5);
             }
+
+            if (upstream_filesytem_enabled()) {
+                add_action( 'post_edit_form_tag' , [$this, 'post_edit_form_tag'] );
+
+                if (!isset($wp_filter['cmb2_render_upfs'])) {
+                    add_action('cmb2_render_upfs', [$this, 'renderUpfsField'], 10, 5);
+                }
+
+                if ( ! isset($wp_filter['cmb2_sanitize_upfs'])) {
+                    add_action('cmb2_sanitize_upfs', [$this, 'sanitizeUpfsField'], 10, 5);
+                }
+
+            }
+
+        }
+
+        public function post_edit_form_tag()
+        {
+            global $post;
+
+            if(!$post || get_post_type($post->ID) != 'project') return;
+
+            echo ' enctype="multipart/form-data" autocomplete="off"';
         }
 
         /**
@@ -1251,17 +1274,34 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 ];
 
                 // start row
-                $fields[40] = [
-                    'name'        => __('Attachments', 'upstream'),
-                    'desc'        => '',
-                    'id'          => 'file',
-                    'type'        => 'file',
-                    'permissions' => 'bug_files_field',
-                    'before'      => 'upstream_add_field_attributes',
-                    'options'     => [
-                        'url' => false, // Hide the text input for the url
-                    ],
-                ];
+
+                if (upstream_filesytem_enabled()) {
+                    $fields[40] = [
+                        'name' => __('Attachments', 'upstream'),
+                        'desc' => '',
+                        'id' => 'file',
+                        'type' => 'upfs',
+                        'permissions' => 'bug_files_field',
+                        'before' => 'upstream_add_field_attributes',
+                        'options' => [
+                            'url' => false, // Hide the text input for the url
+                        ],
+                    ];
+
+                } else {
+                    $fields[40] = [
+                        'name' => __('Attachments', 'upstream'),
+                        'desc' => '',
+                        'id' => 'file',
+                        'type' => 'file',
+                        'permissions' => 'bug_files_field',
+                        'before' => 'upstream_add_field_attributes',
+                        'options' => [
+                            'url' => false, // Hide the text input for the url
+                        ],
+                    ];
+                }
+
 
                 $fields[41] = [
                     'name'        => __("Due Date", 'upstream'),
@@ -1595,17 +1635,32 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     'options_cb'       => 'upstream_admin_get_all_project_users',
                 ];
 
-                $fields[20] = [
-                    'name'        => esc_html($label),
-                    'desc'        => '',
-                    'id'          => 'file',
-                    'type'        => 'file',
-                    'permissions' => 'file_files_field',
-                    'before'      => 'upstream_add_field_attributes',
-                    'options'     => [
-                        'url' => false, // Hide the text input for the url
-                    ],
-                ];
+                if (upstream_filesytem_enabled()) {
+                    $fields[20] = [
+                        'name' => esc_html($label),
+                        'desc' => '',
+                        'id' => 'file',
+                        'type' => 'upfs',
+                        'permissions' => 'file_files_field',
+                        'before' => 'upstream_add_field_attributes',
+                        'options' => [
+                            'url' => false, // Hide the text input for the url
+                        ],
+                    ];
+
+                } else {
+                    $fields[20] = [
+                        'name' => esc_html($label),
+                        'desc' => '',
+                        'id' => 'file',
+                        'type' => 'file',
+                        'permissions' => 'file_files_field',
+                        'before' => 'upstream_add_field_attributes',
+                        'options' => [
+                            'url' => false, // Hide the text input for the url
+                        ],
+                    ];
+                }
 
                 // start row
                 $fields[30] = [
@@ -1993,6 +2048,97 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
             wp_send_json($response);
         }
+
+        /**
+         * Define Upfs CMB2 field settings.
+         *
+         * @param \CMB2_Field $field      Current CMB2_Field object.
+         * @param string      $value      Current escaped field value.
+         * @param int         $object_id  Project ID.
+         * @param string      $objectType Current object type.
+         * @param \CMB2_Types $fieldType  Current field type object.
+         *
+         * @since   1.16.0
+         * @static
+         *
+         */
+        public static function renderUpfsField($field, $value, $object_id, $objectType, $fieldType)
+        {
+
+            $fieldName = $field->args['_name'];
+            if (!preg_match('/\[\]$/', $fieldName)) {
+                $fieldName .= '[]';
+            }
+
+            $options = [];
+            if (count($field->args['options']) === 0) {
+                if (!empty($field->args['options_cb']) && is_callable($field->args['options_cb'])) {
+                    $options = call_user_func($field->args['options_cb']);
+                }
+            }
+
+            if (is_array($value) && count($value) > 0) {
+                $value = $value[0];
+            }
+
+            if ($value && ($file = upstream_upfs_info($value))) {
+                $url = upstream_upfs_get_file_url($value);
+                ?>
+                <a href="<?php print $url ?>"><?php echo esc_html($file->orig_filename) ?></a>
+                <a href="#" onclick="jQuery('#<?php echo $field->args["id"]; ?>').attr('type','file');jQuery(this).parent().children('a').remove();return false;"><?php esc_html_e('(remove)', 'upstream') ?></a>
+                <input type="hidden" class="upfs-hidden" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo $field->args['id']; ?>"/>
+                <?php
+
+            } else {
+
+                ?>
+                <input type="file" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo $field->args['id']; ?>"/>
+                <?php
+            }
+        }
+
+        /**
+         * Sanitizes Upfs fields before they're saved.
+         *
+         * @param mixed          $overrideValue Sanitization override value to return.
+         * @param mixed          $value         Actual field value.
+         * @param int            $object_id     Project ID.
+         * @param string         $object_type   Current object type.
+         * @param \CMB2_Sanitize $sanitizer     Current sanitization object.
+         *
+         * @since   1.16.0
+         * @static
+         *
+         */
+        public static function sanitizeUpfsField($overrideValue, $value, $object_id, $object_type, $sanitizer)
+        {
+            if (is_array($value) && count($value) > 0 && $value[0]) {
+                return $value[0];
+            }
+
+            $fitem = $sanitizer->field->group->cmb_id;
+            $fno = $sanitizer->field->group->index;
+            $fid = $object_type['_id'];
+
+            $value = '';
+
+            if (!empty($_FILES[$fitem]['name'][$fno][$fid][0])) {
+
+                $file = [
+                    'name' => $_FILES[$fitem]['name'][$fno][$fid][0],
+                    'type' => $_FILES[$fitem]['type'][$fno][$fid][0],
+                    'tmp_name' => $_FILES[$fitem]['tmp_name'][$fno][$fid][0],
+                    'size' => $_FILES[$fitem]['size'][$fno][$fid][0],
+                ];
+
+                $value = upstream_upfs_upload($file);
+
+                // TODO: handle error
+            }
+
+            return $value;
+        }
+
 
         /**
          * Define select2 CMB2 field settings.

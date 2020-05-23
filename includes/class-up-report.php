@@ -18,7 +18,7 @@ if ( ! defined('ABSPATH') || class_exists('UpStream_Report')) {
  */
 class UpStream_Report
 {
-    public $title = '(none)';
+    public $title = '';
     public $id = '';
 
     /**
@@ -142,6 +142,25 @@ class UpStream_Report
         return $items;
     }
 
+
+	protected function parseFileParams($params, $sectionId)
+	{
+		$prefix = $sectionId . '_';
+		$field_options = $this->getAllFieldOptions();
+
+		$ids = $params[$prefix . 'id'];
+
+		$item_additional_check_callback = function($item) use ($ids) {
+			return ($item instanceof UpStream_Model_File) &&
+			       (count($ids) == 0 || in_array($item->id, $ids));
+		};
+
+		$optionsInfo = $field_options[$sectionId];
+		$items = $this->parseFields($params, $prefix, $item_additional_check_callback);
+
+		return $items;
+	}
+
     protected function parseMilestoneParams($params, $sectionId)
     {
         $prefix = $sectionId . '_';
@@ -220,58 +239,94 @@ class UpStream_Report
         }
     }
 
+    protected function checkItem($item, $params, $prefix, $item_additional_check_callback)
+    {
+	    $fields = $item->fields();
+	    if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
+		    return false;
+	    }
+
+	    foreach ($fields as $field_name => $field) {
+		    if (!$field['search']) {
+			    continue;
+		    }
+
+		    $value = $params[$prefix . $field_name];
+		    if (empty($value)) continue;
+
+		    if (is_array($value)) {
+			    if ($field['type'] === 'user_id' || $field['type'] === 'select') {
+				    if (! $this->arrayIn($value, $item->{$field_name}))
+					    return false;
+			    }
+		    } else {
+			    if ($field['type'] === 'string' || $field['type'] === 'text') {
+				    if (!stristr($item->{$field_name}, $value))
+					    return false;
+			    } elseif ($field['type'] === 'color') {
+				    if (!stristr($item->{$field_name}, $value))
+					    return false;
+			    } elseif ($field['type'] === 'date') {
+				    $value_start = $params[$prefix . $field_name . '_start'];
+				    $value_end = $params[$prefix . $field_name . '_end'];
+				    if (!self::dateBetween($value_start, $value_end, $item->{$field_name}))
+					    return false;
+			    } elseif ($field['type'] === 'number') {
+				    $value_start = $params[$prefix . $field_name . '_lower'];
+				    $value_end = $params[$prefix . $field_name . '_upper'];
+				    if (!self::numberBetween($value_start, $value_end, $item->{$field_name}))
+					    return false;
+			    } elseif ($item->{$field_name} != $value) {
+				    //return false;
+			    }
+		    }
+
+	    }
+
+	    return true;
+    }
+
     protected function parseFields($params, $prefix, $item_additional_check_callback)
     {
         $mm = UpStream_Model_Manager::get_instance();
 
         $items = $mm->findAllByCallback(function($item) use ($params, $prefix, $item_additional_check_callback) {
-
-            $fields = $item->fields();
-            if ($item_additional_check_callback && $item_additional_check_callback($item) == false) {
-                return false;
-            }
-
-            foreach ($fields as $field_name => $field) {
-                if (!$field['search']) {
-                    continue;
-                }
-
-                $value = $params[$prefix . $field_name];
-                if (empty($value)) continue;
-
-                if (is_array($value)) {
-                    if ($field['type'] === 'user_id' || $field['type'] === 'select') {
-                        if (! $this->arrayIn($value, $item->{$field_name}))
-                            return false;
-                    }
-                } else {
-                    if ($field['type'] === 'string' || $field['type'] === 'text') {
-                        if (!stristr($item->{$field_name}, $value))
-                            return false;
-                    } elseif ($field['type'] === 'color') {
-                        if (!stristr($item->{$field_name}, $value))
-                            return false;
-                    } elseif ($field['type'] === 'date') {
-                        $value_start = $params[$prefix . $field_name . '_start'];
-                        $value_end = $params[$prefix . $field_name . '_end'];
-                        if (!self::dateBetween($value_start, $value_end, $item->{$field_name}))
-                            return false;
-                    } elseif ($field['type'] === 'number') {
-                        $value_start = $params[$prefix . $field_name . '_lower'];
-                        $value_end = $params[$prefix . $field_name . '_upper'];
-                        if (!self::numberBetween($value_start, $value_end, $item->{$field_name}))
-                            return false;
-                    } elseif ($item->{$field_name} != $value) {
-                        //return false;
-                    }
-                }
-
-            }
-
-            return true;
+			return $this->checkItem($item, $params, $prefix, $item_additional_check_callback);
         });
 
         return $items;
+    }
+
+    public function makeCell($val, &$field, &$users)
+    {
+	    $f = null;
+
+	    if (!is_array($val)) {
+		    $val = [$val];
+	    }
+
+	    for ($j = 0; $j < count($val); $j++) {
+		    if (!empty($field['options_cb'])) {
+			    $options = call_user_func($field['options_cb']);
+			    if (isset($options[$val[$j]]))
+				    $val[$j] = $options[$val[$j]];
+		    } elseif ($field['type'] === 'user_id') {
+			    if (isset($users[$val[$j]]))
+				    $val[$j] = $users[$val[$j]];
+		    } elseif ($field['type'] === 'date') {
+			    if ($val[$j]) {
+				    $dp = explode('-', $val[$j]);
+				    $val[$j] = 'Date(' . $dp[0] . ',' . sprintf('%02d', $dp[1]-1) . ',' . $dp[2] . ')';
+				    $f = null;
+			    } else {
+				    // TODO: this is hacked to work with Google Charts which won't accept a null date
+				    $val[$j] = 'Date(2020,1,1)';
+				    $f = '(empty)';
+			    }
+		    }
+	    } // end for
+
+	    return $this->makeItem($val, $f);
     }
 
     public function executeReport($params, $rowCallback = null)
@@ -299,34 +354,7 @@ class UpStream_Report
                     $columns[$field_name] = $field;
 
                     $val = $item->{$field_name};
-                    $f = null;
-
-                    if (!is_array($val)) {
-                        $val = [$val];
-                    }
-
-                    for ($j = 0; $j < count($val); $j++) {
-                        if (!empty($field['options_cb'])) {
-                            $options = call_user_func($field['options_cb']);
-                            if (isset($options[$val[$j]]))
-                                $val[$j] = $options[$val[$j]];
-                        } elseif ($field['type'] === 'user_id') {
-                            if (isset($users[$val[$j]]))
-                                $val[$j] = $users[$val[$j]];
-                        } elseif ($field['type'] === 'date') {
-                            if ($val[$j]) {
-                                $dp = explode('-', $val[$j]);
-                                $val[$j] = 'Date(' . $dp[0] . ',' . sprintf('%02d', $dp[1]-1) . ',' . $dp[2] . ')';
-                                $f = null;
-                            } else {
-                                // TODO: this is hacked to work with Google Charts which won't accept a null date
-                                $val[$j] = 'Date(2020,1,1)';
-                                $f = '(empty)';
-                            }
-                        }
-                    } // end for
-
-                    $row[] = $this->makeItem($val, $f);
+                    $row[] = $this->makeCell($val, $field, $users);
                 }
             } // end foreach
 
@@ -416,8 +444,4 @@ class UpStream_Report_Projects extends UpStream_Report
 
         return $items;
     }
-}
-
-if (class_exists('UpStream_Report_Generator') && function_exists('upstream_register_report')) {
-    upstream_register_report(new UpStream_Report_Projects());
 }

@@ -670,20 +670,36 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
                 );
             }
         } elseif ($columnType === 'file') {
+
+            if (is_array($columnValue) && count($columnValue) > 0) {
+                $columnValue = $columnValue[0];
+            }
+
             if (strlen($columnValue) > 0) {
-                if (@is_array(getimagesize($columnValue))) {
-                    $html = sprintf(
-                        '<a href="%s" target="_blank">
+                if (upstream_filesytem_enabled()) {
+                    $file = upstream_upfs_info($columnValue);
+                    if ($file) {
+                        $html = sprintf(
+                            '<a href="%s" target="_blank">%s</a>',
+                            esc_url(upstream_upfs_get_file_url($columnValue)),
+                            esc_html($file->orig_filename)
+                        );
+                    }
+                } else {
+                    if (@is_array(getimagesize($columnValue))) {
+                        $html = sprintf(
+                            '<a href="%s" target="_blank">
                 <img class="avatar itemfile" width="32" height="32" src="%1$s">
               </a>',
-                        esc_url($columnValue)
-                    );
-                } else {
-                    $html = sprintf(
-                        '<a href="%s" target="_blank">%s</a>',
-                        esc_url($columnValue),
-                        esc_html(basename($columnValue))
-                    );
+                            esc_url($columnValue)
+                        );
+                    } else {
+                        $html = sprintf(
+                            '<a href="%s" target="_blank">%s</a>',
+                            esc_url($columnValue),
+                            esc_html(basename($columnValue))
+                        );
+                    }
                 }
             } elseif ($isHidden) {
                 $html = '<br>' . $html;

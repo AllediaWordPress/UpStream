@@ -18,16 +18,28 @@ if ( ! defined('ABSPATH') || class_exists('UpStream_Report_Generator')) {
  */
 class UpStream_Report_Generator
 {
-    public static $reports = [];
+	protected static $instance;
 
-    public static function getAllReports()
+    public $reports = [];
+
+	/**
+	 * UpStream_Report_Generator constructor.
+	 */
+	public function __construct( )
+	{
+		if (class_exists('UpStream_Report')) {
+			$this->reports[] = new UpStream_Report_Projects();
+		}
+	}
+
+	public function getAllReports()
     {
-        return self::$reports;
+        return $this->reports;
     }
 
-    public static function getReport($id)
+    public function getReport($id)
     {
-        $reports = self::getAllReports();
+        $reports = $this->getAllReports();
 
         foreach ($reports as $r) {
             if ($r->id === $id) {
@@ -38,7 +50,7 @@ class UpStream_Report_Generator
         return null;
     }
 
-    public static function getReportFieldsFromPost($remove)
+    public function getReportFieldsFromPost($remove)
     {
         $report_fields = [];
         foreach ($_POST as $key => $value) {
@@ -54,15 +66,25 @@ class UpStream_Report_Generator
         return $report_fields;
     }
 
-    public static function executeReport($report)
+    public function executeReport($report)
     {
-        $data = $report->executeReport(self::getReportFieldsFromPost(true));
+        $data = $report->executeReport($this->getReportFieldsFromPost(true));
         return $data;
     }
+
+	public static function get_instance()
+	{
+		if (empty(static::$instance)) {
+			$instance = new self;
+			static::$instance = $instance;
+		}
+
+		return static::$instance;
+	}
 
 }
 
 function upstream_register_report($r)
 {
-    \UpStream_Report_Generator::$reports[] = $r;
+    \UpStream_Report_Generator::get_instance()->reports[] = $r;
 }

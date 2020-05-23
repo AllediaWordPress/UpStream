@@ -40,6 +40,9 @@ if (isset($_GET['report'])) {
         include "report-parameters.php";
     }
     return;
+} elseif (isset($_GET['download'])) {
+    upstream_upfs_download($_GET['download']);
+    return;
 }
 
 $pluginOptions = get_option('upstream_projects');
