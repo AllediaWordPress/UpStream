@@ -311,8 +311,15 @@ class UpStream_Report
 			    if (isset($options[$val[$j]]))
 				    $val[$j] = $options[$val[$j]];
 		    } elseif ($field['type'] === 'user_id') {
-			    if (isset($users[$val[$j]]))
-				    $val[$j] = $users[$val[$j]];
+			    if ( isset( $users[ $val[ $j ] ] ) ) {
+				    $val[ $j ] = $users[ $val[ $j ] ];
+			    }
+		    } elseif ($field['type'] === 'file') {
+		    	if (upstream_filesytem_enabled() && ($file = upstream_upfs_info($val[$j]))) {
+					$val[$j] = $file->orig_filename;
+			    } else {
+					////////// TODO: fix this
+			    }
 		    } elseif ($field['type'] === 'date') {
 			    if ($val[$j]) {
 				    $dp = explode('-', $val[$j]);

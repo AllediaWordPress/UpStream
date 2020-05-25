@@ -10,6 +10,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
 {
     protected $fileId = 0;
 
+    protected $upfsFileId = null;
+
     protected $reminders = [];
 
     protected $metadataKey = '_upstream_project_files';
@@ -36,6 +38,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
             if ($file != false) {
                 $this->fileId = $item_metadata['file_id'];
             }
+        } elseif (upstream_filesytem_enabled() && upstream_upfs_info($item_metadata['file'])) {
+            $this->upfsFileId = $item_metadata['file'];
         }
 
         if (!empty($item_metadata['reminders'])) {
@@ -64,6 +68,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
                 $item_metadata['file'] = $url;
                 $item_metadata['file_id'] = $this->fileId;
             }
+        } elseif ($this->upfsFileId && upstream_filesytem_enabled()) {
+            $item_metadata['file'] = $this->upfsFileId;
         }
 
         $item_metadata['reminders'] = [];
@@ -80,21 +86,36 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
         switch ($property) {
 
             case 'fileId':
-                return $this->{$property};
+                if (upstream_filesytem_enabled())
+                    return $this->upfsFileId;
+                else
+                    return $this->fileId;
 
             case 'filename':
-                $fileId = $this->{$property};
-                if ($fileId > 0) {
-                    $file = get_attached_file($fileId);
-                    return $file ? basename($file) : '';
+                if (upstream_filesytem_enabled()) {
+                    if ($file = upstream_upfs_info($this->upfsFileId)) {
+                        return $file->orig_filename;
+                    }
+                } else {
+                    $fileId = $this->fileId;
+                    if ($fileId > 0) {
+                        $file = get_attached_file($fileId);
+                        return $file ? basename($file) : '';
+                    }
                 }
                 return '';
 
             case 'fileURL':
-                $fileId = $this->{$property};
-                if ($fileId > 0) {
-                    $url = wp_get_attachment_url($fileId);
-                    return $url || '';
+                if (upstream_filesytem_enabled()) {
+                    if ($file = upstream_upfs_info($this->upfsFileId)) {
+                        return upstream_upfs_get_file_url($this->upfsFileId);
+                    }
+                } else {
+                    $fileId = $this->fileId;
+                    if ($fileId > 0) {
+                        $url = wp_get_attachment_url($fileId);
+                        return $url || '';
+                    }
                 }
                 return '';
 
@@ -108,11 +129,15 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
         switch ($property) {
 
             case 'fileId':
-                $file = get_attached_file($value);
-                if ($file === false)
-                    throw new UpStream_Model_ArgumentException(sprintf(__('File ID %s is invalid.', 'upstream'), $value));
+                if (upstream_filesytem_enabled()) {
+                    throw new UpStream_Model_ArgumentException(__('Set not implemented for Upfs.', 'upstream'));
+                } else {
+                    $file = get_attached_file($value);
+                    if ($file === false)
+                        throw new UpStream_Model_ArgumentException(sprintf(__('File ID %s is invalid.', 'upstream'), $value));
 
-                $this->fileId = $value;
+                    $this->fileId = $value;
+                }
                 break;
 
             default:
@@ -126,7 +151,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
     {
         $fields = parent::fields();
 
-        $fields['fileId'] = [ 'type' => 'file', 'title' => __('File'), 'search' => true, 'display' => true ];
+        $fields['file'] = [ 'type' => 'file', 'title' => __('File'), 'search' => false, 'display' => true ];
 
         $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_FILE);
 
