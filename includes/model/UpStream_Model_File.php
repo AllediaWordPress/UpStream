@@ -40,6 +40,11 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
             }
         } elseif (upstream_filesytem_enabled() && upstream_upfs_info($item_metadata['file'])) {
             $this->upfsFileId = $item_metadata['file'];
+        } elseif ($item_metadata['file']) {
+            $fid = attachment_url_to_postid($item_metadata['file']);
+            if ($fid) {
+                $this->fileId = $fid;
+            }
         }
 
         if (!empty($item_metadata['reminders'])) {
@@ -151,7 +156,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
     {
         $fields = parent::fields();
 
-        $fields['file'] = [ 'type' => 'file', 'title' => __('File'), 'search' => false, 'display' => true ];
+        $fields['fileId'] = [ 'type' => 'file', 'title' => __('File'), 'search' => false, 'display' => true ];
 
         $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_FILE);
 

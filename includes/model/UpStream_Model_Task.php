@@ -265,11 +265,13 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
     {
         $fields = parent::fields();
 
+	    $fields['notes'] = [ 'type' => 'text', 'title' => __('Notes'), 'search' => true, 'display' => true  ];
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
-        $fields['description'] = [ 'type' => 'text', 'title' => __('Notes'), 'search' => true, 'display' => true  ];
         $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Task::getStatuses' ];
         $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true  ];
+
+        unset($fields['description']);
 
         $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_TASK);
 

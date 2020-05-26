@@ -90,6 +90,7 @@ jQuery(document).ready(function ($) {
         else {
             options.width = '100%';
             options.height = 500;
+            options.allowHtml = true;
 
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.<?php print $display_options['visualization_type'] ?>(document.getElementById('table_div'));

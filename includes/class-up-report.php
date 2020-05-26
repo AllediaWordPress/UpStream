@@ -315,10 +315,17 @@ class UpStream_Report
 				    $val[ $j ] = $users[ $val[ $j ] ];
 			    }
 		    } elseif ($field['type'] === 'file') {
-		    	if (upstream_filesytem_enabled() && ($file = upstream_upfs_info($val[$j]))) {
-					$val[$j] = $file->orig_filename;
+		    	if (upstream_filesytem_enabled()) {
+				    if ( $file = upstream_upfs_info( $val[ $j ] ) ) {
+					    $val[ $j ] = $file->orig_filename;
+				    }
 			    } else {
-					////////// TODO: fix this
+		    		if ( $val[$j] ) {
+					    $file = get_attached_file($val[$j]);
+					    $val[ $j ] = $file ? basename($file) : '';
+				    } else {
+		    		    $val[$j] = '';
+                    }
 			    }
 		    } elseif ($field['type'] === 'date') {
 			    if ($val[$j]) {

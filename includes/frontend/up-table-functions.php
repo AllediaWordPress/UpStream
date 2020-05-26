@@ -686,6 +686,10 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
                         );
                     }
                 } else {
+                    if (stristr($columnValue, '_upfs_')) {
+                        $columnValue = '';
+                    }
+
                     if (@is_array(getimagesize($columnValue))) {
                         $html = sprintf(
                             '<a href="%s" target="_blank">

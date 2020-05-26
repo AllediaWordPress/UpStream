@@ -83,7 +83,10 @@ function upstream_disable_bugs()
 function upstream_filesytem_enabled()
 
 {
-    return true;
+    $options      = get_option('upstream_general');
+    $use_upfs = isset($options['use_upfs']) ? $options['use_upfs'] : 0;
+
+    return $use_upfs == 1 && trim(upstream_filesystem_path()) != '';
 }
 
 function upstream_filesystem_max_size()
@@ -93,7 +96,10 @@ function upstream_filesystem_max_size()
 
 function upstream_filesystem_path()
 {
-    return "c:/keys";
+    $options      = get_option('upstream_general');
+    $upfs_location = isset($options['upfs_location']) ? $options['upfs_location'] : '';
+
+    return $upfs_location;
 }
 
 /**

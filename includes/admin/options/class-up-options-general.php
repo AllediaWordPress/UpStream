@@ -612,6 +612,30 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
+                            'name'    => __('File Upload Manager (DO NOT change after you have added files)', 'upstream'),
+                            'id'      => 'use_upfs',
+                            'type'    => 'radio_inline',
+                            'desc'    => __(
+                                'Choose which file upload system to use.  <B>DO NOT CHANGE THIS SETTING AFTER YOU HAVE ADDED FILES</B>, since it will clear all files.',
+                                'upstream'
+                            ),
+                            'default' => '0',
+                            'options' => [
+                                '0' => __('Use WordPress built-in file uploads', 'upstream'),
+                                '1' => __('Use UpStream secure file uploads', 'upstream'),
+                            ],
+                        ],
+                        [
+                            'name'    => __('UpStream secure file upload location', 'upstream'),
+                            'id'      => 'upfs_location',
+                            'type'    => 'text',
+                            'desc'    => __(
+                                'If UpStream secure file uploads is enabled, this must be set to a path on your web server that is writeable.',
+                                'upstream'
+                            ),
+                            'default' => '',
+                        ],
+                        [
                             'name'    => __('Disable Discussion on Projects', 'upstream'),
                             'id'      => 'disable_project_comments',
                             'type'    => 'radio_inline',
@@ -626,6 +650,19 @@ if ( ! class_exists('UpStream_Options_General')) :
                             ],
                         ],
                         [
+                            'name'    => __('Disable Discussion on Projects', 'upstream'),
+                            'id'      => 'disable_project_comments',
+                            'type'    => 'radio_inline',
+                            'desc'    => __(
+                                'Either allow comments on projects on both the frontend and the admin area or hide the section.',
+                                'upstream'
+                            ),
+                            'default' => '1',
+                            'options' => [
+                                '1' => __('Allow comments on projects', 'upstream'),
+                                '0' => __('Disable section', 'upstream'),
+                            ],
+                        ],                        [
                             'name'    => __('Disable Discussion on Milestones', 'upstream'),
                             'id'      => 'disable_comments_on_milestones',
                             'type'    => 'radio_inline',
