@@ -117,7 +117,7 @@ jQuery(document).ready(function ($) {
 
 <div class="right_col" role="main">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel" data-section="report-parameters-<?php echo $sectionId; ?>">
+        <div class="x_panel" data-section="report-display">
             <div class="x_title">
                 <h2>
                     <?php esc_html_e($report->title); ?>

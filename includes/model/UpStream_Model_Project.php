@@ -403,7 +403,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             case 'startDate':
             case 'endDate':
                 if (!self::isValidDate($value))
-                    throw new UpStream_Model_ArgumentException(__('Argument is not a valid date.', 'upstream'));
+                    throw new UpStream_Model_ArgumentException(__('Argument is not a valid date of the form YYYY-MM-DD.', 'upstream'));
 
                 $this->{$property} = $value;
                 break;
