@@ -56,7 +56,7 @@ switch ($type) {
                                 <?php if ($type == 'project'): ?>
                                     <option value="<?php echo $project->id ?>"><?php esc_html_e($project->title); ?></option>
                                 <?php else: ?>
-                                    <option disabled><?php esc_html_e($project->title); ?></option>
+                                    <option disabled style="color:#DDDDDD;font-style: italic"><?php esc_html_e($project->title); ?></option>
                                 <?php endif; ?>
 
                                 <?php

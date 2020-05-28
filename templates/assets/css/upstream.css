@@ -507,3 +507,7 @@ td .btn {
         display: none !important;
     }
 }
+
+#sidebar-menu {
+    margin-bottom: 50px;
+}
