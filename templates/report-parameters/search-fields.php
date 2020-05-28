@@ -17,7 +17,7 @@ foreach ($fields as $field_name => $field):
     ?>
     <div class="row">
 
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-xs-12">
             <div class="form-group">
                 <label><?php echo esc_html($field['title']); ?></label>
 

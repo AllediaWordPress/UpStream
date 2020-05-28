@@ -48,7 +48,7 @@ switch ($type) {
 
             <div class="row">
 
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-xs-12">
                     <div class="form-group">
                         <label><?php esc_html_e('Name') ?></label>
                         <select class="form-control" multiple name="upstream_report__<?php echo $sectionId ?>_id[]">
@@ -69,10 +69,12 @@ switch ($type) {
                                     elseif ($type == 'milestone') $children = $project->findMilestones();
 
                                     foreach ($children as $child) {
-                                        ?>
-                                        <option value="<?php echo $child->id ?>">
-                                            &emsp;<?php esc_html_e($child->title); ?></option>
-                                        <?php
+                                        if (upstream_override_access_object(true, $type, $child->id, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                                            ?>
+                                            <option value="<?php echo $child->id ?>">
+                                                &emsp;<?php esc_html_e($child->title); ?></option>
+                                            <?php
+                                        }
                                     }
 
                                 }

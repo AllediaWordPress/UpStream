@@ -96,8 +96,14 @@ class UpStream_Report
         $ids = $params[$prefix . 'id'];
 
         $item_additional_check_callback = function($item) use ($ids) {
-            return ($item instanceof UpStream_Model_Project) &&
-                (count($ids) == 0 || in_array($item->id, $ids));
+
+            if (!$item instanceof UpStream_Model_Project)
+                return false;
+
+            if (!upstream_user_can_access_project(get_current_user_id(), $item->id))
+                return false;
+
+            return (count($ids) == 0 || in_array($item->id, $ids));
         };
 
         $optionsInfo = $field_options[$sectionId];
@@ -114,8 +120,15 @@ class UpStream_Report
         $ids = $params[$prefix . 'id'];
 
         $item_additional_check_callback = function($item) use ($ids) {
-            return ($item instanceof UpStream_Model_Task) &&
-                (count($ids) == 0 || in_array($item->id, $ids));
+
+            if (!$item instanceof UpStream_Model_Task)
+                return false;
+
+            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_TASK, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
+                return false;
+
+            return (count($ids) == 0 || in_array($item->id, $ids));
+
         };
 
         $optionsInfo = $field_options[$sectionId];
@@ -132,8 +145,15 @@ class UpStream_Report
         $ids = $params[$prefix . 'id'];
 
         $item_additional_check_callback = function($item) use ($ids) {
-            return ($item instanceof UpStream_Model_Bug) &&
-                (count($ids) == 0 || in_array($item->id, $ids));
+
+            if (!$item instanceof UpStream_Model_Bug)
+                return false;
+
+            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_BUG, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
+                return false;
+
+            return (count($ids) == 0 || in_array($item->id, $ids));
+
         };
 
         $optionsInfo = $field_options[$sectionId];
@@ -151,8 +171,15 @@ class UpStream_Report
 		$ids = $params[$prefix . 'id'];
 
 		$item_additional_check_callback = function($item) use ($ids) {
-			return ($item instanceof UpStream_Model_File) &&
-			       (count($ids) == 0 || in_array($item->id, $ids));
+
+            if (!$item instanceof UpStream_Model_File)
+                return false;
+
+            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_FILE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
+                return false;
+
+            return (count($ids) == 0 || in_array($item->id, $ids));
+
 		};
 
 		$optionsInfo = $field_options[$sectionId];
@@ -169,8 +196,15 @@ class UpStream_Report
         $ids = $params[$prefix . 'id'];
 
         $item_additional_check_callback = function($item) use ($ids) {
-            return ($item instanceof UpStream_Model_Milestone) &&
-                (count($ids) == 0 || in_array($item->id, $ids));
+
+            if (!$item instanceof UpStream_Model_Milestone)
+                return false;
+
+            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
+                return false;
+
+            return (count($ids) == 0 || in_array($item->id, $ids));
+
         };
 
         $optionsInfo = $field_options[$sectionId];
@@ -297,7 +331,7 @@ class UpStream_Report
         return $items;
     }
 
-    public function makeCell($val, &$field, &$users)
+    public function makeCell($val, &$field, &$users, $override_f = null)
     {
 	    $f = null;
 
@@ -340,6 +374,8 @@ class UpStream_Report
 		    }
 	    } // end for
 
+        if ($override_f) $f = $override_f;
+
 	    return $this->makeItem($val, $f);
     }
 
@@ -367,8 +403,24 @@ class UpStream_Report
                     $field = $fields[$field_name];
                     $columns[$field_name] = $field;
 
-                    $val = $item->{$field_name};
-                    $row[] = $this->makeCell($val, $field, $users);
+                    $parent_type = null;
+                    $parent_id = 0;
+
+                    if ($item instanceof UpStream_Model_Meta_Object) {
+                        $parent_type = $item->parent->type;
+                        $parent_id = $item->parent->id;
+                    } elseif ($item instanceof UpStream_Model_Milestone) {
+                        $parent_type = UPSTREAM_ITEM_TYPE_PROJECT;
+                        $parent_id = $item->parentId;
+                    }
+
+                    if (upstream_override_access_field(true, $item->type, $item->id, $parent_type, $parent_id, $field_name, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
+                        $val = $item->{$field_name};
+                        $row[] = $this->makeCell($val, $field, $users);
+                    } else {
+                        $val = null;
+                        $row[] = $this->makeCell($val, $field, $users, '(hidden)');
+                    }
                 }
             } // end foreach
 
