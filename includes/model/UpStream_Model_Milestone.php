@@ -246,7 +246,7 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
         $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Milestone::getCategories', 'is_array' => 'true' ];
-        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true ];
+        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress (%)'), 'search' => true, 'display' => true ];
 
         $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_MILESTONE);
 

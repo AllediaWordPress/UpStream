@@ -85,7 +85,12 @@ class UpStream_Report
 
     protected static function combineArray($arr)
     {
-        return implode(', ', $arr);
+        if (!is_array($arr))
+            return $arr;
+        elseif (count($arr) == 1)
+            return $arr[0];
+        else
+            return implode(', ', $arr);
     }
 
     protected function parseProjectParams($params, $sectionId)
@@ -367,8 +372,7 @@ class UpStream_Report
 				    $val[$j] = 'Date(' . $dp[0] . ',' . sprintf('%02d', $dp[1]-1) . ',' . $dp[2] . ')';
 				    $f = null;
 			    } else {
-				    // TODO: this is hacked to work with Google Charts which won't accept a null date
-				    $val[$j] = 'Date(2020,1,1)';
+				    $val[$j] = '';
 				    $f = '(empty)';
 			    }
 		    }
@@ -376,7 +380,11 @@ class UpStream_Report
 
         if ($override_f) $f = $override_f;
 
-	    return $this->makeItem($val, $f);
+        if ($field['type'] === 'number') {
+            $val[0] = (float)$val[0];
+        }
+
+        return $this->makeItem($val, $f);
     }
 
     public function executeReport($params, $rowCallback = null)

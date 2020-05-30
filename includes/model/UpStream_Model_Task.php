@@ -41,7 +41,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         parent::loadFromArray($item_metadata);
 
         $this->statusCode = !empty($item_metadata['status']) ? $item_metadata['status'] : null;
-        $this->progress = !empty($item_metadata['progress']) ? $item_metadata['progress'] : null;
+        $this->progress = !empty($item_metadata['progress']) ? $item_metadata['progress'] : 0;
         $this->startDate = UpStream_Model_Object::loadDate($item_metadata, 'start_date');
         $this->endDate = UpStream_Model_Object::loadDate($item_metadata, 'end_date');
         $this->milestoneId = !empty($item_metadata['milestone']) ? $item_metadata['milestone'] : null;
@@ -269,7 +269,7 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
         $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Task::getStatuses' ];
-        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress'), 'search' => true, 'display' => true  ];
+        $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress (%)'), 'search' => true, 'display' => true  ];
 
         unset($fields['description']);
 
