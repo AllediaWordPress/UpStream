@@ -935,6 +935,24 @@ function upstream_update_data_rev_2()
         update_option($migrationOption, true);
     }
 
+
+
+    $migrationId          = 'M0000002';
+    $migrationOption      = '_upstream_migration_finished_' . $migrationId;
+    $hasFinishedMigration = get_option($migrationOption, null);
+    if (empty($hasFinishedMigration)) {
+
+
+        global $wpdb;
+
+        $sql = 'CREATE TABLE '.$wpdb->prefix.'upfs_files ( upfsid VARCHAR(60), orig_filename VARCHAR(255), saved_filename VARCHAR(255), mime_type VARCHAR(255), file_size INT, access_rules TEXT, PRIMARY KEY (upfsid) )';
+        $r = maybe_create_table($wpdb->prefix . 'upfs_files', $sql);
+
+        update_option($migrationOption, true);
+    }
+
+
+
     // if we made any migrations, update the upstream version to the current one
     update_option('upstream_version_upgraded_from', $current_version);
     update_option('upstream_version', UPSTREAM_VERSION);
