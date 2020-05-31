@@ -92,9 +92,9 @@ jQuery(document).ready(function ($) {
             options.height = 500;
             options.allowHtml = true;
 
-            <?php if ($display_options['visualization_type'] == 'Gantt' || $display_options['visualization_type'] == 'BarChart'): ?>
+            <?php if ($display_options['visualization_type'] == 'Gantt'): ?>
             options.height = data.getNumberOfRows() * 45 + 50;
-            <?php elseif ($display_options['visualization_type'] == 'Table' || $display_options['visualization_type'] == 'Calendar'): ?>
+            <?php elseif ($display_options['visualization_type'] == 'Table'  || $display_options['visualization_type'] == 'BarChart' || $display_options['visualization_type'] == 'Calendar'): ?>
             delete options.height;
             <?php endif; ?>
 
