@@ -45,8 +45,28 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
             if (is_admin()) {
                 global $pagenow;
 
-                if ($pagenow === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'project' && self::$userIsUpStreamUser) {
-                    echo '<style type="text/css">.page-title-action { display: none; }</style>';
+                if ($pagenow === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'project' ) {
+                    if (self::$userIsUpStreamUser) {
+                        echo '<style type="text/css">.page-title-action:not(.upstream-button) { display: none; }</style>';
+
+                        if (upstream_override_access_object(false, UPSTREAM_ITEM_TYPE_PROJECT, 0, null, 0, UPSTREAM_PERMISSIONS_ACTION_CREATE)) {
+                            ?>
+                            <script>
+                                jQuery(function(){
+                                    jQuery("body.post-type-project .wrap h1").append('<a href="<?php print esc_attr(get_post_type_archive_link('project')) ?>" class="upstream-button page-title-action"><?php esc_attr_e('New ' . upstream_project_label()) ?></a>');
+                                });
+                            </script>
+                            <?php
+                        }
+                        ?>
+                        <script>
+                            jQuery(function(){
+                                jQuery(".row-actions span.inline").remove();
+                                jQuery(".row-actions span.edit").remove();
+                            });
+                        </script>
+                        <?php
+                    }
                 }
             }
         }
