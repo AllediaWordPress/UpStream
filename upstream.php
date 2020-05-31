@@ -45,7 +45,7 @@ if ( ! class_exists('UpStream')) :
          * Main UpStream Instance.
          */
         public static function instance()
-        { 
+        {
             if (is_null(self::$_instance)) {
                 self::$_instance = new self();
             }
@@ -401,8 +401,8 @@ if ( ! class_exists('UpStream')) :
                         $loadCmb2           = in_array($postType, $postTypesUsingCmb2);
                     }
                 } elseif ($currentPage === 'admin.php'
-                          && isset($_REQUEST['page'])
-                          && preg_match('/^upstream_/i', $_REQUEST['page'])
+                    && isset($_REQUEST['page'])
+                    && preg_match('/^upstream_/i', $_REQUEST['page'])
                 ) {
                     $loadCmb2 = true;
                 }
