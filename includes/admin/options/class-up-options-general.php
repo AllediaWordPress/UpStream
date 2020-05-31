@@ -612,7 +612,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
-                            'name'    => __('File Upload Manager (DO NOT change after you have added files)', 'upstream'),
+                            'name'    => __('File Upload Manager BETA (DO NOT change after you have added files)', 'upstream'),
                             'id'      => 'use_upfs',
                             'type'    => 'radio_inline',
                             'desc'    => __(

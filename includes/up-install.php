@@ -941,12 +941,15 @@ function upstream_update_data_rev_2()
     $migrationOption      = '_upstream_migration_finished_' . $migrationId;
     $hasFinishedMigration = get_option($migrationOption, null);
     if (empty($hasFinishedMigration)) {
-
-
+        
         global $wpdb;
 
-        $sql = 'CREATE TABLE '.$wpdb->prefix.'upfs_files ( upfsid VARCHAR(60), orig_filename VARCHAR(255), saved_filename VARCHAR(255), mime_type VARCHAR(255), file_size INT, access_rules TEXT, PRIMARY KEY (upfsid) )';
-        $r = maybe_create_table($wpdb->prefix . 'upfs_files', $sql);
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+        if (function_exists('maybe_create_table')) {
+            $sql = 'CREATE TABLE ' . $wpdb->prefix . 'upfs_files ( upfsid VARCHAR(60), orig_filename VARCHAR(255), saved_filename VARCHAR(255), mime_type VARCHAR(255), file_size INT, access_rules TEXT, PRIMARY KEY (upfsid) )';
+            $r = maybe_create_table($wpdb->prefix . 'upfs_files', $sql);
+        }
 
         update_option($migrationOption, true);
     }
