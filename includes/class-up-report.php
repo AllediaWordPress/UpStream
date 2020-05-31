@@ -205,7 +205,7 @@ class UpStream_Report
             if (!$item instanceof UpStream_Model_Milestone)
                 return false;
 
-            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
+            if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parentId, UPSTREAM_PERMISSIONS_ACTION_VIEW))
                 return false;
 
             return (count($ids) == 0 || in_array($item->id, $ids));
