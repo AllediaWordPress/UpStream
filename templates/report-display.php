@@ -89,11 +89,13 @@ jQuery(document).ready(function ($) {
         }
         else {
             options.width = '100%';
-          //  options.height = 500;
+            options.height = 500;
             options.allowHtml = true;
 
-            <?php if ($display_options['visualization_type'] == 'Gantt'): ?>
+            <?php if ($display_options['visualization_type'] == 'Gantt' || $display_options['visualization_type'] == 'BarChart'): ?>
             options.height = data.getNumberOfRows() * 45 + 50;
+            <?php elseif ($display_options['visualization_type'] == 'Table' || $display_options['visualization_type'] == 'Calendar'): ?>
+            delete options.height;
             <?php endif; ?>
 
             // Instantiate and draw our chart, passing in some options.

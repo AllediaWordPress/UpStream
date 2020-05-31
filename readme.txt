@@ -136,6 +136,14 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.35.0] - 2020-05-30 =
+* Added reporting functionality, built in Projects table
+* Added debug functions to install
+* Made updates to model
+* Added additional error messages
+* Made some permissions changes
+* Added private files
+
 = [1.30.7] - 2020-04-28 =
 * Fixed react bug with some versions of WordPress
 
