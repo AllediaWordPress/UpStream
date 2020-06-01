@@ -38,9 +38,9 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
             if ($file != false) {
                 $this->fileId = $item_metadata['file_id'];
             }
-        } elseif (upstream_filesytem_enabled() && upstream_upfs_info($item_metadata['file'])) {
+        } elseif (upstream_filesytem_enabled() && isset($item_metadata['file']) && upstream_upfs_info($item_metadata['file'])) {
             $this->upfsFileId = $item_metadata['file'];
-        } elseif ($item_metadata['file']) {
+        } elseif (isset($item_metadata['file']) && $item_metadata['file']) {
             $fid = attachment_url_to_postid($item_metadata['file']);
             if ($fid) {
                 $this->fileId = $fid;

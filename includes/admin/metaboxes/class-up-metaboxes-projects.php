@@ -2116,24 +2116,41 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 return $value[0];
             }
 
-            $fitem = $sanitizer->field->group->cmb_id;
-            $fno = $sanitizer->field->group->index;
-            $fid = $object_type['_id'];
 
-            $value = '';
+            if ($sanitizer->field->group && $sanitizer->field->group->cmb_id) {
 
-            if (!empty($_FILES[$fitem]['name'][$fno][$fid][0])) {
+                $fitem = $sanitizer->field->group->cmb_id;
+                $fno = $sanitizer->field->group->index;
+                $fid = $object_type['_id'];
+
+                $value = '';
+
+                if (!empty($_FILES[$fitem]['name'][$fno][$fid][0])) {
+
+                    $file = [
+                        'name' => $_FILES[$fitem]['name'][$fno][$fid][0],
+                        'type' => $_FILES[$fitem]['type'][$fno][$fid][0],
+                        'tmp_name' => $_FILES[$fitem]['tmp_name'][$fno][$fid][0],
+                        'size' => $_FILES[$fitem]['size'][$fno][$fid][0],
+                    ];
+
+                    $value = upstream_upfs_upload($file);
+
+                    // TODO: handle error
+                }
+            } elseif (!empty($object_type['_name']) && isset($_FILES[$object_type['_name']]['name'])  && is_string($_FILES[$object_type['_name']]['name'][0])) {
 
                 $file = [
-                    'name' => $_FILES[$fitem]['name'][$fno][$fid][0],
-                    'type' => $_FILES[$fitem]['type'][$fno][$fid][0],
-                    'tmp_name' => $_FILES[$fitem]['tmp_name'][$fno][$fid][0],
-                    'size' => $_FILES[$fitem]['size'][$fno][$fid][0],
+                    'name' => $_FILES[$object_type['_name']]['name'][0],
+                    'type' => $_FILES[$object_type['_name']]['type'][0],
+                    'tmp_name' => $_FILES[$object_type['_name']]['tmp_name'][0],
+                    'size' => $_FILES[$object_type['_name']]['size'][0],
                 ];
 
                 $value = upstream_upfs_upload($file);
 
                 // TODO: handle error
+
             }
 
             return $value;

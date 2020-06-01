@@ -490,7 +490,7 @@ class UpStream_Project_Activity
                                             $field_name,
                                             is_array($from) ? count($from) : $from,
                                             is_array($to) ? count($to) : $to,
-                                            '<span class="highlight">' . $item['title'] . '</span>'
+                                            '<span class="highlight">' . (isset($item['title']) ? $item['title'] : '') . '</span>'
                                         ) . '</span>';
                                 }
 
