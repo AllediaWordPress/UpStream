@@ -40,7 +40,7 @@ function upstream_enqueue_styles_scripts()
         $styleWhitelist = (array)apply_filters('upstream_frontend_style_whitelist', []);
 
         foreach ($wp_styles->queue as $style) {
-            if ($styleWhitelist != null && ! in_array($style, $styleWhitelist)) {
+            if (! in_array($style, $styleWhitelist)) {
                 wp_dequeue_style($style);
             }
         }
