@@ -636,14 +636,23 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
         } elseif ($columnType === 'percentage') {
             $html = esc_html(sprintf('%d%%', (int)$columnValue));
         } elseif ($columnType === 'date') {
-            $columnValue = (int)$columnValue;
-            if ($columnValue > 0) {
-                // RSD: timezone offset is here to ensure compatibility with previous wrong data
-                // TODO: should remove offset at some point
-                $html = esc_html(upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset()));
+
+            if (isset($row[$columnName . '.YMD']) && $row[$columnName . '.YMD']) {
+                $ts = date_create_from_format('Y-m-d', $row[$columnName . '.YMD'])->getTimestamp();
+                $html = esc_html(upstream_format_date($columnValue));
+
+            } else {
+
+                $columnValue = (int)$columnValue;
+                if ($columnValue > 0) {
+                    // RSD: timezone offset is here to ensure compatibility with previous wrong data
+                    // TODO: should remove offset at some point
+                    $html = esc_html(upstream_format_date($columnValue + UpStream_View::getTimeZoneOffset()));
+                }
+                $offset = get_option('gmt_offset');
+                //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
+
             }
-            $offset = get_option('gmt_offset');
-            //$html .= "(". upstream_format_date($columnValue ) ."  " .$columnValue." / ".(($columnValue/3600)%24)." " .(UpStream_View::getTimeZoneOffset() . " // " . ($offset>0 ? $offset*60*60 : 0)).")";
 
         } elseif ($columnType === 'wysiwyg') {
             // replace newlines if not HTML

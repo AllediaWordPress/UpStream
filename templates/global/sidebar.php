@@ -217,7 +217,10 @@ usort($reports, function ($a, $b) { return strcmp($a->title, $b->title); });
                 </div>
             <?php endif; ?>
 
+<?php
 
+if (!isset($pluginOptions['disable_reports']) || $pluginOptions['disable_reports'] == 0):
+?>
             <div class="menu_section">
                 <ul class="nav side-menu">
                     <li>
@@ -241,7 +244,10 @@ usort($reports, function ($a, $b) { return strcmp($a->title, $b->title); });
                     </li>
                 </ul>
             </div>
+            <?php
+endif;
 
+            ?>
 
             <?php
             $minProjectsCount = $isSingle ? 1 : 0;

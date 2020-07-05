@@ -52,7 +52,11 @@ switch ($type) {
                     <div class="form-group">
                         <label><?php esc_html_e('Name') ?></label>
                         <select class="form-control" multiple name="upstream_report__<?php echo $sectionId ?>_id[]">
-                            <?php foreach ($projects as $project): ?>
+                            <?php
+                            foreach ($projects as $project):
+                                $user = upstream_user_data();
+                                if (upstream_user_can_access_project(isset($user['id']) ? $user['id'] : 0, $project->id)):
+                                ?>
                                 <?php if ($type == 'project'): ?>
                                     <option value="<?php echo $project->id ?>"><?php esc_html_e($project->title); ?></option>
                                 <?php else: ?>
@@ -79,7 +83,10 @@ switch ($type) {
 
                                 }
                                 ?>
-                            <?php endforeach; ?>
+                            <?php
+                                endif;
+                            endforeach;
+                            ?>
                         </select>
                         <a onclick="jQuery('[name=\'upstream_report__<?php print $sectionId; ?>_id[]\'] option').prop('selected', true)">Select all</a> | <a onclick="jQuery('[name=\'upstream_report__<?php print $sectionId; ?>_id[]\'] option').prop('selected', false)">Select none</a>
                     </div>

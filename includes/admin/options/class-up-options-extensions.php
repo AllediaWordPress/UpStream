@@ -201,9 +201,10 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                         'This extension allows you to add more information to Project, Milestone, Tasks and Bugs.',
                         'upstream'
                     ),
-                    'icon_class'  => 'fa fa-plus-square',
+                    'icon_class'  => 'fa fa-reorder',
                     'edd_id'      => 8409,
                 ],
+/*
                 'upstream-advanced-permissions'       => [
                     'slug'        => 'upstream-advanced-permissions',
                     'title'       => __('Advanced Permissions', 'upstream'),
@@ -211,19 +212,60 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                         'This extension allows you to set permissions by user or role for objects and individual fields.',
                         'upstream'
                     ),
-                    'icon_class'  => 'fa fa-plus-square',
+                    'icon_class'  => 'fa fa-lock',
                     'edd_id'      => 24749,
                 ],
-                //                'upstream-reports'             => [
-                //                    'slug'        => 'upstream-reports',
-                //                    'title'       => __('Reports', 'upstream'),
-                //                    'description' => __(
-                //                        'Allow users to see or print reports.',
-                //                        'upstream'
-                //                    ),
-                //                    'icon_class'  => 'fa fa-file-text',
-                //                    'edd_id'      => 16229,
-                //                ],
+                'upstream-time-tracking'       => [
+                    'slug'        => 'upstream-time-tracking',
+                    'title'       => __('Time Tracking', 'upstream'),
+                    'description' => __(
+                        'This extension allows you track time spent on projects.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-clock-o',
+                    'edd_id'      => 27994,
+                ],
+                'upstream-reporting'       => [
+                    'slug'        => 'upstream-reporting',
+                    'title'       => __('Reporting', 'upstream'),
+                    'description' => __(
+                        'This extension provides reports and a report dashboard.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-file-excel-o',
+                    'edd_id'      => 16229,
+                ],
+                'upstream-name-replacement'       => [
+                    'slug'        => 'upstream-name-replacement',
+                    'title'       => __('Name Naming', 'upstream'),
+                    'description' => __(
+                        'This extension allows you to customize UpStream by replacing any names/text.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-gear',
+                    'edd_id'      => 27992,
+                ],
+                'upstream-forms'       => [
+                    'slug'        => 'upstream-forms',
+                    'title'       => __('Forms', 'upstream'),
+                    'description' => __(
+                        'This extension allows you to create/edit projects using popular forms tools.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-book',
+                    'edd_id'      => 26850,
+                ],
+                'upstream-api'       => [
+                    'slug'        => 'upstream-api',
+                    'title'       => __('API', 'upstream'),
+                    'description' => __(
+                        'This extension provides API functionality for UpStream.',
+                        'upstream'
+                    ),
+                    'icon_class'  => 'fa fa-desktop',
+                    'edd_id'      => 30921,
+                ],
+*/
             ];
 
             return $addons;

@@ -636,6 +636,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'default' => '',
                         ],
                         [
+                            'name'    => __('Disable Reports', 'upstream'),
+                            'id'      => 'disable_reports',
+                            'type'    => 'radio_inline',
+                            'desc'    => __(
+                                'Disable the reports section on the sidebar.',
+                                'upstream'
+                            ),
+                            'default' => '0',
+                            'options' => [
+                                '0' => __('Show reports section', 'upstream'),
+                                '1' => __('Disable section', 'upstream'),
+                            ],
+                        ],
+                        [
                             'name'    => __('Disable Discussion on Projects', 'upstream'),
                             'id'      => 'disable_project_comments',
                             'type'    => 'radio_inline',
