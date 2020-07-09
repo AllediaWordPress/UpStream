@@ -35,9 +35,18 @@ add_action('init', function() {
     }
 }, 9);
 
-upstream_get_template_part('global/header.php');
-upstream_get_template_part('global/sidebar.php');
-upstream_get_template_part('global/top-nav.php');
+
+if (!apply_filters('upstream_theme_override_header', false)) {
+    upstream_get_template_part('global/header.php');
+}
+
+if (!apply_filters('upstream_theme_override_sidebar', false)) {
+    upstream_get_template_part('global/sidebar.php');
+}
+
+if (!apply_filters('upstream_theme_override_topnav', false)) {
+    upstream_get_template_part('global/top-nav.php');
+}
 
 $report = UpStream_Report_Generator::get_instance()->getReport($_GET['report']);
 if (!$report) {
@@ -66,5 +75,8 @@ $display_fields = [];
 
 <?php
 
-include_once 'global/footer.php';
+
+if (!apply_filters('upstream_theme_override_footer', false)) {
+    upstream_get_template_part('global/footer.php');
+}
 ?>

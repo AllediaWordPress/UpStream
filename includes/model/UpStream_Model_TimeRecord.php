@@ -16,6 +16,10 @@ class UpStream_Model_TimeRecord
 
     protected $elapsedTime = 0;
 
+    protected $budgeted = 0;
+
+    protected $spent = 0;
+
     protected $note = '';
 
     /**
@@ -32,6 +36,8 @@ class UpStream_Model_TimeRecord
         $this->user = !empty($item_metadata['user']) ? $item_metadata['user'] : 0;
         $this->startTimestamp = !empty($item_metadata['startTimestamp']) ? $item_metadata['startTimestamp'] : 0;
         $this->elapsedTime = !empty($item_metadata['elapsedTime']) ? $item_metadata['elapsedTime'] : 0;
+        $this->budgeted = !empty($item_metadata['budgeted']) ? $item_metadata['budgeted'] : null;
+        $this->spent = !empty($item_metadata['spent']) ? $item_metadata['spent'] : null;
         $this->note = !empty($item_metadata['note']) ? $item_metadata['note'] : null;
     }
 
@@ -46,6 +52,8 @@ class UpStream_Model_TimeRecord
         $item_metadata['user'] = $this->user;
         $item_metadata['startTimestamp'] = $this->startTimestamp;
         $item_metadata['elapsedTime'] = $this->elapsedTime;
+        $item_metadata['budgeted'] = $this->budgeted;
+        $item_metadata['spent'] = $this->spent;
         $item_metadata['note'] = $this->note;
     }
 
@@ -56,6 +64,15 @@ class UpStream_Model_TimeRecord
         $hrs = isset($options[$optionName]) ? (int)$options[$optionName] : 8;
 
         return $hrs;
+    }
+
+    public static function monetarySymbol()
+    {
+        $options = get_option('upstream_general');
+        $optionName = 'local_monetary_symbol';
+        $sym = isset($options[$optionName]) ? (int)$options[$optionName] : 8;
+
+        return $sym;
     }
 
     public function startTiming()
@@ -91,6 +108,8 @@ class UpStream_Model_TimeRecord
             case 'startTimestamp':
             case 'user':
             case 'note':
+            case 'budgeted':
+            case 'spent':
                 return $this->{$property};
 
             case 'elapsedTime':
@@ -137,6 +156,15 @@ class UpStream_Model_TimeRecord
                     throw new UpStream_Model_ArgumentException(sprintf(__('User "%s" (for field %s) does not exist.', 'upstream'), $uid, $property));
 
                 $this->user = $user->ID;
+                break;
+
+            case 'spent':
+            case 'budgeted':
+                if ($value && !is_numeric($value))
+                    throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a number.', 'upstream'), $property));
+
+                $this->{$property} = $value;
+
                 break;
 
             case 'startTimestamp':

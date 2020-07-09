@@ -770,8 +770,15 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'name'    => __('Work Hours Per Day', 'upstream'),
                             'id'      => 'local_work_hours_per_day',
                             'type'    => 'text',
-                            'desc'    => __('The number of work hours per day (used in determining days of work).', 'upstream-time-tracking'),
+                            'desc'    => __('The number of work hours per day (used in determining days of work).', 'upstream'),
                             'default' => 8,
+                        ],
+                        [
+                            'name'    => __('Monetary Symbol', 'upstream'),
+                            'id'      => 'local_monetary_symbol',
+                            'type'    => 'text',
+                            'desc'    => __('The monetary symbol.', 'upstream'),
+                            'default' => '$',
                         ],
 
                         /**
