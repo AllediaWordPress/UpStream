@@ -136,6 +136,10 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.35.4] - 2020-07-10 =
+* Fixed theme for project report page
+* Changed model to support expenses
+
 = [1.35.3] - 2020-07-05 =
 * Added reports disable option
 * Fixed minor bugs
