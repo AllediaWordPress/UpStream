@@ -132,6 +132,36 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
         return $total;
     }
 
+    public function calculateBudgeted()
+    {
+        $total = 0;
+
+        foreach ($this->tasks as $task) {
+            $total += $task->calculateBudgeted();
+        }
+
+        foreach ($this->bugs as $bug) {
+            $total += $bug->calculateBudgeted();
+        }
+
+        return $total;
+    }
+
+    public function calculateSpent()
+    {
+        $total = 0;
+
+        foreach ($this->tasks as $task) {
+            $total += $task->calculateSpent();
+        }
+
+        foreach ($this->bugs as $bug) {
+            $total += $bug->calculateSpent();
+        }
+
+        return $total;
+    }
+
     protected function storeCategories()
     {
         if (is_project_categorization_disabled()) {
@@ -280,6 +310,10 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
             case 'elapsedTime':
                 return $this->calculateElapsedTime();
+            case 'budgeted':
+                return $this->calculateBudgeted();
+            case 'spent':
+                return $this->calculateSpent();
 
             case 'statusCode':
             case 'clientId':

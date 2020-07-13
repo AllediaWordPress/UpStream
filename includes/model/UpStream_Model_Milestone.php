@@ -118,6 +118,30 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
         return $total;
     }
 
+    public function calculateBudgeted()
+    {
+        $total = 0;
+        $tasks = &$this->tasks();
+
+        foreach ($tasks as $task) {
+            $total += $task->calculateBudgeted();
+        }
+
+        return $total;
+    }
+
+    public function calculateSpent()
+    {
+        $total = 0;
+        $tasks = &$this->tasks();
+
+        foreach ($tasks as $task) {
+            $total += $task->calculateSpent();
+        }
+
+        return $total;
+    }
+
     public function __get($property)
     {
         switch ($property) {
@@ -134,6 +158,10 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
 
             case 'elapsedTime':
                 return $this->calculateElapsedTime();
+            case 'budgeted':
+                return $this->calculateBudgeted();
+            case 'spent':
+                return $this->calculateSpent();
 
             case 'categories':
 		        $categories = [];
@@ -160,9 +188,6 @@ class UpStream_Model_Milestone extends UpStream_Model_Post_Object
                 $project = \UpStream_Model_Manager::get_instance()->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $value);
                 $this->parentId = $project->id;
                 break;
-
-            case 'elapsedTime':
-                return $this->calculateElapsedTime();
 
             case 'categoryIds':
                 if (!is_array($value))

@@ -126,6 +126,28 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         return $total;
     }
 
+    public function calculateBudgeted()
+    {
+        $total = 0;
+
+        foreach ($this->timeRecords as $tr) {
+            $total += $tr->budgeted;
+        }
+
+        return $total;
+    }
+
+    public function calculateSpent()
+    {
+        $total = 0;
+
+        foreach ($this->timeRecords as $tr) {
+            $total += $tr->spent;
+        }
+
+        return $total;
+    }
+
     public function __get($property)
     {
         switch ($property) {
@@ -150,6 +172,10 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
 
             case 'elapsedTime':
                 return $this->calculateElapsedTime();
+            case 'budgeted':
+                return $this->calculateBudgeted();
+            case 'spent':
+                return $this->calculateSpent();
 
             case 'dueDate':
             case 'fileId':

@@ -70,7 +70,7 @@ class UpStream_Model_TimeRecord
     {
         $options = get_option('upstream_general');
         $optionName = 'local_monetary_symbol';
-        $sym = isset($options[$optionName]) ? (int)$options[$optionName] : 8;
+        $sym = isset($options[$optionName]) ? $options[$optionName] : '$';
 
         return $sym;
     }
@@ -98,6 +98,16 @@ class UpStream_Model_TimeRecord
         $days = floor($elapsed / self::workHoursPerDay());
         $hours = $elapsed - ($days * self::workHoursPerDay());
         return round($days, 0) . ' days' . ($hours > 0 ? ', ' . round($hours, 1) . ' hours' : '');
+    }
+
+    public static function formatBudgeted($budgeted)
+    {
+        return self::monetarySymbol() . $budgeted;
+    }
+
+    public static function formatSpent($spent)
+    {
+        return self::monetarySymbol() . $spent;
     }
 
     public function __get($property)

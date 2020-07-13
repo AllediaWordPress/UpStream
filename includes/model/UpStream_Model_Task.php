@@ -118,6 +118,28 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
         return $total;
     }
 
+    public function calculateBudgeted()
+    {
+        $total = 0;
+
+        foreach ($this->timeRecords as $tr) {
+            $total += $tr->budgeted;
+        }
+
+        return $total;
+    }
+
+    public function calculateSpent()
+    {
+        $total = 0;
+
+        foreach ($this->timeRecords as $tr) {
+            $total += $tr->spent;
+        }
+
+        return $total;
+    }
+
     public function getMilestone()
     {
         if ($this->milestoneId) {
@@ -155,6 +177,10 @@ class UpStream_Model_Task extends UpStream_Model_Meta_Object
 
             case 'elapsedTime':
                 return $this->calculateElapsedTime();
+            case 'budgeted':
+                return $this->calculateBudgeted();
+            case 'spent':
+                return $this->calculateSpent();
 
             case 'statusCode':
             case 'notes':
