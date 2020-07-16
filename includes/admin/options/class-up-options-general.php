@@ -774,10 +774,10 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'default' => 8,
                         ],
                         [
-                            'name'    => __('Monetary Symbol', 'upstream'),
+                            'name'    => __('Currency Symbol', 'upstream'),
                             'id'      => 'local_monetary_symbol',
                             'type'    => 'text',
-                            'desc'    => __('The monetary symbol.', 'upstream'),
+                            'desc'    => __('The local currency symbol.', 'upstream'),
                             'default' => '$',
                         ],
 
