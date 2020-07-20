@@ -72,6 +72,7 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             add_action('wp_ajax_upstream_admin_import_file_prepare', [$this, 'import_file_prepare']);
             add_action('wp_ajax_upstream_admin_import_file_section', [$this, 'import_file_section']);
+            add_action('wp_ajax_upstream_admin_signup', [$this, 'signup']);
 
         }
 
@@ -939,6 +940,24 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             echo wp_json_encode($return);
             exit();
+        }
+
+        public function signup()
+        {
+            if (!isset($_POST['nonce'])) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            if (!wp_verify_nonce($_POST['nonce'], 'upstream_signup')) {
+                wp_die(__('Invalid Nonce'), 'Forbidden', ['response' => 403]);
+            }
+
+            $response = wp_remote_post( 'https://www.getdrip.com/forms/934026428/submissions', array(
+                'body' => array(
+                    'fields[email]' => $_POST['email'],
+                )
+            ));
+
         }
 
         public function import_file_prepare()

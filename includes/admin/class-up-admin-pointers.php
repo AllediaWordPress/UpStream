@@ -21,9 +21,40 @@ class UpStream_Admin_Pointers
     {
         add_filter('admin_notices', [$this, 'first_project']);
         add_filter('upstream_admin_pointers-project', [$this, 'register_pointers']);
+        add_filter('upstream_admin_pointers-edit-project', [$this, 'register_signup']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_pointers']);
     }
 
+    public function register_signup()
+    {
+        global $current_user;
+
+        $content  = '<p id="upstream-pointer-signup-box">';
+        $content .= __( 'Sign up for our UpStream Project Management tips and tricks newsletter and get the UpStream Customizer extension for free!', 'upstream' ) . '<br /><br />';
+        $content .= '<label>';
+        $content .= '<b>' . __( 'Email Address:', 'upstream' ) . '</b>';
+        $content .= '<br />';
+        $content .= '<input type="text" id="upstream-pointer-email" value="' . esc_attr( $current_user->user_email ) . '" />';
+        $content .= '</label>';
+        $content .= '&nbsp; <a id="upstream-pointer-b1" onclick="return window.upstream_signup(this);" data-nonce="'. wp_create_nonce('upstream_signup') .'" class="button button-primary">Sign up</a>';
+        $content .= '</p>';
+
+        $pointers = [
+            'signup-newsletter-email3' => [
+                'target' => ".wp-heading-inline",
+                'options' => [
+                    'content' => '<h3>' . __('Get a FREE UpStream extension!') . '</h3>' . $content,
+                    'position' => [
+                        'edge' => 'top',
+                        'align' => 'top',
+                    ],
+                ],
+            ],
+
+        ];
+
+        return $pointers;
+    }
 
     public function first_project()
     {
@@ -62,6 +93,8 @@ class UpStream_Admin_Pointers
             printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
         }
     }
+
+
 
 
     /**
