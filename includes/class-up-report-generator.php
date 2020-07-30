@@ -84,7 +84,9 @@ class UpStream_Report_Generator
 
 }
 
-function upstream_register_report($r)
+function upstream_register_report($r, $display = false)
 {
-    \UpStream_Report_Generator::get_instance()->reports[] = $r;
+    if ($display) {
+        \UpStream_Report_Generator::get_instance()->reports[] = $r;
+    }
 }

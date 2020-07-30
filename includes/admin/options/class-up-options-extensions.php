@@ -204,7 +204,7 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                     'icon_class'  => 'fa fa-reorder',
                     'edd_id'      => 8409,
                 ],
-/*
+
                 'upstream-advanced-permissions'       => [
                     'slug'        => 'upstream-advanced-permissions',
                     'title'       => __('Advanced Permissions', 'upstream'),
@@ -237,7 +237,7 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                 ],
                 'upstream-name-replacement'       => [
                     'slug'        => 'upstream-name-replacement',
-                    'title'       => __('Name Naming', 'upstream'),
+                    'title'       => __('Naming', 'upstream'),
                     'description' => __(
                         'This extension allows you to customize UpStream by replacing any names/text.',
                         'upstream'
@@ -265,7 +265,6 @@ if ( ! class_exists('UpStream_Options_Extensions')) :
                     'icon_class'  => 'fa fa-desktop',
                     'edd_id'      => 30921,
                 ],
-*/
             ];
 
             return $addons;

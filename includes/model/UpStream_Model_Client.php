@@ -59,6 +59,19 @@ class UpStream_Model_Client extends UpStream_Model_Post_Object
         $this->type = UPSTREAM_ITEM_TYPE_CLIENT;
     }
 
+
+    public static function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['website'] = [ 'type' => 'string', 'title' => __('Website'), 'search' => true, 'display' => true  ];
+        $fields['address'] = [ 'type' => 'string', 'title' => __('Address'), 'search' => true, 'display' => true  ];
+        $fields['phone'] = [ 'type' => 'string', 'title' => __('Phone'), 'search' => true, 'display' => true  ];
+        $fields['userIds'] = [ 'type' => 'user_id', 'is_array' => true, 'title' => __('Users'), 'search' => true, 'display' => true ];
+
+        return $fields;
+    }    
+
     public function store()
     {
         parent::store();
@@ -135,6 +148,17 @@ class UpStream_Model_Client extends UpStream_Model_Post_Object
             case 'address':
                 return $this->{$property};
 
+            case 'userIds':
+                if ($this->userAssignments == null)
+                    return [];
+
+                $user_ids = [];
+                foreach ($this->userAssignments as $assignment) {
+                    $user_ids[] = $assignment->id;
+                }
+
+                return $user_ids;
+
             default:
                 return parent::__get($property);
 
@@ -152,6 +176,19 @@ class UpStream_Model_Client extends UpStream_Model_Post_Object
 
             case 'address':
                 $this->{$property} = sanitize_textarea_field($value);
+                break;
+
+            case 'userIds':
+                if (!is_array($value))
+                    $value = [$value];
+
+                foreach ($value as $user_id) {
+                    try {
+                        $this->addUser($user_id, get_current_user_id());
+                    } catch (\UpStream_Model_ArgumentException $e) {
+                        // ignore errors here
+                    }
+                }
                 break;
 
             default:
