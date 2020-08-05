@@ -6,6 +6,8 @@ require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 function upstream_upfs_get_file_url($value)
 {
+    if (!is_string($value)) return $value;
+
     if (substr($value, 0, 7) == '_upfs__') {
         // upfs file
         return add_query_arg('download', $value, get_post_type_archive_link('project'));
@@ -101,21 +103,21 @@ function upstream_upfs_upload($file)
 
                             } else {
                                 unlink($file['tmp_name']);
-                                array_push($info, "Unable to move file: " . $file['name'] . " to target folder. The file is removed!");
+                                array_push($info, __("Unable to move file to target folder", 'upstream'));
                             }
                         } else {
                             unlink($file['tmp_name']);
-                            array_push($info, "Unable to move file: " . $file['name'] . ". The target folder does not exist and cannot be created. The file is removed!");
+                            array_push($info, __("Unable to move file. The target folder does not exist.", 'upstream'));
                         }
                     } else {
-                        array_push($info, "File: " . $file['name'] . " exceeds the maximum file size of: " . F_SIZE . "B. The file is removed!");
+                        array_push($info, __("File exceeds the maximum file size", 'upstream'));
                     }
                 } else {
                     unlink($file['tmp_name']);
-                    array_push($info, "File: " . $file['name'] . " is not an image. The file is removed!");
+                    array_push($info, __("File is not an allowed type.", 'upstream'));
                 }
             } else {
-                array_push($info, "File: " . $file['name'] . " exceeds the maximum file size that this server allowes to be uploaded!");
+                array_push($info, __("File exceeds the maximum file size", 'upstream'));
             }
         }
     } else {
