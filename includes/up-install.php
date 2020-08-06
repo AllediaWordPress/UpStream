@@ -899,9 +899,18 @@ function upstream_update_data_rev_2()
 
     else if ($current_version === UPSTREAM_VERSION) {
 
-        // already at current verison... do nothing
+        // already at current verison... check if last migration was done
+        // (meaning all should have been done) otherwise return
 
-        return;
+        $migrationId          = 'M0000002';
+        $migrationOption      = '_upstream_migration_finished_' . $migrationId;
+        $hasFinishedMigration = get_option($migrationOption, null);
+
+        if ($hasFinishedMigration) {
+            return;
+        } else {
+            $hasFinishedMigration = false;
+        }
     }
 
     else if (version_compare($current_version, '1.26.0', '<')) {

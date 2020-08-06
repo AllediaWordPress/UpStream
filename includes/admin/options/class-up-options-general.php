@@ -613,7 +613,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
-                            'name'    => __('File Upload Manager BETA (DO NOT change after you have added files)', 'upstream'),
+                            'name'    => __('File Upload Manager (NOTE: DO NOT change after you have added files)', 'upstream'),
                             'id'      => 'use_upfs',
                             'type'    => 'radio_inline',
                             'desc'    => __(
@@ -631,7 +631,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'id'      => 'upfs_location',
                             'type'    => 'text',
                             'desc'    => __(
-                                'If UpStream secure file uploads is enabled, this must be set to a path on your web server that is writeable.',
+                                'If UpStream secure file uploads is enabled, this must be set to a path on your web server that is writeable. Contact your system administrator for help.',
                                 'upstream'
                             ),
                             'default' => '',

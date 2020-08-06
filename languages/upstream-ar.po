@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UpStream\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upstream\n"
-"POT-Creation-Date: 2020-01-31 12:23-0500\n"
+"POT-Creation-Date: 2020-07-30 14:43-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: UpStream Team <info@upstreamplugin.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
 "esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -28,53 +28,61 @@ msgstr ""
 #: includes/admin/class-up-admin-client-columns.php:68
 #: includes/admin/class-up-admin-project-columns.php:128
 #: includes/admin/class-up-admin-tasks-page.php:45
-#: includes/class-up-milestones.php:436 templates/single-project/details.php:63
+#: includes/class-up-milestones.php:436
+#: includes/model/UpStream_Model_Object.php:66
+#: templates/single-project/details.php:63
 msgid "ID"
 msgstr "الرقم التعريفى"
 
 #: includes/admin/class-up-admin-bugs-page.php:45
 #: includes/admin/class-up-admin-tasks-page.php:46
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:331
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:879
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1203
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1589
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:354
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:902
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1226
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1629
 #: includes/admin/up-enqueues.php:131 includes/class-up-milestones.php:335
 #: includes/class-up-milestones.php:438
 #: includes/frontend/up-table-functions.php:33
 #: includes/frontend/up-table-functions.php:144
 #: includes/frontend/up-table-functions.php:271
 #: includes/frontend/up-table-functions.php:392
+#: includes/model/UpStream_Model_Object.php:70
 msgid "Assigned To"
 msgstr "مسند الى"
 
 #: includes/admin/class-up-admin-bugs-page.php:46
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:704
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1267
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:727
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1307
 #: includes/frontend/up-table-functions.php:338
+#: includes/model/UpStream_Model_Bug.php:305
 #: templates/single-project/bugs.php:73
 msgid "Due Date"
 msgstr "تاريخ الاستحقاق"
 
 #: includes/admin/class-up-admin-bugs-page.php:47
 #: includes/admin/class-up-admin-tasks-page.php:48
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:575
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:689
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:890
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1228
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1374
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:598
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:712
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:913
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1251
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1414
 #: includes/frontend/up-table-functions.php:148
 #: includes/frontend/up-table-functions.php:306
-#: includes/frontend/up-table-functions.php:439 templates/archive-project.php:57
+#: includes/frontend/up-table-functions.php:439
+#: includes/model/UpStream_Model_Bug.php:303
+#: includes/model/UpStream_Model_Project.php:456
+#: includes/model/UpStream_Model_Task.php:297 templates/archive-project.php:79
 #: templates/global/sidebar.php:31 templates/single-project/bugs.php:246
-#: templates/single-project/bugs.php:250 templates/single-project/tasks.php:241
-#: templates/single-project/tasks.php:244
+#: templates/single-project/bugs.php:250 templates/single-project/tasks.php:252
+#: templates/single-project/tasks.php:255
 msgid "Status"
 msgstr "الحالة"
 
 #: includes/admin/class-up-admin-bugs-page.php:48
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1241
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1264
 #: includes/admin/options/class-up-options-bugs.php:163
 #: includes/frontend/up-table-functions.php:275
+#: includes/model/UpStream_Model_Bug.php:304
 #: templates/single-project/bugs.php:228 templates/single-project/bugs.php:231
 msgid "Severity"
 msgstr "خطورة"
@@ -136,16 +144,16 @@ msgstr "ترشيح"
 #: includes/frontend/up-table-functions.php:462
 #: includes/frontend/up-table-functions.php:503
 #: includes/frontend/up-table-functions.php:596
-#: includes/frontend/up-table-functions.php:736
+#: includes/frontend/up-table-functions.php:768
 #: includes/frontend/up-template-functions.php:67
 #: includes/frontend/up-template-functions.php:98
-#: templates/archive-project.php:62 templates/global/sidebar.php:36
+#: templates/archive-project.php:84 templates/global/sidebar.php:36
 #: templates/single-project/bugs.php:66 templates/single-project/details.php:83
 #: templates/single-project/details.php:104
 #: templates/single-project/details.php:119
 #: templates/single-project/files.php:46
 #: templates/single-project/milestones.php:32
-#: templates/single-project/tasks.php:69
+#: templates/single-project/tasks.php:80
 msgid "none"
 msgstr "لا شيء"
 
@@ -162,29 +170,33 @@ msgstr "الشعار"
 
 #: includes/admin/class-up-admin-client-columns.php:70
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:153
+#: includes/model/UpStream_Model_Client.php:67
 msgid "Website"
 msgstr "الموقع الالكتروني"
 
 #: includes/admin/class-up-admin-client-columns.php:71
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:468
+#: includes/model/UpStream_Model_Client.php:69
 msgid "Phone"
 msgstr "الهاتف"
 
 #: includes/admin/class-up-admin-client-columns.php:72
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:159
+#: includes/model/UpStream_Model_Client.php:68
 msgid "Address"
 msgstr "العنوان"
 
 #: includes/admin/class-up-admin-client-columns.php:73
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:430
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:487
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:563
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:660
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:747
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:510
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:586
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:683
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:770
+#: includes/model/UpStream_Model_Client.php:70
 #: templates/single-project/bugs.php:210 templates/single-project/files.php:183
 #: templates/single-project/files.php:208
 #: templates/single-project/milestones.php:169
-#: templates/single-project/tasks.php:224
+#: templates/single-project/tasks.php:235
 msgid "Users"
 msgstr "المستخدمين"
 
@@ -210,62 +222,80 @@ msgstr "UpStream"
 msgid "UpStream Project Manager"
 msgstr "مدير مشروع UpStream"
 
-#: includes/admin/class-up-admin-pointers.php:47
+#: includes/admin/class-up-admin-pointers.php:33
+#, fuzzy
+msgid ""
+"Sign up for our UpStream Project Management tips and tricks newsletter and "
+"get the UpStream Customizer extension for free!"
+msgstr ""
+"قم بالتسجيل للحصول على نصائح ونصائح إدارة مشروع UpStream الخاصة بنا واحصل على "
+"ملحق UpStream Customizer مجانًا!"
+
+#: includes/admin/class-up-admin-pointers.php:35
+msgid "Email Address:"
+msgstr "البريد الكتروني:"
+
+#: includes/admin/class-up-admin-pointers.php:46
+#, fuzzy
+msgid "Get a FREE UpStream extension!"
+msgstr "احصل على ملحق UpStream مجاني!"
+
+#: includes/admin/class-up-admin-pointers.php:78
 msgid "Important!"
 msgstr "هام!"
 
-#: includes/admin/class-up-admin-pointers.php:49
+#: includes/admin/class-up-admin-pointers.php:80
 msgid "As this is your first project, we have included a walkthrough guide."
 msgstr "ولأن هذا هو أول مشروع لك, فقد قمنا بتضمين دليل إرشادى."
 
-#: includes/admin/class-up-admin-pointers.php:53
+#: includes/admin/class-up-admin-pointers.php:84
 msgid ""
 "We <strong>strongly recommend</strong> that you take the time to follow it. "
 msgstr "نحن <strong>نوصى بشدة</strong> بأن تأخذ من وقتك لتقوم بمتابعته. "
 
-#: includes/admin/class-up-admin-pointers.php:57
+#: includes/admin/class-up-admin-pointers.php:88
 msgid "There is important info in the guide and it does not take too long."
 msgstr "تتوافر معلومات هامة في الدليل ولا يستغرق مطالعتها الكثير من الوقت."
 
-#: includes/admin/class-up-admin-pointers.php:60
+#: includes/admin/class-up-admin-pointers.php:91
 msgid "(you won't see this message or the guide again)"
 msgstr "(لن ترى هذه الرسالة أو الدليل مرة أخرى)"
 
-#: includes/admin/class-up-admin-pointers.php:83
+#: includes/admin/class-up-admin-pointers.php:116
 #, php-format
 msgid "%s Name"
 msgstr "اسم %s"
 
-#: includes/admin/class-up-admin-pointers.php:85
+#: includes/admin/class-up-admin-pointers.php:118
 #, php-format
 msgid "This is a required field and will be what your %s see on the frontend."
 msgstr "هذا الحقل مطلوب وسيكون أول شيء %s  خاصتك سيراه في مقدمة الواجهة."
 
-#: includes/admin/class-up-admin-pointers.php:103
+#: includes/admin/class-up-admin-pointers.php:136
 #, php-format
 msgid "%s Status"
 msgstr "حالة %s"
 
-#: includes/admin/class-up-admin-pointers.php:107
+#: includes/admin/class-up-admin-pointers.php:140
 #, php-format
 msgid "Choose a status for this %s."
 msgstr "أختر حالة لأجل هذا %s."
 
-#: includes/admin/class-up-admin-pointers.php:111
+#: includes/admin/class-up-admin-pointers.php:144
 msgid "Statuses are set within the UpStream Settings."
 msgstr "يتم ضبط الحالات بداخل إعدادات UpStream ."
 
-#: includes/admin/class-up-admin-pointers.php:128
+#: includes/admin/class-up-admin-pointers.php:161
 #, php-format
 msgid "%s Owner"
 msgstr "مالك %s"
 
-#: includes/admin/class-up-admin-pointers.php:130
+#: includes/admin/class-up-admin-pointers.php:163
 #, php-format
 msgid "Choose the owner of this %s."
 msgstr "أختر المالك لتلك %s."
 
-#: includes/admin/class-up-admin-pointers.php:134
+#: includes/admin/class-up-admin-pointers.php:167
 msgid ""
 "Every user who has the Role of UpStream Manager, UpStream User or "
 "Administrator appears in this dropdown."
@@ -273,7 +303,7 @@ msgstr ""
 "كل مستخدم تكون وظيفته هى مدير UpStream , أو مستخدم UpStream أو مدير النظام "
 "يظهر في القائمة المنسدلة ."
 
-#: includes/admin/class-up-admin-pointers.php:138
+#: includes/admin/class-up-admin-pointers.php:171
 #, php-format
 msgid ""
 "The selected owner will have full access and control of everything within "
@@ -282,12 +312,12 @@ msgstr ""
 "المالك الذى يتم إختياره ستكون لديه صلاحية الدخول والتحكم بكل شيء داخل %s, بغض "
 "النظر عن وضعهم الوظيفى."
 
-#: includes/admin/class-up-admin-pointers.php:161
+#: includes/admin/class-up-admin-pointers.php:194
 #, php-format
 msgid "Choose the %s of this %s."
 msgstr "إختر %s من هذا %s."
 
-#: includes/admin/class-up-admin-pointers.php:166
+#: includes/admin/class-up-admin-pointers.php:199
 #, php-format
 msgid ""
 "If there are no %s here, you need to add one first by clicking on <strong>New "
@@ -296,20 +326,20 @@ msgstr ""
 "لو لم يتوافر %s هنا, فأنت بحاجة الى أن تضيف واحد أولآ عبر  الضغط على "
 "<strong>عميل جديد</strong> في الشريط الجانبى."
 
-#: includes/admin/class-up-admin-pointers.php:183
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1413
-#: templates/archive-project.php:411 templates/single-project/details.php:115
+#: includes/admin/class-up-admin-pointers.php:216
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1453
+#: templates/archive-project.php:479 templates/single-project/details.php:115
 #, php-format
 msgid "%s Users"
 msgstr "مستخدمين %s"
 
-#: includes/admin/class-up-admin-pointers.php:185
+#: includes/admin/class-up-admin-pointers.php:218
 #, php-format
 msgid "Tick the %s Users who will have access to this %s."
 msgstr ""
 "قم بالإشارة على مستخدمين %s الذين سوف تكون لديهم صلاحية الدخول الى تلك %s."
 
-#: includes/admin/class-up-admin-pointers.php:189
+#: includes/admin/class-up-admin-pointers.php:222
 #, php-format
 msgid ""
 "The selected Users can then login using their email address and the password "
@@ -318,7 +348,7 @@ msgstr ""
 "المستخدمين الذين يتم إختيارهم بإمكانهم بعد ذلك الدخول بإستخدام بريدهم "
 "الإلكترونى وكلمة السر التي يتم تعيينها فى %s."
 
-#: includes/admin/class-up-admin-pointers.php:193
+#: includes/admin/class-up-admin-pointers.php:226
 #, php-format
 msgid ""
 "If there are no %s Users here, you need to add one first by editing your %s"
@@ -326,22 +356,22 @@ msgstr ""
 "إذا لم يوجد مستخدمين %s هنا, فأنت بحاجة الى أن تضيف مستخدم واحد في البداية "
 "عبر تعديل %s"
 
-#: includes/admin/class-up-admin-pointers.php:210
+#: includes/admin/class-up-admin-pointers.php:243
 #, php-format
 msgid "%s Dates"
 msgstr "تواريخ %s"
 
-#: includes/admin/class-up-admin-pointers.php:212
+#: includes/admin/class-up-admin-pointers.php:245
 #, php-format
 msgid "Add the projected start and finish dates for this %s."
 msgstr "أضف تواريخ البدء والإنتهاء المتوقعة المتعلقة ب %s."
 
-#: includes/admin/class-up-admin-pointers.php:226
+#: includes/admin/class-up-admin-pointers.php:259
 #, php-format
 msgid "You can now start to add your %s."
 msgstr "يمكنك الآن البدء في إضافة %s خاصتك."
 
-#: includes/admin/class-up-admin-pointers.php:231
+#: includes/admin/class-up-admin-pointers.php:264
 #, php-format
 msgid ""
 "Once you've added your %s, you should now Publish/Update the %s. This ensures "
@@ -350,7 +380,7 @@ msgstr ""
 "بمجرد قيامك بإضافة %s  خاصتك, ينبغي عليك الآن أن تقوم بنشر/تحديث %s. حيث يضمن "
 "ذلك أن كل %s سوف تكون متاحة داخل %s."
 
-#: includes/admin/class-up-admin-pointers.php:240
+#: includes/admin/class-up-admin-pointers.php:273
 #, php-format
 msgid ""
 "If there are no %s in the dropdown, add them by editing the <strong>UpStream "
@@ -360,7 +390,7 @@ msgstr ""
 "إعدادات UpStream  </strong>."
 
 #: includes/admin/class-up-admin-project-columns.php:129
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1386
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1426
 #: includes/frontend/up-table-functions.php:471
 #: templates/single-project/details.php:101
 msgid "Owner"
@@ -383,25 +413,25 @@ msgstr "إنهاء"
 
 #: includes/admin/class-up-admin-project-columns.php:145
 #: includes/admin/class-up-admin-tasks-page.php:42
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:904
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:927
 #: includes/frontend/up-table-functions.php:55
-#: includes/frontend/up-table-functions.php:180 templates/archive-project.php:60
+#: includes/frontend/up-table-functions.php:180 templates/archive-project.php:82
 #: templates/global/sidebar.php:34 templates/single-project/details.php:90
 msgid "Progress"
 msgstr "التقدم"
 
 #: includes/admin/class-up-admin-project-columns.php:146
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:280
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:844
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1169
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1559
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:303
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:867
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1192
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1599
 #: includes/frontend/up-table-functions.php:80
 #: includes/frontend/up-table-functions.php:229
 #: includes/frontend/up-table-functions.php:352
 #: includes/frontend/up-table-functions.php:406
 #: templates/single-project/bugs.php:68 templates/single-project/files.php:48
 #: templates/single-project/milestones.php:35
-#: templates/single-project/tasks.php:71
+#: templates/single-project/tasks.php:82
 msgid "Comments"
 msgstr "التعليقات"
 
@@ -412,6 +442,10 @@ msgstr "الحالات"
 #: includes/admin/class-up-admin-project-columns.php:466
 msgid "owners"
 msgstr "المالكين"
+
+#: includes/admin/class-up-admin-projects-menu.php:56
+msgid "New "
+msgstr "جديد"
 
 #: includes/admin/class-up-admin-reviews.php:44
 #, php-format
@@ -425,15 +459,18 @@ msgstr ""
 "لمساعدتنا على نشره ودعمنا بشكل معنوى ."
 
 #: includes/admin/class-up-admin-tasks-page.php:47
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:355
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:503
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:613
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:926
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1437
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:378
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:526
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:636
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:949
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1477
 #: includes/class-up-milestones.php:338 includes/class-up-milestones.php:440
 #: includes/frontend/up-table-functions.php:66
 #: includes/frontend/up-table-functions.php:220
-#: templates/archive-project.php:397 templates/single-project/details.php:21
+#: includes/model/UpStream_Model_Milestone.php:272
+#: includes/model/UpStream_Model_Project.php:459
+#: includes/model/UpStream_Model_Task.php:296 templates/archive-project.php:465
+#: templates/single-project/details.php:21
 msgid "End Date"
 msgstr "تاريخ الانتهاء"
 
@@ -447,6 +484,27 @@ msgid "Comment reply notifications"
 msgstr "إشعارات الرد على التعليق"
 
 #: includes/admin/class-up-admin.php:553
+#: includes/admin/options/class-up-options-general.php:152
+#: includes/admin/options/class-up-options-general.php:166
+#: includes/admin/options/class-up-options-general.php:180
+#: includes/admin/options/class-up-options-general.php:292
+#: includes/admin/options/class-up-options-general.php:306
+#: includes/admin/options/class-up-options-general.php:390
+#: includes/admin/options/class-up-options-general.php:404
+#: includes/admin/options/class-up-options-general.php:418
+#: includes/admin/options/class-up-options-general.php:432
+#: includes/admin/options/class-up-options-general.php:446
+#: includes/admin/options/class-up-options-general.php:460
+#: includes/admin/options/class-up-options-general.php:485
+#: includes/admin/options/class-up-options-general.php:499
+#: includes/admin/options/class-up-options-general.php:513
+#: includes/admin/options/class-up-options-general.php:527
+#: includes/admin/options/class-up-options-general.php:541
+#: includes/admin/options/class-up-options-general.php:597
+msgid "Yes"
+msgstr "نعم"
+
+#: includes/admin/class-up-admin.php:558
 #: includes/admin/options/class-up-options-general.php:151
 #: includes/admin/options/class-up-options-general.php:165
 #: includes/admin/options/class-up-options-general.php:179
@@ -461,29 +519,8 @@ msgstr "إشعارات الرد على التعليق"
 #: includes/admin/options/class-up-options-general.php:484
 #: includes/admin/options/class-up-options-general.php:498
 #: includes/admin/options/class-up-options-general.php:512
-#: includes/admin/options/class-up-options-general.php:526
 #: includes/admin/options/class-up-options-general.php:540
 #: includes/admin/options/class-up-options-general.php:596
-msgid "Yes"
-msgstr "نعم"
-
-#: includes/admin/class-up-admin.php:558
-#: includes/admin/options/class-up-options-general.php:150
-#: includes/admin/options/class-up-options-general.php:164
-#: includes/admin/options/class-up-options-general.php:178
-#: includes/admin/options/class-up-options-general.php:290
-#: includes/admin/options/class-up-options-general.php:304
-#: includes/admin/options/class-up-options-general.php:388
-#: includes/admin/options/class-up-options-general.php:402
-#: includes/admin/options/class-up-options-general.php:416
-#: includes/admin/options/class-up-options-general.php:430
-#: includes/admin/options/class-up-options-general.php:444
-#: includes/admin/options/class-up-options-general.php:458
-#: includes/admin/options/class-up-options-general.php:483
-#: includes/admin/options/class-up-options-general.php:497
-#: includes/admin/options/class-up-options-general.php:511
-#: includes/admin/options/class-up-options-general.php:539
-#: includes/admin/options/class-up-options-general.php:595
 msgid "No"
 msgstr "لا"
 
@@ -511,6 +548,7 @@ msgstr "أضف مستخدمين موجودين"
 
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:230
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:404
+#: templates/report-parameters/section.php:53
 msgid "Name"
 msgstr "الاسم"
 
@@ -576,8 +614,8 @@ msgstr ""
 "لديهم علاقة مع هذا العميل حتى الآن."
 
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:395
-#: includes/admin/options/class-up-options-general.php:746
-#: includes/class-up-roles.php:81
+#: includes/admin/options/class-up-options-general.php:805
+#: includes/class-up-roles.php:90
 msgid "UpStream Client User"
 msgstr "مستخدم عميل UpStream"
 
@@ -639,8 +677,8 @@ msgstr "ترحيل مستخدم عميل"
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:819
 #: includes/class-up-comments.php:289 includes/class-up-comments.php:402
 #: includes/class-up-comments.php:510 includes/class-up-comments.php:629
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:339
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:347
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:338
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:346
 msgid "You're not allowed to do this."
 msgstr "ليس من المسموح لك أن تقوم بذلك."
 
@@ -649,12 +687,12 @@ msgstr "ليس من المسموح لك أن تقوم بذلك."
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:680
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:773
 #: includes/admin/metaboxes/class-up-metaboxes-clients.php:823
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1850
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1905
 #: includes/class-up-comments.php:250 includes/class-up-comments.php:377
 #: includes/class-up-comments.php:394 includes/class-up-comments.php:476
 #: includes/class-up-comments.php:624 includes/class-up-comments.php:748
 #: includes/class-up-comments.php:765
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:343
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:342
 msgid "Invalid request."
 msgstr "طلب غير صالح."
 
@@ -685,138 +723,144 @@ msgstr "مستخدم العميل هذا ليس له علاقة بهذا الع�
 msgid "This user doesn't seem to be a valid Client User."
 msgstr "هذا المستخدم لا يبدو كمستخدم عميل ذو صلاحية."
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:143
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:166
 msgid " Overview"
 msgstr " نظرة عامة"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:255
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:816
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1142
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1534
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:278
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:839
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1165
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1574
 #, php-format
 msgid "Add %s"
 msgstr "إضافة %s"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:256
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:817
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1143
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1535
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:279
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:840
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1166
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1575
 #, php-format
 msgid "Delete %s"
 msgstr "حذف %s"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:277
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:841
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1166
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1556
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:300
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:864
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1189
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1596
 #: includes/class-up-milestones.php:289
 msgid "Data"
 msgstr "البيانات"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:343
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:498
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:608
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:917
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1425
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:366
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:521
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:631
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:940
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1465
 #: includes/class-up-milestones.php:337 includes/class-up-milestones.php:439
 #: includes/frontend/up-table-functions.php:61
 #: includes/frontend/up-table-functions.php:215
-#: templates/archive-project.php:391 templates/single-project/details.php:16
+#: includes/model/UpStream_Model_Milestone.php:271
+#: includes/model/UpStream_Model_Project.php:458
+#: includes/model/UpStream_Model_Task.php:295 templates/archive-project.php:459
+#: templates/single-project/details.php:16
 msgid "Start Date"
 msgstr "تاريخ البدء"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:369
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:936
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:392
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:959
 #: includes/class-up-milestones.php:339
 #: includes/frontend/up-table-functions.php:75
 #: includes/frontend/up-table-functions.php:224
+#: includes/model/UpStream_Model_Milestone.php:269
+#: includes/model/UpStream_Model_Task.php:294
 #: templates/single-project/milestones.php:34
-#: templates/single-project/tasks.php:70
+#: templates/single-project/tasks.php:81
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:451
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:474
 msgid "Disable Milestones for this project"
 msgstr "تعطيل المراحل الرئيسية لهذا المشروع"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:479
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:555
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:652
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:502
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:578
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:675
 #: templates/single-project/bugs.php:203 templates/single-project/files.php:201
 #: templates/single-project/milestones.php:162
-#: templates/single-project/tasks.php:217
+#: templates/single-project/tasks.php:228
 msgid "Assignee"
 msgstr "الشخص المحال إليه"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:485
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:561
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:658
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:745
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:508
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:584
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:681
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:768
 #: templates/single-project/bugs.php:207 templates/single-project/files.php:180
 #: templates/single-project/files.php:205
 #: templates/single-project/milestones.php:166
-#: templates/single-project/tasks.php:221
+#: templates/single-project/tasks.php:232
 msgid "Me"
 msgstr "أنا"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:486
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:562
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:659
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:746
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:509
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:585
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:682
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:769
 #: templates/single-project/bugs.php:205 templates/single-project/files.php:203
 #: templates/single-project/milestones.php:164
-#: templates/single-project/tasks.php:219
+#: templates/single-project/tasks.php:230
 msgid "Nobody"
 msgstr "لا احد"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:549
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:646
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:733
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:867
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1192
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1578
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:572
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:669
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:756
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:890
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1215
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1618
 #: includes/frontend/up-table-functions.php:139
 #: includes/frontend/up-table-functions.php:266
 #: includes/frontend/up-table-functions.php:375
-#: includes/frontend/up-table-functions.php:435 templates/archive-project.php:50
+#: includes/frontend/up-table-functions.php:435
+#: includes/model/UpStream_Model_Object.php:67 templates/archive-project.php:72
 #: templates/global/sidebar.php:24 templates/single-project/bugs.php:65
-#: templates/single-project/files.php:45 templates/single-project/tasks.php:68
+#: templates/single-project/files.php:45 templates/single-project/tasks.php:79
 msgid "Title"
 msgstr "العنوان"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:581
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:598
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:678
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:695
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:2034
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:604
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:621
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:701
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:718
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:2197
 #: includes/class-up-milestones.php:336 includes/class-up-milestones.php:364
-#: includes/frontend/up-table-functions.php:1019
-#: templates/archive-project.php:61 templates/global/sidebar.php:35
+#: includes/frontend/up-table-functions.php:1051
+#: templates/archive-project.php:83 templates/global/sidebar.php:35
 #: templates/single-project/bugs.php:230 templates/single-project/bugs.php:248
-#: templates/single-project/tasks.php:242 templates/single-project/tasks.php:269
+#: templates/single-project/tasks.php:253 templates/single-project/tasks.php:280
 msgid "None"
 msgstr "لا شيء"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:582
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:696
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:605
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:719
 #: includes/admin/options/class-up-options-bugs.php:100
 #: includes/admin/options/class-up-options-projects.php:99
 #: includes/admin/options/class-up-options-tasks.php:99
-#: templates/archive-project.php:58 templates/global/sidebar.php:32
+#: templates/archive-project.php:80 templates/global/sidebar.php:32
 msgid "Statuses"
 msgstr "الحالات"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:672
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:679
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:695
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:702
 msgid "Severities"
 msgstr "مخاطر"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:739
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:762
 #: includes/frontend/up-table-functions.php:380
 msgid "Uploaded by"
 msgstr "تم تحميله بواسطة"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:954
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:977
 msgid ""
 "Selecting a milestone will count this task's progress toward that milestone "
 "as well as overall project progress."
@@ -824,71 +868,77 @@ msgstr ""
 "إختيار مرحلة رئيسية سوف يقوم بإحتساب تقدم هذه المهمة بالنسبة الى تلك المرحلة "
 "بالإضافة الى التقدم الكلى للمشروع."
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1044
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1067
 msgid "Disable Tasks for this project"
 msgstr "تعطيل المهام لهذا المشروع"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1214
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1450
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1612
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1237
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1490
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1667
 #: includes/frontend/up-table-functions.php:347
 #: includes/frontend/up-table-functions.php:401
 #: includes/frontend/up-table-functions.php:522
+#: includes/model/UpStream_Model_Object.php:68
 #: templates/single-project/bugs.php:67 templates/single-project/details.php:133
 #: templates/single-project/files.php:47
 msgid "Description"
 msgstr "الوصف"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1255
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1280
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1293
 msgid "Attachments"
 msgstr "المرفقات"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1340
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1380
 msgid "Disable Bugs for this project"
 msgstr "تعطيل الأخطاء لهذا المشروع"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1361
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1401
 #: templates/single-project/details.php:46
 #, php-format
 msgid "%s Details"
 msgstr "تفاصيل %s"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1687
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1742
 msgid "Disable Files for this project"
 msgstr "تعطيل الملفات لهذا المشروع"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1705
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1760
 msgid "Activity"
 msgstr "النشاط"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1750
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1764
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1805
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1819
 #: includes/admin/up-enqueues.php:117
 msgid "Add new Comment"
 msgstr "أضف تعليقا جديدا"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1756
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1811
 #: includes/admin/up-enqueues.php:116
 msgid "Add Comment"
 msgstr "اضف تعليق"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1772
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1827
 msgid "Disable Discussion for this project"
 msgstr "تعطيل المناقشات لهذا المشروع"
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1856
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1911
 #: includes/class-up-comments.php:279 includes/class-up-comments.php:385
 #: includes/class-up-comments.php:482 includes/class-up-comments.php:754
 msgid "Invalid Project."
 msgstr "مشروع غير صالح."
 
-#: includes/admin/metaboxes/class-up-metaboxes-projects.php:1954
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:2009
 #: includes/admin/metaboxes/metabox-functions.php:598
 #: includes/class-up-comment.php:579 includes/class-up-comments.php:921
 #, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s ago"
 msgstr "منذ %s"
+
+#: includes/admin/metaboxes/class-up-metaboxes-projects.php:2088
+msgid "(remove)"
+msgstr "(حذف)"
 
 #: includes/admin/metaboxes/metabox-functions.php:114
 msgid "Missing some required fields"
@@ -941,20 +991,20 @@ msgstr "الرد"
 msgid "Delete"
 msgstr "حذف"
 
-#: includes/admin/metaboxes/metabox-functions.php:1046
+#: includes/admin/metaboxes/metabox-functions.php:1122
 msgid "Not Assigned"
 msgstr "غير مخصص"
 
-#: includes/admin/metaboxes/metabox-functions.php:1151
+#: includes/admin/metaboxes/metabox-functions.php:1228
 msgid "No project selected"
 msgstr "لم يتم إختيار مشروع"
 
-#: includes/admin/metaboxes/metabox-functions.php:1155
+#: includes/admin/metaboxes/metabox-functions.php:1232
 #: includes/admin/up-enqueues.php:134
 msgid "No client selected"
 msgstr "لم يتم إختيار عميل"
 
-#: includes/admin/metaboxes/metabox-functions.php:1165
+#: includes/admin/metaboxes/metabox-functions.php:1242
 msgid "No users found"
 msgstr "ليم يتم العثور على مستخدمين"
 
@@ -1139,11 +1189,11 @@ msgstr ""
 "هذا الملحق يتيح لك إضافة معلومات أكثر الى المشروع، المرحلة الرئيسية، المهام "
 "والأخطاء."
 
-#: includes/admin/options/class-up-options-extensions.php:209
+#: includes/admin/options/class-up-options-extensions.php:210
 msgid "Advanced Permissions"
 msgstr "صلاحيات متقدمة"
 
-#: includes/admin/options/class-up-options-extensions.php:211
+#: includes/admin/options/class-up-options-extensions.php:212
 msgid ""
 "This extension allows you to set permissions by user or role for objects and "
 "individual fields."
@@ -1151,16 +1201,78 @@ msgstr ""
 "يتيح لك هذا الملحق ضبط الصلاحيات بواسطة المستخدم أو الوظيفة بالنسبة للموضوعات "
 "والحقول الفردية."
 
+#: includes/admin/options/class-up-options-extensions.php:220
+msgid "Time Tracking"
+msgstr "وقت التتبع"
+
+#: includes/admin/options/class-up-options-extensions.php:222
+#, fuzzy
+#| msgid ""
+#| "This extension allows you to add more information to Project, Milestone, "
+#| "Tasks and Bugs."
+msgid "This extension allows you track time spent on projects."
+msgstr ""
+"هذا الملحق يتيح لك إضافة معلومات أكثر الى المشروع، المرحلة الرئيسية، المهام "
+"والأخطاء."
+
+#: includes/admin/options/class-up-options-extensions.php:230
+msgid "Reporting"
+msgstr "التقارير"
+
+#: includes/admin/options/class-up-options-extensions.php:232
+#, fuzzy
+msgid "This extension provides reports and a report dashboard."
+msgstr "يوفر هذا الملحق التقارير ولوحة معلومات التقرير."
+
+#: includes/admin/options/class-up-options-extensions.php:240
+msgid "Naming"
+msgstr "تسمية"
+
+#: includes/admin/options/class-up-options-extensions.php:242
+#, fuzzy
+msgid ""
+"This extension allows you to customize UpStream by replacing any names/text."
+msgstr "يسمح لك هذا الملحق بتخصيص UpStream عن طريق استبدال أي أسماء / نص."
+
+#: includes/admin/options/class-up-options-extensions.php:250
+msgid "Forms"
+msgstr "أشكال"
+
+#: includes/admin/options/class-up-options-extensions.php:252
+#, fuzzy
+#| msgid ""
+#| "This extension allows you to add more information to Project, Milestone, "
+#| "Tasks and Bugs."
+msgid ""
+"This extension allows you to create/edit projects using popular forms tools."
+msgstr ""
+"هذا الملحق يتيح لك إضافة معلومات أكثر الى المشروع، المرحلة الرئيسية، المهام "
+"والأخطاء."
+
+#: includes/admin/options/class-up-options-extensions.php:260
+msgid "API"
+msgstr "API"
+
+#: includes/admin/options/class-up-options-extensions.php:262
+#, fuzzy
+#| msgid ""
+#| "These extensions add extra functionality to the UpStream Project "
+#| "Management plugin."
+msgid "This extension provides API functionality for UpStream."
+msgstr ""
+"تقوم هذه الملحقات بإضافة وظائف إضافية إلى المكون الإضافي لإدارة مشروع "
+"UpStream ."
+
 #: includes/admin/options/class-up-options-general.php:61
-#: includes/admin/options/class-up-options-general.php:136
+#: includes/admin/options/class-up-options-general.php:137
 msgid "General"
 msgstr "عام"
 
-#: includes/admin/options/class-up-options-general.php:141
+#: includes/admin/options/class-up-options-general.php:142
 msgid "Filter Closed Items"
 msgstr "ترشيح العناصر المغلقة"
 
-#: includes/admin/options/class-up-options-general.php:146
+#: includes/admin/options/class-up-options-general.php:147
 msgid ""
 "Choose whether Projects, Tasks and Bugs will only display items that have "
 "“open” statuses. Items with “closed” statuses will still be loaded on the "
@@ -1172,11 +1284,11 @@ msgstr ""
 "ولكن سيتوجب على المستخدمين إستخدام المرشحات لرؤيتهم. سيطبق هذا الخيار فقط عند "
 "ضبط أرشفة العناصر المغلقة \"Archive Closed Items\" على الوضع \"No\""
 
-#: includes/admin/options/class-up-options-general.php:155
+#: includes/admin/options/class-up-options-general.php:156
 msgid "Archive Closed Items"
 msgstr "أرشفة العناصر المغلقة"
 
-#: includes/admin/options/class-up-options-general.php:160
+#: includes/admin/options/class-up-options-general.php:161
 msgid ""
 "Using the Archive feature means that Closed items are not loaded on the "
 "frontend. This can speed up your site if you have projects with many items. "
@@ -1187,19 +1299,19 @@ msgstr ""
 "من العناصر. ولا تقم بإستخدام خاصية الأرشفة في حال رغبت في أن يعثر المستخدمين "
 "على العناصر المغلقة."
 
-#: includes/admin/options/class-up-options-general.php:169
+#: includes/admin/options/class-up-options-general.php:170
 msgid "Show Users' Names"
 msgstr "عرض أسماء المستخدمين"
 
-#: includes/admin/options/class-up-options-general.php:174
+#: includes/admin/options/class-up-options-general.php:175
 msgid "Show names on Project list (Front page)"
 msgstr "عرض الأسماء في قائمة المشروع(الصفحة الأمامية)"
 
-#: includes/admin/options/class-up-options-general.php:183
+#: includes/admin/options/class-up-options-general.php:184
 msgid "Project Users Roles"
 msgstr "القواعد بالنسبة الى مستخدمى المشروع"
 
-#: includes/admin/options/class-up-options-general.php:186
+#: includes/admin/options/class-up-options-general.php:187
 msgid ""
 "Select the user roles that should be used to filter the list of users on "
 "projects."
@@ -1207,11 +1319,11 @@ msgstr ""
 "أختر قواعد المستخدم التي ينبغي إستخدامها لعمل ترشيح في قائمة المستخدمين في "
 "المشاريع."
 
-#: includes/admin/options/class-up-options-general.php:198
+#: includes/admin/options/class-up-options-general.php:199
 msgid "Labels"
 msgstr "العناوين"
 
-#: includes/admin/options/class-up-options-general.php:202
+#: includes/admin/options/class-up-options-general.php:203
 msgid ""
 "Here you can change the labels of various items. You could change Client to "
 "Customer or Bugs to Issues for example.<br>These labels will change on the "
@@ -1221,44 +1333,44 @@ msgstr ""
 "الأخطاء الى مشاكل على سبيل المثال<br>هذه العناوين سوف تتغير في صفحة الواجهة "
 "وكذلك في الجزء الخاص بمدير النظام."
 
-#: includes/admin/options/class-up-options-general.php:208
+#: includes/admin/options/class-up-options-general.php:209
 msgid "Project Label"
 msgstr "عنوان المشروع"
 
-#: includes/admin/options/class-up-options-general.php:213
+#: includes/admin/options/class-up-options-general.php:214
 msgid "Client Label"
 msgstr "عنوان العميل"
 
-#: includes/admin/options/class-up-options-general.php:218
+#: includes/admin/options/class-up-options-general.php:219
 msgid "Milestone Label"
 msgstr "عنوان المرحلة الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:223
+#: includes/admin/options/class-up-options-general.php:224
 msgid "Milestone Categories Label"
 msgstr "عنوان فئات المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:228
+#: includes/admin/options/class-up-options-general.php:229
 msgid "Task Label"
 msgstr "عنوان المهمة"
 
-#: includes/admin/options/class-up-options-general.php:233
+#: includes/admin/options/class-up-options-general.php:234
 msgid "Bug Label"
 msgstr "عنوان الخطأ"
 
-#: includes/admin/options/class-up-options-general.php:238
+#: includes/admin/options/class-up-options-general.php:239
 msgid "File Label"
 msgstr "عنوان الملف"
 
-#: includes/admin/options/class-up-options-general.php:243
+#: includes/admin/options/class-up-options-general.php:244
 msgid "Discussion Label"
 msgstr "عنوان المناقشة"
 
-#: includes/admin/options/class-up-options-general.php:252
+#: includes/admin/options/class-up-options-general.php:253
 #, php-format
 msgid "%s Area"
 msgstr "منطقة %s"
 
-#: includes/admin/options/class-up-options-general.php:257
+#: includes/admin/options/class-up-options-general.php:258
 #, php-format
 msgid ""
 "Various options for the %1s login page and the frontend view. <br>%2s can "
@@ -1267,81 +1379,81 @@ msgstr ""
 "العديد من الخيارات المتعلقة بشاشة دخول %1s و إستعراض الصفحة الأمامية. <br>%2s "
 "يمكنهم إستعراض مشاريعهم عبر زيارة %3s (الرابط متاح بعد إضافة %s)."
 
-#: includes/admin/options/class-up-options-general.php:268
+#: includes/admin/options/class-up-options-general.php:269
 msgid "Login Page Heading"
 msgstr "مقدمة صفحة الدخول"
 
-#: includes/admin/options/class-up-options-general.php:271
+#: includes/admin/options/class-up-options-general.php:272
 msgid "The heading used on the client login page."
 msgstr "العنوان المستخدم في صفحة دخول العميل."
 
-#: includes/admin/options/class-up-options-general.php:274
+#: includes/admin/options/class-up-options-general.php:275
 msgid "Login Page Text"
 msgstr "النص الخاص بصفحة الدخول"
 
-#: includes/admin/options/class-up-options-general.php:277
+#: includes/admin/options/class-up-options-general.php:278
 msgid "Text or instructions that can be added below the login form."
 msgstr "النصوص أو التعليمات التي يمكن إضافاتها أسفل نموذج الدخول."
 
-#: includes/admin/options/class-up-options-general.php:281
+#: includes/admin/options/class-up-options-general.php:282
 msgid "Login Page Client Logo"
 msgstr "شعار العميل لصفحة الدخول"
 
-#: includes/admin/options/class-up-options-general.php:285
+#: includes/admin/options/class-up-options-general.php:286
 msgid ""
 "Choose whether Client's Logo should be displayed on login page if available."
 msgstr "إختر هل يتم عرض شعار العميل في صفحة الدخول في حال كونه متوافر."
 
-#: includes/admin/options/class-up-options-general.php:295
+#: includes/admin/options/class-up-options-general.php:296
 msgid "Login Page Project Name"
 msgstr "إسم المشروع في صفحة الدخول"
 
-#: includes/admin/options/class-up-options-general.php:299
+#: includes/admin/options/class-up-options-general.php:300
 msgid "Choose whether Project's name should be displayed on login page."
 msgstr "أختر هل يتم عرض إسم المشروع في صفحة الدخول."
 
-#: includes/admin/options/class-up-options-general.php:309
+#: includes/admin/options/class-up-options-general.php:310
 msgid "Admin Email"
 msgstr "البريد الإلكتروني لمدير النظام"
 
-#: includes/admin/options/class-up-options-general.php:312
+#: includes/admin/options/class-up-options-general.php:313
 msgid "The email address that clients can use to contact you."
 msgstr "عنوان البريد الإلكترونى الذى يمكن للعميل التواصل معك من خلاله."
 
-#: includes/admin/options/class-up-options-general.php:315
+#: includes/admin/options/class-up-options-general.php:316
 msgid "Admin Support Link Label"
 msgstr "عنوان الرابط الخاص بالدعم من مدير النظام"
 
-#: includes/admin/options/class-up-options-general.php:318
+#: includes/admin/options/class-up-options-general.php:319
 msgid "Label that describes the Admin Support Link."
 msgstr "العنوان الذى يمثل رابط دعم مدير النظام."
 
-#: includes/admin/options/class-up-options-general.php:319
-#: includes/up-general-functions.php:797
+#: includes/admin/options/class-up-options-general.php:320
+#: includes/up-general-functions.php:818
 msgid "Contact Admin"
 msgstr "التواصل مع مدير النظام"
 
-#: includes/admin/options/class-up-options-general.php:322
+#: includes/admin/options/class-up-options-general.php:323
 msgid "Admin Support Link"
 msgstr "راد دعم مدير النظام"
 
-#: includes/admin/options/class-up-options-general.php:326
+#: includes/admin/options/class-up-options-general.php:327
 msgid "Link to contact form or knowledge base to help clients obtain support."
 msgstr "رابط نموذج التواصل أو قاعدة المعرفة لمساعدة العملاء في الحصول على دعم."
 
-#: includes/admin/options/class-up-options-general.php:335
+#: includes/admin/options/class-up-options-general.php:336
 msgid "Media"
 msgstr "وسائط الإعلام"
 
-#: includes/admin/options/class-up-options-general.php:338
+#: includes/admin/options/class-up-options-general.php:339
 msgid "Options to configure the list of media attachments."
 msgstr "الخيارات لتعريف قائمة مرفقات وسائط الإعلام."
 
-#: includes/admin/options/class-up-options-general.php:342
+#: includes/admin/options/class-up-options-general.php:343
 msgid "Who can see all the media?"
 msgstr "من يمكنه رؤية كل الوسائط الإعلامية؟"
 
-#: includes/admin/options/class-up-options-general.php:345
+#: includes/admin/options/class-up-options-general.php:346
 msgid ""
 "For security, UpStream users can normally only access their own media "
 "uploads. Select the roles who can see all the entire media library."
@@ -1349,11 +1461,11 @@ msgstr ""
 "لدواعى الأمان، مستخدمى UpStream يمكنهم بشكل طبيعى الدخول الى تحميلات الوسائط "
 "الخاصة بهم. حدد القواعد حول من بإستطاعته رؤية كل ما تحتويه مكتبة الوسائط."
 
-#: includes/admin/options/class-up-options-general.php:354
+#: includes/admin/options/class-up-options-general.php:355
 msgid "Who can post images in comments?"
 msgstr "من يمكنه نشر صور في التعليقات؟"
 
-#: includes/admin/options/class-up-options-general.php:357
+#: includes/admin/options/class-up-options-general.php:358
 msgid ""
 "By default, not all WordPress users can upload images. Select the roles who "
 "can add images to UpStream comments."
@@ -1361,19 +1473,19 @@ msgstr ""
 "بشكل إفتراضى، ليس كل مستخدمى WordPress بإمكانهم رفع الصور. أختر القواعد التي "
 "تحدد من بإمكانه إضافة صور الى تعليقات UpStream ."
 
-#: includes/admin/options/class-up-options-general.php:369
+#: includes/admin/options/class-up-options-general.php:370
 msgid "Collapse Sections"
 msgstr "تقليص الأقسام"
 
-#: includes/admin/options/class-up-options-general.php:373
+#: includes/admin/options/class-up-options-general.php:374
 msgid "Options to collapse different sections on the client area on frontend."
 msgstr "الخيارات لتقليص مختلف الأقسام فى منطقة العميل في الواجهة."
 
-#: includes/admin/options/class-up-options-general.php:379
+#: includes/admin/options/class-up-options-general.php:380
 msgid "Collapse Project Details box"
 msgstr "تقليص مربع تفاصيل المشروع"
 
-#: includes/admin/options/class-up-options-general.php:383
+#: includes/admin/options/class-up-options-general.php:384
 msgid ""
 "Choose whether to collapse the Project Details box automatically when a user "
 "opens a project page."
@@ -1381,11 +1493,11 @@ msgstr ""
 "أختر هل يتم تقليص مربع تفاصيل المشروع بشكل تلقائى عندما يقوم مستخدم بفتح صفحة "
 "المشروع."
 
-#: includes/admin/options/class-up-options-general.php:393
+#: includes/admin/options/class-up-options-general.php:394
 msgid "Collapse Project Milestones box"
 msgstr "تقليص مربع المراحل الرئيسية للمشروع"
 
-#: includes/admin/options/class-up-options-general.php:397
+#: includes/admin/options/class-up-options-general.php:398
 msgid ""
 "Choose whether to collapse the Milestones box automatically when a user opens "
 "a project page."
@@ -1393,11 +1505,11 @@ msgstr ""
 "أختر هل يتم تقليص مربع المراحل الرئيسية المشروع بشكل تلقائى عندما يقوم "
 "المستخدم بفتح صفحة مشروع."
 
-#: includes/admin/options/class-up-options-general.php:407
+#: includes/admin/options/class-up-options-general.php:408
 msgid "Collapse Project Tasks box"
 msgstr "تقليص مربع مهام المشروع"
 
-#: includes/admin/options/class-up-options-general.php:411
+#: includes/admin/options/class-up-options-general.php:412
 msgid ""
 "Choose whether to collapse the Tasks box automatically when a user opens a "
 "project page."
@@ -1405,11 +1517,11 @@ msgstr ""
 "أختر هل يتم تقليص صندوق مهام المشروع بشكل تلقائى عندما يقوم المستخدم بفتح "
 "صفحة مشروع."
 
-#: includes/admin/options/class-up-options-general.php:421
+#: includes/admin/options/class-up-options-general.php:422
 msgid "Collapse Project Bugs box"
 msgstr "تقليص صندوق أخطاء المشروع"
 
-#: includes/admin/options/class-up-options-general.php:425
+#: includes/admin/options/class-up-options-general.php:426
 msgid ""
 "Choose whether to collapse the Bugs box automatically when a user opens a "
 "project page."
@@ -1417,11 +1529,11 @@ msgstr ""
 "أختر هل يتم تقليص صندوق أخطاء المشروع بشكل تلقائى عندما يقوم المستخدم بفتح "
 "صفحة مشروع."
 
-#: includes/admin/options/class-up-options-general.php:435
+#: includes/admin/options/class-up-options-general.php:436
 msgid "Collapse Project Files box"
 msgstr "تقليص صندوق ملفات المشروع"
 
-#: includes/admin/options/class-up-options-general.php:439
+#: includes/admin/options/class-up-options-general.php:440
 msgid ""
 "Choose whether to collapse the Files box automatically when a user opens a "
 "project page."
@@ -1429,11 +1541,11 @@ msgstr ""
 "أختر هل يتم تقليص صندوق ملفات المشروع بشكل تلقائى عندما يقوم المستخدم بفتح "
 "صفحة مشروع."
 
-#: includes/admin/options/class-up-options-general.php:449
+#: includes/admin/options/class-up-options-general.php:450
 msgid "Collapse Project Discussion box"
 msgstr "تقليص صندوق مناقشة المشروع"
 
-#: includes/admin/options/class-up-options-general.php:453
+#: includes/admin/options/class-up-options-general.php:454
 msgid ""
 "Choose whether to collapse the Discussion box automatically when a user opens "
 "a project page."
@@ -1441,69 +1553,69 @@ msgstr ""
 "أختر هل يتم تقليص صندوق مناقشة المشروع بشكل تلقائى عندما يقوم المستخدم بفتح "
 "صفحة مشروع."
 
-#: includes/admin/options/class-up-options-general.php:467
+#: includes/admin/options/class-up-options-general.php:468
 msgid "Toggle Features"
 msgstr "خصائص التبديل"
 
-#: includes/admin/options/class-up-options-general.php:470
+#: includes/admin/options/class-up-options-general.php:471
 msgid "Options to toggle different sections and features."
 msgstr "الخيارات لتبديل الأقسام والخصائص المختلفة."
 
-#: includes/admin/options/class-up-options-general.php:474
+#: includes/admin/options/class-up-options-general.php:475
 msgid "Disable Clients and Client Users"
 msgstr "تعطيل العملاء ومستخدمى العملاء"
 
-#: includes/admin/options/class-up-options-general.php:478
+#: includes/admin/options/class-up-options-general.php:479
 msgid ""
 "Choose whether if Clients and Client Users can be added and used on Projects."
 msgstr "أختر هل يمكن الإضافة و الاستخدام لعملاء ومستخدمى العملاء فى المشاريع."
 
-#: includes/admin/options/class-up-options-general.php:488
+#: includes/admin/options/class-up-options-general.php:489
 msgid "Select all client's users by default"
 msgstr "أختر كل مستخدمى العملاء بشكل إفتراضى"
 
-#: includes/admin/options/class-up-options-general.php:492
+#: includes/admin/options/class-up-options-general.php:493
 msgid ""
 "Choose whether if all client's users should be checked by default after "
 "change or select the client."
 msgstr ""
 "أختر هل يتم إختيار كل مستخدمى العملاء بشكل إفتراضى بعد تغيير أو إختيار العميل."
 
-#: includes/admin/options/class-up-options-general.php:502
+#: includes/admin/options/class-up-options-general.php:503
 msgid "Disable Projects Categorization"
 msgstr "تعطيل تصنيف المشاريع"
 
-#: includes/admin/options/class-up-options-general.php:506
+#: includes/admin/options/class-up-options-general.php:507
 msgid ""
 "Choose whether Projects can be sorted into categories by managers and users."
 msgstr "أختر هل بالإمكان تصنيف المشاريع الى فئات بواسطة المدراء والمستخدمين."
 
-#: includes/admin/options/class-up-options-general.php:516
+#: includes/admin/options/class-up-options-general.php:517
 msgid "Project Progress Icons"
 msgstr "أيقونات تقدم المشروع"
 
-#: includes/admin/options/class-up-options-general.php:520
+#: includes/admin/options/class-up-options-general.php:521
 msgid ""
 "Choose whether to display the Project Progress Icons section on frontend."
 msgstr "أختر هل يتم عرض قسم أيقونات تقدم المشروع على الواجهة."
 
-#: includes/admin/options/class-up-options-general.php:525
+#: includes/admin/options/class-up-options-general.php:526
 msgid "Do not show"
 msgstr "لا تقم بالعرض"
 
-#: includes/admin/options/class-up-options-general.php:530
+#: includes/admin/options/class-up-options-general.php:531
 msgid "Disable Project Details"
 msgstr "تعطيل تفاصيل المشروع"
 
-#: includes/admin/options/class-up-options-general.php:534
+#: includes/admin/options/class-up-options-general.php:535
 msgid "Choose whether to display the Project Details section on frontend."
 msgstr "أختر هل يتم عرض قسم تفاصيل المشروع على الواجهة."
 
-#: includes/admin/options/class-up-options-general.php:544
+#: includes/admin/options/class-up-options-general.php:545
 msgid "Disable Bugs"
 msgstr "تعطيل الأخطاء"
 
-#: includes/admin/options/class-up-options-general.php:548
+#: includes/admin/options/class-up-options-general.php:549
 msgid ""
 "Ticking this box will disable the Bugs section on both the frontend and the "
 "admin area."
@@ -1511,15 +1623,15 @@ msgstr ""
 "بالنقر على هذه الخانة سوف يتم تعطيل قسم الأخطاء في كلآ من الواجهة ومنطقة مدير "
 "النظام."
 
-#: includes/admin/options/class-up-options-general.php:553
+#: includes/admin/options/class-up-options-general.php:554
 msgid "Disable the Bugs section?"
 msgstr "تعطيل قسم الأخطاء؟"
 
-#: includes/admin/options/class-up-options-general.php:558
+#: includes/admin/options/class-up-options-general.php:559
 msgid "Disable Tasks"
 msgstr "تعطيل المهام"
 
-#: includes/admin/options/class-up-options-general.php:562
+#: includes/admin/options/class-up-options-general.php:563
 msgid ""
 "Ticking this box will disable the Tasks section on both the frontend and the "
 "admin area."
@@ -1527,15 +1639,15 @@ msgstr ""
 "بالنقر على هذه الخانة سوف يتم تعطيل قسم المهام في كلآ من الواجهة ومنطقة مدير "
 "النظام."
 
-#: includes/admin/options/class-up-options-general.php:567
+#: includes/admin/options/class-up-options-general.php:568
 msgid "Disable the Tasks section?"
 msgstr "تعطيل قسم المهام؟"
 
-#: includes/admin/options/class-up-options-general.php:572
+#: includes/admin/options/class-up-options-general.php:573
 msgid "Disable Milestones"
 msgstr "تعطيل المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:576
+#: includes/admin/options/class-up-options-general.php:577
 msgid ""
 "Ticking this box will disable the Milestones section on both the frontend and "
 "the admin area. <strong>Warning: The project timeline and some other features "
@@ -1545,15 +1657,15 @@ msgstr ""
 "ومنطقة مدير النظام. تحذير <strong>: المدى الزمنى للمشروع وبعض الخصائص الأخرى "
 "تتطلب مراحل رئيسية كى تعمل بشكل صحيح.</strong>"
 
-#: includes/admin/options/class-up-options-general.php:581
+#: includes/admin/options/class-up-options-general.php:582
 msgid "Disable the Milestones section?"
 msgstr "تعطيل قسم المراحل الرئيسية؟"
 
-#: includes/admin/options/class-up-options-general.php:586
+#: includes/admin/options/class-up-options-general.php:587
 msgid "Disable Milestone Categories"
 msgstr "تعطيل فئات المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:590
+#: includes/admin/options/class-up-options-general.php:591
 msgid ""
 "Ticking this box will disable the Milestone Categories section on both the "
 "frontend and the admin area."
@@ -1561,11 +1673,11 @@ msgstr ""
 "بالنقر على هذه الخانة سوف يتم تعطيل قسم فئات المراحل الرئيسية في كلآ من "
 "الواجهة ومنطقة مدير النظام."
 
-#: includes/admin/options/class-up-options-general.php:601
+#: includes/admin/options/class-up-options-general.php:602
 msgid "Disable Files"
 msgstr "تعطيل الملفات"
 
-#: includes/admin/options/class-up-options-general.php:605
+#: includes/admin/options/class-up-options-general.php:606
 msgid ""
 "Ticking this box will disable the Files section on both the frontend and the "
 "admin area."
@@ -1573,15 +1685,82 @@ msgstr ""
 "بالنقر على هذه الخانة سوف يتم تعطيل قسم الملفات في كلآ من الواجهة ومنطقة مدير "
 "النظام."
 
-#: includes/admin/options/class-up-options-general.php:610
+#: includes/admin/options/class-up-options-general.php:611
 msgid "Disable the Files section?"
 msgstr "تعطيل قسم الملفات؟"
 
-#: includes/admin/options/class-up-options-general.php:615
+#: includes/admin/options/class-up-options-general.php:616
+#, fuzzy
+msgid "File Upload Manager BETA (DO NOT change after you have added files)"
+msgstr "مدير تحميل الملفات بيتا (لا تتغير بعد إضافة الملفات)"
+
+#: includes/admin/options/class-up-options-general.php:620
+#, fuzzy
+msgid ""
+"Choose which file upload system to use.  <B>DO NOT CHANGE THIS SETTING AFTER "
+"YOU HAVE ADDED FILES</B>, since it will clear all files."
+msgstr ""
+"اختر نظام تحميل الملفات الذي تريد استخدامه. <B>لا تقم بتغيير هذا الإعداد بعد "
+"أن قمت بإضافة ملفات</b> ، حيث سيؤدي ذلك إلى مسح كافة الملفات."
+
+#: includes/admin/options/class-up-options-general.php:625
+#, fuzzy
+msgid "Use WordPress built-in file uploads"
+msgstr "استخدم تحميلات الملفات المدمجة في WordPress"
+
+#: includes/admin/options/class-up-options-general.php:626
+#, fuzzy
+msgid "Use UpStream secure file uploads"
+msgstr "استخدم تحميلات ملف UpStream الآمنة"
+
+#: includes/admin/options/class-up-options-general.php:630
+#, fuzzy
+msgid "UpStream secure file upload location"
+msgstr "UpStream موقع تحميل ملف آمن"
+
+#: includes/admin/options/class-up-options-general.php:634
+#, fuzzy
+msgid ""
+"If UpStream secure file uploads is enabled, this must be set to a path on "
+"your web server that is writeable."
+msgstr ""
+"إذا تم تمكين تحميلات ملف UpStream الآمنة ، فيجب تعيين هذا على مسار على خادم "
+"الويب الخاص بك قابل للكتابة."
+
+#: includes/admin/options/class-up-options-general.php:640
+#, fuzzy
+#| msgid "Disable Files"
+msgid "Disable Reports"
+msgstr "تعطيل الملفات"
+
+#: includes/admin/options/class-up-options-general.php:644
+#, fuzzy
+#| msgid "Disable the Files section?"
+msgid "Disable the reports section on the sidebar."
+msgstr "تعطيل قسم الملفات؟"
+
+#: includes/admin/options/class-up-options-general.php:649
+#, fuzzy
+msgid "Show reports section"
+msgstr "عرض قسم التقارير"
+
+#: includes/admin/options/class-up-options-general.php:650
+#: includes/admin/options/class-up-options-general.php:664
+#: includes/admin/options/class-up-options-general.php:678
+#: includes/admin/options/class-up-options-general.php:691
+#: includes/admin/options/class-up-options-general.php:705
+#: includes/admin/options/class-up-options-general.php:719
+#: includes/admin/options/class-up-options-general.php:733
+msgid "Disable section"
+msgstr "تعطيل القسم"
+
+#: includes/admin/options/class-up-options-general.php:654
+#: includes/admin/options/class-up-options-general.php:668
 msgid "Disable Discussion on Projects"
 msgstr "تعطيل مناقشة المشاريع"
 
-#: includes/admin/options/class-up-options-general.php:619
+#: includes/admin/options/class-up-options-general.php:658
+#: includes/admin/options/class-up-options-general.php:672
 msgid ""
 "Either allow comments on projects on both the frontend and the admin area or "
 "hide the section."
@@ -1589,112 +1768,105 @@ msgstr ""
 "إما يتم السماح بالتعليقات على المشاريع في كلآ من الواجهة ومنطقة مدير النظام "
 "أو يتم إخفاء القسم."
 
-#: includes/admin/options/class-up-options-general.php:624
+#: includes/admin/options/class-up-options-general.php:663
+#: includes/admin/options/class-up-options-general.php:677
 msgid "Allow comments on projects"
 msgstr "السماح بالتعليقات على المشاريع"
 
-#: includes/admin/options/class-up-options-general.php:625
-#: includes/admin/options/class-up-options-general.php:639
-#: includes/admin/options/class-up-options-general.php:653
-#: includes/admin/options/class-up-options-general.php:667
 #: includes/admin/options/class-up-options-general.php:681
-msgid "Disable section"
-msgstr "تعطيل القسم"
-
-#: includes/admin/options/class-up-options-general.php:629
 msgid "Disable Discussion on Milestones"
 msgstr "تعطيل التعليقات على المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:633
-#: includes/admin/options/class-up-options-general.php:647
-#: includes/admin/options/class-up-options-general.php:661
-#: includes/admin/options/class-up-options-general.php:675
+#: includes/admin/options/class-up-options-general.php:685
+#: includes/admin/options/class-up-options-general.php:699
+#: includes/admin/options/class-up-options-general.php:713
+#: includes/admin/options/class-up-options-general.php:727
 #, php-format
 msgid "Either allow comments on %s or hide the section."
 msgstr "إما يتم السماح بالتعليقات على %s أو يتم إخفاء القسم."
 
-#: includes/admin/options/class-up-options-general.php:634
+#: includes/admin/options/class-up-options-general.php:686
 #: includes/up-labels.php:46
 msgid "Milestones"
 msgstr "المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:638
+#: includes/admin/options/class-up-options-general.php:690
 msgid "Allow comments on Milestones"
 msgstr "السماح بالتعليقات على المراحل الرئيسية"
 
-#: includes/admin/options/class-up-options-general.php:643
+#: includes/admin/options/class-up-options-general.php:695
 msgid "Disable Discussion on Tasks"
 msgstr "تعطيل المناقشة حول المهام"
 
-#: includes/admin/options/class-up-options-general.php:648
+#: includes/admin/options/class-up-options-general.php:700
 #: includes/up-labels.php:62
 msgid "Tasks"
 msgstr "المهام"
 
-#: includes/admin/options/class-up-options-general.php:652
+#: includes/admin/options/class-up-options-general.php:704
 msgid "Allow comments on Tasks"
 msgstr "السماح بالتعليقات على المهام"
 
-#: includes/admin/options/class-up-options-general.php:657
+#: includes/admin/options/class-up-options-general.php:709
 msgid "Disable Discussion on Bugs"
 msgstr "تعطيل التعليقات على الأخطاء"
 
-#: includes/admin/options/class-up-options-general.php:662
+#: includes/admin/options/class-up-options-general.php:714
 #: includes/up-labels.php:66
 msgid "Bugs"
 msgstr "الأخطاء"
 
-#: includes/admin/options/class-up-options-general.php:666
+#: includes/admin/options/class-up-options-general.php:718
 msgid "Allow comments on Bugs"
 msgstr "السماح بالتعليقات على الأخطاء"
 
-#: includes/admin/options/class-up-options-general.php:671
+#: includes/admin/options/class-up-options-general.php:723
 msgid "Disable Discussion on Files"
 msgstr "تعطيل التعليقات على الملفات"
 
-#: includes/admin/options/class-up-options-general.php:676
+#: includes/admin/options/class-up-options-general.php:728
 #: includes/up-labels.php:70
 msgid "Files"
 msgstr "الملفات"
 
-#: includes/admin/options/class-up-options-general.php:680
+#: includes/admin/options/class-up-options-general.php:732
 msgid "Allow comments on Files"
 msgstr "السماح بالتعليقات على الملفات"
 
-#: includes/admin/options/class-up-options-general.php:685
+#: includes/admin/options/class-up-options-general.php:737
 msgid "Show all projects in the frontend sidebar"
 msgstr "إستعراض كل المشاريع على الشريط الجانبى للواجهة"
 
-#: includes/admin/options/class-up-options-general.php:688
+#: includes/admin/options/class-up-options-general.php:740
 msgid "If enabled, all projects will be displayed in the sidebar on frontend."
 msgstr ""
 "فى حالة الإتاحة، كل المشروعات سوف يتم عرضها على الشريط الجانبى فى الواجهة."
 
-#: includes/admin/options/class-up-options-general.php:692
+#: includes/admin/options/class-up-options-general.php:744
 msgid "Show only the current project"
 msgstr "عرض المشروع الحالي فقط"
 
-#: includes/admin/options/class-up-options-general.php:693
+#: includes/admin/options/class-up-options-general.php:745
 msgid "Show all projects"
 msgstr "عرض كل المشروعات"
 
-#: includes/admin/options/class-up-options-general.php:697
+#: includes/admin/options/class-up-options-general.php:749
 msgid "Send Notifications for New Comments"
 msgstr "إرسال إشعارات حول التعليقات الجديدة"
 
-#: includes/admin/options/class-up-options-general.php:701
-#: includes/admin/options/class-up-options-general.php:807
-#: includes/admin/options/class-up-options-general.php:821
+#: includes/admin/options/class-up-options-general.php:753
+#: includes/admin/options/class-up-options-general.php:866
+#: includes/admin/options/class-up-options-general.php:880
 #: includes/admin/options/class-up-options-milestones.php:108
 msgid "Enabled"
 msgstr "متاح"
 
-#: includes/admin/options/class-up-options-general.php:702
+#: includes/admin/options/class-up-options-general.php:754
 #: includes/admin/options/class-up-options-milestones.php:109
 msgid "Disabled"
 msgstr "معطل"
 
-#: includes/admin/options/class-up-options-general.php:705
+#: includes/admin/options/class-up-options-general.php:757
 msgid ""
 "Check this to send a notification to the owner and creator of a milestone, "
 "task, or bug when someone comments on it."
@@ -1702,54 +1874,63 @@ msgstr ""
 "انقر هذا الخيار لإرسال إشعار الى المالك و المنشئ حول مرحلة رئيسية، مهمة، أو "
 "خطآ عندما يقوم شخص بالتعليق عليه."
 
-#: includes/admin/options/class-up-options-general.php:711
+#: includes/admin/options/class-up-options-general.php:763
 msgid "Localization"
 msgstr "التعريب"
 
-#: includes/admin/options/class-up-options-general.php:715
+#: includes/admin/options/class-up-options-general.php:767
 #, fuzzy
 msgid "General options for localization, such as times."
 msgstr "خيارات عامة للترجمة ، مثل الأوقات."
 
-#: includes/admin/options/class-up-options-general.php:719
+#: includes/admin/options/class-up-options-general.php:771
 #, fuzzy
 msgid "Work Hours Per Day"
 msgstr "ساعات العمل في اليوم"
 
-#: includes/admin/options/class-up-options-general.php:722
+#: includes/admin/options/class-up-options-general.php:774
 #, fuzzy
 msgid "The number of work hours per day (used in determining days of work)."
 msgstr "عدد ساعات العمل في اليوم (المستخدمة في تحديد أيام العمل)."
 
-#: includes/admin/options/class-up-options-general.php:730
+#: includes/admin/options/class-up-options-general.php:778
+msgid "Currency Symbol"
+msgstr "رمز العملة"
+
+#: includes/admin/options/class-up-options-general.php:781
+#, fuzzy
+msgid "The local currency symbol."
+msgstr "رمز العملة المحلية."
+
+#: includes/admin/options/class-up-options-general.php:789
 msgid "Maintenance"
 msgstr "الصيانة"
 
-#: includes/admin/options/class-up-options-general.php:734
+#: includes/admin/options/class-up-options-general.php:793
 msgid ""
 "General options for maintenance only. Be careful enabling any of these "
 "options."
 msgstr "الخيارات العامة للصيانة فقط. كن حذرآ من إتاحة أي من هذه الخيارات."
 
-#: includes/admin/options/class-up-options-general.php:738
+#: includes/admin/options/class-up-options-general.php:797
 msgid "Add default UpStream capabilities"
 msgstr "أضف سعات UpStream إفتراضية"
 
-#: includes/admin/options/class-up-options-general.php:743
+#: includes/admin/options/class-up-options-general.php:802
 msgid "Administrator"
 msgstr "مدير النظام"
 
-#: includes/admin/options/class-up-options-general.php:744
-#: includes/class-up-roles.php:40
+#: includes/admin/options/class-up-options-general.php:803
+#: includes/class-up-roles.php:45
 msgid "UpStream Manager"
 msgstr "مدير UpStream"
 
-#: includes/admin/options/class-up-options-general.php:745
-#: includes/class-up-roles.php:73 upstream.php:614
+#: includes/admin/options/class-up-options-general.php:804
+#: includes/class-up-roles.php:80 upstream.php:616
 msgid "UpStream User"
 msgstr "مستخدم UpStream"
 
-#: includes/admin/options/class-up-options-general.php:755
+#: includes/admin/options/class-up-options-general.php:814
 msgid ""
 "Clicking this button will reset all the capabilities to the default set for "
 "the following user roles: administrator, upstream_manager, upstream_user and "
@@ -1759,15 +1940,15 @@ msgstr ""
 "بالنسبة الى وظائف المستخدم التالية: مدير المهام، مدير upstream، ومستخدم "
 "upstream. لا يمكن التراجع عن ذلك الإختيار."
 
-#: includes/admin/options/class-up-options-general.php:762
+#: includes/admin/options/class-up-options-general.php:821
 msgid "Update Project Data"
 msgstr "تحديث بيانات المشروع"
 
-#: includes/admin/options/class-up-options-general.php:765
+#: includes/admin/options/class-up-options-general.php:824
 msgid "Update"
 msgstr "تحديث"
 
-#: includes/admin/options/class-up-options-general.php:767
+#: includes/admin/options/class-up-options-general.php:826
 msgid ""
 "Clicking this button will recalculate the data for all the projects, "
 "including: project members, milestones' tasks statuses, created time, project "
@@ -1778,15 +1959,15 @@ msgstr ""
 "المشروع. لا يمكن التراجع عن هذا الأمر كما يمكن أن يستغرق بعض الوقت لو كان "
 "لديك العديد من المشروعات."
 
-#: includes/admin/options/class-up-options-general.php:774
+#: includes/admin/options/class-up-options-general.php:833
 msgid "Migrate Legacy Milestones"
 msgstr "ترحيل المراحل الرئيسية القديمة"
 
-#: includes/admin/options/class-up-options-general.php:777
+#: includes/admin/options/class-up-options-general.php:836
 msgid "Start migration"
 msgstr "بدء الترحيل"
 
-#: includes/admin/options/class-up-options-general.php:779
+#: includes/admin/options/class-up-options-general.php:838
 msgid ""
 "Clicking this button will force to migrate again all the legacy milestones "
 "(project meta data) to the new post type. Only do this if you had any issue "
@@ -1799,15 +1980,15 @@ msgstr ""
 "1.24.0. لا يمكن التراجع عن هذا الأمر كما يمكن أن يستغرق بعض الوقت فى حال ما "
 "إذا كنت تمتلك العديد من المشروعات."
 
-#: includes/admin/options/class-up-options-general.php:786
+#: includes/admin/options/class-up-options-general.php:845
 msgid "Cleanup Plugin's Update Cache"
 msgstr "الذاكرة المؤقتة لتنظيف تحديثات المكون الإضافى"
 
-#: includes/admin/options/class-up-options-general.php:789
+#: includes/admin/options/class-up-options-general.php:848
 msgid "Cleanup"
 msgstr "التنظيف"
 
-#: includes/admin/options/class-up-options-general.php:791
+#: includes/admin/options/class-up-options-general.php:850
 msgid ""
 "If you’re having problems seeing UpStream extension updates, click this "
 "button and you see any new plugin releases."
@@ -1815,11 +1996,11 @@ msgstr ""
 "إذا كنت تواجه مشكلات في مشاهدة تحديثات امتداد UpStream ، فانقر هذا الزر وسترى "
 "أي إصدارات جديدة للمكونات الإضافية."
 
-#: includes/admin/options/class-up-options-general.php:798
+#: includes/admin/options/class-up-options-general.php:857
 msgid "Debug"
 msgstr "تصحيح الأخطاء"
 
-#: includes/admin/options/class-up-options-general.php:802
+#: includes/admin/options/class-up-options-general.php:861
 msgid ""
 "Ticking this box will enable special debug code and a new menu to inspect the "
 "debug information."
@@ -1827,65 +2008,67 @@ msgstr ""
 "بالنقر على هذا المربع سوف يتم إتاحة كود خاص لتصحيح الأخطاء وقائمة جديدة لفحص "
 "المعلومات المتعلقة بتصحيح الأخطاء."
 
-#: includes/admin/options/class-up-options-general.php:812
+#: includes/admin/options/class-up-options-general.php:871
 #, fuzzy
 #| msgid "Toggle Features"
 msgid "Beta Features"
 msgstr "خصائص التبديل"
 
-#: includes/admin/options/class-up-options-general.php:816
+#: includes/admin/options/class-up-options-general.php:875
 #, fuzzy
 msgid "Ticking this box will enable beta features."
 msgstr "سيؤدي النقر فوق هذا المربع إلى تمكين ميزات الإصدار التجريبي."
 
-#: includes/admin/options/class-up-options-general.php:826
+#: includes/admin/options/class-up-options-general.php:885
 msgid "Remove Data"
 msgstr "إزالة البيانات"
 
-#: includes/admin/options/class-up-options-general.php:830
+#: includes/admin/options/class-up-options-general.php:889
 msgid ""
 "Ticking this box will delete all UpStream data when plugin is uninstalled."
 msgstr ""
 "بالنقر على هذه الخانة سوف يتم مسح كل بيانات UpStream عندما يتم الغاء تثبيت "
 "المكون الإضافى."
 
-#: includes/admin/options/class-up-options-general.php:835
+#: includes/admin/options/class-up-options-general.php:894
 msgid "Remove all data on uninstall?"
 msgstr "إزالة كل البيانات عند الغاء التثبيت؟"
 
-#: includes/admin/options/class-up-options-general.php:889
-#: includes/admin/options/class-up-options-general.php:893
-#: includes/admin/options/class-up-options-general.php:1048
-#: includes/admin/options/class-up-options-general.php:1052
-#: includes/admin/options/class-up-options-general.php:1083
-#: includes/admin/options/class-up-options-general.php:1087
+#: includes/admin/options/class-up-options-general.php:948
+#: includes/admin/options/class-up-options-general.php:952
+#: includes/admin/options/class-up-options-general.php:966
+#: includes/admin/options/class-up-options-general.php:970
+#: includes/admin/options/class-up-options-general.php:1125
+#: includes/admin/options/class-up-options-general.php:1129
+#: includes/admin/options/class-up-options-general.php:1160
+#: includes/admin/options/class-up-options-general.php:1164
 msgid "Invalid Nonce"
 msgstr "مناسبة غير صالحة"
 
-#: includes/admin/options/class-up-options-general.php:902
-#: includes/admin/options/class-up-options-general.php:945
+#: includes/admin/options/class-up-options-general.php:979
+#: includes/admin/options/class-up-options-general.php:1022
 #, fuzzy
 msgid "You must be an administrator to import data."
 msgstr "يجب أن تكون مسؤولاً لاستيراد البيانات."
 
-#: includes/admin/options/class-up-options-general.php:905
+#: includes/admin/options/class-up-options-general.php:982
 #, fuzzy
 #| msgid "Log file not found."
 msgid "No file found."
 msgstr "لم يتم العثور على ملف السجل."
 
-#: includes/admin/options/class-up-options-general.php:962
+#: includes/admin/options/class-up-options-general.php:1039
 #, fuzzy
 #| msgid "Log file not found."
 msgid "The file could not be found."
 msgstr "لم يتم العثور على ملف السجل."
 
-#: includes/admin/options/class-up-options-general.php:967
+#: includes/admin/options/class-up-options-general.php:1044
 #, fuzzy
 msgid "A general error occurred."
 msgstr "حدث خطأ عام."
 
-#: includes/admin/options/class-up-options-general.php:1093
+#: includes/admin/options/class-up-options-general.php:1170
 msgid "Invalid project id"
 msgstr "رقم تعريفى للمشروع غير صالح"
 
@@ -1930,6 +2113,28 @@ msgid ""
 msgstr ""
 "الحالات والألوان التي يمكن إستخدامها للحالة الأساسية الخاصة ب %s.<br>سوف يصبح "
 "متاحآ فى %s القائمة المنسدلة للحالة داخل %s"
+
+#: includes/admin/options/class-up-options-projects.php:169
+msgid "Other Settings"
+msgstr "إعدادات اخرى"
+
+#: includes/admin/options/class-up-options-projects.php:172
+#, fuzzy
+msgid "Additional settings for projects in UpStream."
+msgstr "إعدادات إضافية للمشاريع في UpStream."
+
+#: includes/admin/options/class-up-options-projects.php:175
+#, fuzzy
+msgid "Number of Projects Per Page on Frontend"
+msgstr "عدد المشاريع لكل صفحة على الواجهة الأمامية"
+
+#: includes/admin/options/class-up-options-projects.php:178
+#, fuzzy
+#| msgid ""
+#| "If enabled, all projects will be displayed in the sidebar on frontend."
+msgid "The number of projects per page to display on front end."
+msgstr ""
+"فى حالة الإتاحة، كل المشروعات سوف يتم عرضها على الشريط الجانبى فى الواجهة."
 
 #: includes/admin/options/class-up-options-tasks.php:165
 msgid "Percentage"
@@ -2318,7 +2523,9 @@ msgid ""
 "Header column %s must be of the form item.field (example: project.title)."
 msgstr "عمود المقدمة %s يجب أن يكون من عنصر النموذج .الحقل (مثال: مشروع.عنوان)."
 
-#: includes/class-up-import.php:384
+#: includes/class-up-import.php:384 includes/model/UpStream_Model_Manager.php:18
+#: includes/model/UpStream_Model_Manager.php:159
+#: includes/model/UpStream_Model_Manager.php:193
 #, php-format
 msgid "Item type %s is not valid."
 msgstr "نوع العنصر %s غير صالح."
@@ -2333,7 +2540,7 @@ msgctxt "upstream"
 msgid "Add new %s"
 msgstr "اضف %s جديد"
 
-#: includes/class-up-milestones.php:230 includes/up-post-types.php:218
+#: includes/class-up-milestones.php:230 includes/up-post-types.php:220
 #, php-format
 msgid "Edit %s"
 msgstr "تعديل  %s"
@@ -2348,7 +2555,7 @@ msgstr "جديد %s"
 msgid "View %s"
 msgstr "عرض %s"
 
-#: includes/class-up-milestones.php:234 includes/up-post-types.php:212
+#: includes/class-up-milestones.php:234 includes/up-post-types.php:214
 #, php-format
 msgid "Search %s"
 msgstr "بحث  %s"
@@ -2368,7 +2575,7 @@ msgstr "%s غير متوفر بالمهملات"
 msgid "Parent %s:"
 msgstr "الأصل %s:"
 
-#: includes/class-up-milestones.php:238 includes/up-post-types.php:226
+#: includes/class-up-milestones.php:238 includes/up-post-types.php:228
 #, php-format
 msgid "%s"
 msgstr "%s"
@@ -2416,6 +2623,7 @@ msgstr "مشروع"
 
 #: includes/class-up-milestones.php:341
 #: includes/frontend/up-table-functions.php:70
+#: includes/model/UpStream_Model_Milestone.php:270
 msgid "Color"
 msgstr "اللون"
 
@@ -2449,9 +2657,15 @@ msgstr "جديد: %s - %s على %s"
 msgid "Edit: %s from %s to %s on %s"
 msgstr "تحرير: %s من %s الى %s على %s"
 
-#: includes/class-up-project.php:493
+#: includes/class-up-project.php:501
 msgid "This project is being edited by "
 msgstr "يتم تعديل هذا الموضوع بواسطة "
+
+#: includes/class-up-report.php:499
+#, fuzzy
+#| msgid "Project Label"
+msgid "Project Table"
+msgstr "عنوان المشروع"
 
 #: includes/frontend/class-up-login.php:92
 msgid "Email address field cannot be empty."
@@ -2482,211 +2696,211 @@ msgstr "آسف، من غير المصرح لك الدخول الى هذا الم
 msgid "You were just logged out."
 msgstr "لقد قمت بالخروج للتو."
 
-#: includes/frontend/up-enqueues.php:146 includes/frontend/up-enqueues.php:162
+#: includes/frontend/up-enqueues.php:149 includes/frontend/up-enqueues.php:165
 #, php-format
 msgctxt "%s: item name, ie Milestones, Tasks, Bugs, Files, Discussion"
 msgid "You haven't created any %s yet"
 msgstr "لم تقم بإنشاء أى %s حتى الآن"
 
-#: includes/frontend/up-enqueues.php:158
+#: includes/frontend/up-enqueues.php:161
 msgid "Copy"
 msgstr "نسخ"
 
-#: includes/frontend/up-enqueues.php:159 templates/archive-project.php:54
+#: includes/frontend/up-enqueues.php:162 templates/archive-project.php:76
 #: templates/global/sidebar.php:28 templates/single-project/bugs.php:144
 #: templates/single-project/bugs.php:177 templates/single-project/files.php:118
 #: templates/single-project/files.php:151
 #: templates/single-project/milestones.php:102
 #: templates/single-project/milestones.php:136
-#: templates/single-project/tasks.php:157 templates/single-project/tasks.php:191
+#: templates/single-project/tasks.php:168 templates/single-project/tasks.php:202
 msgid "CSV"
 msgstr "CSV"
 
-#: includes/frontend/up-enqueues.php:160
+#: includes/frontend/up-enqueues.php:163
 msgid "Search:"
 msgstr "بحث:"
 
-#: includes/frontend/up-enqueues.php:171
+#: includes/frontend/up-enqueues.php:174
 msgid "Sunday"
 msgstr "الأحد"
 
-#: includes/frontend/up-enqueues.php:172
+#: includes/frontend/up-enqueues.php:175
 msgid "Monday"
 msgstr "الإثنين"
 
-#: includes/frontend/up-enqueues.php:173
+#: includes/frontend/up-enqueues.php:176
 msgid "Tuesday"
 msgstr "الثلاثاء"
 
-#: includes/frontend/up-enqueues.php:174
+#: includes/frontend/up-enqueues.php:177
 msgid "Wednesday"
 msgstr "الأربعاء"
 
-#: includes/frontend/up-enqueues.php:175
+#: includes/frontend/up-enqueues.php:178
 msgid "Thursday"
 msgstr "الخميس"
 
-#: includes/frontend/up-enqueues.php:176
+#: includes/frontend/up-enqueues.php:179
 msgid "Friday"
 msgstr "الجمعة"
 
-#: includes/frontend/up-enqueues.php:177
+#: includes/frontend/up-enqueues.php:180
 msgid "Saturday"
 msgstr "السبت"
 
-#: includes/frontend/up-enqueues.php:178
+#: includes/frontend/up-enqueues.php:181
 msgid "Sun"
 msgstr "الأحد"
 
-#: includes/frontend/up-enqueues.php:179
+#: includes/frontend/up-enqueues.php:182
 msgid "Mon"
 msgstr "الإثنين"
 
-#: includes/frontend/up-enqueues.php:180
+#: includes/frontend/up-enqueues.php:183
 msgid "Tue"
 msgstr "الثلاثاء"
 
-#: includes/frontend/up-enqueues.php:181
+#: includes/frontend/up-enqueues.php:184
 msgid "Wed"
 msgstr "الاربعاء"
 
-#: includes/frontend/up-enqueues.php:182
+#: includes/frontend/up-enqueues.php:185
 msgid "Thu"
 msgstr "الخميس"
 
-#: includes/frontend/up-enqueues.php:183
+#: includes/frontend/up-enqueues.php:186
 msgid "Fri"
 msgstr "الجمعة"
 
-#: includes/frontend/up-enqueues.php:184
+#: includes/frontend/up-enqueues.php:187
 msgid "Sat"
 msgstr "السبت"
 
-#: includes/frontend/up-enqueues.php:185
+#: includes/frontend/up-enqueues.php:188
 msgid "Su"
 msgstr "الأحد"
 
-#: includes/frontend/up-enqueues.php:186
+#: includes/frontend/up-enqueues.php:189
 msgid "Mo"
 msgstr "الإثنين"
 
-#: includes/frontend/up-enqueues.php:187
+#: includes/frontend/up-enqueues.php:190
 msgid "Tu"
 msgstr "الثلاثاء"
 
-#: includes/frontend/up-enqueues.php:188
+#: includes/frontend/up-enqueues.php:191
 msgid "We"
 msgstr "الأربعاء"
 
-#: includes/frontend/up-enqueues.php:189
+#: includes/frontend/up-enqueues.php:192
 msgid "Th"
 msgstr "الخميس"
 
-#: includes/frontend/up-enqueues.php:190
+#: includes/frontend/up-enqueues.php:193
 msgid "Fr"
 msgstr "الجمعة"
 
-#: includes/frontend/up-enqueues.php:191
+#: includes/frontend/up-enqueues.php:194
 msgid "Sa"
 msgstr "السبت"
 
-#: includes/frontend/up-enqueues.php:192
+#: includes/frontend/up-enqueues.php:195
 msgid "January"
 msgstr "يناير"
 
-#: includes/frontend/up-enqueues.php:193
+#: includes/frontend/up-enqueues.php:196
 msgid "February"
 msgstr "فبراير"
 
-#: includes/frontend/up-enqueues.php:194
+#: includes/frontend/up-enqueues.php:197
 msgid "March"
 msgstr "مارس"
 
-#: includes/frontend/up-enqueues.php:195
+#: includes/frontend/up-enqueues.php:198
 msgid "April"
 msgstr "ابريل"
 
-#: includes/frontend/up-enqueues.php:196
+#: includes/frontend/up-enqueues.php:199
 msgid "May"
 msgstr "مايو"
 
-#: includes/frontend/up-enqueues.php:197
+#: includes/frontend/up-enqueues.php:200
 msgid "June"
 msgstr "يونيو"
 
-#: includes/frontend/up-enqueues.php:198
+#: includes/frontend/up-enqueues.php:201
 msgid "July"
 msgstr "يوليو"
 
-#: includes/frontend/up-enqueues.php:199
+#: includes/frontend/up-enqueues.php:202
 msgid "August"
 msgstr "أغسطس"
 
-#: includes/frontend/up-enqueues.php:200
+#: includes/frontend/up-enqueues.php:203
 msgid "September"
 msgstr "سبتمبر"
 
-#: includes/frontend/up-enqueues.php:201
+#: includes/frontend/up-enqueues.php:204
 msgid "October"
 msgstr "أكتوبر"
 
-#: includes/frontend/up-enqueues.php:202
+#: includes/frontend/up-enqueues.php:205
 msgid "November"
 msgstr "نوفمبر"
 
-#: includes/frontend/up-enqueues.php:203
+#: includes/frontend/up-enqueues.php:206
 msgid "December"
 msgstr "ديسمبر"
 
-#: includes/frontend/up-enqueues.php:204
+#: includes/frontend/up-enqueues.php:207
 msgid "Jan"
 msgstr "يناير"
 
-#: includes/frontend/up-enqueues.php:205
+#: includes/frontend/up-enqueues.php:208
 msgid "Feb"
 msgstr "فبراير"
 
-#: includes/frontend/up-enqueues.php:206
+#: includes/frontend/up-enqueues.php:209
 msgid "Mar"
 msgstr "مارس"
 
-#: includes/frontend/up-enqueues.php:207
+#: includes/frontend/up-enqueues.php:210
 msgid "Apr"
 msgstr "أبريل"
 
-#: includes/frontend/up-enqueues.php:208
+#: includes/frontend/up-enqueues.php:211
 msgid "Jun"
 msgstr "يونيو"
 
-#: includes/frontend/up-enqueues.php:209
+#: includes/frontend/up-enqueues.php:212
 msgid "Jul"
 msgstr "يوليو"
 
-#: includes/frontend/up-enqueues.php:210
+#: includes/frontend/up-enqueues.php:213
 msgid "Aug"
 msgstr "أغسطس"
 
-#: includes/frontend/up-enqueues.php:211
+#: includes/frontend/up-enqueues.php:214
 msgid "Sep"
 msgstr "سبتمبر"
 
-#: includes/frontend/up-enqueues.php:212
+#: includes/frontend/up-enqueues.php:215
 msgid "Oct"
 msgstr "أكتوبر"
 
-#: includes/frontend/up-enqueues.php:213
+#: includes/frontend/up-enqueues.php:216
 msgid "Nov"
 msgstr "نوفمبر"
 
-#: includes/frontend/up-enqueues.php:214
+#: includes/frontend/up-enqueues.php:217
 msgid "Dec"
 msgstr "ديسمبر"
 
-#: includes/frontend/up-enqueues.php:215
+#: includes/frontend/up-enqueues.php:218
 msgid "Today"
 msgstr "اليوم"
 
-#: includes/frontend/up-enqueues.php:216
+#: includes/frontend/up-enqueues.php:219
 msgid "Clear"
 msgstr "مسح"
 
@@ -2716,7 +2930,8 @@ msgid "This Severity doesn't exist anymore."
 msgstr "هذه الخطورة لم تعد موجودة بعد الآن."
 
 #: includes/frontend/up-table-functions.php:343
-#: includes/frontend/up-table-functions.php:397 includes/up-labels.php:69
+#: includes/frontend/up-table-functions.php:397
+#: includes/model/UpStream_Model_File.php:159 includes/up-labels.php:69
 #: templates/single-project/files.php:49
 msgid "File"
 msgstr "ملف"
@@ -2730,12 +2945,11 @@ msgstr "تحميل التاريخ"
 msgid "Client users"
 msgstr "مستخدمى العميل"
 
-#: includes/frontend/up-table-functions.php:881
+#: includes/frontend/up-table-functions.php:913
 msgid "No results found."
 msgstr "لا توجد نتائج."
 
-#: includes/frontend/up-table-functions.php:954
-#: templates/archive-project.php:670
+#: includes/frontend/up-table-functions.php:986
 #, php-format
 msgctxt "upstream"
 msgid " %s found"
@@ -2749,76 +2963,83 @@ msgstr "في الوقت الحالي لا توجد ملفات"
 msgid "In reply to"
 msgstr "رداً على"
 
-#: includes/model/UpStream_Model_Bug.php:170
-#: includes/model/UpStream_Model_File.php:97
+#: includes/model/UpStream_Model_Bug.php:199
+#: includes/model/UpStream_Model_File.php:142
 #, php-format
 msgid "File ID %s is invalid."
 msgstr "الرقم التعريفى للملف %s غير صالح."
 
-#: includes/model/UpStream_Model_Bug.php:187
+#: includes/model/UpStream_Model_Bug.php:216
 #, php-format
 msgid "Severity %s is invalid."
 msgstr "الخطر %s غير صالح."
 
-#: includes/model/UpStream_Model_Bug.php:204
+#: includes/model/UpStream_Model_Bug.php:233
 #, php-format
 msgid "Severity code %s is invalid."
 msgstr "كود الخطر %s غير صالح."
 
-#: includes/model/UpStream_Model_Bug.php:221
-#: includes/model/UpStream_Model_Project.php:334
-#: includes/model/UpStream_Model_Task.php:194
+#: includes/model/UpStream_Model_Bug.php:250
+#: includes/model/UpStream_Model_Project.php:379
+#: includes/model/UpStream_Model_Task.php:223
 #, php-format
 msgid "Status %s is invalid."
 msgstr "الحالة %s غير صالحة."
 
-#: includes/model/UpStream_Model_Bug.php:239
-#: includes/model/UpStream_Model_Project.php:352
-#: includes/model/UpStream_Model_Task.php:212
+#: includes/model/UpStream_Model_Bug.php:268
+#: includes/model/UpStream_Model_Project.php:397
+#: includes/model/UpStream_Model_Task.php:241
 #, php-format
 msgid "Status code %s is invalid."
 msgstr "كود الحالة %s غير صالح."
 
-#: includes/model/UpStream_Model_Bug.php:246
-#: includes/model/UpStream_Model_Milestone.php:168
-#: includes/model/UpStream_Model_Project.php:393
-#: includes/model/UpStream_Model_Task.php:237
-msgid "Argument is not a valid date."
+#: includes/model/UpStream_Model_Bug.php:275
+#: includes/model/UpStream_Model_Milestone.php:211
+#: includes/model/UpStream_Model_Project.php:440
+#: includes/model/UpStream_Model_Task.php:266
+#, fuzzy
+#| msgid "Argument is not a valid date."
+msgid "Argument is not a valid date of the form YYYY-MM-DD."
 msgstr "الوسيط ليس بتاريخ صالح."
 
-#: includes/model/UpStream_Model_Bug.php:253
-#: includes/model/UpStream_Model_Bug.php:257
-#: includes/model/UpStream_Model_Task.php:244
-#: includes/model/UpStream_Model_Task.php:248
+#: includes/model/UpStream_Model_Bug.php:282
+#: includes/model/UpStream_Model_Bug.php:286
+#: includes/model/UpStream_Model_Task.php:273
+#: includes/model/UpStream_Model_Task.php:277
 #, fuzzy
 msgid "Argument must be an array of UpStream_Model_TimeRecord objects."
 msgstr "يجب أن تكون الوسيطة صفيف كائنات UpStream_Model_TimeRecord."
 
-#: includes/model/UpStream_Model_Client.php:88
-#: includes/model/UpStream_Model_Client.php:91
-#: includes/model/UpStream_Model_Object.php:139
+#: includes/model/UpStream_Model_Client.php:101
+#: includes/model/UpStream_Model_Client.php:104
+#: includes/model/UpStream_Model_Object.php:163
 #, php-format
 msgid "User ID %s does not exist."
 msgstr "الرقم التعريفى للمستخدم %s غير موجود."
 
-#: includes/model/UpStream_Model_Client.php:95
+#: includes/model/UpStream_Model_Client.php:108
 #, php-format
 msgid "User ID %s is already attached."
 msgstr "الرقم التعريفى للمستخدم %s مرفق بالفعل."
 
-#: includes/model/UpStream_Model_Client.php:115
+#: includes/model/UpStream_Model_Client.php:128
 #, php-format
 msgid "User ID %s is not attached."
 msgstr "الرقم التعريفى للمستخدم %s غير مرفق."
 
-#: includes/model/UpStream_Model_Client.php:168
-#: includes/model/UpStream_Model_Milestone.php:195
-#: includes/model/UpStream_Model_Project.php:449
-#: includes/model/UpStream_Model_Task.php:277
+#: includes/model/UpStream_Model_Client.php:205
+#: includes/model/UpStream_Model_Milestone.php:284
+#: includes/model/UpStream_Model_Project.php:524
+#: includes/model/UpStream_Model_Task.php:325
 msgid "User ID does not exist."
 msgstr "الرقم التعريفى للمستخدم غير موجود."
 
-#: includes/model/UpStream_Model_Manager.php:22
+#: includes/model/UpStream_Model_File.php:138
+#, fuzzy
+msgid "Set not implemented for Upfs."
+msgstr "لم يتم تنفيذ المجموعة لـ Upfs."
+
+#: includes/model/UpStream_Model_Manager.php:28
 #, php-format
 msgid ""
 "This (ID = %s, TYPE = %s, PARENT ID = %s, PARENT TYPE = %s) is not a valid "
@@ -2831,40 +3052,64 @@ msgstr ""
 msgid "Parent is of the wrong type."
 msgstr "الأصل هو من النوع الخطأ."
 
-#: includes/model/UpStream_Model_Milestone.php:157
-#: includes/model/UpStream_Model_Project.php:314
+#: includes/model/UpStream_Model_Milestone.php:175
+#, fuzzy
+#| msgid "Not implemented. Use &tasks(), &files(), or &bugs()."
+msgid "Not implemented. Use &tasks()."
+msgstr "لم ينفذ. إستخدام &مهام(), &ملفات(), أو &أخطاء()."
+
+#: includes/model/UpStream_Model_Milestone.php:200
+#: includes/model/UpStream_Model_Project.php:359
 #, php-format
 msgid "Term ID %s is invalid."
 msgstr "الرقم التعريفى للمدة %s غير صالح."
 
-#: includes/model/UpStream_Model_Milestone.php:175
+#: includes/model/UpStream_Model_Milestone.php:218
 #, fuzzy, php-format
 #| msgid "This (%s) is not a valid property."
 msgid "%s is not a valid hex string."
 msgstr "هذا (%s) ليس بملكية صالحة."
 
+#: includes/model/UpStream_Model_Milestone.php:273
+#: includes/model/UpStream_Model_Project.php:457 includes/up-post-types.php:146
+#: templates/archive-project.php:81 templates/global/sidebar.php:33
+msgid "Categories"
+msgstr "الفئات"
+
+#: includes/model/UpStream_Model_Milestone.php:274
+#: includes/model/UpStream_Model_Project.php:460
+#: includes/model/UpStream_Model_Task.php:298
+#, fuzzy
+#| msgid "Progress"
+msgid "Progress (%)"
+msgstr "التقدم"
+
 #: includes/model/UpStream_Model_Object.php:44
-#: includes/model/UpStream_Model_Object.php:96
-#: includes/model/UpStream_Model_TimeRecord.php:115
+#: includes/model/UpStream_Model_Object.php:120
+#: includes/model/UpStream_Model_TimeRecord.php:144
 #, php-format
 msgid "ID %s must be a valid alphanumeric."
 msgstr "الرقم التعريفى %s يجب أن يكون صالح أبجديآ."
 
-#: includes/model/UpStream_Model_Object.php:83
-#: includes/model/UpStream_Model_Object.php:149
-#: includes/model/UpStream_Model_TimeRecord.php:105
-#: includes/model/UpStream_Model_TimeRecord.php:152
+#: includes/model/UpStream_Model_Object.php:69
+msgid "Created By"
+msgstr "تم الإنشاء بواسطة"
+
+#: includes/model/UpStream_Model_Object.php:102
+#: includes/model/UpStream_Model_Object.php:173
+#: includes/model/UpStream_Model_TimeRecord.php:134
+#: includes/model/UpStream_Model_TimeRecord.php:190
 #, php-format
 msgid "This (%s) is not a valid property."
 msgstr "هذا (%s) ليس بملكية صالحة."
 
-#: includes/model/UpStream_Model_Object.php:102
+#: includes/model/UpStream_Model_Object.php:126
 #, fuzzy
 msgid "You must enter a title."
 msgstr "يجب عليك إدخال عنوان."
 
-#: includes/model/UpStream_Model_Object.php:129
-#: includes/model/UpStream_Model_TimeRecord.php:137
+#: includes/model/UpStream_Model_Object.php:153
+#: includes/model/UpStream_Model_TimeRecord.php:166
 #, fuzzy, php-format
 #| msgid "User %s (%s) does not exist."
 msgid "User \"%s\" (for field %s) does not exist."
@@ -2899,75 +3144,76 @@ msgstr "ليس بالإمكان تحميل المنشور بالرقم التع�
 msgid "ID must be a valid numeric."
 msgstr "الرقم التعريفى يجب أن يكون رقمآ صالحآ."
 
-#: includes/model/UpStream_Model_Project.php:192
+#: includes/model/UpStream_Model_Project.php:227
 #, fuzzy
 #| msgid "Can only add objects of type UpStream_Model_Meta_Object"
 msgid "Argument must be of type UpStream_Model_Meta_Object"
 msgstr "يمكن فقط إضافة الموضوعات من النوع UpStream_Model_Meta_Object"
 
-#: includes/model/UpStream_Model_Project.php:218
+#: includes/model/UpStream_Model_Project.php:253
 msgid "Can only add objects of type UpStream_Model_Meta_Object"
 msgstr "يمكن فقط إضافة الموضوعات من النوع UpStream_Model_Meta_Object"
 
-#: includes/model/UpStream_Model_Project.php:295
+#: includes/model/UpStream_Model_Project.php:340
 msgid "Not implemented. Use &tasks(), &files(), or &bugs()."
 msgstr "لم ينفذ. إستخدام &مهام(), &ملفات(), أو &أخطاء()."
 
-#: includes/model/UpStream_Model_Project.php:360
+#: includes/model/UpStream_Model_Project.php:407
 msgid "For projects, assignedTo must be an array of length 1."
 msgstr "بالنسبة للمشروعات, المسند له يجب أن يتكون من مصفوفة ذات طول  1."
 
-#: includes/model/UpStream_Model_Project.php:373
+#: includes/model/UpStream_Model_Project.php:420
 msgid "Cannot assign client users if the project has no client."
 msgstr "من غير الممكن إسنادمستخدمى عميل إذا لم يكن للمشروع عميل."
 
-#: includes/model/UpStream_Model_Project.php:376
+#: includes/model/UpStream_Model_Project.php:423
 msgid "Client user IDs must be an array."
 msgstr "يجب أن يكون الرقم التعريفى لمستخدم العميل على هيئة مصفوفة."
 
-#: includes/model/UpStream_Model_Project.php:379
+#: includes/model/UpStream_Model_Project.php:426
 msgid "Input cannot contain duplicates."
 msgstr "لا يمكن أن يحتوي الإدخال على تكرارات."
 
-#: includes/model/UpStream_Model_Project.php:384
+#: includes/model/UpStream_Model_Project.php:431
 #, php-format
 msgid "User ID %s does not exist in this client."
 msgstr "الرقم التعريفى للمستخدم %s غير موجود لهذا العميل."
 
-#: includes/model/UpStream_Model_Task.php:176
+#: includes/model/UpStream_Model_Task.php:205
 msgid "Argument must be of type milestone."
 msgstr "الوسيط يجب أن يكون من النوع مرحلة رئيسية."
 
-#: includes/model/UpStream_Model_Task.php:178
+#: includes/model/UpStream_Model_Task.php:207
 msgid "Milestone must be stored before setting."
 msgstr "يجب أن يتم تخزين المرحلة الرئيسية قبل الإعدادت."
 
-#: includes/model/UpStream_Model_Task.php:229
+#: includes/model/UpStream_Model_Task.php:258
 msgid "Argument must be a multiple of 5 between 0 and 100."
 msgstr "يجب أن يكون الوسيط من مضاعفات 5 بين 0 و 100."
 
-#: includes/model/UpStream_Model_TimeRecord.php:145
+#: includes/model/UpStream_Model_TimeRecord.php:174
+#: includes/model/UpStream_Model_TimeRecord.php:183
 #, fuzzy, php-format
 #| msgid "This (%s) is not a valid property."
 msgid "This (%s) is not a number."
 msgstr "هذا (%s) ليس بملكية صالحة."
 
-#: includes/up-general-functions.php:277
+#: includes/up-general-functions.php:298
 #, php-format
 msgid "%s User"
 msgstr "مستخدم %s"
 
-#: includes/up-general-functions.php:280
+#: includes/up-general-functions.php:301
 #, php-format
 msgid "%s Manager"
 msgstr "مدير %s"
 
-#: includes/up-general-functions.php:283
+#: includes/up-general-functions.php:304
 #, php-format
 msgid "%s Client User"
 msgstr "مستخدم العميل %s"
 
-#: includes/up-general-functions.php:376
+#: includes/up-general-functions.php:397
 msgid "Client User"
 msgstr "مستخدم العميل"
 
@@ -3009,18 +3255,18 @@ msgstr "من فضلك، قم بتحديث WordPress لديك."
 msgid "Go Back"
 msgstr "الرجوع للوراء"
 
-#: includes/up-install.php:609
+#: includes/up-install.php:621
 msgid "Success! UpStream is up and running."
 msgstr "عملية ناجحة! تم تنصيب وتشغيل UpStream ."
 
-#: includes/up-install.php:611
+#: includes/up-install.php:623
 msgid ""
 "Step 1. Please go through each settings tab below and configure the options."
 msgstr ""
 "الخطوة 1. من فضلك قم بالمرور على كل علامة تبويب للإعدادات أدناه وقم بتهيئة "
 "الخيارات ."
 
-#: includes/up-install.php:615
+#: includes/up-install.php:627
 msgid ""
 "Step 2. Add a new Client by navigating to <strong>Projects > New Client</"
 "strong>"
@@ -3028,7 +3274,7 @@ msgstr ""
 "الخطوة 2. أضف عميل جديد عن طريق الإنتقال الى <strong>المشاريع > عميل جديد</"
 "strong>"
 
-#: includes/up-install.php:619
+#: includes/up-install.php:631
 msgid ""
 "Step 3. Add your first Project by navigating to <strong>Projects > New "
 "Project</strong>"
@@ -3036,11 +3282,11 @@ msgstr ""
 "الخطوة3. أضف مشروعك الأول عن طريق الإنتقال الى <strong>المشاريع > مشروع جديد</"
 "strong>"
 
-#: includes/up-install.php:858
+#: includes/up-install.php:870
 msgid "UpStream needs to be reactivated."
 msgstr "يحتاج UpStream الى إعادة تفعيل."
 
-#: includes/up-install.php:860
+#: includes/up-install.php:872
 msgid ""
 "In order to complete the upgrade to this version, you will need to deactivate "
 "and re-activate Upstream. Make sure Remove Data under the UpStream menu is "
@@ -3198,316 +3444,315 @@ msgstr "قاعدة المشروعات"
 msgid "Client base"
 msgstr "قاعدة العميل"
 
-#: includes/up-post-types.php:21 includes/up-post-types.php:71
+#: includes/up-post-types.php:23 includes/up-post-types.php:73
 #, php-format
 msgctxt "project post type name"
 msgid "%2$s"
 msgstr "%2$s"
 
-#: includes/up-post-types.php:22 includes/up-post-types.php:72
+#: includes/up-post-types.php:24 includes/up-post-types.php:74
 #, php-format
 msgctxt "singular project post type name"
 msgid "%1$s"
 msgstr "%1$s"
 
-#: includes/up-post-types.php:23 includes/up-post-types.php:73
+#: includes/up-post-types.php:25 includes/up-post-types.php:75
 #, php-format
 msgid "New %1s"
 msgstr "%1s جديد"
 
-#: includes/up-post-types.php:24 includes/up-post-types.php:74
+#: includes/up-post-types.php:26 includes/up-post-types.php:76
 #, php-format
 msgid "Add New %1$s"
 msgstr "أضف %1$s جديد"
 
-#: includes/up-post-types.php:25 includes/up-post-types.php:75
+#: includes/up-post-types.php:27 includes/up-post-types.php:77
 #, php-format
 msgid "Edit %1$s"
 msgstr "تعديل %1$s"
 
-#: includes/up-post-types.php:26 includes/up-post-types.php:76
+#: includes/up-post-types.php:28 includes/up-post-types.php:78
 #, php-format
 msgid "New %1$s"
 msgstr "%1$s جديد"
 
-#: includes/up-post-types.php:27 includes/up-post-types.php:77
+#: includes/up-post-types.php:29 includes/up-post-types.php:79
 #, php-format
 msgid "%2$s"
 msgstr "%2$s"
 
-#: includes/up-post-types.php:28 includes/up-post-types.php:78
+#: includes/up-post-types.php:30 includes/up-post-types.php:80
 #, php-format
 msgid "View %1$s"
 msgstr "مشاهدة  %1$s"
 
-#: includes/up-post-types.php:29 includes/up-post-types.php:79
+#: includes/up-post-types.php:31 includes/up-post-types.php:81
 #, php-format
 msgid "Search %2$s"
 msgstr "بحث  %2$s"
 
-#: includes/up-post-types.php:30 includes/up-post-types.php:80
+#: includes/up-post-types.php:32 includes/up-post-types.php:82
 #, php-format
 msgid "No %2$s found"
 msgstr "%2$s لم يتم العثور عليه"
 
-#: includes/up-post-types.php:31 includes/up-post-types.php:81
+#: includes/up-post-types.php:33 includes/up-post-types.php:83
 #, php-format
 msgid "No %2$s found in Trash"
 msgstr "%2$s لم يتم العثور عليه في المهملات"
 
-#: includes/up-post-types.php:33 includes/up-post-types.php:83
+#: includes/up-post-types.php:35 includes/up-post-types.php:85
 #, php-format
 msgctxt "project post type menu name"
 msgid "%2$s"
 msgstr "%2$s"
 
-#: includes/up-post-types.php:34 includes/up-post-types.php:84
+#: includes/up-post-types.php:36 includes/up-post-types.php:86
 #, php-format
 msgid "%1$s Image"
 msgstr "صورة %1$s"
 
-#: includes/up-post-types.php:35 includes/up-post-types.php:85
+#: includes/up-post-types.php:37 includes/up-post-types.php:87
 #, php-format
 msgid "Set %1$s Image"
 msgstr "تعيين صورة %1$s"
 
-#: includes/up-post-types.php:36 includes/up-post-types.php:86
+#: includes/up-post-types.php:38 includes/up-post-types.php:88
 #, php-format
 msgid "Remove %1$s Image"
 msgstr "إزالة صورة %1$s"
 
-#: includes/up-post-types.php:37 includes/up-post-types.php:87
+#: includes/up-post-types.php:39 includes/up-post-types.php:89
 #, php-format
 msgid "Use as %1$s Image"
 msgstr "استخدام كصورةـ %1$s"
 
-#: includes/up-post-types.php:38 includes/up-post-types.php:88
+#: includes/up-post-types.php:40 includes/up-post-types.php:90
 #, php-format
 msgid "Filter %2$s list"
 msgstr "ترشيح قائمة %2$s"
 
-#: includes/up-post-types.php:39 includes/up-post-types.php:89
+#: includes/up-post-types.php:41 includes/up-post-types.php:91
 #, php-format
 msgid "%2$s list navigation"
 msgstr "قائمة الإنتقال %2$s"
 
-#: includes/up-post-types.php:40 includes/up-post-types.php:90
+#: includes/up-post-types.php:42 includes/up-post-types.php:92
 #, php-format
 msgid "%2$s list"
 msgstr "قائمة %2$s"
 
-#: includes/up-post-types.php:134
+#: includes/up-post-types.php:136
 msgctxt "taxonomy general name"
 msgid "Category"
 msgstr "الفئة"
 
-#: includes/up-post-types.php:135
+#: includes/up-post-types.php:137
 msgctxt "taxonomy singular name"
 msgid "Category"
 msgstr "الفئة"
 
-#: includes/up-post-types.php:136
+#: includes/up-post-types.php:138
 #, php-format
 msgid "Search %s Categories"
 msgstr "بحث فئات %s"
 
-#: includes/up-post-types.php:137
+#: includes/up-post-types.php:139
 #, php-format
 msgid "All %s Categories"
 msgstr "كل فئات %s"
 
-#: includes/up-post-types.php:138
+#: includes/up-post-types.php:140
 #, php-format
 msgid "Parent %s Category"
 msgstr "الفئة الأصل %s"
 
-#: includes/up-post-types.php:139
+#: includes/up-post-types.php:141
 #, php-format
 msgid "Parent %s Category:"
 msgstr "الفئة الأصل %s:"
 
-#: includes/up-post-types.php:140
+#: includes/up-post-types.php:142
 #, php-format
 msgid "Edit %s Category"
 msgstr "تعديل فئة %s"
 
-#: includes/up-post-types.php:141
+#: includes/up-post-types.php:143
 #, php-format
 msgid "Update %s Category"
 msgstr "تحديث فئة %s"
 
-#: includes/up-post-types.php:142
+#: includes/up-post-types.php:144
 #, php-format
 msgid "Add New %s Category"
 msgstr "إضافة فئة %s جديدة"
 
-#: includes/up-post-types.php:143
+#: includes/up-post-types.php:145
 #, php-format
 msgid "New %s Category Name"
 msgstr "اسم فئة %s جديد"
 
-#: includes/up-post-types.php:144 templates/archive-project.php:59
-#: templates/global/sidebar.php:33
-msgid "Categories"
-msgstr "الفئات"
-
-#: includes/up-post-types.php:169
+#: includes/up-post-types.php:171
 msgctxt "taxonomy (tag) general name"
 msgid "Tags"
 msgstr "العلامات"
 
-#: includes/up-post-types.php:170
+#: includes/up-post-types.php:172
 msgctxt "taxonomy (tag) singular name"
 msgid "Tag"
 msgstr "علامة"
 
-#: includes/up-post-types.php:171
+#: includes/up-post-types.php:173
 msgid "Search Tags"
 msgstr "البحث فى العلامات"
 
-#: includes/up-post-types.php:172
+#: includes/up-post-types.php:174
 msgid "Popular Tags"
 msgstr "العلامات الشائعة"
 
-#: includes/up-post-types.php:173
+#: includes/up-post-types.php:175
 msgid "All Tags"
 msgstr "كل العلامات"
 
-#: includes/up-post-types.php:176
+#: includes/up-post-types.php:178
 msgid "Edit Tag"
 msgstr "تعديل العلامة"
 
-#: includes/up-post-types.php:177
+#: includes/up-post-types.php:179
 msgid "Update Tag"
 msgstr "تحديث العلامة"
 
-#: includes/up-post-types.php:178
+#: includes/up-post-types.php:180
 msgid "Add New Tag"
 msgstr "أضف علامة جديدة"
 
-#: includes/up-post-types.php:179
+#: includes/up-post-types.php:181
 msgid "New Tag Name"
 msgstr "اسم العلامة الجديد"
 
-#: includes/up-post-types.php:180
+#: includes/up-post-types.php:182
 msgid "Add or remove tags"
 msgstr "إضافة او إزالة العلامات"
 
-#: includes/up-post-types.php:181
+#: includes/up-post-types.php:183
 msgid "Separate tags with commas"
 msgstr "إفصل بين العلامات بإستخدام الفواصل"
 
-#: includes/up-post-types.php:182
+#: includes/up-post-types.php:184
 msgid "Choose from the most used tags"
 msgstr "اختر من العلامات الأكثر استخداماً"
 
-#: includes/up-post-types.php:183
+#: includes/up-post-types.php:185
 msgid "Tags"
 msgstr "العلامات"
 
-#: includes/up-post-types.php:214
+#: includes/up-post-types.php:216
 #, php-format
 msgid "Popular %s"
 msgstr "%s شائع"
 
-#: includes/up-post-types.php:215 templates/global/sidebar.php:90
+#: includes/up-post-types.php:217 templates/global/sidebar.php:95
 #, php-format
 msgid "All %s"
 msgstr "كل %s"
 
-#: includes/up-post-types.php:219
+#: includes/up-post-types.php:221
 #, php-format
 msgid "Update %s"
 msgstr "تحديث %s"
 
-#: includes/up-post-types.php:220
+#: includes/up-post-types.php:222
 #, php-format
 msgid "Add New %s"
 msgstr "إضافة %s  جديد"
 
-#: includes/up-post-types.php:221
+#: includes/up-post-types.php:223
 #, php-format
 msgid "New %s Name"
 msgstr "اسم %s جديد"
 
-#: includes/up-post-types.php:222
+#: includes/up-post-types.php:224
 #, php-format
 msgid "Add or remove %s"
 msgstr "إضافة أو إزالة %s"
 
-#: includes/up-post-types.php:223
+#: includes/up-post-types.php:225
 #, php-format
 msgid "Separate %s with commas"
 msgstr "افصل بين %s بفواصل"
 
-#: includes/up-post-types.php:224
+#: includes/up-post-types.php:226
 #, php-format
 msgid "Choose from the most used %s"
 msgstr "اختر من بين الأكثر استخداماً %s"
 
-#: includes/up-post-types.php:268
+#: includes/up-post-types.php:270
 msgid "Default color"
 msgstr "اللون الافتراضي"
 
-#: includes/up-project-functions.php:639 templates/archive-project.php:48
+#: includes/up-project-functions.php:640 templates/archive-project.php:70
 #: templates/global/sidebar.php:22
 msgid "Ends at"
 msgstr "تنتهى فى"
 
-#: templates/archive-project.php:47 templates/global/sidebar.php:21
-#: templates/global/top-nav.php:57
+#: templates/archive-project.php:69 templates/global/sidebar.php:21
+#: templates/global/top-nav.php:60
 msgid "Log Out"
 msgstr "تسجيل الخروج"
 
-#: templates/archive-project.php:51 templates/global/sidebar.php:25
+#: templates/archive-project.php:73 templates/global/sidebar.php:25
 #: templates/single-project/bugs.php:125 templates/single-project/bugs.php:157
 #: templates/single-project/files.php:99 templates/single-project/files.php:131
 #: templates/single-project/milestones.php:82
 #: templates/single-project/milestones.php:115
-#: templates/single-project/tasks.php:137 templates/single-project/tasks.php:170
+#: templates/single-project/tasks.php:148 templates/single-project/tasks.php:181
 msgid "Toggle Filters"
 msgstr "تبديل المرشحات"
 
-#: templates/archive-project.php:52 templates/global/sidebar.php:26
+#: templates/archive-project.php:74 templates/global/sidebar.php:26
 #: templates/single-project/bugs.php:129 templates/single-project/bugs.php:162
 #: templates/single-project/files.php:103 templates/single-project/files.php:136
 #: templates/single-project/milestones.php:87
 #: templates/single-project/milestones.php:121
-#: templates/single-project/tasks.php:142 templates/single-project/tasks.php:176
+#: templates/single-project/tasks.php:153 templates/single-project/tasks.php:187
 msgid "Export"
 msgstr "تصدير"
 
-#: templates/archive-project.php:53 templates/global/sidebar.php:27
+#: templates/archive-project.php:75 templates/global/sidebar.php:27
 #: templates/single-project/bugs.php:136 templates/single-project/bugs.php:169
 #: templates/single-project/files.php:110 templates/single-project/files.php:143
 #: templates/single-project/milestones.php:94
 #: templates/single-project/milestones.php:128
-#: templates/single-project/tasks.php:149 templates/single-project/tasks.php:183
+#: templates/single-project/tasks.php:160 templates/single-project/tasks.php:194
 msgid "Plain Text"
 msgstr "نص عادي"
 
-#: templates/archive-project.php:63 templates/global/sidebar.php:37
+#: templates/archive-project.php:85 templates/global/sidebar.php:37
 #, php-format
 msgid "%s Complete"
 msgstr "%s كامل"
 
-#: templates/archive-project.php:415
+#: templates/archive-project.php:483
 #, php-format
 msgid "%s Members"
 msgstr "أعضاء %s"
 
-#: templates/archive-project.php:676
+#: templates/archive-project.php:749
 msgid "It seems that you're not participating in any project right now."
 msgstr "يبدو انك غير مشارك في أي مشروع في الوقت الحالي."
 
-#: templates/global/sidebar.php:132 templates/global/sidebar.php:156
-#: templates/global/sidebar.php:181 templates/single-project/overview.php:174
+#: templates/global/sidebar.php:137 templates/global/sidebar.php:161
+#: templates/global/sidebar.php:186 templates/single-project/overview.php:174
 #: templates/single-project/overview.php:206
 #: templates/single-project/overview.php:238
 msgid "Assigned to me"
 msgstr "تم إسنادها الىَ"
 
-#: templates/global/sidebar.php:242 templates/global/top-nav.php:41
+#: templates/global/sidebar.php:230
+msgid "Reports"
+msgstr "تقارير"
+
+#: templates/global/sidebar.php:279 templates/global/top-nav.php:41
 #, php-format
 msgid "My %s"
 msgstr "%s الخاصة بى"
@@ -3524,14 +3769,23 @@ msgstr "كلمة المرور"
 msgid "Sign In"
 msgstr "تسجيل الدخول"
 
-#: templates/single-project/bugs.php:70 templates/single-project/tasks.php:73
-#: templates/single-project/tasks.php:82
+#: templates/report-parameters/display-fields.php:12
+#, fuzzy
+msgid "Include Fields"
+msgstr "تضمين الحقول"
+
+#: templates/report-parameters/section.php:43
+msgid " Filters"
+msgstr "مرشحات"
+
+#: templates/single-project/bugs.php:70 templates/single-project/tasks.php:84
+#: templates/single-project/tasks.php:93
 #, php-format
 msgctxt "%s: column name. Error message when data reference is not found"
 msgid "invalid %s"
 msgstr "%s غير صالح"
 
-#: templates/single-project/bugs.php:71 templates/single-project/tasks.php:74
+#: templates/single-project/bugs.php:71 templates/single-project/tasks.php:85
 msgid "User"
 msgstr "المستخدم"
 
@@ -3552,12 +3806,12 @@ msgid "Uploader"
 msgstr "القائم بالتحميل"
 
 #: templates/single-project/milestones.php:30
-#: templates/single-project/tasks.php:77
+#: templates/single-project/tasks.php:88
 msgid "Starting after"
 msgstr "يبدأ بعد"
 
 #: templates/single-project/milestones.php:31
-#: templates/single-project/tasks.php:78
+#: templates/single-project/tasks.php:89
 msgid "Ending before"
 msgstr "ينتهى قبل"
 
@@ -3592,39 +3846,39 @@ msgstr "المجموع"
 msgid "Overview"
 msgstr "نظرة عامة"
 
-#: templates/single-project/tasks.php:76
+#: templates/single-project/tasks.php:87
 msgid "invalid milestone"
 msgstr "مرحلة رئيسية غير صالحة"
 
-#: upstream.php:523
+#: upstream.php:525
 msgid "View Documentation"
 msgstr "عرض المستندات"
 
-#: upstream.php:525
+#: upstream.php:527
 msgid "Docs"
 msgstr "مستندات"
 
-#: upstream.php:527
+#: upstream.php:529
 msgid "View Quick Start Guide"
 msgstr "عرض دليل البدء السريع"
 
-#: upstream.php:529
+#: upstream.php:531
 msgid "Quick Start Guide"
 msgstr "دليل البدء السريع"
 
-#: upstream.php:553
+#: upstream.php:555
 msgid "Open Settings Page"
 msgstr "فتح صفحة الإعدادات"
 
-#: upstream.php:554
+#: upstream.php:556
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: upstream.php:601
+#: upstream.php:603
 msgid "Update notice:"
 msgstr "تحديث إشعار:"
 
-#: upstream.php:608
+#: upstream.php:610
 #, php-format
 msgctxt ""
 "1st %s: plugin version, 2nd %s: capability name, 3rd: UpStream User role"
@@ -3635,123 +3889,123 @@ msgstr ""
 "تبدأ من <strong>%s</strong> <code>%s</code> السعة تم إزالتها من <code>%s</"
 "code> وظيفة المستخدم."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:193
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:110
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:192
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:114
 msgid "Installed Extensions"
 msgstr "الملحقات المثبتة"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:194
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:111
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:193
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:115
 msgid "Browse More Extensions"
 msgstr "تصفح المزيد من الملحقات"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:195
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:112
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:194
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:116
 msgid "Enter your license key"
 msgstr "ادخل مفتاح الترخيص الخاص بك"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:196
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:113
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:195
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:117
 msgid "Activate"
 msgstr "تفعيل"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:197
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:114
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:196
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:118
 msgid "License Key"
 msgstr "مفتاح الترخيص"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:198
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:115
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:197
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:119
 msgid "Change"
 msgstr "تغيير"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:199
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:116
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:198
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:120
 msgid "Get Pro Add-ons!"
 msgstr "إحصل على عنصر إضافى متقدم!"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:352
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:351
 msgid "Invalid plugin name."
 msgstr "إسم المكون الإضافى غير صالح."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:357
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:388
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:356
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:387
 msgid "Invalid addon name."
 msgstr "إسم العنصر الإضافى غير صالح."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:362
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:361
 msgid "Invalid addon EDD ID."
 msgstr "الرقم التعريفى للعنصر الإضافى EDD غير صالح."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:367
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:366
 msgid "Invalid license key."
 msgstr "مفتاح ترخيص غير صالح."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:384
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:383
 msgid "Invalid add-on."
 msgstr "عنصر إضافى غير صالح."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:416
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:428
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:415
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:427
 msgid "An error occurred. Please, try again or contact the support team."
 msgstr "لقد حدث خطأ. من فضلك، حاول مرة أخرى أو قم بالتواصل مع فريق الدعم."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:516
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:515
 msgid "Please enter a valid license key to enable automatic updates."
 msgstr "من فضلك قم بإدخال مقتاح ترخيص صالح لتمكين التحديثات التلقائية."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:518
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:555
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:517
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:554
 msgid "Enter License Key"
 msgstr "أدخل مفتاح الترخيص"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:529
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:528
 msgid "Sorry, we couldn’t access the files for this update."
 msgstr "نأسف، لم نستطيع الوصول الى الملفات الخاصة بذلك التحديث."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:530
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Addons.php:529
 msgid "Please click this link for more details."
 msgstr "من فضلك قم بالضغط على الرابط لمزيد من التفاصيل."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:117
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:121
 msgid "Please, wait..."
 msgstr "من فضلك قم بالإنتظار..."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:118
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:122
 msgid "Please, enter a license key."
 msgstr "من فضلك، أدخل مفتاح الترخيص."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:119
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:123
 msgid "If the error persists, please contact the support team."
 msgstr "في حال إستمر الخطأ، من فضلك قم بالتواصل مع فريق الدعم."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:121
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:125
 msgid ""
 "Awesome, it seems like you have all the add-ons installed. Thank you for "
 "supporting us."
 msgstr "رائع، يبدو أنك قمت بتثبيت كل العناصر الإضافية. شكرآ لك على دعمنا."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:123
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:127
 msgid "Invalid license"
 msgstr "ترخيص غير صالح"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:124
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:128
 msgid "Activated"
 msgstr "مفعل"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:125
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:129
 msgid "This license key was not found."
 msgstr "لم يتم العثور على مفتاح الترخيص."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:126
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:130
 msgid "This license key is disabled."
 msgstr "تم تعطيل مفتاح الترخيص هذا."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:127
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:131
 msgid "This license key has expired."
 msgstr "انتهت صلاحية مفتاح الترخيص هذا."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:128
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Assets.php:132
 msgid ""
 "This license key has no activations left. Please, consider upgrading your "
 "plan."
@@ -3759,32 +4013,32 @@ msgstr ""
 "لا يحتوى مفتاح الترخيص هذا على أي عمليات تفعيل. من فضلك، قم بتحديث الخطة "
 "الخاصة بك."
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:237
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:242
 msgid "Ok, you deserve it"
 msgstr "حسنا ، أنت تستحق ذلك"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:238
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:243
 msgid "I already did"
 msgstr "لقد سبق أن فعلته"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:239
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php:244
 msgid "No, not good enough for now"
 msgstr "لا ، ليس جيد بما فيه الكفاية للوقت الحالى"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:87
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:86
 msgid "Upgrade"
 msgstr "تحديث"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:147
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:142
 msgid "Save"
 msgstr "حفظ"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:149
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:144
 #, php-format
 msgid "off the %s extensions"
 msgstr "بعيدآ عن ملحقات %s"
 
-#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:150
+#: vendor/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php:145
 msgid "Get it"
 msgstr "تفهم الأمر"
 

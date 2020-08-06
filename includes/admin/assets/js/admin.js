@@ -258,7 +258,7 @@ jQuery(function ($) {
         });
 
         // TODO: translate this
-        $('#upstream-pointer-signup-box').html('Thank you for signing up!');
+        $('#upstream-pointer-signup-box').html('Thank you for signing up! You will receive an email confirmation.');
     };
 
     window.upstream_cleanup_update_cache = function (event) {

@@ -27,6 +27,11 @@ class UpStream_Admin_Pointers
 
     public function register_signup()
     {
+
+        if (! current_user_can('administrator')) {
+            return;
+        }
+
         global $current_user;
 
         $content  = '<p id="upstream-pointer-signup-box">';

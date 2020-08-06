@@ -2136,7 +2136,12 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                     $value = upstream_upfs_upload($file);
 
-                    // TODO: handle error
+
+
+                    if (is_array($value)) {
+                        // TODO: change how this handles a file too big or other file error
+                        $value = '';
+                    }
                 }
             } elseif (!empty($object_type['_name']) && isset($_FILES[$object_type['_name']]['name'])  && is_string($_FILES[$object_type['_name']]['name'][0])) {
 
@@ -2149,7 +2154,11 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                 $value = upstream_upfs_upload($file);
 
-                // TODO: handle error
+
+                if (is_array($value)) {
+                    // TODO: change how this handles a file too big or other file error
+                    $value = '';
+                }
 
             }
 

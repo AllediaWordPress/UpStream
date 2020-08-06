@@ -138,8 +138,8 @@
      * Used in all groups.
      */
     function publishPermissions ($group) {
-        if (!$group.find('.hidden').attr('data-publish')) {
-            $group.find('.cmb-add-row button').prop('disabled', true).prop('title', 'You do not have permission for this');
+        if (!$group.find('.inside .hidden').attr('data-publish')) {
+            $group.find('.inside .cmb-add-row button').prop('disabled', true).prop('title', 'You do not have permission for this');
         }
     };
 
