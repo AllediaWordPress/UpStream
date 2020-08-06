@@ -1,8 +1,8 @@
 === WordPress Project Management by UpStream ===
 Contributors: upstreamplugin, deenison, andergmartins
 Tags: project, manage, management, project management, project manager, wordpress project management, crm, client, client manager, tasks, issue tracker, bug tracker, task manager
-Requires at least: 5.0
-Tested up to: 5.4.2
+Requires at least: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6.20
 Stable tag: 1.37.0
 License: GPL-3
