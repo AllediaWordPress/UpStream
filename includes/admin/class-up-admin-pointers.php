@@ -153,7 +153,7 @@ class UpStream_Admin_Pointers
                     'upstream'
                 ) . '<br><br>';
             $message .= implode('<br>', $addon_problems);
-            $message .= '<br><br>For help with this message, see ';
+            $message .= '<br><br>For help with this message, <a href="https://upstreamplugin.com/docs/updating-upstream-addons/">click here</a>.';
             $message .= '<br><br><a href="?upstream_dismiss_ver=1">' . __('Do not show this message again for this version', 'upstream') . '</a>';
 
             printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
