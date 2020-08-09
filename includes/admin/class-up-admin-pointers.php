@@ -20,6 +20,7 @@ class UpStream_Admin_Pointers
     public function __construct()
     {
         add_filter('admin_notices', [$this, 'first_project']);
+        add_filter('admin_notices', [$this, 'check_addons']);
         add_filter('upstream_admin_pointers-project', [$this, 'register_pointers']);
         add_filter('upstream_admin_pointers-edit-project', [$this, 'register_signup']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_pointers']);
@@ -94,6 +95,66 @@ class UpStream_Admin_Pointers
                             'upstream'
                         ) . '<br>';
             $message .= '<small>' . __('(you won\'t see this message or the guide again)', 'upstream') . '</small>';
+
+            printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
+        }
+    }
+
+
+    public function check_addons()
+    {
+        $user = wp_get_current_user();
+        if (!is_admin() || !current_user_can('activate_plugins')) {
+            return;
+        }
+
+        if (isset($_GET['upstream_dismiss_ver'])) {
+            update_user_meta(get_current_user_id(), 'upstream_hide_incompat_notices_' . UPSTREAM_VERSION, 'yes');
+        }
+
+        if (get_user_meta(get_current_user_id(), 'upstream_hide_incompat_notices_' . UPSTREAM_VERSION, true) === 'yes') {
+            return;
+        }
+
+        $addon_problems = [];
+        global $upstream_addon_requirements;
+        $required_addon_versions = $upstream_addon_requirements;
+
+        foreach ($required_addon_versions as $r) {
+
+            $pd = null;
+            if (@is_plugin_active($r[0])) {
+                $pd = @get_plugin_data(WP_PLUGIN_DIR . '/' . $r[0]);
+            } elseif (@is_plugin_active(strtolower($r[0]))) {
+                $pd = @get_plugin_data(WP_PLUGIN_DIR . '/' . strtolower($r[0]));
+            }
+
+            if ($pd) {
+
+                $current_version = $pd['Version'];
+                $reqd_version = $r[1];
+
+                if (version_compare($current_version, $reqd_version) < 0) {
+                    $addon_problems[] = __('- The installed version of ', 'upstream') .
+                        '<b style="font-weight: bold">' . $pd['Name'] . '</b>' . __(' is ', 'upstream') . '<b style="font-weight: bold">' . $current_version . '</b>' .
+                        __('. This version of UpStream requires version ', 'upstream') .
+                        '<b style="font-weight: bold">'. $reqd_version . '</b>' . __(' or later.', 'upstream');
+                }
+            }
+
+        }
+
+
+        if (count($addon_problems) > 0) {
+            $class   = 'notice';
+            $message = '<strong style="font-weight:bold;font-size:2em;color:#f00">' . __('Important!', 'upstream') . '</strong><br>';
+            $message .= __(
+                    'This version of UpStream is not compatible with the following addon versions:',
+                    'upstream'
+                ) . '<br><br>';
+            $message .= implode('<br>', $addon_problems);
+            $message .= '<br><br>For help with this message, see ';
+            $message .= '<br><br><a href="?upstream_dismiss_ver=1">' . __('Do not show this message again for this version', 'upstream') . '</a>';
 
             printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
         }
