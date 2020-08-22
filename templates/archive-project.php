@@ -4,6 +4,9 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+@define('OP_SCRIPT_DEBUG', '');
+
+
 /**
  * The Template for displaying all projects
  *

@@ -31,6 +31,8 @@ class UpStream_Import
      */
     public function __construct()
     {
+        $this->option_created_by = wp_get_current_user()->ID;
+
         $this->model_manager = \UpStream_Model_Manager::get_instance();
         $this->model_manager->loadAll();
     }

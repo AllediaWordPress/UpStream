@@ -972,3 +972,20 @@ function upstream_update_data_rev_2()
 }
 
 add_action('admin_init', 'upstream_update_data_rev_2', 90);
+
+
+// TODO: REMOVE THIS
+// This allows translation of role names after installation, but it's
+// probably not the best way to do it
+
+function upstream_change_role_name() {
+    global $wp_roles;
+
+    if ( ! isset( $wp_roles ) )
+        $wp_roles = new WP_Roles();
+
+    $wp_roles->roles['upstream_client_user']['name'] = __('UpStream Client User', 'upstream');
+    $wp_roles->role_names['upstream_client_user'] = __('UpStream Client User', 'upstream');
+
+}
+add_action('init', 'upstream_change_role_name');

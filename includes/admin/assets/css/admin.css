@@ -48,6 +48,11 @@ a#upstream-upgrade-link,
     display: none;
 }
 
+
+.o-comment__content ul {
+    list-style: initial;
+}
+
 .postbox.cmb2-postbox .postbox-header .hndle {
     justify-content: initial;
 }

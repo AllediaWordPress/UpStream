@@ -370,7 +370,8 @@ class Comment extends Struct
     {
         $data = $this->toWpPatterns();
 
-        $safeData = wp_filter_comment($data);
+        // TODO: why did it filter here and then later elsewhere
+        $safeData =  $data;//wp_filter_comment($data);
 
         $this->created_by->id    = (int)$safeData['user_id'];
         $this->created_by->agent = $safeData['comment_agent'];

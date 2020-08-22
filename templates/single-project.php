@@ -11,6 +11,8 @@ if ( ! defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
+@define('OP_SCRIPT_DEBUG', '');
+
 // redirect to projects if no permissions for this project
 if ( ! upstream_user_can_access_project(get_current_user_id(), upstream_post_id())) {
     wp_redirect(get_post_type_archive_link('project'));

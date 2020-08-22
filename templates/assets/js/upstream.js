@@ -542,6 +542,9 @@ jQuery(document).ready(function ($) {
             trs.removeClass('is-filtered');
 
             trs.each(function (trIndex) {
+
+/********************** OLD
+
                 var tr = $(this);
                 var shouldDisplay = false;
 
@@ -626,6 +629,7 @@ jQuery(document).ready(function ($) {
                     if (filtersHasChanged && !shouldDisplay) {
                         break;
                     }
+
                 }
 
                 if (shouldDisplay) {
@@ -633,11 +637,167 @@ jQuery(document).ready(function ($) {
                 } else {
                     tr.hide();
                 }
+
+ /********************** OLD */
+
+
+                var tr = $(this);
+                var shouldDisplay = true;
+
+                var filter, filterIndex, filterColumnValue, columnValue, comparator, dataWrapper;
+                for (filterIndex = 0; filterIndex < filtersMap.length; filterIndex++) {
+                    filter = filtersMap[filterIndex];
+                    if (filter.value === null) {
+                        continue;
+                    }
+
+                    dataWrapper = $('[data-column="' + filter.column + '"]', tr);
+                    if (dataWrapper.length === 0) {
+                        dataWrapper = $('[data-column="' + filter.column + '"]', $('tbody tr[data-parent="' + tr.attr('data-id') + '"]'));
+                        if (dataWrapper.length === 0) {
+                            continue;
+                        } else {
+                            dataWrapper = $('[data-value]', dataWrapper);
+                        }
+                    }
+
+                    columnValue = dataWrapper.attr('data-value');
+
+                    if (filter.comparator === 'contains') {
+                        if (typeof filter.value === 'string') {
+                            comparator = new RegExp(filter.value, 'i');
+                            if (!comparator.test(columnValue)) {
+                                shouldDisplay = false;
+                                break;
+                            }
+                        } else {
+                            for (var valueIndex in filter.value) {
+                                comparator = new RegExp(filter.value[valueIndex], 'i');
+                                var found = false;
+
+                                if (filter.value[valueIndex] === '__none__') {
+                                    if (!columnValue || columnValue === '__none__') {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                else {
+                                    if (comparator.test(columnValue)) {
+                                        found = true;
+                                        break;
+                                    }
+                                    if (!found) {
+                                        shouldDisplay = false;
+                                        break;
+                                    }
+
+                                }
+                            }
+                        }
+                    } else if (filter.comparator === 'exact') {
+                        if (typeof filter.value === 'string') {
+                            if (columnValue != filter.value) {
+                                shouldDisplay = false;
+                                break;
+                            }
+                        } else {
+                            var found = false;
+                            for (var valueIndex in filter.value) {
+                                if (filter.value[valueIndex] === '__none__') {
+                                    if (!columnValue || columnValue === '__none__') {
+                                        found = true;
+                                        break;
+                                    }
+                                } else {
+                                    if (columnValue === filter.value[valueIndex] || columnValue.split(',').indexOf(filter.value[valueIndex]) >= 0) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found) {
+                                    shouldDisplay = false;
+                                    break;
+                                }
+                            }
+                        }
+                    } else if (filter.comparator === '>') {
+                        if (columnValue <= filter.value) {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    } else if (filter.comparator === '>=') {
+                        if (columnValue < filter.value) {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    } else if (filter.comparator === '<') {
+                        if (columnValue >= filter.value) {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    } else if (filter.comparator === '<=') {
+                        if (columnValue > filter.value) {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    } else if (filter.value === '__none__') {
+                        if (columnValue && columnValue != '__none__') {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    } else {
+                        if (typeof filter.value === 'string') {
+                            if (columnValue.localeCompare(filter.value) != 0) {
+                                shouldDisplay = false;
+                                break;
+                            }
+                        } else {
+                            var found = false;
+                            for (var valueIndex in filter.value) {
+                                if (filter.value[valueIndex] === '__none__') {
+                                    if (!columnValue || columnValue === '__none__') {
+                                        found = true;
+                                        break;
+                                    }
+                                } else {
+                                    if (columnValue.localeCompare(filter.value[valueIndex]) != 0) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found) {
+                                    shouldDisplay = false;
+                                    break;
+                                }
+                            }
+
+
+                        }
+                    }
+
+                    if (!shouldDisplay) {
+                        break;
+                    }
+
+                }
+
+                if (shouldDisplay) {
+                    tr.addClass('is-filtered').show();
+                } else {
+                    tr.hide();
+                }
+
+
+
+                /********************** END */
+
             });
 
-            if (!filtersHasChanged) {
-                trs.show();
-            }
+//            if (!filtersHasChanged) {
+//                trs.show();
+//            }
 
             var filteredRows = $('tbody tr[data-id]:visible', table);
             if (filteredRows.length === 0) {

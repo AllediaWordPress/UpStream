@@ -598,7 +598,9 @@ class Milestone extends Struct
      */
     public function getName()
     {
-        return $this->getPost()->post_title;
+        if (isset($this->getPost()->post_title))
+            return $this->getPost()->post_title;
+        return "";
     }
 
     /**
