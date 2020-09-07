@@ -1,5 +1,5 @@
 <?php
-// Prevent direct access.
+/* Prevent direct access. */
 if ( ! defined('ABSPATH')) {
     exit;
 }
@@ -13,7 +13,7 @@ if ( ! defined('ABSPATH')) {
  * This template can be overridden by copying it to wp-content/themes/yourtheme/upstream/archive-project.php.
  */
 
-// Some hosts disable this function, so let's make sure it is enabled before call it.
+/* Some hosts disable this function, so let's make sure it is enabled before call it. */
 if (function_exists('set_time_limit')) {
     set_time_limit(1200);
 }
@@ -95,12 +95,12 @@ $projectOrder    = [];
 
 $statuses     = [];
 $openStatuses = [];
-// We start from 1 instead of 0 because the 0 position is used for "__none__".
+/* We start from 1 instead of 0 because the 0 position is used for "__none__". */
 $statusIndex = 1;
 foreach ($projectStatuses as $statusId => $status) {
     $projectOrder[$statusIndex++] = $statusId;
 
-    // If closed items will be archived, we do not need to display closed statuses.
+    /* If closed items will be archived, we do not need to display closed statuses. */
     if ($archiveClosedItems && 'open' !== $status['type']) {
         continue;
     }
@@ -155,7 +155,7 @@ if (isset($currentUser->projects)) {
                 ],
             ];
 
-            // If should archive closed items, we filter the rowset.
+            /* If should archive closed items, we filter the rowset. */
             if ($archiveClosedItems) {
                  if ( ! empty($data->status) && ! in_array($data->status, $openStatuses)) {
                     continue;
@@ -232,7 +232,7 @@ $categories = (array)get_terms([
 $projectsView = ! isset($_GET['view']);
 
 
-// Filters
+/* Filters */
 $tableSettings = [
     'id'              => 'projects',
     'type'            => 'project',

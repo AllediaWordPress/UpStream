@@ -3,12 +3,11 @@
  *
  * Usage:
  * $(window).smartresize(function(){
- *     // code here
+ *      code here
  * });
  */
 (function ($, sr) {
-    // debouncing function from John Hann
-    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+
     var debounce = function (func, threshold, execAsap) {
         var timeout;
 
@@ -30,12 +29,10 @@
         };
     };
 
-    // smartresize
     jQuery.fn[sr] = function (fn) { return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery, 'smartresize');
 
-// Sidebar
 jQuery(document).ready(function ($) {
     if (typeof $.fn.datepicker.dates === 'undefined') {
         $.fn.datepicker.dates = {'en': []};
@@ -107,7 +104,6 @@ jQuery(document).ready(function ($) {
     $('[data-toggle="tooltip"]').tooltip();
 
     var setContentHeight = function () {
-        // reset height
         $('.right_col').css('min-height', $(window).height());
 
         var bodyHeight = $('body').outerHeight(),
@@ -115,7 +111,6 @@ jQuery(document).ready(function ($) {
             leftColHeight = $('.left_col').eq(1).height() + $('.sidebar-footer').height(),
             contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
 
-        // normalize content
         contentHeight -= $('.nav_menu').height() + footerHeight;
 
         $('.right_col').css('min-height', contentHeight);
@@ -132,7 +127,6 @@ jQuery(document).ready(function ($) {
                 setContentHeight();
             });
         } else {
-            // prevent closing menu if we are on child menu
             if (!$li.parent().is('.child_menu')) {
                 $('#sidebar-menu').find('li').removeClass('active active-sm');
                 $('#sidebar-menu').find('li ul').slideUp();
@@ -146,7 +140,6 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // toggle small or large menu
     $('#menu_toggle').on('click', function () {
         if ($('body').hasClass('nav-md')) {
             $('#sidebar-menu').find('li.active ul').hide();
@@ -161,9 +154,8 @@ jQuery(document).ready(function ($) {
         setContentHeight();
     });
 
-    var cmp = window.location.href
+    var cmp = window.location.href;
 
-    // check active menu
     $('#sidebar-menu').find('a[href="' + window.location.href.split('?')[0] + '"]').parent('li').addClass('current-page');
 
     $('#sidebar-menu').find('a').filter(function () {
@@ -172,14 +164,12 @@ jQuery(document).ready(function ($) {
         setContentHeight();
     }).parent().addClass('active');
 
-    // recompute content when resizing
     $(window).smartresize(function () {
         setContentHeight();
     });
 
     setContentHeight();
 
-    // fixed sidebar
     if ($.fn.mCustomScrollbar) {
         $('.menu_fixed').mCustomScrollbar({
             autoHideScrollbar: true,
@@ -190,16 +180,16 @@ jQuery(document).ready(function ($) {
 
     $(window).trigger('upstream-sidebar');
 });
-// /Sidebar
 
-// Panel toolbox
+
+
 jQuery(document).ready(function ($) {
     $('.collapse-link').on('click', function () {
         var $boxPanel = $(this).closest('.x_panel'),
             $icon = $(this).find('i'),
             $boxContent = $boxPanel.find('.x_content');
 
-        // fix for some div with hardcoded fix class
+
         if ($boxPanel.attr('style')) {
             $boxContent.slideToggle(200, function () {
                 $boxPanel.removeAttr('style');
@@ -214,7 +204,7 @@ jQuery(document).ready(function ($) {
         var state = $icon.hasClass('fa-chevron-up') ? 'opened' : 'closed',
             section = $boxPanel.data('section');
 
-        // Store the current slider state.
+
         $.ajax({
             url: upstream.ajaxurl,
             type: 'post',
@@ -240,7 +230,7 @@ jQuery(document).ready(function ($) {
         update: function (event, ui) {
             var rows = $('#project-dashboard').sortable('toArray');
 
-            // Store the current panel order
+
             $.ajax({
                 url: upstream.ajaxurl,
                 type: 'post',
@@ -255,7 +245,7 @@ jQuery(document).ready(function ($) {
     $('#project-dashboard.sortable .x_title').disableSelection();
 });
 
-// Instantiate NProgress lib.
+
 (function (window, document, $, NProgress, undefined) {
     if (!NProgress) return;
 
@@ -413,11 +403,9 @@ jQuery(document).ready(function ($) {
             trs.each(function (trIndex) {
                 var tr = $(this);
 
-                // Check if the column has an specific value for ordering.
                 if ($('[data-column="' + columnName + '"]', tr).attr('data-order')) {
                     columnValue = $('[data-column="' + columnName + '"]', tr).attr('data-order');
                 } else {
-                    // Fallback to the value.
                     columnValue = $('[data-column="' + columnName + '"]', tr).attr('data-value') || '';
                 }
 
@@ -495,7 +483,6 @@ jQuery(document).ready(function ($) {
 
             orderTable(column, newOrderDir, $(self.parents('table.o-data-table')));
 
-            // Store the current ordering data to persist after page load.
             $.ajax({
                 url: upstream.ajaxurl,
                 type: 'post',
@@ -542,103 +529,6 @@ jQuery(document).ready(function ($) {
             trs.removeClass('is-filtered');
 
             trs.each(function (trIndex) {
-
-/********************** OLD
-
-                var tr = $(this);
-                var shouldDisplay = false;
-
-                var filter, filterIndex, filterColumnValue, columnValue, comparator, dataWrapper;
-                for (filterIndex = 0; filterIndex < filtersMap.length; filterIndex++) {
-                    filter = filtersMap[filterIndex];
-                    if (filter.value === null) {
-                        continue;
-                    }
-
-                    filtersHasChanged = true;
-
-                    dataWrapper = $('[data-column="' + filter.column + '"]', tr);
-                    if (dataWrapper.length === 0) {
-                        dataWrapper = $('[data-column="' + filter.column + '"]', $('tbody tr[data-parent="' + tr.attr('data-id') + '"]'));
-                        if (dataWrapper.length === 0) {
-                            continue;
-                        } else {
-                            dataWrapper = $('[data-value]', dataWrapper);
-                        }
-                    }
-
-                    columnValue = dataWrapper.attr('data-value');
-
-                    if (filter.comparator === 'contains') {
-                        if (typeof filter.value === 'string') {
-                            comparator = new RegExp(filter.value, 'i');
-                            shouldDisplay = comparator.test(columnValue);
-                        } else {
-                            for (var valueIndex in filter.value) {
-                                comparator = new RegExp(filter.value[valueIndex], 'i');
-                                if (comparator.test(columnValue)) {
-                                    shouldDisplay = true;
-                                    break;
-                                }
-                            }
-                        }
-                    } else if (filter.comparator === 'exact') {
-                        if (typeof filter.value === 'string') {
-                            shouldDisplay = shouldDisplay = columnValue === filter.value;
-                        } else {
-                            for (var valueIndex in filter.value) {
-                                if (filter.value[valueIndex] === '__none__') {
-                                    shouldDisplay = !columnValue || columnValue === '__none__';
-                                } else {
-                                    shouldDisplay = columnValue === filter.value[valueIndex] || columnValue.split(',').indexOf(filter.value[valueIndex]) >= 0;
-                                }
-
-                                if (shouldDisplay) {
-                                    break;
-                                }
-                            }
-                        }
-                    } else if (filter.comparator === '>') {
-                        shouldDisplay = columnValue > filter.value;
-                    } else if (filter.comparator === '>=') {
-                        shouldDisplay = columnValue >= filter.value;
-                    } else if (filter.comparator === '<') {
-                        shouldDisplay = columnValue < filter.value;
-                    } else if (filter.comparator === '<=') {
-                        shouldDisplay = columnValue <= filter.value;
-                    } else if (filter.value === '__none__') {
-                        shouldDisplay = !columnValue || columnValue === '__none__';
-                    } else {
-                        if (typeof filter.value === 'string') {
-                            shouldDisplay = columnValue.localeCompare(filter.value) === 0;
-                        } else {
-                            for (var valueIndex in filter.value) {
-                                if (filter.value[valueIndex] === '__none__') {
-                                    shouldDisplay = !columnValue || columnValue === '__none__';
-                                } else {
-                                    shouldDisplay = columnValue.localeCompare(filter.value[valueIndex]) === 0;
-                                }
-
-                                if (shouldDisplay) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (filtersHasChanged && !shouldDisplay) {
-                        break;
-                    }
-
-                }
-
-                if (shouldDisplay) {
-                    tr.addClass('is-filtered').show();
-                } else {
-                    tr.hide();
-                }
-
- /********************** OLD */
 
 
                 var tr = $(this);
@@ -714,12 +604,12 @@ jQuery(document).ready(function ($) {
                                         break;
                                     }
                                 }
-
-                                if (!found) {
-                                    shouldDisplay = false;
-                                    break;
-                                }
                             }
+                            if (!found) {
+                                shouldDisplay = false;
+                                break;
+                            }
+
                         }
                     } else if (filter.comparator === '>') {
                         if (columnValue <= filter.value) {
@@ -791,13 +681,9 @@ jQuery(document).ready(function ($) {
 
 
 
-                /********************** END */
 
             });
 
-//            if (!filtersHasChanged) {
-//                trs.show();
-//            }
 
             var filteredRows = $('tbody tr[data-id]:visible', table);
             if (filteredRows.length === 0) {
@@ -839,7 +725,6 @@ jQuery(document).ready(function ($) {
 
         $('.c-data-table .c-data-table__filters .o-select2').on('change', filterDataTable);
 
-        // Force refresh the data tables, to apply default filters
         var statusFilter = $('.c-data-table__filters #projects-filters .o-select2[data-column="status"]')[0];
         if (typeof statusFilter !== 'undefined') {
             filterDataTable(null, statusFilter);
@@ -860,7 +745,7 @@ jQuery(document).ready(function ($) {
 
             if (!self.attr('data-searchurl') || typeof(self.attr('data-searchurl')) === 'undefined') {
                 var filterColumn = self.attr('data-column');
-                //var value = self.val().trim();
+
                 var value = self.val();
 
                 var wrapper = $(self.parents('.c-data-table__filters'));
@@ -873,7 +758,7 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        // Expand rows in tables.
+
         $('.o-data-table').on('click', 'tr.is-expandable > td:first-child', function (e) {
             var self = $(this);
             var tr = $(self.parents('tr[data-id]').get(0));
@@ -1077,10 +962,8 @@ jQuery(document).ready(function ($) {
             function generateContrastColor (baseColor) {
                 var d = 0;
 
-                // Counting the perceptive luminance - human eye favors green color.
                 var a = 1 - (0.299 * baseColor.r + 0.587 * baseColor.g + 0.114 * baseColor.b) / 255;
                 if (a >= 0.4) {
-                    // Base color is dark, so we'll use white
                     d = 255;
                 }
 

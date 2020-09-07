@@ -6,6 +6,7 @@ if ( ! defined('ABSPATH')) {
 
 $type = $optionInfo['type'];
 
+
 $mm = \UpStream_Model_Manager::get_instance();
 $projects = $mm->findAccessibleProjects();
 

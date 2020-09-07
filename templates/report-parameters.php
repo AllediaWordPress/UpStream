@@ -8,12 +8,11 @@
  */
 
 if ( ! defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    exit;
 }
 
 require_once dirname(__FILE__) . '/../includes/admin/metaboxes/metabox-functions.php';
 
-// Some hosts disable this function, so let's make sure it is enabled before call it.
 if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }

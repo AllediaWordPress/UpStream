@@ -45,6 +45,7 @@ class UpStream_Autoloader
      */
     public function autoload($class)
     {
+        $orig_class = $class;
         $class = strtolower($class);
         $file  = $this->get_file_name_from_class($class);
         $path  = '';
@@ -55,7 +56,7 @@ class UpStream_Autoloader
             $path = $this->include_path . 'admin/metaboxes/';
         } elseif (strpos($class, 'upstream_model') === 0) {
             $path = $this->include_path . 'model/';
-            $file = $class . ".php";
+            $file = $orig_class . ".php";
         }
 
         if (empty($path) || ( ! $this->load_file($path . $file) && strpos($class, 'upstream_') === 0)) {

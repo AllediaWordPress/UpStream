@@ -8,18 +8,18 @@
  */
 
 if ( ! defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    exit;
 }
 
 @define('OP_SCRIPT_DEBUG', '');
 
-// redirect to projects if no permissions for this project
+/* redirect to projects if no permissions for this project */
 if ( ! upstream_user_can_access_project(get_current_user_id(), upstream_post_id())) {
     wp_redirect(get_post_type_archive_link('project'));
     exit;
 }
 
-// Some hosts disable this function, so let's make sure it is enabled before call it.
+/* Some hosts disable this function, so let's make sure it is enabled before call it. */
 if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
@@ -121,10 +121,10 @@ $sections = [
 ];
 $sections = apply_filters('upstream_panel_sections', $sections);
 
-// Apply the order to the panels.
+/* Apply the order to the panels. */
 $sectionsOrder = (array)\UpStream\Frontend\getPanelOrder();
 $sections      = array_merge($sectionsOrder, $sections);
-// Remove duplicates.
+/* Remove duplicates. */
 $sections = array_unique($sections);
 
 while (have_posts()) : the_post(); ?>

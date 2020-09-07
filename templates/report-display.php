@@ -8,12 +8,12 @@
  */
 
 if ( ! defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    exit;
 }
 
 require_once dirname(__FILE__) . '/../includes/admin/metaboxes/metabox-functions.php';
 
-// Some hosts disable this function, so let's make sure it is enabled before call it.
+/* Some hosts disable this function, so let's make sure it is enabled before call it. */
 if (function_exists('set_time_limit')) {
     set_time_limit(120);
 }
@@ -62,10 +62,10 @@ $display_options = $report->getDisplayOptions();
 <script type="text/javascript">
 
 jQuery(document).ready(function ($) {
-    // Load the Visualization API and the piechart package.
+    /* Load the Visualization API and the piechart package. */
     google.charts.load('current', {'packages': ['corechart', 'table', 'gantt', 'calendar']});
 
-    // Set a callback to run when the Google Visualization API is loaded.
+    /* Set a callback to run when the Google Visualization API is loaded. */
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
@@ -83,7 +83,7 @@ jQuery(document).ready(function ($) {
             data: data
         }).responseText;
 
-        // Create our data table out of JSON data loaded from server.
+        /* Create our data table out of JSON data loaded from server. */
         var data = new google.visualization.DataTable(jsonData);
         var jo = JSON.parse(jsonData);
         var options = {};
@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
             delete options.height;
             <?php endif; ?>
 
-            // Instantiate and draw our chart, passing in some options.
+            /* Instantiate and draw our chart, passing in some options. */
             var chart = new google.visualization.<?php print $display_options['visualization_type'] ?>(document.getElementById('table_div'));
             chart.draw(data, options);
 
