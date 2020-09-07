@@ -11,7 +11,6 @@
 
 use UpStream\Comments;
 
-// Exit if accessed directly.
 if ( ! defined('ABSPATH')) {
     exit;
 }
@@ -91,10 +90,8 @@ if ( ! class_exists('UpStream')) :
             $this->define_constants();
             $this->includes();
 
-            // Start the pimple container.
             $this->container = Container::get_instance();
 
-            // Initialize the Allex Framework.
             $this->init_framework();
 
             if (UpStream_Debug::is_enabled()) {
@@ -130,7 +127,6 @@ if ( ! class_exists('UpStream')) :
                 add_action('admin_init', [$this->container['reviews'], 'init']);
             }
 
-            // Render additional update info if needed.
             global $pagenow;
             if ($pagenow === "plugins.php") {
                 add_action(
@@ -163,7 +159,6 @@ if ( ! class_exists('UpStream')) :
                 $args = func_get_args();
 
                 call_user_func_array('do_action', $args);
-                //                do_action($action, $context);
             });
             $twigEnvironment->addFunction($doActionFunc);
 
@@ -343,7 +338,7 @@ if ( ! class_exists('UpStream')) :
          */
         public function includes()
         {
-            // When composer is used in a global scope the folder won't exist here. So we need to check before load it.
+			
             if (file_exists(__DIR__ . '/vendor/autoload.php')) {
                 require_once __DIR__ . '/vendor/autoload.php';
             }
@@ -442,23 +437,17 @@ if ( ! class_exists('UpStream')) :
          */
         public function init()
         {
-            // Load the classes
             UpStream\Milestones::instantiate();
 
-            // Before init action.
             do_action('before_upstream_init');
-            // Set up localisation.
 
-            // Load class instances.
             $this->project          = new UpStream_Project();
             $this->project_activity = new UpStream_Project_Activity();
 
-            // If PHP < 5.5, loads a library intended to provide forward compatibility with the password_* functions that ship with PHP 5.5.
             if (version_compare(PHP_VERSION, '5.5', '<')) {
                 require_once UPSTREAM_PLUGIN_DIR . 'includes/libraries/password_compat-1.0.4/lib/password.php';
             }
 
-            // Executes the Legacy Client Users Migration script if needed.
             \UpStream\Migrations\Comments::run();
 
             $user      = wp_get_current_user();
@@ -475,7 +464,6 @@ if ( ! class_exists('UpStream')) :
                 add_action('admin_bar_menu', [$this, 'limitClientUsersToolbarItems'], 999);
             }
 
-            // Starting from v1.12.5 UpStream Users role won't have 'edit_others_projects' capability by default.
             $editOtherProjectsPermissionWereRemoved = (bool)get_option('upstream:role_upstream_users:drop_edit_others_projects');
             if ( ! $editOtherProjectsPermissionWereRemoved) {
                 $role = get_role('upstream_user');
@@ -496,7 +484,6 @@ if ( ! class_exists('UpStream')) :
                 UpStream_Ajax::instantiate();
             }
 
-            // Init action.
             do_action('upstream_init');
         }
 
