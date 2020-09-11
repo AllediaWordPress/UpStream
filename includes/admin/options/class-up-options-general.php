@@ -882,6 +882,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'select_all_button' => false,
                         ],
                         [
+                            'name'              => __('Front End Compatibility Mode', 'upstream'),
+                            'id'                => 'compatibility_mode',
+                            'type'              => 'multicheck',
+                            'desc'              => __(
+                                'Ticking this box will enable compatibility mode on the front end.',
+                                'upstream'
+                            ),
+                            'default'           => '',
+                            'options'           => [
+                                '1' => __('Enabled', 'upstream'),
+                            ],
+                            'select_all_button' => false,
+                        ],
+                        [
                             'name'              => __('Remove Data', 'upstream'),
                             'id'                => 'remove_data',
                             'type'              => 'multicheck',

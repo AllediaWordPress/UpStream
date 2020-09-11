@@ -5,6 +5,62 @@ if ( ! defined('ABSPATH')) {
     exit;
 }
 
+function upstream_perform_aggressive_dequeue()
+{
+    global $wp_styles, $wp_scripts;
+
+    // Dequeue styles
+    if (is_array($wp_styles->queue)) {
+        /**
+         * @param array $styleWhitelist
+         *
+         * @return array
+         */
+        $styleWhitelist = (array)apply_filters('upstream_frontend_style_whitelist', [
+            'framework',
+            'media-views',
+            'imgareaselect',
+            'wp-color-picker'
+        ]);
+
+        foreach ($wp_styles->queue as $style) {
+            if (! in_array($style, $styleWhitelist) &&
+                substr($style, 0, strlen('up-')) != 'up-' &&
+                substr($style, 0, strlen('upstream')) != 'upstream'
+            ) {
+                wp_dequeue_style($style);
+            }
+        }
+    }
+    // Dequeue scripts
+    if (is_array($wp_scripts->queue)) {
+        /**
+         * @param array $scriptWhitelist
+         *
+         * @return array
+         */
+        $scriptWhitelist = (array)apply_filters('upstream_frontend_script_whitelist', [
+            'media-editor',
+            'media-audiovideo',
+            'wp-embed',
+            'wp-color-picker-alpha'
+        ]);
+
+        foreach ($wp_scripts->queue as $script) {
+            if (
+                ! in_array($script, $scriptWhitelist) &&
+                substr($script, 0, strlen('jquery')) != 'jquery' &&
+                substr($script, 0, strlen('up-')) != 'up-' &&
+                substr($script, 0, strlen('upstream')) != 'upstream'
+            ) {
+                wp_dequeue_script($script);
+            }
+        }
+    }
+
+
+}
+
 
 /**
  * Removing / Dequeueing All Stylesheets And Scripts
@@ -227,9 +283,8 @@ add_action(
     'wp_enqueue_scripts',
     'upstream_enqueue_styles_scripts',
     1000
-); // Hook this late enough so all stylesheets / scripts has been added (to be further dequeued by this action)
+);
 
-// Removes the "next"/"prev" <link rel /> tags. This prevents links to another projects appearing on the HTML code.
 remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
 
 function upstream_deregister_assets()

@@ -2,6 +2,16 @@
 if ( ! defined('ABSPATH')) {
     exit;
 }
+
+
+
+$options = (array)get_option('upstream_general');
+$enable  = ! empty($options['compatibility_mode']) && ! empty($options['compatibility_mode'][0]) ? (string)$options['compatibility_mode'][0] === '1' : false;
+
+if ($enable) {
+    add_action('wp_enqueue_scripts', 'upstream_perform_aggressive_dequeue', 99999999);
+}
+
 ?>
 
 <!DOCTYPE html>
