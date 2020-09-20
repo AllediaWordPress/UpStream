@@ -32,7 +32,7 @@ class UpStream_Model_Object
 
     protected $description = null;
 
-    protected $additionaFields = [];
+    protected $additionalFields = [];
 
     /**
      * UpStream_Model_Object constructor.
@@ -91,9 +91,9 @@ class UpStream_Model_Object
 
             default:
 
-                if (array_key_exists($property, $this->additionaFields)) {
+                if (array_key_exists($property, $this->additionalFields)) {
 
-                    $value = apply_filters('upstream_model_get_property_value', $this->additionaFields[$property], $this->type, $this->id, $property);
+                    $value = apply_filters('upstream_model_get_property_value', $this->additionalFields[$property], $this->type, $this->id, $property);
 
                 } else {
 
@@ -102,7 +102,7 @@ class UpStream_Model_Object
                         throw new UpStream_Model_ArgumentException(sprintf(__('This (%s) is not a valid property.', 'upstream'), $property));
                     }
 
-                    $this->additionaFields[$property] = null;
+                    $this->additionalFields[$property] = null;
 
                     return null;
                 }
@@ -166,7 +166,7 @@ class UpStream_Model_Object
                 break;
 
             default:
-                $orig_value = (array_key_exists($property, $this->additionaFields)) ? $this->additionaFields[$property] : null;
+                $orig_value = (array_key_exists($property, $this->additionalFields)) ? $this->additionalFields[$property] : null;
 
                 $propertyExists = apply_filters('upstream_model_property_exists', false, $this->type, $this->id, $property);
                 if (!$propertyExists) {
@@ -174,7 +174,7 @@ class UpStream_Model_Object
                 }
 
                 $new_value = apply_filters('upstream_model_set_property_value', $orig_value, $this->type, $this->id, $property, $value);
-                $this->additionaFields[$property] = $new_value;
+                $this->additionalFields[$property] = $new_value;
         }
     }
 

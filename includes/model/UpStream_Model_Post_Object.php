@@ -77,7 +77,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
             }
         }
 
-        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $dataToLoad,
+        $this->additionalFields = apply_filters('upstream_model_load_fields', $this->additionalFields, $dataToLoad,
             $this->type, $this->id);
     }
 
@@ -116,7 +116,7 @@ class UpStream_Model_Post_Object extends UpStream_Model_Object
         }
 
         $dataToStore = [];
-        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
+        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionalFields,
             $this->type, $this->id);
 
         foreach ($dataToStore as $key => $value) {

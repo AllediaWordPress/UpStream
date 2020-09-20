@@ -32,7 +32,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         $this->createdBy = !empty($item_metadata['created_by']) ? $item_metadata['created_by'] : [];
         $this->description = !empty($item_metadata['description']) ? $item_metadata['description'] : null;
 
-        $this->additionaFields = apply_filters('upstream_model_load_fields', $this->additionaFields, $item_metadata,
+        $this->additionalFields = apply_filters('upstream_model_load_fields', $this->additionalFields, $item_metadata,
             $this->type, $this->id);
     }
 
@@ -54,7 +54,7 @@ class UpStream_Model_Meta_Object extends UpStream_Model_Object
         if ($this->description != null) $item_metadata['description'] = $this->description;
 
         $dataToStore = [];
-        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionaFields,
+        $dataToStore = apply_filters('upstream_model_store_fields', $dataToStore, $this->additionalFields,
             $this->type, $this->id);
 
         foreach ($dataToStore as $key => $value) {
