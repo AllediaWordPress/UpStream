@@ -12,6 +12,11 @@ class UpStream_Model_Manager
 
     protected $objects = [];
 
+    public function reset()
+    {
+        $this->objects = [];
+    }
+
     public function getByID($object_type, $object_id, $parent_type = null, $parent_id = 0)
     {
         if (!in_array($object_type, [ UPSTREAM_ITEM_TYPE_CLIENT, UPSTREAM_ITEM_TYPE_PROJECT, UPSTREAM_ITEM_TYPE_MILESTONE, UPSTREAM_ITEM_TYPE_TASK, UPSTREAM_ITEM_TYPE_BUG, UPSTREAM_ITEM_TYPE_FILE ])) {

@@ -103,7 +103,7 @@ class UpStream_Model_Bug extends UpStream_Model_Meta_Object
         foreach ($this->reminders as $reminder) {
             $r = [];
             $reminder->storeToArray($r);
-            $item_metadata['reminders'][] = $r;
+            $item_metadata['reminders'][] = json_encode($r);
         }
 
         $item_metadata['time_records'] = [];
