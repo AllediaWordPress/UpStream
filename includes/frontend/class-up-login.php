@@ -89,13 +89,13 @@ final class UpStream_Login
         ];
 
         if (empty($postData['username'])) {
-            $this->feedbackMessage = __("Email address field cannot be empty.", 'upstream');
-        } elseif (strlen($postData['username']) < 3 || ! is_email($postData['username'])) {
-            $this->feedbackMessage = __("Invalid email address and/or password.", 'upstream');
+            $this->feedbackMessage = __("Email address/username field cannot be empty.", 'upstream');
+        } elseif (strlen($postData['username']) < 3) {
+            $this->feedbackMessage = __("Invalid email address/username.", 'upstream');
         } else {
             if (empty($postData['password'])) {
                 $this->feedbackMessage = __("Password field cannot be empty.", 'upstream');
-            } elseif (strlen($postData['password']) < 5) {
+            } elseif (strlen($postData['password']) < 2) {
                 $this->feedbackMessage = __("Invalid email address and/or password.", 'upstream');
             } else {
                 return $postData;
@@ -104,6 +104,26 @@ final class UpStream_Login
 
         return false;
     }
+
+    private function upstream_get_project_roles()
+    {
+        $options = (array)get_option('upstream_general');
+
+        if ( ! isset($options['project_user_roles']) || empty($options['project_user_roles'])) {
+            $roles = [
+                'upstream_manager',
+                'upstream_user',
+                'administrator',
+            ];
+        } else {
+            $roles = (array)$options['project_user_roles'];
+        }
+
+        $roles = apply_filters('upstream_user_roles_for_projects', $roles);
+
+        return $roles;
+    }
+
 
     /**
      * Attempt to authenticate a user against the open project given current email address and password.
@@ -122,16 +142,18 @@ final class UpStream_Login
                 throw new \Exception(__("Invalid email address and/or password.", 'upstream'));
             }
 
-            // Check if there's a user using that email.
+
             $user = get_user_by('email', $data['username']);
             if (empty($user)) {
-                throw new \Exception(__("Invalid email address and/or password.", 'upstream'));
+                $user = get_user_by('login', $data['username']);
+                if (empty($user)) {
+                    throw new \Exception(__("Invalid user/email address and/or password.", 'upstream'));
+                }
             }
 
             $userRoles    = (array)$user->roles;
-            $projectRoles = array_merge(['administrator',], upstream_get_project_roles());
+            $projectRoles = array_merge(['administrator','upstream_client_user','upstream_user','upstream_manager'], $this->upstream_get_project_roles());
 
-            // Check if this user has a valid UpStream Role to log in.
             if (count(array_intersect(
                     $userRoles,
                     $projectRoles
