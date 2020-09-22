@@ -68,7 +68,38 @@ function upstream_output_client_users($id = null)
     <?php endif;
 }
 
-// output list of the project members avatars
+function upstream_output_project_owner($id = null)
+{
+    $users = [upstream_project_owner_id($id)];
+
+    if (count($users) > 0) {
+        ?>
+        <ul class="list-inline">
+            <li>
+                <?php
+                $isAfterFirstItem = false;
+
+                foreach ($users as $user_id) {
+                    if (upstream_show_users_name()) {
+                        if ($isAfterFirstItem) {
+                            echo ',&nbsp;';
+                        }
+
+                        $isAfterFirstItem = true;
+                    }
+
+                    echo upstream_user_avatar($user_id);
+                }
+                ?>
+            </li>
+        </ul>
+    <?php } else { ?>
+        <span class="text-muted"><i><?php echo esc_html('(' . __('none', 'upstream') . ')'); ?></i></span>
+        <?php
+    }
+}
+
+
 function upstream_output_project_members($id = null)
 {
     $users = (array)upstream_project_users($id);

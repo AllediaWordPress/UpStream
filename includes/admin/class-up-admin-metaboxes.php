@@ -168,6 +168,17 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
         {
 
             $object_type = "";
+
+            if ($object['field_id'] === '_upstream_project_status') {
+
+                do_action('upstream_item_pre_change', 'project', $object['id'], $object['id'], $object);
+
+                do_action('upstream_save_metabox_field', $object);
+                return $check;
+
+            }
+
+
             if ($object['field_id'] === '_upstream_project_milestones') $object_type = 'milestone';
             else if ($object['field_id'] === '_upstream_project_tasks') $object_type = 'task';
             else if ($object['field_id'] === '_upstream_project_bugs') $object_type = 'bug';

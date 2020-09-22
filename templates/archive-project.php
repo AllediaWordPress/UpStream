@@ -482,6 +482,9 @@ if ( ! empty($ordering)) {
                                                     <?php printf(__('%s Users', 'upstream'), $i18n['LB_CLIENT']); ?>
                                                 </th>
                                             <?php endif; ?>
+                                            <th data-column="owner">
+                                                <?php printf(__('%s Owner', 'upstream'), $i18n['LB_PROJECT']); ?>
+                                            </th>
                                             <th data-column="members">
                                                 <?php printf(__('%s Members', 'upstream'), $i18n['LB_PROJECT']); ?>
                                             </th>
@@ -593,6 +596,9 @@ if ( ! empty($ordering)) {
 
                                                 <?php endif; ?>
 
+                                                <td data-column="owner">
+                                                    <?php upstream_output_project_owner($project->id); ?>
+                                                </td>
                                                 <td data-column="members">
                                                     <?php upstream_output_project_members($project->id); ?>
                                                 </td>
