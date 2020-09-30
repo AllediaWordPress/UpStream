@@ -91,6 +91,16 @@ class UpStream_Model_Manager
         foreach ($posts as $post) {
             $this->getByID(UPSTREAM_ITEM_TYPE_MILESTONE, $post->ID);
         }
+
+        $posts = get_posts([
+            'post_type' => 'client',
+            'post_status' => 'publish',
+            'numberposts' => -1
+        ]);
+
+        foreach ($posts as $post) {
+            $this->getByID(UPSTREAM_ITEM_TYPE_CLIENT, $post->ID);
+        }
     }
 
     public function findAllByCallback($callback)

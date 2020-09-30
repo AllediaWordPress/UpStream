@@ -152,6 +152,7 @@ function upstream_setup_taxonomies()
             'hierarchical'      => true,
             'labels'            => apply_filters('_upstream_project_category_labels', $category_labels),
             'show_ui'           => true,
+            'show_in_rest'           => true,
             'show_admin_column' => true,
             'query_var'         => 'project_category',
             'rewrite'           => ['slug' => $slug . '/category', 'with_front' => false, 'hierarchical' => true],
@@ -189,6 +190,7 @@ function upstream_setup_taxonomies()
         'hierarchical'      => false,
         'labels'            => apply_filters('_upstream_project_tags_labels', $tagsLabels),
         'show_ui'           => true,
+        'show_in_rest'           => true,
         'show_admin_column' => true,
         'query_var'         => 'upstream_tag',
         'rewrite'           => [
@@ -233,6 +235,7 @@ function upstream_setup_taxonomies()
             'hierarchical'      => true,
             'labels'            => apply_filters('_upstream_milestone_categories_labels', $tagsLabels),
             'show_ui'           => true,
+            'show_in_rest'           => true,
             'show_admin_column' => true,
             'query_var'         => 'upstream_milestone_category',
             'rewrite'           => [

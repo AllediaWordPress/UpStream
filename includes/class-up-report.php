@@ -1,14 +1,5 @@
 <?php
-/**
- * Setup message asking for review.
- *
- * @author   UpStream
- * @category Admin
- * @package  UpStream/Admin
- * @version  1.0.0
- */
 
-// Exit if accessed directly or already defined.
 if ( ! defined('ABSPATH') || class_exists('UpStream_Report')) {
     return;
 }
