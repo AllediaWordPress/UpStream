@@ -1044,7 +1044,7 @@ function upstream_disable_milestone_categories()
 {
     $options = get_option('upstream_general');
 
-    $checked = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : 0;
+    $checked = isset($options['disable_milestone_categories']) ? (array)$options['disable_milestone_categories'] : [0];
 
     return $checked[0] == 1;
 }
