@@ -79,7 +79,7 @@ jQuery(function ($) {
             url: ajaxurl,
             type: 'post',
             data: {
-                action: 'upstream_import_file',
+                action: 'upstream_admin_refresh_projects_meta',
                 nonce: $btn.data('nonce')
             },
             beforeSend: function () {
