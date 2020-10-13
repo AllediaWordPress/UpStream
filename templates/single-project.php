@@ -113,6 +113,7 @@ unset($options);
  */
 $sections = [
     'details',
+    'progress',
     'milestones',
     'tasks',
     'bugs',
@@ -216,13 +217,25 @@ while (have_posts()) : the_post(); ?>
                     case 'discussion':
                         if (upstreamAreProjectCommentsEnabled()): ?>
                             <div class="row" id="project-section-discussion">
-                            <?php do_action('upstream_single_project_before_discussion'); ?>
+                                <?php do_action('upstream_single_project_before_discussion'); ?>
 
-                            <?php upstream_get_template_part('single-project/discussion.php'); ?>
+                                <?php upstream_get_template_part('single-project/discussion.php'); ?>
 
-                            <?php do_action('upstream_single_project_after_discussion'); ?>
-                        </div>
+                                <?php do_action('upstream_single_project_after_discussion'); ?>
+                            </div>
                         <?php endif;
+                        break;
+
+                    case 'progress':
+                        ?>
+                            <div class="row" id="project-section-progress">
+                                <?php do_action('upstream_single_project_before_progress'); ?>
+
+                                <?php upstream_get_template_part('single-project/progress.php'); ?>
+
+                                <?php do_action('upstream_single_project_after_progress'); ?>
+                            </div>
+                        <?php
                         break;
 
                     default:

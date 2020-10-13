@@ -133,7 +133,7 @@ $isClientsDisabled = is_clients_disabled();
                     <p class="title"><?php _e('Description'); ?></p>
                     <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'description', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
                         <blockquote
-                                style="font-size: 1em;"><?php echo upstream_esc_w( htmlspecialchars_decode($project->description)); ?></blockquote>
+                                style="font-size: 1em;"><?php echo upstream_esc_w( nl2br(htmlspecialchars_decode($project->description))); ?></blockquote>
                     <?php else: ?>
                         <span class="label up-o-label" style="background-color:#666;color:#fff">(hidden)</span>
                     <?php endif; ?>

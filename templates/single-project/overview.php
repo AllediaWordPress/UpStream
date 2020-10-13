@@ -10,6 +10,8 @@ $progressValue    = upstream_project_progress();
 $currentTimestamp = time();
 $counter          = \UpStream\Factory::getProjectCounter($project_id);
 
+global $upstream_allcounts;
+
 $areMilestonesEnabled = ! upstream_are_milestones_disabled() && ! upstream_disable_milestones();
 if ($areMilestonesEnabled) {
     $milestonesCounts = [
@@ -43,6 +45,8 @@ if ($areMilestonesEnabled) {
             }
         }
     }
+
+    $upstream_allcounts['milestonesCounts'] = $milestonesCounts;
 }
 
 $areTasksEnabled = ! upstream_are_tasks_disabled() && ! upstream_disable_tasks();
@@ -104,6 +108,8 @@ if ($areTasksEnabled) {
             }
         }
     }
+    $upstream_allcounts['tasksCounts'] = $tasksCounts;
+
 }
 
 $areBugsEnabled = ! upstream_disable_bugs() && ! upstream_are_bugs_disabled();
@@ -159,6 +165,9 @@ if ($areBugsEnabled) {
             }
         }
     }
+
+    $upstream_allcounts['bugsCounts'] = $bugsCounts;
+
 }
 ?>
 
