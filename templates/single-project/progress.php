@@ -2,6 +2,10 @@
 if ( ! defined('ABSPATH')) {
     exit;
 }
+
+global $upstream_allcounts;
+
+
 ?>
 
 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -46,36 +50,36 @@ if ( ! defined('ABSPATH')) {
                     var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
                     barchart.draw(data, barchart_options);
 */
-                    var mpiechart_options = {title:'mpc',
-                        pieHole:0.4,
+                    var mchart_options = {title:'mpc',
+                        legend:'none',
                         width:'33%',
                         is3D: true,
                         height:300};
-                    var mpiechart = new google.visualization.PieChart(document.getElementById('mpiechart_div'));
-                    mpiechart.draw(data, mpiechart_options);
+                    var mchart = new google.visualization.BarChart(document.getElementById('mchart_div'));
+                    mchart.draw(data, mchart_options);
 
-                    var tpiechart_options = {title:'tpc',
-                        pieHole:0.4,
+                    var tchart_options = {title:'tpc',
+                        legend:'none',
                         width:'33%',
                         is3D: true,
                         height:300};
-                    var tpiechart = new google.visualization.PieChart(document.getElementById('tpiechart_div'));
-                    tpiechart.draw(data, tpiechart_options);
+                    var tchart = new google.visualization.BarChart(document.getElementById('tchart_div'));
+                    tchart.draw(data, tchart_options);
 
-                    var bpiechart_options = {title:'vp',
-                        pieHole:0.4,
+                    var bchart_options = {title:'vp',
+                        legend:'none',
                         width:'33%',
                         is3D: true,
                         height:300};
-                    var bpiechart = new google.visualization.PieChart(document.getElementById('bpiechart_div'));
-                    bpiechart.draw(data, bpiechart_options);
+                    var bchart = new google.visualization.BarChart(document.getElementById('bchart_div'));
+                    bchart.draw(data, bchart_options);
 
                 }
             </script>
 
-            <div id="mpiechart_div" style="width:33%;position: relative;display: inline-block"></div>
-            <div id="tpiechart_div" style="width:33%;position: relative;display: inline-block"></div>
-            <div id="bpiechart_div" style="width:33%;position: relative;display: inline-block"></div>
+            <div id="mchart_div" style="width:33%;position: relative;display: inline-block"></div>
+            <div id="tchart_div" style="width:33%;position: relative;display: inline-block"></div>
+            <div id="bchart_div" style="width:33%;position: relative;display: inline-block"></div>
         </div>
     </div>
 </div>
