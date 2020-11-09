@@ -1,5 +1,5 @@
 <?php
-define('UPSTREAM_VERSION', '1.37.5');
+define('UPSTREAM_VERSION', '1.37.6');
 
 global $upstream_addon_requirements;
 $upstream_addon_requirements = [

@@ -93,7 +93,12 @@ function upstream_enqueue_styles_scripts()
          *
          * @return array
          */
-        $styleWhitelist = (array)apply_filters('upstream_frontend_style_whitelist', []);
+        $styleWhitelist = (array)apply_filters('upstream_frontend_style_whitelist', [
+            'framework',
+            'media-views',
+            'imgareaselect',
+            'wp-color-picker'
+        ]);
 
         foreach ($wp_styles->queue as $style) {
             if (! in_array($style, $styleWhitelist)) {
@@ -108,7 +113,14 @@ function upstream_enqueue_styles_scripts()
          *
          * @return array
          */
-        $scriptWhitelist = (array)apply_filters('upstream_frontend_script_whitelist', ['jquery']);
+        $scriptWhitelist = (array)apply_filters('upstream_frontend_script_whitelist', [
+            'jquery',
+            'media-editor',
+            'media-audiovideo',
+            'wp-embed',
+            'wp-color-picker-alpha'
+
+        ]);
 
         foreach ($wp_scripts->queue as $script) {
             if ( ! in_array($script, $scriptWhitelist)) {

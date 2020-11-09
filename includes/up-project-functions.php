@@ -646,7 +646,9 @@ function upstream_user_projects()
                 $categories = (array)wp_get_object_terms($data->id, 'project_category');
                 if (count($categories) > 0) {
                     foreach ($categories as $category) {
-                        $data->categories[$category->term_id] = $category->name;
+                        if (is_object($category)) {
+                            $data->categories[$category->term_id] = $category->name;
+                        }
                     }
                 }
 
