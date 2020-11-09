@@ -496,7 +496,11 @@ class UpStream_Project
             $wp_lock_check = wp_check_post_lock($this->ID);
         }
 
-        if ($wp_lock_check) {
+
+        $options = get_option('upstream_general');
+        $allow_override = isset($options['override_locking']) ? (bool)$options['override_locking'] : false;
+
+        if ($wp_lock_check && !$allow_override) {
             $user_info = get_userdata($wp_lock_check);
             throw new \Exception(__("This project is being edited by " . $user_info->user_login . ". The other user must save their work.", 'upstream'));
         } else {

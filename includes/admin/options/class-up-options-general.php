@@ -746,6 +746,18 @@ if ( ! class_exists('UpStream_Options_General')) :
                             ],
                         ],
                         [
+                            'name'    => __('Override project locking on front end', 'upstream'),
+                            'id'      => 'override_locking',
+                            'type'    => 'radio_inline',
+                            'desc'    => __('If enabled, users will be allowed to edit projects regardless of whether another person is making edits (only applies on the front end). Note that if you allow multiple users to edit a project simultaneously, there is a chance that changes may be overwritten.',
+                                'upstream'),
+                            'default' => '0',
+                            'options' => [
+                                '0' => __('Users cannot edit simultaneously (safe)', 'upstream'),
+                                '1' => __('Multiple users can edit a project simultaneously', 'upstream'),
+                            ],
+                        ],
+                        [
                             'name'       => __('Send Notifications for New Comments', 'upstream'),
                             'id'         => 'send_notifications_for_new_comments',
                             'type'       => 'radio_inline',
@@ -873,20 +885,6 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'type'              => 'multicheck',
                             'desc'              => __(
                                 'Ticking this box will enable beta features.',
-                                'upstream'
-                            ),
-                            'default'           => '',
-                            'options'           => [
-                                '1' => __('Enabled', 'upstream'),
-                            ],
-                            'select_all_button' => false,
-                        ],
-                        [
-                            'name'              => __('Front End Compatibility Mode', 'upstream'),
-                            'id'                => 'compatibility_mode',
-                            'type'              => 'multicheck',
-                            'desc'              => __(
-                                'Ticking this box will enable compatibility mode on the front end.',
                                 'upstream'
                             ),
                             'default'           => '',
