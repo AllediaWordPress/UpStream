@@ -97,7 +97,6 @@ class UpStream_Import
             try {
                 $lineNo = 0;
                 while (($data = fgetcsv($handle)) !== FALSE) {
-                    // TODO: check each line for validity
                     $lineNo++;
                 }
             } catch (\Exception $e) {

@@ -984,7 +984,10 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             $return = [];
 
-            $fileId = $_GET['fileId'];
+            $fileId = (int)$_GET['fileId'];
+            if (!$fileId) {
+                wp_die(__('Invalid File'), 'Forbidden', ['response' => 403]);
+            }
             $file = get_attached_file($fileId);
 
             if (!current_user_can('administrator')) {

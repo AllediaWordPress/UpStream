@@ -85,7 +85,7 @@ final class UpStream_Login
 
         $postData = [
             'username' => isset($_POST['user_email']) ? sanitize_text_field(trim($_POST['user_email'])) : "",
-            'password' => isset($_POST['user_password']) ? $_POST['user_password'] : "",
+            'password' => isset($_POST['user_password']) ? sanitize_text_field($_POST['user_password']) : "",
         ];
 
         if (empty($postData['username'])) {

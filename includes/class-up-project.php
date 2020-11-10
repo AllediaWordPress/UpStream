@@ -107,7 +107,7 @@ class UpStream_Project
             $_id = isset($_POST['post_id']) ? (int)$_POST['post_id'] : false;
         }
 
-
+        // validity will be checked in setup_project
         $project = WP_Post::get_instance($_id);
 
         return $this->setup_project($project);
@@ -339,8 +339,7 @@ class UpStream_Project
             return null;
         }
 
-        //$types = wp_list_pluck($statuses, 'type', 'name');
-        // RSD: fix for nulls causing a warning
+
         $types = [];
         foreach ($statuses as $s) {
             if (isset($s['name']) && isset($s['type'])) {

@@ -43,7 +43,7 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
          */
         public function client_columns($defaults)
         {
-            $post_type = $_GET['post_type'];
+            $post_type = 'client';
 
             $columns    = [];
             $taxonomies = [];
@@ -54,7 +54,7 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
 
             /* Allow devs to filter the taxonomy columns. */
             $taxonomies = apply_filters(
-                "manage_taxonomies_for_upstream_{$post_type}_columns",
+                "manage_taxonomies_for_upstream_client_columns",
                 $taxonomies,
                 $post_type
             );

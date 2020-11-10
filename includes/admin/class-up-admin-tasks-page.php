@@ -643,7 +643,7 @@ class Upstream_Task_List extends WP_List_Table
 
         // NOTE: this is just checking that the requested project matches the ID already in the
         // array -- there is no real potential for security violation here
-        $project = sanitize_text_field(isset($_REQUEST['project']) && $_REQUEST['project'] ? $_REQUEST['project'] : '');
+        $project = isset($_REQUEST['project']) && $_REQUEST['project'] ? (int)$_REQUEST['project'] : 0;
         if ( ! empty($tasks) && ! empty($project)) {
             foreach ($tasks as $key => $task) {
                 if ($task['project_id'] != $project) {

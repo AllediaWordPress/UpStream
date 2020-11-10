@@ -354,9 +354,6 @@ function upstream_count_total($type, $id = 0)
             return 0;
         }
 
-        if ($id == 0) {
-            return 0;
-        }
     }
 
 

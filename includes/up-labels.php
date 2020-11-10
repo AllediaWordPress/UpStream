@@ -376,7 +376,7 @@ function upstream_updated_messages($messages)
     global $post_ID;
 
     $postURL          = get_permalink($post_ID);
-    $anchorTagOpening = '<a href="' . $postURL . '" target="_blank" rel="noopener noreferrer">';
+    $anchorTagOpening = '<a href="' . esc_attr($postURL) . '" target="_blank" rel="noopener noreferrer">';
     $anchorTagClosing = '</a>';
 
     $postTypeLabelProject = upstream_project_label();

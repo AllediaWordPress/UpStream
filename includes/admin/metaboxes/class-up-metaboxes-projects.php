@@ -588,7 +588,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                                 <?php if ((int)$userId === $currentUserId) {
                                     continue;
                                 } ?>
-                                <option value="<?php echo $userId; ?>"><?php echo $userName; ?></option>
+                                <option value="<?php echo $userId; ?>"><?php echo esc_html($userName); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>
@@ -604,7 +604,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         <option value="__none__"><?php _e('None', 'upstream'); ?></option>
                         <optgroup label="<?php _e('Statuses', 'upstream'); ?>">
                             <?php foreach ($statuses as $status): ?>
-                                <option value="<?php echo $status['name']; ?>"><?php echo $status['name']; ?></option>
+                                <option value="<?php echo esc_attr($status['name']); ?>"><?php echo esc_html($status['name']); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>
@@ -621,7 +621,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                             <option value="__none__"><?php _e('None', 'upstream'); ?></option>
                             <optgroup label="<?php echo upstream_milestone_label_plural(); ?>">
                                 <?php foreach ($milestones as $milestoneId => $milestoneTitle): ?>
-                                    <option value="<?php echo $milestoneId; ?>"><?php echo $milestoneTitle; ?></option>
+                                    <option value="<?php echo $milestoneId; ?>"><?php echo esc_html($milestoneTitle); ?></option>
                                 <?php endforeach; ?>
                             </optgroup>
                         </select>
@@ -685,7 +685,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                                 <?php if ((int)$userId === $currentUserId) {
                                     continue;
                                 } ?>
-                                <option value="<?php echo $userId; ?>"><?php echo $userName; ?></option>
+                                <option value="<?php echo $userId; ?>"><?php echo esc_html($userName); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>
@@ -718,7 +718,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         <option value="__none__"><?php _e('None', 'upstream'); ?></option>
                         <optgroup label="<?php _e('Statuses', 'upstream'); ?>">
                             <?php foreach ($statuses as $status): ?>
-                                <option value="<?php echo $status['name']; ?>"><?php echo $status['name']; ?></option>
+                                <option value="<?php echo esc_attr($status['name']); ?>"><?php echo esc_html($status['name']); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>
@@ -772,7 +772,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                                 <?php if ((int)$userId === $currentUserId) {
                                     continue;
                                 } ?>
-                                <option value="<?php echo $userId; ?>"><?php echo $userName; ?></option>
+                                <option value="<?php echo $userId; ?>"><?php echo esc_html( $userName); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>

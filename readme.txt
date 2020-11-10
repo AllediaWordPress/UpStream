@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 5.2
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 1.37.6
+Stable tag: 1.38.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

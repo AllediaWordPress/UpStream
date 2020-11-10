@@ -4,7 +4,7 @@
  * Description: A WordPress Project Management plugin by UpStream.
  * Author: UpStream
  * Author URI: https://upstreamplugin.com
- * Version: 1.37.6
+ * Version: 1.38.0
  * Text Domain: upstream
  * Domain Path: /languages
  */
@@ -99,7 +99,6 @@ if ( ! class_exists('UpStream')) :
             }
 
             $this->init_hooks();
-            $this->init_twig();
 
             do_action('upstream_loaded');
         }
@@ -146,59 +145,6 @@ if ( ! class_exists('UpStream')) :
             $this->container['framework']->init();
         }
 
-        /**
-         * Initialize the twig environment.
-         */
-        private function init_twig()
-        {
-            $loader          = new Twig_Loader_Filesystem(__DIR__ . '/twig');
-            $twigEnvironment = new Twig_Environment($loader);
-
-
-            $doActionFunc = new Twig_SimpleFunction('doAction', function ($action, $context) {
-                $args = func_get_args();
-
-                call_user_func_array('do_action', $args);
-            });
-            $twigEnvironment->addFunction($doActionFunc);
-
-            $wpEditorFunc = new Twig_SimpleFunction('wpEditor', function ($content, $editorId, $settings = []) {
-                wp_editor($content, $editorId, $settings);
-            });
-            $twigEnvironment->addFunction($wpEditorFunc);
-
-            $this->twig = $twigEnvironment;
-        }
-
-        /**
-         * @param       $twig_file
-         * @param array $context
-         *
-         * @return string
-         * @throws Twig_Error_Runtime
-         * @throws Twig_Error_Syntax
-         *
-         * @throws Twig_Error_Loader
-         * @deprecated
-         */
-        public function twig_render($twig_file, $context = [])
-        {
-            return $this->twigRender($twig_file, $context);
-        }
-
-        /**
-         * @param       $twigFile
-         * @param array $context
-         *
-         * @return string
-         * @throws Twig_Error_Loader
-         * @throws Twig_Error_Runtime
-         * @throws Twig_Error_Syntax
-         */
-        public function twigRender($twigFile, $context = [])
-        {
-            return $this->twig->render($twigFile, $context);
-        }
 
         /**
          * Prevent a Client User from accessing any page other than the profile.
@@ -382,7 +328,7 @@ if ( ! class_exists('UpStream')) :
                 }
 
                 if (in_array($currentPage, ['post.php', 'post-new.php'])) {
-                    $postType = isset($_REQUEST['post_type']) ? $_REQUEST['post_type'] : null;
+                    $postType = isset($_REQUEST['post_type']) ? sanitize_text_field($_REQUEST['post_type']) : null;
                     if (empty($postType)) {
                         $projectId = isset($_REQUEST['post']) ? (int)$_REQUEST['post'] : 0;
                         $postType  = get_post_type($projectId);
@@ -397,7 +343,7 @@ if ( ! class_exists('UpStream')) :
                     }
                 } elseif ($currentPage === 'admin.php'
                     && isset($_REQUEST['page'])
-                    && preg_match('/^upstream_/i', $_REQUEST['page'])
+                    && preg_match('/^upstream_/i', sanitize_text_field($_REQUEST['page']))
                 ) {
                     $loadCmb2 = true;
                 }

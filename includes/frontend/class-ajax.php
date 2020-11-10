@@ -40,7 +40,7 @@ class UpStream_Ajax
 
         $urg = UpStream_Report_Generator::get_instance();
 
-        $report = $urg->getReport($_POST['report']);
+        $report = $urg->getReport(sanitize_text_field($_POST['report']));
         $data = $urg->executeReport($report);
 
         $this->output($data);
@@ -106,6 +106,7 @@ class UpStream_Ajax
             return;
         }
 
+        // already checked for validity
         $state = $_POST['state'];
 
         // Sanitize data.

@@ -67,10 +67,12 @@ function upstream_update_client_meta_values($post_id, $post, $update)
 
         // update the user with a unique id if one is not set
         $i = 0;
-        if ($users) :
+        if ($users && is_array($users)) :
             foreach ($users as $user) {
                 if ( ! isset($user['id']) || empty($user['id']) || $user['id'] == '') {
                     $users[$i]['id'] = upstream_admin_set_unique_id();
+                } else {
+                    $users[$i]['id'] = (int)$users[$i]['id'];
                 }
                 $i++;
             }

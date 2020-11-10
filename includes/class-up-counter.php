@@ -304,4 +304,3 @@ class Upstream_Counter
 }
 
 
-// new Upstream_Counts();

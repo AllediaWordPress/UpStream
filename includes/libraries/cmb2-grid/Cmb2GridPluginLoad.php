@@ -85,7 +85,7 @@ if ( ! class_exists('\Cmb2Grid\Cmb2GridPlugin')) {
         public function admin_enqueue_scripts()
         {
             $suffix = ((defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min');
-            wp_enqueue_style('cmb2_grid_bootstrap_light', $this->url('assets/css/bootstrap' . $suffix . '.css'), null,
+            wp_enqueue_style('cmb2_grid_bootstrap_light', $this->url('assets/css/cmb2grid.css'), null,
                 self::VERSION);
         }
 

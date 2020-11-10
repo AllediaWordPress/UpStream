@@ -44,7 +44,7 @@ if (isset($_GET['report'])) {
     }
     return;
 } elseif (isset($_GET['download'])) {
-    upstream_upfs_download($_GET['download']);
+    upstream_upfs_download(sanitize_text_field($_GET['download']));
     return;
 }
 
@@ -53,7 +53,7 @@ $optionName = 'project_number_per_page';
 $total_per_page = isset($pluginOptions[$optionName]) ? (int)$pluginOptions[$optionName] : 1000;
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
 
 if ($page <= 1) $page = 1;
 $display_start = ($page-1)*$total_per_page;

@@ -214,7 +214,31 @@ class UpStream_Debug
             'messages'      => static::$messages,
         ];
 
-        echo UpStream()->twig_render('view_log.twig', $context);
+        ?>
+
+
+        <h1><?php esc_html_e($context['label']['title']) ?></h1>
+
+        <div id="upstream-debug-data">
+            <h2><?php esc_html_e($context['label']['debug_data']) ?></h2>
+            <textarea style="width:100%; height:400px"><?php echo esc_textarea($context['debug_data']) ?></textarea>
+        </div>
+
+        <hr>
+
+        <div id="upstream-debug-log">
+            <h2><?php esc_html_e($context['label']['log_file']) ?></h2>
+
+            <p><?php esc_html_e($context['message']['click_to_delete']) ?></p>
+            <a class="button button-danger" href="<?php esc_attr_e($context['link_delete']) ?>"><?php esc_html_e($context['label']['delete_file']) ?></a>
+
+            <h3><?php esc_html_e($context['label']['log_content']) ?></h3>
+            <textarea style="width:100%; height:400px" id="upstream-debug-log"><?php echo esc_textarea($context['file']['content']) ?></textarea>
+        </div>
+
+
+<?php
+
     }
 
     protected static function handle_actions()

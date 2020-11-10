@@ -46,7 +46,7 @@ $userEmail = ! empty($_POST) && isset($_POST['user_email']) ? $_POST['user_email
         <form class="loginform" action="" method="POST">
             <input type="text" class="form-control" placeholder="<?php _e('Your Email', 'upstream'); ?>"
                    name="user_email" required
-                   value="<?php echo $userEmail; ?>" <?php echo empty($userEmail) ? 'autofocus' : ''; ?> />
+                   value="<?php echo esc_attr($userEmail); ?>" <?php echo empty($userEmail) ? 'autofocus' : ''; ?> />
             <input type="password" class="form-control" placeholder="<?php _e('Password', 'upstream'); ?>"
                    name="user_password" required <?php echo ! empty($userEmail) ? 'autofocus' : ''; ?> />
 

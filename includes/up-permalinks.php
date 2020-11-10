@@ -116,7 +116,7 @@ function upstream_print_project_permalink_field()
     /**
      * @var string $default
      */
-    $default = apply_filters('upstream_projects_base', 'projects');
+    $default = esc_attr(apply_filters('upstream_projects_base', 'projects'));
 
     echo '<input name="upstream_projects_base" id="upstream_projects_base" type="text" class="regular-text code" value="' . $value . '" placeholder="' . $default . '">';
 }
@@ -131,7 +131,7 @@ function upstream_print_client_permalink_field()
     /**
      * @var string $default
      */
-    $default = apply_filters('upstream_client_base', 'client');
+    $default = esc_attr(apply_filters('upstream_client_base', 'client'));
 
     echo '<input name="upstream_client_base" id="upstream_client_base" type="text" class="regular-text code" value="' . $value . '" placeholder="' . $default . '">';
 }

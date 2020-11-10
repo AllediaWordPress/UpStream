@@ -974,9 +974,6 @@ function upstream_update_data_rev_2()
 add_action('admin_init', 'upstream_update_data_rev_2', 90);
 
 
-// TODO: REMOVE THIS
-// This allows translation of role names after installation, but it's
-// probably not the best way to do it
 
 function upstream_change_role_name() {
     global $wp_roles;

@@ -47,7 +47,7 @@ if (!apply_filters('upstream_theme_override_topnav', false)) {
     upstream_get_template_part('global/top-nav.php');
 }
 
-$report = UpStream_Report_Generator::get_instance()->getReport($_GET['report']);
+$report = UpStream_Report_Generator::get_instance()->getReport(sanitize_text_field($_GET['report']));
 if (!$report) {
     return;
 }

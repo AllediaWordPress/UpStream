@@ -273,7 +273,7 @@ function upstream_milestone_category_form_fields($taxonomy) {
             <label for="term_color"><?php _e('Default color', 'upstream'); ?></label>
         </th>
         <td>
-            <input type="text" name="color" class="color-field" id="term_color" value="<?php echo $value; ?>" />
+            <input type="text" name="color" class="color-field" id="term_color" value="<?php echo esc_attr($value); ?>" />
             <p class="description">Select a default color for milestones related to this category.</p>
         </td>
     </tr>

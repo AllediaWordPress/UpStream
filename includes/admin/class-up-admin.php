@@ -78,6 +78,7 @@ class UpStream_Admin
      */
     public function editMenuOrder()
     {
+        //YYYYYYYYYYYYY
         //update_metadata('post', $_REQUEST['post_id'], 'upst_order', $_REQUEST['item_val']);
         $cur_post = array('ID'=>$_REQUEST['post_id'], 'menu_order'=>$_REQUEST['item_val']);
         wp_update_post( $cur_post );
@@ -91,8 +92,8 @@ class UpStream_Admin
      */
     public function getTaskPercent()
     {
-        $task_id = $_REQUEST['task_id'];
-        $cur_per = $_REQUEST['cur_per'];
+        $task_id = sanitize_text_field($_REQUEST['task_id']);
+        $cur_per = (int)$_REQUEST['cur_per'];
 
         $option   = get_option('upstream_tasks');
         $statuses = isset($option['statuses']) ? $option['statuses'] : '';

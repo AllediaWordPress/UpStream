@@ -103,7 +103,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
          */
         public function project_columns($defaults)
         {
-            $post_type = $_GET['post_type'];
+            $post_type = "project";
 
             $columns    = [];
             $taxonomies = [];
@@ -548,7 +548,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             $metaQuery = [];
 
-            $projectStatus = isset($_GET['project-status']) ? (string)$_GET['project-status'] : '';
+            $projectStatus = isset($_GET['project-status']) ? sanitize_text_field((string)$_GET['project-status']) : '';
             if (strlen($projectStatus) > 0) {
                 $metaQuery[] = [
                     'key'     => '_upstream_project_status',

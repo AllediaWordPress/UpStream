@@ -648,6 +648,7 @@ class Upstream_Bug_List extends WP_List_Table
         // filtering
         $the_bugs = $bugs; // store the bugs array
 
+        // NOTE: this is being checked against the list below
         $status = isset($_REQUEST['status']) && ! empty($_REQUEST['status']) ? $_REQUEST['status'] : 'all';
         if ( ! empty($status) && $status !== 'all') {
             $bugs = array_filter($the_bugs, function ($row) use ($status) {
@@ -655,6 +656,7 @@ class Upstream_Bug_List extends WP_List_Table
             });
         }
 
+        // NOTE: this is being checked against the list below
         $severity = isset($_REQUEST['severity']) && ! empty($_REQUEST['severity']) ? $_REQUEST['severity'] : 'all';
         if ( ! empty($severity) && $severity !== 'all') {
             $bugs = array_filter($bugs, function ($row) use ($severity) {
@@ -662,8 +664,8 @@ class Upstream_Bug_List extends WP_List_Table
             });
         }
 
-        $preset = isset($_REQUEST['view']) ? $_REQUEST['view'] : '';
-        if ($preset === 'mine') {
+        // NOTE: this is checking against a known string
+        if (isset($_REQUEST['view']) && $_REQUEST['view']  === 'mine') {
             $currentUserId = (int)get_current_user_id();
 
             $bugs = array_filter($bugs, function ($row) use ($currentUserId) {

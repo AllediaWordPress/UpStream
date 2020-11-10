@@ -255,5 +255,3 @@ class Upstream_Counts
     }
 }
 
-
-// new Upstream_Counts();

@@ -260,7 +260,8 @@ class Comments
                     throw new \Exception(__("Invalid item.", 'upstream'));
                 }
 
-                $item_id = $_POST['item_id'];
+                //non-numeric id
+                $item_id = sanitize_text_field($_POST['item_id']);
 
                 $nonceIdentifier = 'upstream:project.' . $commentTargetItemType . 's.add_comment';
             } else {
@@ -291,7 +292,7 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment_content = stripslashes($_POST['content']);
+            $comment_content = sanitize_textarea_field(stripslashes($_POST['content']));
 
             $item_title = isset($_POST['item_title']) ? sanitize_text_field($_POST['item_title']) : '';
 
@@ -409,7 +410,7 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment                    = new Comment(stripslashes($_POST['content']), $project_id, $user_id);
+            $comment                    = new Comment(sanitize_textarea_field( stripslashes($_POST['content'])), $project_id, $user_id);
             $comment->parent_id         = (int)$_POST['parent_id'];
             $comment->created_by->ip    = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
             $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
@@ -419,7 +420,7 @@ class Comments
             update_comment_meta($comment->id, 'type', $commentTargetItemType);
 
             if ($commentTargetItemType !== "project") {
-                update_comment_meta($comment->id, 'id', $_POST['item_id']);
+                update_comment_meta($comment->id, 'id', sanitize_text_field($_POST['item_id']));
             }
 
             $useAdminLayout = ! isset($_POST['teeny']) ? true : (bool)$_POST['teeny'] === false;
@@ -640,7 +641,8 @@ class Comments
             throw new \Exception(__('Comments are disabled for this project.', 'upstream'));
         }
 
-        $comment = Comment::load($_POST['comment_id']);
+        $cid = isset($_POST['comment_id']) ? (int)$_POST['comment_id'] : 0;
+        $comment = Comment::load($cid);
         if ( ! ($comment instanceof Comment)) {
             throw new \Exception(__('Comment not found.', 'upstream'));
         }
@@ -755,8 +757,8 @@ class Comments
             }
 
             // Prepare data to verify nonce.
-            $commentTargetItemType = strtolower($_GET['item_type']);
-            $item_id               = nulll;
+            $commentTargetItemType = sanitize_text_field(strtolower($_GET['item_type']));
+            $item_id               = null;
             if ($commentTargetItemType !== 'project') {
                 if (
                     ! isset($_GET['item_id'])

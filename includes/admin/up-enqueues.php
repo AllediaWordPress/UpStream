@@ -18,6 +18,7 @@ function upstream_load_admin_scripts($hook)
 
     $postType = get_post_type();
     if (empty($postType)) {
+        // checked later if in array of valid post types
         $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
     }
 

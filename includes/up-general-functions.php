@@ -42,10 +42,11 @@ function upstream_post_id()
     if ( ! $post_id) {
         if (isset($_POST['formdata'])) {
             parse_str($_POST['formdata'], $posted);
-            $post_id = $posted['post_id'];
+            $post_id = (int)$posted['post_id'];
         }
     }
 
+    // will be an int post ID -- caller will check that it is a real post and accessible
     return $post_id;
 }
 
@@ -84,7 +85,7 @@ function upstream_filesytem_enabled()
 
 {
     $options      = get_option('upstream_general');
-    $use_upfs = isset($options['use_upfs']) ? $options['use_upfs'] : 0;
+    $use_upfs = isset($options['use_upfs']) ? (int)$options['use_upfs'] : 0;
 
     return $use_upfs == 1 && trim(upstream_filesystem_path()) != '';
 }
@@ -789,7 +790,7 @@ function upstream_admin_support($option)
     }
 
     if (isset($option['admin_support_link'])) {
-        return ! empty($option['admin_support_link']) ? $option['admin_support_link'] : 'mailto:' . $option['admin_email'];
+        return ! empty($option['admin_support_link']) ? $option['admin_support_link'] : 'mailto:' .  $option['admin_email'];
     } else {
         return isset($option['admin_email']) ? $option['admin_email'] : '#';
     }

@@ -351,7 +351,123 @@ class Milestones
             ],
         ];
 
-        echo $upstream->twigRender('milestone-form-fields.twig', $context);
+?>
+
+        <div class="cmb2-wrap">
+            <?php if ($context['permissions']['edit_project']): ?>
+            <div class="row upstream-milestone-project">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for="<?php echo $context['field_prefix'] ?>project_id"><?php esc_html_e($context['labels']['project']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <select id="<?php echo $context['field_prefix'] ?>project_id"
+                            name="milestone_data[project_id]" class="form-control"
+                            data-placeholder="<?php esc_attr_e($context['labels']['none']) ?>">
+                        <?php foreach ($context['projects'] as $projectId => $projectName): ?>
+                        <?php if ($projectId): ?>
+                        <option value="<?php esc_attr_e($projectId) ?>" <?php echo $projectId == $context['data']['project_id'] ? "selected" : "" ?> ><?php esc_html_e($projectName) ?></option>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($context['permissions']['assigned_to']): ?>
+            <div class="row upstream-milestone-assigned-to">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for="<?php echo $context['field_prefix'] ?>assigned_to"><?php esc_html_e($context['labels']['assigned_to']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <select id="<?php echo $context['field_prefix'] ?>assigned_to"
+                            name="milestone_data[assigned_to][]" class="form-control"
+                            data-placeholder="<?php esc_attr_e($context['labels']['none']) ?>" multiple>
+                        <option></option>
+                        <?php foreach ($context['members'] as $userId => $userName): ?>
+                        <option value="<?php esc_attr_e($userId) ?>" <?php echo in_array($userId,$context['data']['assigned_to']) ? "selected" : "" ?>  ><?php esc_html_e($userName) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+            <?php endif; ?>
+
+
+            <?php if ($context['permissions']['edit_start_date']): ?>
+            <div class="row upstream-milestone-start-date">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for="<?php echo $context['field_prefix'] ?>start_date"><?php esc_html_e($context['labels']['start_date']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <input type="text" id="<?php echo $context['field_prefix'] ?>start_date"
+                           name="milestone_data[start_date]" class="form-control o-datepicker"
+                           placeholder="<?php esc_attr_e($context['labels']['none']) ?>" data-elt="end_date"
+                           autocomplete="off" value="<?php esc_attr_e($context['data']['start_date']) ?>">
+                    <input type="hidden" id="<?php echo $context['field_prefix'] ?>start_date_timestamp'; ?>"
+                           data-name="start_date">
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($context['permissions']['edit_end_date']): ?>
+            <div class="row upstream-milestone-end-date">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for="<?php echo $context['field_prefix'] ?>end_date"><?php esc_html_e($context['labels']['end_date']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <input type="text" id="<?php echo $context['field_prefix'] ?>end_date"
+                           name="milestone_data[end_date]" class="form-control o-datepicker"
+                           placeholder="<?php esc_attr_e($context['labels']['none']) ?>" data-egt="start_date"
+                           autocomplete="off" value="<?php esc_attr_e($context['data']['end_date']) ?>">
+                    <input type="hidden" id="<?php echo $context['field_prefix'] ?>end_date_timestamp"
+                           data-name="end_date">
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+            <?php endif; ?>
+
+
+            <?php do_action('upstream.frontend-edit:renderAfter.project.items.end_dates', 'milestones'); ?>
+
+            <div class="row upstream-milestone-color">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for=""><?php esc_html_e($context['labels']['color']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <input class="color-field" type="text" name="milestone_data[color]" value="<?php esc_attr_e($context['data']['color']) ?>"/>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+
+            <?php if ($context['permissions']['edit_notes']): ?>
+            <div class="row upstream-milestone-notes">
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 text-right">
+                    <label for=""><?php esc_html_e($context['labels']['notes']) ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+                    <?php wp_editor($context['data']['notes'], $context['field_prefix'].'notes', [
+                    'media_buttons'=> true,
+                    'textarea_rows'=> 5,
+                    'textarea_name'=> 'milestone_data[notes]'
+                    ]); ?>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+            </div>
+            <?php endif; ?>
+
+            <?php do_action('upstream.frontend-edit:renderAdditionalFields', 'milestone', $context['data']); ?>
+        </div>
+
+
+<?php
     }
 
     /**
@@ -388,6 +504,10 @@ class Milestones
         // Project
         $projectIdFieldName = 'project_id';
         $projectId          = (int)$data[$projectIdFieldName];
+
+        if (!upstream_user_can_access_project(get_current_user_id(), $projectId)) {
+            return;
+        }
 
         // Start date
         $startDateFieldName = 'start_date';

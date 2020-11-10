@@ -60,7 +60,7 @@ class UpStream_Project_Activity
             $group  = '_upstream_project_' . $posted['type'];
 
             if (isset($posted['editing'])) {
-                $posted['id'] = $posted['editing'];
+                $posted['id'] = sanitize_text_field($posted['editing']);
             }
 
             // reset our posted variable
@@ -120,6 +120,8 @@ class UpStream_Project_Activity
 
         // start to loop through each POSTED item
         foreach ($this->posted as $key => $new_value) {
+
+            $key = sanitize_text_field($key);
 
             // skip some of wordpress standard fields that we don't need
             if ($this->match($key, ['nonce', 'action', 'refer', 'hidden'])) {
