@@ -107,6 +107,7 @@ class UpStream_Project
             $_id = isset($_POST['post_id']) ? (int)$_POST['post_id'] : false;
         }
 
+
         $project = WP_Post::get_instance($_id);
 
         return $this->setup_project($project);

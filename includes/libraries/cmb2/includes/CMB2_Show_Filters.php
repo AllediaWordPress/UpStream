@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Show On Filters
  * Use the 'cmb2_show_on' filter to further refine the conditions
@@ -8,7 +7,7 @@
  *
  * All methods in this class are automatically filtered
  *
- * @since     1.0.0
+ * @since  1.0.0
  *
  * @category  WordPress_Plugin
  * @package   CMB2
@@ -16,170 +15,165 @@
  * @license   GPL-2.0+
  * @link      https://cmb2.io
  */
-class CMB2_Show_Filters
-{
+class CMB2_Show_Filters {
 
-    /**
-     * Get Show_on key. backwards compatible w/ 'key' indexes
-     *
-     * @since  2.0.0
-     *
-     * @param  array $meta_box_args Metabox config array
-     *
-     * @return mixed                show_on key or false
-     */
-    private static function get_show_on_key($meta_box_args)
-    {
-        $show_on = isset($meta_box_args['show_on']) ? (array)$meta_box_args['show_on'] : false;
-        if ($show_on && is_array($show_on)) {
-            if (array_key_exists('key', $show_on)) {
-                return $show_on['key'];
-            }
+	/**
+	 * Get Show_on key. backwards compatible w/ 'key' indexes
+	 *
+	 * @since  2.0.0
+	 *
+	 * @param  array $meta_box_args Metabox config array.
+	 *
+	 * @return mixed                show_on key or false
+	 */
+	private static function get_show_on_key( $meta_box_args ) {
+		$show_on = isset( $meta_box_args['show_on'] ) ? (array) $meta_box_args['show_on'] : false;
+		if ( $show_on && is_array( $show_on ) ) {
 
-            $keys = array_keys($show_on);
+			if ( array_key_exists( 'key', $show_on ) ) {
+				return $show_on['key'];
+			}
 
-            return $keys[0];
-        }
+			$keys = array_keys( $show_on );
+			return $keys[0];
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Get Show_on value. backwards compatible w/ 'value' indexes
-     *
-     * @since  2.0.0
-     *
-     * @param  array $meta_box_args Metabox config array
-     *
-     * @return mixed                show_on value or false
-     */
-    private static function get_show_on_value($meta_box_args)
-    {
-        $show_on = isset($meta_box_args['show_on']) ? (array)$meta_box_args['show_on'] : false;
+	/**
+	 * Get Show_on value. backwards compatible w/ 'value' indexes
+	 *
+	 * @since  2.0.0
+	 *
+	 * @param  array $meta_box_args Metabox config array.
+	 *
+	 * @return mixed                show_on value or false
+	 */
+	private static function get_show_on_value( $meta_box_args ) {
+		$show_on = isset( $meta_box_args['show_on'] ) ? (array) $meta_box_args['show_on'] : false;
 
-        if ($show_on && is_array($show_on)) {
-            if (array_key_exists('value', $show_on)) {
-                return $show_on['value'];
-            }
+		if ( $show_on && is_array( $show_on ) ) {
 
-            $keys = array_keys($show_on);
+			if ( array_key_exists( 'value', $show_on ) ) {
+				return $show_on['value'];
+			}
 
-            return $show_on[$keys[0]];
-        }
+			$keys = array_keys( $show_on );
 
-        return [];
-    }
+			return $show_on[ $keys[0] ];
+		}
 
-    /**
-     * Add metaboxes for an specific ID
-     *
-     * @since  1.0.0
-     *
-     * @param  bool  $display       To display or not
-     * @param  array $meta_box_args Metabox config array
-     * @param  CMB2  $cmb           The CMB2 instance.
-     *
-     * @return bool                 Whether to display this metabox on the current page.
-     */
-    public static function check_id($display, $meta_box_args, $cmb)
-    {
-        $key = self::get_show_on_key($meta_box_args);
-        if ( ! $key || 'id' !== $key) {
-            return $display;
-        }
+		return array();
+	}
 
-        $object_id = is_admin() ? $cmb->object_id() : get_the_ID();
+	/**
+	 * Add metaboxes for an specific ID
+	 *
+	 * @since  1.0.0
+	 * @param  bool  $display       To display or not.
+	 * @param  array $meta_box_args Metabox config array.
+	 * @param  CMB2  $cmb           The CMB2 instance.
+	 * @return bool                 Whether to display this metabox on the current page.
+	 */
+	public static function check_id( $display, $meta_box_args, $cmb ) {
 
-        if ( ! $object_id) {
-            return false;
-        }
+		$key = self::get_show_on_key( $meta_box_args );
+		if ( ! $key || 'id' !== $key ) {
+			return $display;
+		}
 
-        // If current page id is in the included array, display the metabox
-        return in_array($object_id, (array)self::get_show_on_value($meta_box_args));
-    }
+		$object_id = is_admin() ? $cmb->object_id() : get_the_ID();
 
-    /**
-     * Add metaboxes for an specific Page Template
-     *
-     * @since  1.0.0
-     *
-     * @param  bool  $display       To display or not
-     * @param  array $meta_box_args Metabox config array
-     *
-     * @return bool            Whether to display this metabox on the current page.
-     */
-    public static function check_page_template($display, $meta_box_args, $cmb)
-    {
-        $key = self::get_show_on_key($meta_box_args);
-        if ( ! $key || 'page-template' !== $key) {
-            return $display;
-        }
+		if ( ! $object_id ) {
+			return false;
+		}
 
-        $object_id = $cmb->object_id();
+		// If current page id is in the included array, display the metabox.
+		return in_array( $object_id, (array) self::get_show_on_value( $meta_box_args ) );
+	}
 
-        if ( ! $object_id || 'post' !== $cmb->object_type()) {
-            return false;
-        }
+	/**
+	 * Add metaboxes for an specific Page Template
+	 *
+	 * @since  1.0.0
+	 * @param  bool  $display       To display or not.
+	 * @param  array $meta_box_args Metabox config array.
+	 * @param  CMB2  $cmb           CMB2 object.
+	 * @return bool            Whether to display this metabox on the current page.
+	 */
+	public static function check_page_template( $display, $meta_box_args, $cmb ) {
 
-        // Get current template
-        $current_template = get_post_meta($object_id, '_wp_page_template', true);
+		$key = self::get_show_on_key( $meta_box_args );
+		if ( ! $key || 'page-template' !== $key ) {
+			return $display;
+		}
 
-        // See if there's a match
-        if ($current_template && in_array($current_template, (array)self::get_show_on_value($meta_box_args))) {
-            return true;
-        }
+		$object_id = $cmb->object_id();
 
-        return false;
-    }
+		if ( ! $object_id || 'post' !== $cmb->object_type() ) {
+			return false;
+		}
 
-    /**
-     * Only show options-page metaboxes on their options page (but only enforce on the admin side)
-     *
-     * @since  1.0.0
-     *
-     * @param  bool  $display       To display or not
-     * @param  array $meta_box_args Metabox config array
-     *
-     * @return bool            Whether to display this metabox on the current page.
-     */
-    public static function check_admin_page($display, $meta_box_args)
-    {
-        $key = self::get_show_on_key($meta_box_args);
-        // check if this is a 'options-page' metabox
-        if ( ! $key || 'options-page' !== $key) {
-            return $display;
-        }
+		// Get current template.
+		$current_template = get_post_meta( $object_id, '_wp_page_template', true );
 
-        // Enforce 'show_on' filter in the admin
-        if (is_admin()) {
+		// See if there's a match.
+		if ( $current_template && in_array( $current_template, (array) self::get_show_on_value( $meta_box_args ) ) ) {
+			return true;
+		}
 
-            // If there is no 'page' query var, our filter isn't applicable
-            if ( ! isset($_GET['page'])) {
-                return $display;
-            }
+		return false;
+	}
 
-            $show_on = self::get_show_on_value($meta_box_args);
+	/**
+	 * Only show options-page metaboxes on their options page (but only enforce on the admin side)
+	 *
+	 * @since  1.0.0
+	 * @param  bool  $display  To display or not.
+	 * @param  array $meta_box_args Metabox config array.
+	 * @return bool            Whether to display this metabox on the current page.
+	 */
+	public static function check_admin_page( $display, $meta_box_args ) {
 
-            if (empty($show_on)) {
-                return false;
-            }
+		$key = self::get_show_on_key( $meta_box_args );
+		// check if this is a 'options-page' metabox.
+		if ( ! $key || 'options-page' !== $key ) {
+			return $display;
+		}
 
-            if (is_array($show_on)) {
-                foreach ($show_on as $page) {
-                    if ($_GET['page'] == $page) {
-                        return true;
-                    }
-                }
-            } else {
-                if ($_GET['page'] == $show_on) {
-                    return true;
-                }
-            }
+		// Enforce 'show_on' filter in the admin.
+		if ( is_admin() ) {
 
-            return false;
-        }
+			// If there is no 'page' query var, our filter isn't applicable.
+			if ( ! isset( $_GET['page'] ) ) {
+				return $display;
+			}
 
-        // Allow options-page metaboxes to be displayed anywhere on the front-end
-        return true;
-    }
+			$show_on = self::get_show_on_value( $meta_box_args );
+
+			if ( empty( $show_on ) ) {
+				return false;
+			}
+
+			if ( is_array( $show_on ) ) {
+				foreach ( $show_on as $page ) {
+					if ( $_GET['page'] == $page ) {
+						return true;
+					}
+				}
+			} else {
+				if ( $_GET['page'] == $show_on ) {
+					return true;
+				}
+			}
+
+			return false;
+
+		}
+
+		// Allow options-page metaboxes to be displayed anywhere on the front-end.
+		return true;
+	}
+
 }

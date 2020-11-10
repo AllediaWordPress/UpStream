@@ -1,9 +1,8 @@
 <?php
-
 /**
  * CMB text_datetime_timestamp_timezone field type
  *
- * @since     2.2.2
+ * @since  2.2.2
  *
  * @category  WordPress_Plugin
  * @package   CMB2
@@ -11,52 +10,57 @@
  * @license   GPL-2.0+
  * @link      https://cmb2.io
  */
-class CMB2_Type_Text_Datetime_Timestamp_Timezone extends CMB2_Type_Base
-{
-    public function render($args = [])
-    {
-        $field = $this->field;
+class CMB2_Type_Text_Datetime_Timestamp_Timezone extends CMB2_Type_Base {
 
-        $args = wp_parse_args($this->args, [
-            'value'                   => $field->escaped_value(),
-            'desc'                    => $this->_desc(true),
-            'text_datetime_timestamp' => [],
-            'select_timezone'         => [],
-        ]);
+	public function render( $args = array() ) {
+		$field = $this->field;
 
-        $args['value'] = $field->escaped_value();
-        if (is_array($args['value'])) {
-            $args['value'] = '';
-        }
+		$value = $field->escaped_value();
+		if ( empty( $value ) ) {
+			$value = $field->get_default();
+		}
 
-        $datetime = maybe_unserialize($args['value']);
-        $value    = $tzstring = '';
+		$args = wp_parse_args( $this->args, array(
+			'value'                   => $value,
+			'desc'                    => $this->_desc( true ),
+			'text_datetime_timestamp' => array(),
+			'select_timezone'         => array(),
+		) );
 
-        if ($datetime && $datetime instanceof DateTime) {
-            $tz       = $datetime->getTimezone();
-            $tzstring = $tz->getName();
-            $value    = $datetime->getTimestamp();
-        }
+		$args['value'] = $value;
+		if ( is_array( $args['value'] ) ) {
+			$args['value'] = '';
+		}
 
-        $timestamp_args     = wp_parse_args($args['text_datetime_timestamp'], [
-            'desc'     => '',
-            'value'    => $value,
-            'rendered' => true,
-        ]);
-        $datetime_timestamp = $this->types->text_datetime_timestamp($timestamp_args);
+		$datetime = maybe_unserialize( $args['value'] );
+		$value = $tzstring = '';
 
-        $timezone_select_args = wp_parse_args($args['select_timezone'], [
-            'class'    => 'cmb2_select cmb2-select-timezone',
-            'name'     => $this->_name('[timezone]'),
-            'id'       => $this->_id('_timezone'),
-            'options'  => wp_timezone_choice($tzstring),
-            'desc'     => $args['desc'],
-            'rendered' => true,
-        ]);
-        $select               = $this->types->select($timezone_select_args);
+		if ( $datetime && $datetime instanceof DateTime ) {
+			$tz       = $datetime->getTimezone();
+			$tzstring = $tz->getName();
+			$value    = $datetime->getTimestamp();
+		}
 
-        return $this->rendered(
-            $datetime_timestamp . "\n" . $select
-        );
-    }
+		$timestamp_args = wp_parse_args( $args['text_datetime_timestamp'], array(
+			'desc'     => '',
+			'value'    => $value,
+			'rendered' => true,
+		) );
+		$datetime_timestamp = $this->types->text_datetime_timestamp( $timestamp_args );
+
+		$timezone_select_args = wp_parse_args( $args['select_timezone'], array(
+			'class'    => 'cmb2_select cmb2-select-timezone',
+			'name'     => $this->_name( '[timezone]' ),
+			'id'       => $this->_id( '_timezone' ),
+			'options'  => wp_timezone_choice( $tzstring ),
+			'desc'     => $args['desc'],
+			'rendered' => true,
+		) );
+		$select = $this->types->select( $timezone_select_args );
+
+		return $this->rendered(
+			$datetime_timestamp . "\n" . $select
+		);
+	}
+
 }

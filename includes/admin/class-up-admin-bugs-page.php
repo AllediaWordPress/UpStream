@@ -678,6 +678,7 @@ class Upstream_Bug_List extends WP_List_Table
                 return false;
             });
         } else {
+            // the cast will set  any non-ints to 0
             $assigned_to = isset($_REQUEST['assigned_to']) ? (int)$_REQUEST['assigned_to'] : 0;
             if ($assigned_to > 0) {
                 $bugs = array_filter($bugs, function ($row) use ($assigned_to) {

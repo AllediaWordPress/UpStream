@@ -135,7 +135,10 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
                     foreach ($new_value[$i] as $key => $value) {
 
                         if (stristr($key, 'date')) {
-                            $new_value[$i][$key . '.YMD'] = $_POST[$args['id']][$i][$key];
+                            $r = sanitize_text_field($_POST[$args['id']][$i][$key]);
+                            if (\UpStream_Model_Object::isValidDate($r)) {
+                                $new_value[$i][$key . '.YMD'] = $r;
+                            }
                         }
 
                     }
@@ -148,12 +151,20 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
 
         public function cmb2_save_field__upstream_project_start($updated, $action, $r)
         {
-            update_post_meta($_POST['post_ID'], '_upstream_project_start.YMD', $_POST['_upstream_project_start']);
+            $r = sanitize_text_field($_POST['_upstream_project_start']);
+            $project_id = intval($_POST['post_ID']);
+            if (\UpStream_Model_Object::isValidDate($r) && upstream_user_can_access_project(get_current_user_id(), $project_id)) {
+                update_post_meta($_POST['post_ID'], '_upstream_project_start.YMD', $r);
+            }
         }
 
         public function cmb2_save_field__upstream_project_end($updated, $action, $r)
         {
-            update_post_meta($_POST['post_ID'], '_upstream_project_end.YMD', $_POST['_upstream_project_end']);
+            $r = sanitize_text_field($_POST['_upstream_project_end']);
+            $project_id = intval($_POST['post_ID']);
+            if (\UpStream_Model_Object::isValidDate($r) && upstream_user_can_access_project(get_current_user_id(), $project_id)) {
+                update_post_meta($project_id, '_upstream_project_end.YMD', $r);
+            }
         }
 
         /**

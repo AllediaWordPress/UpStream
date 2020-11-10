@@ -628,8 +628,8 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $preset = isset($_REQUEST['view']) && $_REQUEST['view'] ? $_REQUEST['view'] : 'all';
-        if ($preset === 'mine') {
+        // NOTE: this is just checking against a known value
+        if (isset($_REQUEST['view']) && $_REQUEST['view'] === 'mine') {
             $currentUserId = (int)get_current_user_id();
 
             foreach ($tasks as $rowIndex => $row) {
@@ -641,7 +641,9 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $project = (isset($_REQUEST['project']) && $_REQUEST['project'] ? $_REQUEST['project'] : '');
+        // NOTE: this is just checking that the requested project matches the ID already in the
+        // array -- there is no real potential for security violation here
+        $project = sanitize_text_field(isset($_REQUEST['project']) && $_REQUEST['project'] ? $_REQUEST['project'] : '');
         if ( ! empty($tasks) && ! empty($project)) {
             foreach ($tasks as $key => $task) {
                 if ($task['project_id'] != $project) {

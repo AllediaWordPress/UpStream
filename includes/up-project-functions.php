@@ -347,8 +347,18 @@ function upstream_project_item_by_id($id = 0, $item_id = 0)
 function upstream_count_total($type, $id = 0)
 {
     if ( ! $id && is_admin()) {
-        $id = isset($_GET['post']) ? $_GET['post'] : 'n/a';
+        $id = isset($_GET['post']) ? (int)$_GET['post'] : 0;
+
+        // checks if the project ID is valid and accessible
+        if (!upstream_user_can_access_project(get_current_user_id(), $id)) {
+            return 0;
+        }
+
+        if ($id == 0) {
+            return 0;
+        }
     }
+
 
     $count = new Upstream_Counts($id);
 
