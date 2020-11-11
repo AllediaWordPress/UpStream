@@ -155,7 +155,7 @@ if ( ! class_exists('UpStream_Admin_Metaboxes')) :
             $project_id = intval($_POST['post_ID']);
             /* if project ID isn't valid the access function will return false */
             if (\UpStream_Model_Object::isValidDate($r) && upstream_user_can_access_project(get_current_user_id(), $project_id)) {
-                update_post_meta($_POST['post_ID'], '_upstream_project_start.YMD', $r);
+                update_post_meta($project_id, '_upstream_project_start.YMD', $r);
             }
         }
 

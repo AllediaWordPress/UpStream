@@ -649,7 +649,7 @@ class Upstream_Bug_List extends WP_List_Table
         $the_bugs = $bugs; // store the bugs array
 
         // NOTE: this is being checked against the list below
-        $status = isset($_REQUEST['status']) && ! empty($_REQUEST['status']) ? $_REQUEST['status'] : 'all';
+        $status = isset($_REQUEST['status']) && ! empty($_REQUEST['status']) ? sanitize_text_field($_REQUEST['status']) : 'all';
         if ( ! empty($status) && $status !== 'all') {
             $bugs = array_filter($the_bugs, function ($row) use ($status) {
                 return isset($row['status']) && $row['status'] === $status;
@@ -657,7 +657,7 @@ class Upstream_Bug_List extends WP_List_Table
         }
 
         // NOTE: this is being checked against the list below
-        $severity = isset($_REQUEST['severity']) && ! empty($_REQUEST['severity']) ? $_REQUEST['severity'] : 'all';
+        $severity = isset($_REQUEST['severity']) && ! empty($_REQUEST['severity']) ? sanitize_text_field($_REQUEST['severity']) : 'all';
         if ( ! empty($severity) && $severity !== 'all') {
             $bugs = array_filter($bugs, function ($row) use ($severity) {
                 return isset($row['severity']) && $row['severity'] === $severity;
