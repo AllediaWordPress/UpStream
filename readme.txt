@@ -136,6 +136,14 @@ UpStream does not use the existing styling of your theme. The features and the v
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.38.0] - 2020-11-10 =
+* Fixed non-sanitized data reported by directory owners
+* Added immediate sanitization for certain code to avoid future maintenance issues
+* Removed old jQuery from library
+* Updated to latest CMB2
+* Updated to latest version of Bootstrap 3
+* Updated other libraries
+
 = [1.37.6] - 2020-10-31 =
 * Fix for status notification hook
 * Fixed bug when milestone categories are disabled
