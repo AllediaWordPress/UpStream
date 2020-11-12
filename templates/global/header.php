@@ -16,7 +16,7 @@ add_action('wp_enqueue_scripts', 'upstream_perform_aggressive_dequeue', 99999999
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
 
-    <title><?php wp_title('|', true, 'right') . bloginfo('name'); ?></title>
+    <title><?php wp_title('|', true, 'right') . esc_html(bloginfo('name')); ?></title>
 
     <link rel="profile" href="http://gmpg.org/xfn/11">
 

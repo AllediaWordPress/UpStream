@@ -63,19 +63,21 @@ function upstream_update_client_meta_values($post_id, $post, $update)
     // update the overall progress of the project
     if (isset($_POST['_upstream_client_users'])) :
 
-        $users = $_POST['_upstream_client_users'];
+        $users = $_POST['_upstream_client_users']; // This is sanitized in the following lines
 
-        // update the user with a unique id if one is not set
         $i = 0;
         if ($users && is_array($users)) :
             foreach ($users as $user) {
-                if ( ! isset($user['id']) || empty($user['id']) || $user['id'] == '') {
+                if (!is_array($user) || ! isset($user['id']) || empty($user['id']) || sanitize_text_field($user['id']) == '') {
                     $users[$i]['id'] = upstream_admin_set_unique_id();
                 } else {
+                    // already sanity checked is_array($users[$i]) && isset($users[$i]['id'])
                     $users[$i]['id'] = (int)$users[$i]['id'];
                 }
                 $i++;
             }
+        else:
+            $users = [];
         endif;
 
         update_post_meta($post_id, '_upstream_client_users', $users);

@@ -54,9 +54,9 @@ class Upstream_Bug_List extends WP_List_Table
         $views = [];
 
         if ( ! empty($_REQUEST['status'])) {
-            $current = esc_html($_REQUEST['status']);
+            $current = sanitize_text_field($_REQUEST['status']);
         } elseif ( ! empty($_REQUEST['view'])) {
-            $current = esc_html($_REQUEST['view']);
+            $current = sanitize_text_field($_REQUEST['view']);
         } else {
             $current = 'all';
         }
@@ -253,7 +253,7 @@ class Upstream_Bug_List extends WP_List_Table
                             ?>
                             <option
                                     value="<?php echo $project_id ?>" <?php isset($_GET['project']) ? selected(
-                                $_GET['project'],
+                                sanitize_text_field($_GET['project']),
                                 $project_id
                             ) : ''; ?>><?php echo esc_html($title) ?></option>
                             <?php
@@ -292,7 +292,7 @@ class Upstream_Bug_List extends WP_List_Table
                             } ?>
                             <option
                                     value="<?php echo $statusId; ?>" <?php isset($_GET['status']) ? selected(
-                                $_GET['status'],
+                                sanitize_text_field($_GET['status']),
                                 $statusTitle
                             ) : ''; ?>><?php echo esc_html($statusTitle) ?></option>
                             <?php
@@ -318,7 +318,7 @@ class Upstream_Bug_List extends WP_List_Table
                             } ?>
                             <option
                                     value="<?php echo $severityId; ?>" <?php isset($_GET['severity']) ? selected(
-                                $_GET['severity'],
+                                sanitize_text_field($_GET['severity']),
                                 $severityTitle
                             ) : ''; ?>><?php echo esc_html($severityTitle) ?></option>
                             <?php
@@ -665,7 +665,7 @@ class Upstream_Bug_List extends WP_List_Table
         }
 
         // NOTE: this is checking against a known string
-        if (isset($_REQUEST['view']) && $_REQUEST['view']  === 'mine') {
+        if (isset($_REQUEST['view']) && sanitize_text_field($_REQUEST['view'])  === 'mine') {
             $currentUserId = (int)get_current_user_id();
 
             $bugs = array_filter($bugs, function ($row) use ($currentUserId) {
@@ -698,17 +698,17 @@ class Upstream_Bug_List extends WP_List_Table
 
         // sorting the bugs
         if ( ! empty($_REQUEST['orderby'])) {
-            if ( ! empty($_REQUEST['order']) && $_REQUEST['order'] == 'asc') {
+            if ( ! empty($_REQUEST['order']) && sanitize_text_field($_REQUEST['order']) == 'asc') {
                 $tmp = [];
                 foreach ($bugs as &$ma) {
-                    $tmp[] = &$ma[esc_html($_REQUEST['orderby'])];
+                    $tmp[] = &$ma[esc_html(sanitize_text_field($_REQUEST['orderby']))];
                 }
                 array_multisort($tmp, SORT_ASC, $bugs);
             }
-            if ( ! empty($_REQUEST['order']) && $_REQUEST['order'] == 'desc') {
+            if ( ! empty($_REQUEST['order']) && sanitize_text_field($_REQUEST['order']) == 'desc') {
                 $tmp = [];
                 foreach ($bugs as &$ma) {
-                    $tmp[] = &$ma[esc_html($_REQUEST['orderby'])];
+                    $tmp[] = &$ma[esc_html(sanitize_text_field($_REQUEST['orderby']))];
                 }
                 array_multisort($tmp, SORT_DESC, $bugs);
             }
@@ -788,7 +788,7 @@ class Upstream_Admin_Bugs_Page
     public function set_screen($status, $option, $value)
     {
         if ('upstream_completed_bugs' == $option) {
-            $value = $_POST['upstream_hide_completed'];
+            $value = sanitize_text_field($_POST['upstream_hide_completed']);
         }
 
         return $value;

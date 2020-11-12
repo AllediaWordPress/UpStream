@@ -69,7 +69,7 @@ $isClientsDisabled = is_clients_disabled();
                         <p class="title"><?php esc_html_e('Timeframe', 'upstream'); ?></p>
                         <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW) &&
                             upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
-                        <span><?php echo $projectTimeframe; ?></span>
+                        <span><?php echo esc_html($projectTimeframe); ?></span>
                         <?php else: ?>
                             <span class="label up-o-label" style="background-color:#666;color:#fff">(hidden)</span>
                         <?php endif; ?>
@@ -90,7 +90,7 @@ $isClientsDisabled = is_clients_disabled();
                     <p class="title"><?php esc_html_e('Progress', 'upstream'); ?></p>
                     <span>
                     <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
-                        <?php echo $project->progress; ?>% <?php esc_html_e('complete', 'upstream'); ?>
+                        <?php echo esc_html($project->progress); ?>% <?php esc_html_e('complete', 'upstream'); ?>
                     <?php else: ?>
                         <span class="label up-o-label" style="background-color:#666;color:#fff">(hidden)</span>
                     <?php endif; ?>
@@ -130,7 +130,7 @@ $isClientsDisabled = is_clients_disabled();
             </div>
             <?php if (!empty($project->description)): ?>
                 <div>
-                    <p class="title"><?php _e('Description'); ?></p>
+                    <p class="title"><?php esc_html_e('Description', 'upstream'); ?></p>
                     <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'description', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
                         <blockquote
                                 style="font-size: 1em;"><?php echo upstream_esc_w( nl2br(htmlspecialchars_decode($project->description))); ?></blockquote>

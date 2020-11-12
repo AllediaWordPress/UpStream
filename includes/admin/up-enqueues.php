@@ -19,7 +19,7 @@ function upstream_load_admin_scripts($hook)
     $postType = get_post_type();
     if (empty($postType)) {
         // checked later if in array of valid post types
-        $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
+        $postType = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : '';
     }
 
     $assetsDir        = UPSTREAM_PLUGIN_URL . 'includes/admin/assets/';
@@ -196,7 +196,7 @@ function upstream_load_admin_scripts($hook)
         }
     } elseif ($pagenow === 'admin.php'
               && isset($_GET['page'])
-              && preg_match('/^upstream_/i', $_GET['page'])
+              && preg_match('/^upstream_/i', sanitize_text_field($_GET['page']))
     ) {
         wp_enqueue_style('upstream-admin', $assetsDir . 'css/upstream.css', [], UPSTREAM_VERSION);
     }

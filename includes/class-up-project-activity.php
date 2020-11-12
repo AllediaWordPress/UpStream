@@ -35,7 +35,7 @@ class UpStream_Project_Activity
 
     public function hooks()
     {
-        if (isset($_POST['action']) && (isset($_POST['post_type']) && $_POST['post_type'] == 'project')) {
+        if (isset($_POST['action']) && (isset($_POST['post_type']) && sanitize_text_field($_POST['post_type']) == 'project')) {
             add_action('wp_insert_post_data', [$this, 'init_update'], 99, 2);
         }
         if (isset($_POST['upstream-nonce']) && (isset($_POST['post_id']))) { // posted in frontend
@@ -49,15 +49,15 @@ class UpStream_Project_Activity
      */
     public function init_update($data, $postarr)
     {
-        //working out frontend or backend posting
-        $this->posted = $postarr ? $postarr : $_POST;
-        $this->ID     = isset($this->posted['post_id']) ? $this->posted['post_id'] : $this->posted['ID'];
 
+        $this->posted = $postarr ? $postarr : $_POST; // this->posted is sanitized in the code below
 
-        // do some (really dodgy) quick adjustments if posted from frontend
+        // ID may be alphanumeric
+        $this->ID     = isset($this->posted['post_id']) ? sanitize_text_field($this->posted['post_id']) : sanitize_text_field($this->posted['ID']);
+
         if (isset($this->posted['upstream-nonce']) || isset($this->posted['upstream_security'])) {
             $posted = $this->posted;
-            $group  = '_upstream_project_' . $posted['type'];
+            $group  = '_upstream_project_' . sanitize_text_field($posted['type']);
 
             if (isset($posted['editing'])) {
                 $posted['id'] = sanitize_text_field($posted['editing']);
@@ -67,7 +67,7 @@ class UpStream_Project_Activity
             $this->posted            = [];
             $this->posted[$group][0] = $posted;
 
-            if (isset($posted['action']) && $posted['action'] == 'upstream_frontend_delete_item') {
+            if (isset($posted['action']) && sanitize_text_field($posted['action']) == 'upstream_frontend_delete_item') {
                 $this->posted['frontend'] = 'delete';
             }
 
@@ -93,12 +93,12 @@ class UpStream_Project_Activity
         }
 
         //If this is an auto draft
-        if (isset($this->posted['post_status']) && $this->posted['post_status'] == 'auto-draft') {
+        if (isset($this->posted['post_status']) && sanitize_text_field($this->posted['post_status']) == 'auto-draft') {
             return $data;
         }
 
         // ignore quick edit
-        if (isset($this->posted['action']) && $this->posted['action'] == 'inline-save') {
+        if (isset($this->posted['action']) && sanitize_text_field($this->posted['action']) == 'inline-save') {
             return $data;
         }
 
@@ -142,6 +142,17 @@ class UpStream_Project_Activity
                  */
                 if ( ! is_array($new_value) || $key == '_upstream_project_client_users') {
 
+
+                    if ( $key == '_upstream_project_client_users') {
+                        $nv = [];
+                        if ($new_value && is_array($new_value) && isset($new_value[0])) {
+                            $nv = \array_map( 'sanitize_text_field', $new_value );
+                        }
+                        $new_value = $nv;
+                    } else {
+                        $new_value = sanitize_text_field($new_value);
+                    }
+
                     // handle date formatting differences first
                     if ($this->match($key, ['project_start', 'project_end', 'date'])) {
                         //$old_value = upstream_format_date( $old_value );
@@ -166,9 +177,18 @@ class UpStream_Project_Activity
                  */
                 if (is_array($new_value) && $key != '_upstream_project_client_users') {
 
+
                     // deleted from frontend
-                    if (isset($this->posted['frontend']) && $this->posted['frontend'] == 'delete') {
-                        if ($new_value) {
+                    if (isset($this->posted['frontend']) && sanitize_text_field($this->posted['frontend']) == 'delete') {
+
+
+                        if ($new_value && is_array($new_value) && isset($new_value[0])) {
+
+                            // sanitize new value
+                            $nv = array();
+                            $nv[] = \array_map( 'sanitize_text_field', $new_value[0] );
+                            $new_value = $nv;
+
                             foreach ($old_value as $old_old => $old_item) {
                                 // if the old id is not in the new items, we have deleted it
                                 if (isset($new_value[0]['id']) && $new_value[0]['id'] == $old_item['id']) {
@@ -179,7 +199,7 @@ class UpStream_Project_Activity
                     }
 
                     // deleted from admin
-                    if (isset($this->posted['admin']) && $this->posted['admin'] == true) {
+                    if (isset($this->posted['admin']) && sanitize_text_field($this->posted['admin']) == true) {
                         if ($old_value) {
                             foreach ($old_value as $old_index => $old_item) {
                                 // if the old id is not in the new items, we have deleted it
@@ -542,7 +562,7 @@ class UpStream_Project_Activity
      */
     public function number_of_items()
     {
-        $number = isset($_GET['activity_items']) ? $_GET['activity_items'] : 5;
+        $number = isset($_GET['activity_items']) ? (int)$_GET['activity_items'] : 5;
         $number = $number == 'all' ? 99999999 : $number;
 
         return (int)$number;

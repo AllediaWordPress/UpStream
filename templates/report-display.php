@@ -71,7 +71,7 @@ jQuery(document).ready(function ($) {
     function drawChart() {
 
         data = <?php echo json_encode(UpStream_Report_Generator::get_instance()->getReportFieldsFromPost(false)); ?>;
-        data['report'] = '<?php echo $report->id; ?>';
+        data['report'] = '<?php echo esc_attr($report->id); ?>';
         data['action'] = 'upstream_report_data';
         data['nonce'] = upstream.security;
 

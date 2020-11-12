@@ -19,12 +19,12 @@ if ($shouldDisplayClientLogo) {
 
 $shouldDisplayProjectName = isset($pluginOptions['login_project_name']) ? $pluginOptions['login_project_name'] : false;
 if ($shouldDisplayProjectName) {
-    $headerText .= ! empty($headerText) ? '<br />' . '<small>' . get_the_title() . '</small>' : get_the_title();
+    $headerText .= ! empty($headerText) ? '<br />' . '<small>' . esc_html(get_the_title()) . '</small>' : esc_html(get_the_title());
 }
 
 $login = new UpStream_Login();
 
-$userEmail = ! empty($_POST) && isset($_POST['user_email']) ? $_POST['user_email'] : "";
+$userEmail = ! empty($_POST) && isset($_POST['user_email']) ? sanitize_text_field($_POST['user_email']) : "";
 ?>
 
 <?php upstream_get_template_part('global/header.php'); ?>
@@ -44,16 +44,16 @@ $userEmail = ! empty($_POST) && isset($_POST['user_email']) ? $_POST['user_email
         <?php do_action('upstream_login_before_form'); ?>
 
         <form class="loginform" action="" method="POST">
-            <input type="text" class="form-control" placeholder="<?php _e('Your Email', 'upstream'); ?>"
+            <input type="text" class="form-control" placeholder="<?php esc_attr_e('Your Email', 'upstream'); ?>"
                    name="user_email" required
                    value="<?php echo esc_attr($userEmail); ?>" <?php echo empty($userEmail) ? 'autofocus' : ''; ?> />
-            <input type="password" class="form-control" placeholder="<?php _e('Password', 'upstream'); ?>"
+            <input type="password" class="form-control" placeholder="<?php esc_attr_e('Password', 'upstream'); ?>"
                    name="user_password" required <?php echo ! empty($userEmail) ? 'autofocus' : ''; ?> />
 
             <input type="hidden" name="upstream_login_nonce"
                    value="<?php echo wp_create_nonce('upstream-login-nonce'); ?>"/>
 
-            <input type="submit" class="btn btn-lg btn-primary btn-block" value="<?php _e('Sign In', 'upstream'); ?>"
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="<?php esc_attr_e('Sign In', 'upstream'); ?>"
                    name="login"/>
         </form>
 
@@ -66,7 +66,7 @@ $userEmail = ! empty($_POST) && isset($_POST['user_email']) ? $_POST['user_email
 
     <?php if ($login->hasFeedbackMessage()): ?>
         <div class="alert alert-danger">
-            <?php echo $login->getFeedbackMessage(); ?>
+            <?php echo esc_html($login->getFeedbackMessage()); ?>
         </div>
     <?php endif; ?>
 </div>

@@ -613,7 +613,7 @@ function upstream_install_success_notice()
 
     $redirected = get_transient('_upstream_redirected');
 
-    if (false !== $redirected && isset($_GET['page']) && $_GET['page'] == 'upstream_general') {
+    if (false !== $redirected && isset($_GET['page']) && sanitize_text_field($_GET['page']) == 'upstream_general') {
         // Delete the transient
         //delete_transient( '_upstream_redirected' );
 
@@ -632,7 +632,7 @@ function upstream_install_success_notice()
                         'upstream'
                     ) . '<br>';
 
-        printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
+        printf('<div class="%1$s"><p>%2$s</p></div>', $class, esc_html($message));
     }
 }
 

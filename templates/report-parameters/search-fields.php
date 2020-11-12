@@ -22,29 +22,29 @@ foreach ($fields as $field_name => $field):
                 <label><?php echo esc_html($field['title']); ?></label>
 
                 <?php if ($field['type'] === 'string' || $field['type'] === 'text'): ?>
-                    <input class="form-control" type="text" name="<?php print $fname ?>">
+                    <input class="form-control" type="text" name="<?php print esc_attr($fname) ?>">
                 <?php elseif ($field['type'] === 'user_id'): ?>
-                    <select class="form-control" name="<?php print $fname ?>[]" multiple>
+                    <select class="form-control" name="<?php print esc_attr($fname) ?>[]" multiple>
                         <?php foreach ($users as $user_id => $username): ?>
                             <option value="<?php echo $user_id; ?>"><?php echo esc_html($username); ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php elseif ($field['type'] === 'select'): ?>
-                    <select class="form-control" name="<?php print $fname ?>[]" multiple>
+                    <select class="form-control" name="<?php print esc_attr($fname) ?>[]" multiple>
                         <?php foreach (call_user_func($field['options_cb']) as $key => $value): ?>
-                            <option value="<?php echo $key; ?>"><?php echo esc_html($value); ?></option>
+                            <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($value); ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php elseif ($field['type'] === 'number'): ?>
                     Between
-                    <input type="text" name="<?php print $fname ?>_lower"> and
-                    <input type="text" name="<?php print $fname ?>_upper">
-                    <input type="hidden" name="<?php print $fname ?>" value="number">
+                    <input type="text" name="<?php print esc_attr($fname) ?>_lower"> and
+                    <input type="text" name="<?php print esc_attr($fname) ?>_upper">
+                    <input type="hidden" name="<?php print esc_attr($fname) ?>" value="number">
                 <?php elseif ($field['type'] === 'date'): ?>
                     Between
-                    <input type="text" class="r-datepicker" name="<?php print $fname ?>_start"> and
-                    <input type="text" class="r-datepicker" name="<?php print $fname ?>_end">
-                    <input type="hidden" name="<?php print $fname ?>" value="date">
+                    <input type="text" class="r-datepicker" name="<?php print esc_attr($fname) ?>_start"> and
+                    <input type="text" class="r-datepicker" name="<?php print esc_attr($fname) ?>_end">
+                    <input type="hidden" name="<?php print esc_attr($fname) ?>" value="date">
                 <?php endif; ?>
             </div>
         </div>

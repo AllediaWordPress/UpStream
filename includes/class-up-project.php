@@ -431,7 +431,7 @@ class UpStream_Project
     {
 
         // ignore quick edit
-        if (isset($_POST['action']) && $_POST['action'] == 'inline-save') {
+        if (isset($_POST['action']) && sanitize_text_field($_POST['action']) == 'inline-save') {
             return;
         }
 

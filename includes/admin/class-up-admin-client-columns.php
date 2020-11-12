@@ -98,7 +98,7 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
                 if ( ! empty($logoID)) {
                     $logoImgURL = wp_get_attachment_image_src($logoID);
 
-                    $columnValue = '<img height="50" src="' . $logoImgURL[0] . '" />';
+                    $columnValue = '<img height="50" src="' . esc_url($logoImgURL[0]) . '" />';
                 }
             } elseif ($column_name === 'id') {
                 $columnValue = $post_id;
@@ -110,7 +110,7 @@ if ( ! class_exists('UpStream_Admin_Client_Columns')) :
             } elseif ($column_name === 'phone') {
                 $phone = $client->get_meta('phone');
                 if ( ! empty($phone)) {
-                    $columnValue = $phone;
+                    $columnValue = esc_html($phone);
                 }
             } elseif ($column_name === 'address') {
                 $address = $client->get_meta('address');
@@ -170,12 +170,12 @@ function upstream_client_render_users_column($usersList)
     } else {
         $userIndex = 0;
         foreach ($usersList as $user) {
-            echo $user['name'] . '<br/>';
+            echo esc_html($user['name']) . '<br/>';
 
             if ($userIndex === 2) {
                 echo sprintf(
                     '<i>' . __('+%s more %s', 'upstream') . '</i>',
-                    $usersListCount,
+                    esc_html($usersListCount),
                     ($usersListCount > 1 ? __('users', 'upstream') : __('user', 'upstream'))
                 );
                 break;

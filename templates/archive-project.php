@@ -481,14 +481,14 @@ if ( ! empty($ordering)) {
                                                 </span>
                                                 </th>
                                                 <th data-column="client-users">
-                                                    <?php printf(__('%s Users', 'upstream'), $i18n['LB_CLIENT']); ?>
+                                                    <?php printf(esc_html__('%s Users', 'upstream'), $i18n['LB_CLIENT']); ?>
                                                 </th>
                                             <?php endif; ?>
                                             <th data-column="owner">
-                                                <?php printf(__('%s Owner', 'upstream'), $i18n['LB_PROJECT']); ?>
+                                                <?php printf(esc_html__('%s Owner', 'upstream'), $i18n['LB_PROJECT']); ?>
                                             </th>
                                             <th data-column="members">
-                                                <?php printf(__('%s Members', 'upstream'), $i18n['LB_PROJECT']); ?>
+                                                <?php printf(esc_html__('%s Members', 'upstream'), $i18n['LB_PROJECT']); ?>
                                             </th>
                                             <th class="is-clickable is-orderable" data-column="progress" role="button">
                                                 <?php echo esc_html($i18n['LB_PROGRESS']); ?>

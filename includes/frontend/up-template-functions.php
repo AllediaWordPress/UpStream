@@ -255,26 +255,26 @@ function upstream_frontend_output_comment($row, $rowIndex, $project_id)
     ?>
     <div class="media o-comment" id="comment-<?php echo $row->id; ?>" data-id="<?php echo $row->id; ?>">
         <div class="media-left">
-            <img class="media-object o-comment__creator_profilepic" src="<?php echo $row->created_by->avatar; ?>"
-                 alt="<?php echo $row->created_by->name; ?>" width="40"/>
+            <img class="media-object o-comment__creator_profilepic" src="<?php echo esc_url($row->created_by->avatar); ?>"
+                 alt="<?php echo esc_attr($row->created_by->name); ?>" width="40"/>
         </div>
         <div class="media-body">
             <div class="o-comment__header">
-                <h5 class="media-heading o-comment__creator_name"><?php echo $row->created_by->name; ?></h5>
+                <h5 class="media-heading o-comment__creator_name"><?php echo esc_html($row->created_by->name); ?></h5>
                 <?php if (isset($row->parent) && $row->parent !== null): ?>
                     <div
                             class="o-comment__replier"><?php printf(
                             '%s <a href="#comment-%s" class="text-info" data-action="comment.go_to_reply">%s</a>',
                             __('In reply to', 'upstream'),
-                            $row->parent->id,
-                            $row->parent->created_by->name
+                            esc_attr($row->parent->id),
+                            esc_html($row->parent->created_by->name)
                         ); ?></div>
                 <?php endif; ?>
-                <time datetime="<?php echo $row->created_at->iso_8601; ?>" data-delay="500" data-toggle="tooltip"
-                      data-placement="top" title="<?php echo $row->created_at->formatted; ?>"
-                      class="o-comment__created_at"><?php echo $row->created_at->human; ?></time>
+                <time datetime="<?php echo esc_attr($row->created_at->iso_8601); ?>" data-delay="500" data-toggle="tooltip"
+                      data-placement="top" title="<?php echo esc_attr($row->created_at->formatted); ?>"
+                      class="o-comment__created_at"><?php echo esc_html($row->created_at->human); ?></time>
             </div>
-            <div class="o-comment__content"><?php echo $row->comment; ?></div>
+            <div class="o-comment__content"><?php echo wp_kses_post($row->comment); ?></div>
             <div class="o-comment__footer">
           <?php do_action('upstream:frontend.project.discussion:comment_footer', $project_id, $row); ?>
         </div>

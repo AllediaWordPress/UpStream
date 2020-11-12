@@ -41,8 +41,10 @@ function upstream_post_id()
     }
     if ( ! $post_id) {
         if (isset($_POST['formdata'])) {
-            parse_str($_POST['formdata'], $posted);
-            $post_id = (int)$posted['post_id'];
+            parse_str(sanitize_text_field($_POST['formdata']), $posted);
+            if (isset($posted['post_id'])) {
+                $post_id = (int)$posted['post_id'];
+            }
         }
     }
 
@@ -1526,11 +1528,12 @@ function upstreamShouldRunCmb2()
         $post_id  = isset($_GET['post']) ? (int)$_GET['post'] : 0;
         $postType = get_post_type($post_id);
         if (empty($postType)) {
-            $postType = isset($_GET['post_type']) ? $_GET['post_type'] : '';
+            $postType = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : '';
             if (empty($postType)
                 && isset($_POST['post_type'])
             ) {
-                $postType = $_POST['post_type'];
+                // checked fr an actual valid post type later
+                $postType = sanitize_text_field($_POST['post_type']);
             }
         }
 
@@ -1541,7 +1544,7 @@ function upstreamShouldRunCmb2()
         }
     } elseif ($pagenow === 'admin.php'
               && isset($_GET['page'])
-              && preg_match('/^upstream_/i', $_GET['page'])
+              && preg_match('/^upstream_/i', sanitize_text_field($_GET['page']))
     ) {
         return true;
     }

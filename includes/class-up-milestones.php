@@ -499,9 +499,9 @@ class Milestones
             return;
         }
 
-        $data = $_POST['milestone_data'];
 
-        // Project
+        $data = $_POST['milestone_data']; // NOTE: Each field is checked in the code below
+
         $projectIdFieldName = 'project_id';
         $projectId          = (int)$data[$projectIdFieldName];
 
@@ -531,17 +531,18 @@ class Milestones
                   ->setColor($color);
 
         // If there is no assigned user, there won't be any key assigned_to in the $data array.
-        if (isset($data['assigned_to'])) {
+        if (isset($data['assigned_to']) && is_array($data['assigned_to'])) {
             $assignedTo = array_map('intval', (array)$data['assigned_to']);
 
-            $milestone->setAssignedTo($assignedTo);
+            if ($assignedTo > 0) {
+                $milestone->setAssignedTo($assignedTo);
+            }
         }
 
         /**
          * @param int   $projectId
-         * @param array $data
          */
-        do_action('upstream_save_milestone', $postId, $data);
+        do_action('upstream_save_milestone', $postId, false);
     }
 
     /**

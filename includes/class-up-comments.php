@@ -244,14 +244,14 @@ class Comments
                 || ! isset($_POST['nonce'])
                 || ! isset($_POST['project_id'])
                 || ! isset($_POST['item_type'])
-                || ! self::isItemTypeValid($_POST['item_type'])
+                || ! self::isItemTypeValid(sanitize_text_field($_POST['item_type']))
                 || ! isset($_POST['content'])
             ) {
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
 
             // Prepare data to verify nonce.
-            $commentTargetItemType = strtolower($_POST['item_type']);
+            $commentTargetItemType = strtolower(sanitize_text_field($_POST['item_type']));
             if ($commentTargetItemType !== 'project') {
                 if (
                     ! isset($_POST['item_id'])
@@ -292,14 +292,14 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment_content = sanitize_textarea_field(stripslashes($_POST['content']));
+            $comment_content = stripslashes(sanitize_textarea_field($_POST['content']));
 
             $item_title = isset($_POST['item_title']) ? sanitize_text_field($_POST['item_title']) : '';
 
             $comment = new Comment($comment_content, $project_id, $user_id);
 
             $comment->created_by->ip    = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
-            $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
+            $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : null;
 
             $comment->save();
 
@@ -369,11 +369,11 @@ class Comments
                 || ! isset($_POST['nonce'])
                 || ! isset($_POST['project_id'])
                 || ! isset($_POST['item_type'])
-                || ! self::isItemTypeValid($_POST['item_type'])
+                || ! self::isItemTypeValid(sanitize_text_field($_POST['item_type']))
                 || ! isset($_POST['content'])
                 || ! isset($_POST['parent_id'])
-                || ! is_numeric($_POST['parent_id'])
-                || ! check_ajax_referer('upstream:project.add_comment_reply:' . $_POST['parent_id'], 'nonce', false)
+                || ! is_numeric(sanitize_text_field($_POST['parent_id']))
+                || ! check_ajax_referer('upstream:project.add_comment_reply:' . sanitize_text_field($_POST['parent_id']), 'nonce', false)
             ) {
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
@@ -386,7 +386,7 @@ class Comments
                 throw new \Exception(__("Invalid Project.", 'upstream'));
             }
 
-            $commentTargetItemType = strtolower($_POST['item_type']);
+            $commentTargetItemType = strtolower(sanitize_text_field($_POST['item_type']));
             if ($commentTargetItemType !== 'project') {
                 if (
                     ! isset($_POST['item_id'])
@@ -410,10 +410,10 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment                    = new Comment(sanitize_textarea_field( stripslashes($_POST['content'])), $project_id, $user_id);
+            $comment                    = new Comment(stripslashes(sanitize_textarea_field( $_POST['content'])), $project_id, $user_id);
             $comment->parent_id         = (int)$_POST['parent_id'];
             $comment->created_by->ip    = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
-            $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
+            $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_textarea_field($_SERVER['HTTP_USER_AGENT']) : null;
 
             $comment->save();
 
@@ -472,7 +472,7 @@ class Comments
                 || ! isset($_POST['nonce'])
                 || ! isset($_POST['project_id'])
                 || ! isset($_POST['comment_id'])
-                || ! check_ajax_referer('upstream:project.trash_comment:' . $_POST['comment_id'], 'nonce', false)
+                || ! check_ajax_referer('upstream:project.trash_comment:' . sanitize_textarea_field($_POST['comment_id']), 'nonce', false)
             ) {
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
@@ -617,7 +617,7 @@ class Comments
             || ! isset($_POST['project_id'])
             || ! isset($_POST['comment_id'])
             || ! check_ajax_referer(
-                'upstream:project.' . ($isApproved ? 'approve_comment' : 'unapprove_comment') . ':' . $_POST['comment_id'],
+                'upstream:project.' . ($isApproved ? 'approve_comment' : 'unapprove_comment') . ':' . sanitize_textarea_field($_POST['comment_id']),
                 'nonce',
                 false
             )
@@ -745,7 +745,7 @@ class Comments
                 || ! isset($_GET['nonce'])
                 || ! isset($_GET['project_id'])
                 || ! isset($_GET['item_type'])
-                || ! self::isItemTypeValid($_GET['item_type'])
+                || ! self::isItemTypeValid(sanitize_textarea_field($_GET['item_type']))
             ) {
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
@@ -757,7 +757,7 @@ class Comments
             }
 
             // Prepare data to verify nonce.
-            $commentTargetItemType = sanitize_text_field(strtolower($_GET['item_type']));
+            $commentTargetItemType = strtolower(sanitize_text_field($_GET['item_type']));
             $item_id               = null;
             if ($commentTargetItemType !== 'project') {
                 if (
@@ -767,7 +767,8 @@ class Comments
                     throw new \Exception(__("Invalid request.", 'upstream'));
                 }
 
-                $item_id = $_GET['item_id'];
+                // non-numeric id
+                $item_id = sanitize_textarea_field($_GET['item_id']);
 
                 $nonceIdentifier = 'upstream:project.' . $commentTargetItemType . 's.fetch_comments';
             } else {

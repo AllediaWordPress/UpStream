@@ -146,7 +146,7 @@
                                 var user = response.data[userIndex];
 
                                 var tr = $('<tr data-id="' + user.id + '"></tr>');
-                                tr.append('<td><a title="' + l['MSG_MANAGING_PERMISSIONS'].replace('%s', user.name) + '" href="#TB_inline?width=600&height=425&inlineId=modal-user-permissions" class="thickbox">' + user.name + '</a></td>');
+                                tr.append('<td>' + user.name + '</td>');
                                 tr.append('<td>' + user.email + '</td>');
                                 tr.append('<td>' + user.assigned_by + '</td>');
                                 tr.append('<td class="text-center">' + user.assigned_at + '</td>');

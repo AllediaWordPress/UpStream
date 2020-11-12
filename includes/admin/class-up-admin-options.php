@@ -189,7 +189,7 @@ if ( ! class_exists('UpStream_Admin_Options')) :
 
             <div class="wrap upstream_options <?php echo $show_sidebar ? 'upstream_with_sidebar container' : ''; ?>">
 
-                <h2><?php echo $this->title; ?></h2>
+                <h2><?php echo esc_html($this->title); ?></h2>
 
                 <div class="row">
                     <div class="<?php echo $show_sidebar ? 'col-md-8' : 'col-md-12'; ?>">
@@ -198,7 +198,7 @@ if ( ! class_exists('UpStream_Admin_Options')) :
                             <?php foreach ($option_tabs as $option_tab) :
                                 $tab_slug = $option_tab['id'];
                                 $nav_class = 'nav-tab';
-                                if ($tab_slug == $_GET['page']) {
+                                if ($tab_slug == sanitize_text_field($_GET['page'])) {
                                     $nav_class   .= ' nav-tab-active'; //add active class to current tab
                                     $tab_forms[] = $option_tab; //add current tab to forms to be rendered
                                 } ?>
@@ -216,7 +216,7 @@ if ( ! class_exists('UpStream_Admin_Options')) :
                                 <div class="metabox-holder">
                                     <div class="postbox pad">
                                         <h3 class="title"><?php //esc_html_e($tab_form['title'], 'upstream');?></h3>
-                                        <div class="desc"><?php echo $tab_form['desc'] ?></div>
+                                        <div class="desc"><?php echo esc_html($tab_form['desc']) ?></div>
                                         <?php cmb2_metabox_form($tab_form, $tab_form['id']); ?>
                                     </div>
                                 </div>

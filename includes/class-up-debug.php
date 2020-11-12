@@ -245,7 +245,7 @@ class UpStream_Debug
     {
         // Are we on the correct page?
         $pageParam = 'page';
-        if ( ! array_key_exists($pageParam, $_GET) || $_GET[$pageParam] !== static::PAGE_SLUG) {
+        if ( ! array_key_exists($pageParam, $_GET) || sanitize_text_field($_GET[$pageParam]) !== static::PAGE_SLUG) {
             return;
         }
 
@@ -255,7 +255,7 @@ class UpStream_Debug
             return;
         }
 
-        $action = preg_replace('/[^a-z0-9_\-]/i', '', $_GET[$actionParam]);
+        $action = preg_replace('/[^a-z0-9_\-]/i', '', sanitize_text_field($_GET[$actionParam]));
 
         // Do we have a nonce?
         $wpOnceParam = '_wpnonce';

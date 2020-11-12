@@ -45,7 +45,7 @@ if ( ! class_exists('UpStream_Admin_Projects_Menu')) :
             if (is_admin()) {
                 global $pagenow;
 
-                if ($pagenow === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'project' ) {
+                if ($pagenow === 'edit.php' && isset($_GET['post_type']) && sanitize_text_field($_GET['post_type']) === 'project' ) {
                     if (self::$userIsUpStreamUser) {
                         echo '<style type="text/css">.page-title-action:not(.upstream-button) { display: none; }</style>';
 

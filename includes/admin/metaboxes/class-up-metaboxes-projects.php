@@ -163,7 +163,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
             if (( ! $areMilestonesDisabled && $areMilestonesDisabledAtAll) || ! $areTasksDisabled || ! $areBugsDisabled) {
                 $metabox = new_cmb2_box([
                     'id'           => $this->prefix . 'overview',
-                    'title'        => $this->project_label . __(' Overview', 'upstream') .
+                    'title'        => $this->project_label . esc_html__(' Overview', 'upstream') .
                                       '<span class="progress align-right"><progress value="' . upstream_project_progress() . '" max="100"></progress> <span>' . upstream_project_progress() . '%</span></span>',
                     'object_types' => [$this->type],
                 ]);
@@ -493,7 +493,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
             ob_start(); ?>
             <div class="up-c-filters">
                 <div class="up-c-filter">
-                    <label for="<?php echo $prefix . 'milestone'; ?>"><?php echo upstream_milestone_label(); ?></label>
+                    <label for="<?php echo $prefix . 'milestone'; ?>"><?php echo esc_html(upstream_milestone_label()); ?></label>
                     <input type="text" id="<?php echo $prefix . 'milestone'; ?>" class="up-o-filter"
                            data-column="milestone" data-trigger_on="keyup" data-compare-operator="contains">
                 </div>
@@ -614,12 +614,12 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                     && upstream_disable_milestones()): ?>
                     <div class="up-c-filter">
                         <label for="<?php echo $prefix . 'milestone'; ?>"
-                               class="up-s-mb-2"><?php echo upstream_milestone_label(); ?></label>
+                               class="up-s-mb-2"><?php echo esc_html(upstream_milestone_label()); ?></label>
                         <select id="<?php echo $prefix . 'milestone'; ?>" class="up-o-filter o-select2"
                                 data-column="milestone" data-placeholder="" multiple data-compare-operator="contains">
                             <option></option>
                             <option value="__none__"><?php _e('None', 'upstream'); ?></option>
-                            <optgroup label="<?php echo upstream_milestone_label_plural(); ?>">
+                            <optgroup label="<?php echo esc_attr(upstream_milestone_label_plural()); ?>">
                                 <?php foreach ($milestones as $milestoneId => $milestoneTitle): ?>
                                     <option value="<?php echo $milestoneId; ?>"><?php echo esc_html($milestoneTitle); ?></option>
                                 <?php endforeach; ?>
@@ -702,7 +702,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                         <optgroup label="<?php _e('Severities', 'upstream'); ?>">
                             <?php foreach ($severities as $severity): ?>
                                 <option
-                                        value="<?php echo $severity['name']; ?>"><?php echo $severity['name']; ?></option>
+                                        value="<?php echo esc_attr($severity['name']); ?>"><?php echo esc_html($severity['name']); ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>
@@ -1088,7 +1088,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                 preg_match('/^_upstream_project_([a-z]+)_([0-9]+)_comments/i', $field_id, $matches);
 
-                echo '<div class="c-comments" data-type="' . rtrim($matches[1], "s") . '"></div>';
+                echo '<div class="c-comments" data-type="' . esc_attr(rtrim($matches[1], "s")) . '"></div>';
 
                 printf(
                     '<input type="hidden" id="%s" value="%s">',
@@ -1795,7 +1795,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
             $metabox = new_cmb2_box([
                 'id'           => $this->prefix . 'discussions',
-                'title'        => '<span class="dashicons dashicons-format-chat"></span> ' . upstream_discussion_label(),
+                'title'        => '<span class="dashicons dashicons-format-chat"></span> ' . esc_html(upstream_discussion_label()),
                 'object_types' => [$this->type],
                 'priority'     => 'low',
             ]);
@@ -2085,14 +2085,14 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 $url = upstream_upfs_get_file_url($value);
                 ?>
                 <a href="<?php print $url ?>"><?php echo esc_html($file->orig_filename) ?></a>
-                <a href="#" onclick="jQuery('#<?php echo $field->args["id"]; ?>').attr('type','file');jQuery(this).parent().children('a').remove();return false;"><?php esc_html_e('(remove)', 'upstream') ?></a>
-                <input type="hidden" class="upfs-hidden" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo $field->args['id']; ?>"/>
+                <a href="#" onclick="jQuery('#<?php echo esc_attr($field->args["id"]); ?>').attr('type','file');jQuery(this).parent().children('a').remove();return false;"><?php esc_html_e('(remove)', 'upstream') ?></a>
+                <input type="hidden" class="upfs-hidden" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo esc_attr($field->args['id']); ?>"/>
                 <?php
 
             } else {
 
                 ?>
-                <input type="file" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo $field->args['id']; ?>"/>
+                <input type="file" name="<?php echo esc_attr($fieldName); ?>" id="<?php echo esc_attr($field->args['id']); ?>"/>
                 <?php
             }
         }
@@ -2127,11 +2127,12 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
 
                 if (!empty($_FILES[$fitem]['name'][$fno][$fid][0])) {
 
+                    // these are checked to be a valid file in the next function
                     $file = [
-                        'name' => $_FILES[$fitem]['name'][$fno][$fid][0],
-                        'type' => $_FILES[$fitem]['type'][$fno][$fid][0],
-                        'tmp_name' => $_FILES[$fitem]['tmp_name'][$fno][$fid][0],
-                        'size' => $_FILES[$fitem]['size'][$fno][$fid][0],
+                        'name' => sanitize_text_field($_FILES[$fitem]['name'][$fno][$fid][0]),
+                        'type' => sanitize_text_field($_FILES[$fitem]['type'][$fno][$fid][0]),
+                        'tmp_name' => sanitize_text_field($_FILES[$fitem]['tmp_name'][$fno][$fid][0]),
+                        'size' => sanitize_text_field($_FILES[$fitem]['size'][$fno][$fid][0]),
                     ];
 
                     $value = upstream_upfs_upload($file);
@@ -2145,11 +2146,12 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 }
             } elseif (!empty($object_type['_name']) && isset($_FILES[$object_type['_name']]['name'])  && is_string($_FILES[$object_type['_name']]['name'][0])) {
 
+                // these are checked to be a valid file in the next function
                 $file = [
-                    'name' => $_FILES[$object_type['_name']]['name'][0],
-                    'type' => $_FILES[$object_type['_name']]['type'][0],
-                    'tmp_name' => $_FILES[$object_type['_name']]['tmp_name'][0],
-                    'size' => $_FILES[$object_type['_name']]['size'][0],
+                    'name' => sanitize_text_field($_FILES[$object_type['_name']]['name'][0]),
+                    'type' => sanitize_text_field($_FILES[$object_type['_name']]['type'][0]),
+                    'tmp_name' => sanitize_text_field($_FILES[$object_type['_name']]['tmp_name'][0]),
+                    'size' => sanitize_text_field($_FILES[$object_type['_name']]['size'][0]),
                 ];
 
                 $value = upstream_upfs_upload($file);
@@ -2199,7 +2201,7 @@ if ( ! class_exists('UpStream_Metaboxes_Projects')) :
                 }
             } ?>
             <select
-                    id="<?php echo $field->args['id']; ?>"
+                    id="<?php echo esc_attr($field->args['id']); ?>"
                     name="<?php echo esc_attr($fieldName); ?>"
                     class="o-select2"
                     multiple

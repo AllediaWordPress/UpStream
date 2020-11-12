@@ -229,7 +229,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
                 if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
                     if ($startDate > 0) {
-                        echo '<span class="start-date">' . upstream_format_date($startDate) . '</span>';
+                        echo '<span class="start-date">' . esc_html(upstream_format_date($startDate)) . '</span>';
                     } else {
                         echo self::$noneTag;
                     }
@@ -246,7 +246,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
 
                     if ($endDate > 0) {
-                        echo '<span class="end-date">' . upstream_format_date($endDate) . '</span>';
+                        echo '<span class="end-date">' . esc_html(upstream_format_date($endDate)) . '</span>';
                     } else {
                         echo self::$noneTag;
                     }
@@ -287,7 +287,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                                 esc_attr(strtolower($taskStatus['name'])),
                                 esc_attr(isset($taskStatus['color']) ? $taskStatus['color'] : ''),
                                 $count,
-                                $taskStatus['name']
+                                esc_html($taskStatus['name'])
                             );
                         }
                     }
@@ -325,7 +325,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                                 esc_attr(strtolower($bugStatus['name'])),
                                 esc_attr($bugStatus['color']),
                                 $count,
-                                $bugStatus['name']
+                                esc_html($bugStatus['name'])
                             );
                         }
                     }
@@ -338,7 +338,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 $progress = (int)upstream_project_progress($post_id);
 
                 if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $post_id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
-                    echo '<div style="text-align: center;">' . $progress . '%</div>';
+                    echo '<div style="text-align: center;">' . esc_html($progress) . '%</div>';
                 } else {
                     echo '<span class="upstream-label-tag" style="background-color:#666;color:#fff">(hidden)</span>';
                 }
@@ -433,7 +433,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 $currentPage = $pagenow;
             }
 
-            $postType = isset($_GET['post_type']) ? $_GET['post_type'] : null;
+            $postType = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : null;
             if ($currentPage === 'edit.php'
                 && $postType === 'project'
             ) {
@@ -441,7 +441,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 $statuses       = $projectOptions['statuses'];
                 unset($projectOptions);
 
-                $selectedStatus = isset($_GET['project-status']) ? $_GET['project-status'] : ''; ?>
+                $selectedStatus = isset($_GET['project-status']) ? sanitize_text_field($_GET['project-status']) : ''; ?>
                 <select name="project-status" id="project-status" class="postform">
                     <option value="">
                         <?php printf(__('Show all %s', 'upstream'), __('statuses', 'upstream')); ?>
@@ -451,7 +451,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                             $selectedStatus,
                             $status['name']
                         ); ?>>
-                            <?php echo $status['name'] ?>
+                            <?php echo esc_html($status['name']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -468,7 +468,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                     <?php foreach ($users as $ownerId => $ownerName): ?>
                         <option
                                 value="<?php echo $ownerId; ?>" <?php echo $selectedOwner === $ownerId ? ' selected' : ''; ?>>
-                            <?php echo $ownerName; ?>
+                            <?php echo esc_html($ownerName); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -485,7 +485,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                         <?php foreach ($clients as $clientId => $clientName): ?>
                             <option
                                     value="<?php echo $clientId; ?>" <?php echo $selectedClientId === (int)$clientId ? ' selected' : ''; ?>>
-                                <?php echo $clientName; ?>
+                                <?php echo esc_html($clientName); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -501,7 +501,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                 return;
             }
 
-            $postType = isset($_GET['post_type']) ? $_GET['post_type'] : 'post';
+            $postType = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : 'post';
             if ($postType !== 'project') {
                 return;
             }
@@ -536,6 +536,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
             foreach ($filters as $filterName) {
                 $filterKey = 'project-' . $filterName;
 
+                // just check if it is there
                 if (isset($_GET[$filterKey]) && ! empty($_GET[$filterKey])) {
                     $shouldExit = false;
                 }
@@ -548,7 +549,7 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
 
             $metaQuery = [];
 
-            $projectStatus = isset($_GET['project-status']) ? sanitize_text_field((string)$_GET['project-status']) : '';
+            $projectStatus = isset($_GET['project-status']) ? sanitize_text_field($_GET['project-status']) : '';
             if (strlen($projectStatus) > 0) {
                 $metaQuery[] = [
                     'key'     => '_upstream_project_status',

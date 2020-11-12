@@ -137,7 +137,7 @@ final class UpStream_Metaboxes_Clients
     {
         $metabox = new_cmb2_box([
             'id'           => self::$prefix . 'details',
-            'title'        => '<span class="dashicons dashicons-admin-generic"></span>' . __('Details', 'upstream'),
+            'title'        => '<span class="dashicons dashicons-admin-generic"></span>' . esc_html__('Details', 'upstream'),
             'object_types' => [self::$postType],
             'context'      => 'side',
             'priority'     => 'high',
@@ -187,7 +187,7 @@ final class UpStream_Metaboxes_Clients
     {
         $metabox = new_cmb2_box([
             'id'           => self::$prefix . 'client_logo',
-            'title'        => '<span class="dashicons dashicons-format-image"></span>' . __("Logo", 'upstream'),
+            'title'        => '<span class="dashicons dashicons-format-image"></span>' . esc_html__("Logo", 'upstream'),
             'object_types' => [self::$postType],
             'context'      => 'side',
             'priority'     => 'core',
@@ -218,20 +218,20 @@ final class UpStream_Metaboxes_Clients
         <div class="upstream-row">
             <a
                     id="add-existent-user"
-                    name="<?php echo __('Add Existing Users', 'upstream'); ?>"
+                    name="<?php echo esc_attr__('Add Existing Users', 'upstream'); ?>"
                     href="#TB_inline?width=600&height=300&inlineId=modal-add-existent-user"
                     class="thickbox button"
-            ><?php echo __('Add Existing Users', 'upstream'); ?></a>
+            ><?php echo esc_html__('Add Existing Users', 'upstream'); ?></a>
         </div>
         <div class="upstream-row">
             <table id="table-users" class="wp-list-table widefat fixed striped posts upstream-table">
                 <thead>
                 <tr>
-                    <th><?php echo __('Name', 'upstream'); ?></th>
-                    <th><?php echo __('Email', 'upstream'); ?></th>
-                    <th><?php echo __('Assigned by', 'upstream'); ?></th>
-                    <th class="text-center"><?php echo __('Assigned at', 'upstream'); ?></th>
-                    <th class="text-center"><?php echo __('Remove?', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Name', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Email', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Assigned by', 'upstream'); ?></th>
+                    <th class="text-center"><?php echo esc_html__('Assigned at', 'upstream'); ?></th>
+                    <th class="text-center"><?php echo esc_html__('Remove?', 'upstream'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -242,13 +242,11 @@ final class UpStream_Metaboxes_Clients
                         $assignedAt = new DateTime($user->assigned_at); ?>
                         <tr data-id="<?php echo $user->id; ?>">
                             <td>
-                                <a title="<?php echo sprintf(__("Managing %s's Permissions"), $user->name); ?>"
-                                   href="#TB_inline?width=600&height=425&inlineId=modal-user-permissions"
-                                   class="thickbox"><?php echo $user->name; ?></a>
+                                <?php echo esc_html($user->name); ?>
                             </td>
-                            <td><?php echo $user->email; ?></td>
-                            <td><?php echo $user->assigned_by; ?></td>
-                            <td class="text-center"><?php echo $assignedAt->format($dateFormat); ?></td>
+                            <td><?php echo esc_html($user->email); ?></td>
+                            <td><?php echo esc_html($user->assigned_by); ?></td>
+                            <td class="text-center"><?php echo esc_html($assignedAt->format($dateFormat)); ?></td>
                             <td class="text-center">
                                 <a href="#" onclick="javascript:void(0);" class="up-u-color-red" data-remove-user>
                                     <span class="dashicons dashicons-trash"></span>
@@ -258,7 +256,7 @@ final class UpStream_Metaboxes_Clients
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr data-empty>
-                        <td colspan="5"><?php echo __("There are no users assigned yet.", 'upstream'); ?></td>
+                        <td colspan="5"><?php echo esc_html__("There are no users assigned yet.", 'upstream'); ?></td>
                     </tr>
                 <?php endif; ?>
                 </tbody>
@@ -266,7 +264,7 @@ final class UpStream_Metaboxes_Clients
 
             <p>
                 <span
-                        class="dashicons dashicons-info"></span> <?php echo __(
+                        class="dashicons dashicons-info"></span> <?php echo esc_html__(
                     'Removing a user only means that they will no longer be associated with this client. Their WordPress account will not be deleted.',
                     'upstream'
                 ); ?>
@@ -349,14 +347,14 @@ final class UpStream_Metaboxes_Clients
         <div id="modal-user-permissions" style="display: none;">
             <div id="form-user-permissions">
                 <div>
-                    <h3><?php echo __("UpStream's Custom Permissions", 'upstream'); ?></h3>
+                    <h3><?php echo esc_html__("UpStream's Custom Permissions", 'upstream'); ?></h3>
                     <table class="wp-list-table widefat fixed striped posts upstream-table">
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 20px;">
                                 <input type="checkbox"/>
                             </th>
-                            <th><?php echo __('Permission', 'upstream'); ?></th>
+                            <th><?php echo esc_html__('Permission', 'upstream'); ?></th>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -367,9 +365,9 @@ final class UpStream_Metaboxes_Clients
                         <button
                                 type="submit"
                                 class="button button-primary"
-                                data-label="<?php echo __('Update Permissions', 'upstream'); ?>"
-                                data-loading-label="<?php echo __('Updating...', 'upstream'); ?>"
-                        ><?php echo __('Update Permissions', 'upstream'); ?></button>
+                                data-label="<?php echo esc_attr__('Update Permissions', 'upstream'); ?>"
+                                data-loading-label="<?php echo esc_attr__('Updating...', 'upstream'); ?>"
+                        ><?php echo esc_html__('Update Permissions', 'upstream'); ?></button>
                     </div>
                 </div>
             </div>
@@ -392,7 +390,7 @@ final class UpStream_Metaboxes_Clients
                 <p><?php echo sprintf(__(
                         'These are all the users assigned with the role <code>%s</code> and not related to this client yet.',
                         'upstream'
-                    ), __('UpStream Client User', 'upstream')); ?></p>
+                    ), esc_html__('UpStream Client User', 'upstream')); ?></p>
             </div>
             <div class="upstream-row">
                 <table id="table-add-existent-users" class="wp-list-table widefat fixed striped posts upstream-table">
@@ -401,13 +399,13 @@ final class UpStream_Metaboxes_Clients
                         <th class="text-center" style="width: 20px;">
                             <input type="checkbox"/>
                         </th>
-                        <th><?php echo __('Name', 'upstream'); ?></th>
-                        <th><?php echo __('Email', 'upstream'); ?></th>
+                        <th><?php echo esc_html__('Name', 'upstream'); ?></th>
+                        <th><?php echo esc_html__('Email', 'upstream'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="3"><?php echo __('No users found.', 'upstream'); ?></td>
+                        <td colspan="3"><?php echo esc_html__('No users found.', 'upstream'); ?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -427,7 +425,7 @@ final class UpStream_Metaboxes_Clients
     {
         add_meta_box(
             self::$prefix . 'users',
-            '<span class="dashicons dashicons-groups"></span>' . __("Users", 'upstream'),
+            '<span class="dashicons dashicons-groups"></span>' . esc_html__("Users", 'upstream'),
             [__CLASS__, 'renderUsersMetabox'],
             self::$postType,
             'normal'
@@ -453,7 +451,7 @@ final class UpStream_Metaboxes_Clients
         }
         unset($legacyUsersMeta); ?>
         <div class="upstream-row">
-            <p><?php echo __(
+            <p><?php echo esc_html__(
                     'The users listed below are those old <code>UpStream Client Users</code> that could not be automatically converted/migrated to <code>WordPress Users</code> by UpStream for some reason. More details on the Disclaimer metabox.',
                     'upstream'
                 ); ?></p>
@@ -462,12 +460,12 @@ final class UpStream_Metaboxes_Clients
             <table id="table-legacy-users" class="wp-list-table widefat fixed striped posts upstream-table">
                 <thead>
                 <tr>
-                    <th><?php echo __('First Name', 'upstream'); ?></th>
-                    <th><?php echo __('Last Name', 'upstream'); ?></th>
-                    <th><?php echo __('Email', 'upstream'); ?></th>
-                    <th><?php echo __('Phone', 'upstream'); ?></th>
-                    <th class="text-center"><?php echo __('Migrate?', 'upstream'); ?></th>
-                    <th class="text-center"><?php echo __('Discard?', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('First Name', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Last Name', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Email', 'upstream'); ?></th>
+                    <th><?php echo esc_html__('Phone', 'upstream'); ?></th>
+                    <th class="text-center"><?php echo esc_html__('Migrate?', 'upstream'); ?></th>
+                    <th class="text-center"><?php echo esc_html__('Discard?', 'upstream'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -496,14 +494,14 @@ final class UpStream_Metaboxes_Clients
                             break;
                     }
 
-                    $emptyValueString = '<i>' . __('empty', 'upstream') . '</i>'; ?>
+                    $emptyValueString = '<i>' . esc_html__('empty', 'upstream') . '</i>'; ?>
                     <tr data-id="<?php echo $legacyUserId; ?>">
-                        <td data-column="fname"><?php echo ! empty($userFirstName) ? $userFirstName : $emptyValueString; ?></td>
-                        <td data-column="lname"><?php echo ! empty($userLastName) ? $userLastName : $emptyValueString; ?></td>
-                        <td data-column="email"><?php echo ! empty($userEmail) ? $userEmail : $emptyValueString; ?></td>
-                        <td data-column="phone"><?php echo ! empty($userPhone) ? $userPhone : $emptyValueString; ?></td>
+                        <td data-column="fname"><?php echo ! empty($userFirstName) ? esc_html($userFirstName) : $emptyValueString; ?></td>
+                        <td data-column="lname"><?php echo ! empty($userLastName) ? esc_html($userLastName) : $emptyValueString; ?></td>
+                        <td data-column="email"><?php echo ! empty($userEmail) ? esc_html($userEmail) : $emptyValueString; ?></td>
+                        <td data-column="phone"><?php echo ! empty($userPhone) ? esc_html($userPhone) : $emptyValueString; ?></td>
                         <td class="text-center">
-                            <a name="<?php echo __('Migrating Client User', 'upstream'); ?>"
+                            <a name="<?php echo esc_attr__('Migrating Client User', 'upstream'); ?>"
                                href="#TB_inline?width=350&height=400&inlineId=modal-migrate-user" class="thickbox"
                                data-modal-identifier="user-migration">
                                 <span class="dashicons dashicons-plus-alt"></span>
@@ -518,7 +516,7 @@ final class UpStream_Metaboxes_Clients
                     </tr>
                     <tr data-id="<?php echo $legacyUserId; ?>">
                         <td colspan="7">
-                            <span class="dashicons dashicons-warning"></span>&nbsp;<?php echo $errorMessage; ?>
+                            <span class="dashicons dashicons-warning"></span>&nbsp;<?php echo esc_html($errorMessage); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -579,7 +577,7 @@ final class UpStream_Metaboxes_Clients
 
             $response['success'] = true;
         } catch (\Exception $e) {
-            $response['err'] = $e->getMessage();
+            $response['err'] = esc_html($e->getMessage());
         }
 
         echo wp_json_encode($response);
@@ -647,7 +645,7 @@ final class UpStream_Metaboxes_Clients
 
             $response['success'] = true;
         } catch (\Exception $e) {
-            $response['err'] = $e->getMessage();
+            $response['err'] = esc_html($e->getMessage());
         }
 
         echo wp_json_encode($response);
@@ -697,7 +695,15 @@ final class UpStream_Metaboxes_Clients
             $clientUsersList    = array_filter((array)get_post_meta($clientId, $clientUsersMetaKey, true));
             $clientNewUsersList = [];
 
-            $usersIdsList = (array)$_POST['users'];
+            $usersIdsList = [];
+
+            // sanitize each element
+            if (is_array($_POST['users'])) {
+                foreach ($_POST['users'] as $u) {
+                    $usersIdsList[] = (int)$u;
+                }
+            }
+
             foreach ($usersIdsList as $user_id) {
                 $user_id = (int)$user_id;
                 if ($user_id > 0) {
@@ -740,7 +746,7 @@ final class UpStream_Metaboxes_Clients
 
             $response['success'] = true;
         } catch (\Exception $e) {
-            $response['err'] = $e->getMessage();
+            $response['err'] = esc_html($e->getMessage());
         }
 
         echo wp_json_encode($response);
@@ -791,7 +797,7 @@ final class UpStream_Metaboxes_Clients
 
             $response['success'] = true;
         } catch (\Exception $e) {
-            $response['err'] = $e->getMessage();
+            $response['err'] = esc_html($e->getMessage());
         }
 
         echo wp_json_encode($response);
@@ -807,68 +813,6 @@ final class UpStream_Metaboxes_Clients
      */
     public static function updateUserPermissions()
     {
-        header('Content-Type: application/json');
-
-        $response = [
-            'success' => false,
-            'err'     => null,
-        ];
-
-        try {
-            if ( ! upstream_admin_permissions('edit_clients')) {
-                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
-            }
-
-            if (empty($_POST) || ! isset($_POST['client'])) {
-                throw new \Exception(__('Invalid request.', 'upstream'));
-            }
-
-            $client_id = (int)$_POST['client'];
-            if ($client_id <= 0) {
-                throw new \Exception(__('Invalid Client ID.', 'upstream'));
-            }
-
-            $client_user_id = isset($_POST['user']) ? (int)$_POST['user'] : 0;
-            if ($client_user_id <= 0) {
-                throw new \Exception(__('Invalid User ID.', 'upstream'));
-            }
-
-            if ( ! upstream_do_client_user_belongs_to_client($client_user_id, $client_id)) {
-                throw new \Exception(__("This Client User is not associated with this Client.", 'upstream'));
-            }
-
-            $clientUser = new \WP_User($client_user_id);
-            if (array_search('upstream_client_user', $clientUser->roles) === false) {
-                throw new \Exception(__("This user doesn't seem to be a valid Client User.", 'upstream'));
-            }
-
-            if (isset($_POST['permissions']) && ! empty($_POST['permissions'])) {
-                $permissions    = upstream_get_client_users_permissions();
-                $newPermissions = (array)$_POST['permissions'];
-
-                $deniedPermissions = (array)array_diff(array_keys($permissions), $newPermissions);
-                foreach ($deniedPermissions as $permissionKey) {
-                    // Make sure this is a valid permission.
-                    if (isset($permissions[$permissionKey])) {
-                        $clientUser->add_cap($permissionKey, false);
-                    }
-                }
-
-                foreach ($newPermissions as $permissionKey) {
-                    // Make sure this is a valid permission.
-                    if (isset($permissions[$permissionKey])) {
-                        $clientUser->add_cap($permissionKey, true);
-                    }
-                }
-            }
-
-            $response['success'] = true;
-        } catch (\Exception $e) {
-            $response['err'] = $e->getMessage();
-        }
-
-        echo wp_json_encode($response);
-
         wp_die();
     }
 }

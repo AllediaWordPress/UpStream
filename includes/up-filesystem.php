@@ -74,7 +74,6 @@ function upstream_upfs_upload($file)
 
             if (!empty($file['tmp_name'])) {
 
-                // Checks the true MIME type of the file
                 if (true) {
 
                     // Checks the size of the the image

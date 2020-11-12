@@ -117,6 +117,12 @@ Yes, UpStream works independent of any theme.
 
 UpStream does not use the existing styling of your theme. The features and the very specific nature of the plugin make it impossible to integrate into existing themes. The plugin is highly customizable though, so you can tweak it to look the way you want it to.
 
+= Included libraries =
+
+UpStream includes the following minified libraries. Links to source are below:
+
+- Bootstrap https://getbootstrap.com/
+- Fontawesome https://fontawesome.com/
 
 == Screenshots ==
 

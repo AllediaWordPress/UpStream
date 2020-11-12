@@ -53,8 +53,11 @@ class UpStream_Report_Generator
     public function getReportFieldsFromPost($remove)
     {
         $report_fields = [];
-        foreach ($_POST as $key => $value) {
+        foreach ($_POST as $key => $value) { // key and value are totally sanitized in the following lines
 
+            $key = sanitize_text_field($key);
+
+            // value is totally sanitized after this
             if (is_array($value)) {
                 $v = [];
                 foreach ($value as $itm) {

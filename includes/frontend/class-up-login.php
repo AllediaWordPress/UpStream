@@ -33,7 +33,7 @@ final class UpStream_Login
      */
     private function performUserLoginAction()
     {
-        $action              = isset($_GET['action']) ? $_GET['action'] : null;
+        $action              = isset($_GET['action']) ? sanitize_text_field( $_GET['action']) : null;
         $userIsTryingToLogin = isset($_POST['login']);
 
         if ($action === "logout" && ! $userIsTryingToLogin) {
@@ -60,7 +60,7 @@ final class UpStream_Login
             unset($_SESSION['upstream']);
         }
 
-        if ( ! empty($_GET) && isset($_GET['action']) && $_GET['action'] === 'logout') {
+        if ( ! empty($_GET) && isset($_GET['action']) && sanitize_text_field( $_GET['action']) === 'logout') {
             unset($_GET['action']);
         }
     }
@@ -84,7 +84,7 @@ final class UpStream_Login
         }
 
         $postData = [
-            'username' => isset($_POST['user_email']) ? sanitize_text_field(trim($_POST['user_email'])) : "",
+            'username' => isset($_POST['user_email']) ? trim(sanitize_text_field($_POST['user_email'])) : "",
             'password' => isset($_POST['user_password']) ? sanitize_text_field($_POST['user_password']) : "",
         ];
 

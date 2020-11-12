@@ -156,15 +156,15 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
                     if (isset($statuses[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            isset($statuses[$columnValue]['color']) ? $statuses[$columnValue]['color'] : '',
-                            $statuses[$columnValue]['name']
+                            isset($statuses[$columnValue]['color']) ? esc_attr($statuses[$columnValue]['color']) : '',
+                            esc_html($statuses[$columnValue]['name'])
                         );
                     } else {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Status doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -191,15 +191,15 @@ function getTasksFields($statuses = [], $milestones = [], $areMilestonesEnabled 
 
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $milestone->getColor(),
-                            $milestone->getName()
+                            esc_attr($milestone->getColor()),
+                            esc_html($milestone->getName())
                         );
                     } catch (Exception $e) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Milestone doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -283,15 +283,15 @@ function getBugsFields($severities = [], $statuses = [], $areCommentsEnabled = n
                     if (isset($severities[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $severities[$columnValue]['color'],
-                            $severities[$columnValue]['name']
+                            esc_attr($severities[$columnValue]['color']),
+                            esc_html($severities[$columnValue]['name'])
                         );
                     } else {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Severity doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -314,15 +314,15 @@ function getBugsFields($severities = [], $statuses = [], $areCommentsEnabled = n
                     if (isset($statuses[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $statuses[$columnValue]['color'],
-                            $statuses[$columnValue]['name']
+                            esc_attr($statuses[$columnValue]['color']),
+                            esc_html($statuses[$columnValue]['name'])
                         );
                     } else {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Status doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -447,15 +447,15 @@ function getProjectFields($statuses = [])
                     if (isset($statuses[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $statuses[$columnValue]['color'],
-                            $statuses[$columnValue]['name']
+                            esc_attr($statuses[$columnValue]['color']),
+                            esc_html($statuses[$columnValue]['name'])
                         );
                     } else {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Status doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -488,15 +488,15 @@ function getProjectFields($statuses = [])
                     if (isset($statuses[$columnValue])) {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" style="background-color: %s;">%s</span>',
-                            $statuses[$columnValue]['color'],
-                            $statuses[$columnValue]['name']
+                            esc_attr($statuses[$columnValue]['color']),
+                            esc_html($statuses[$columnValue]['name'])
                         );
                     } else {
                         $columnValue = sprintf(
                             '<span class="label up-o-label" title="%s" style="background-color: %s;">%s <i class="fa fa-ban"></i></span>',
                             __("This Status doesn't exist anymore.", 'upstream'),
                             '#bdc3c7',
-                            $columnValue
+                            esc_html($columnValue)
                         );
                     }
                 } else {
@@ -549,7 +549,7 @@ function renderTableHeaderColumn($identifier, $data)
         $attrs['scope'] = 'col';
     } ?>
     <th <?php echo arrayToAttrs($attrs); ?>>
-        <?php echo isset($data['label']) ? $data['label'] : ''; ?>
+        <?php echo isset($data['label']) ? esc_html($data['label']) : ''; ?>
         <?php if ($isOrderable): ?>
             <span class="pull-right o-order-direction">
           <i class="fa fa-sort"></i>
@@ -889,8 +889,8 @@ function renderTableBody($data, $visibleColumnsSchema, $hiddenColumnsSchema, $ro
                 <div>
                     <?php foreach ($hiddenColumnsSchema as $columnName => $column):
                         $columnValue = isset($row[$columnName]) ? $row[$columnName] : null; ?>
-                        <div class="form-group" data-column="<?php echo $columnName; ?>">
-                            <label><?php echo isset($column['label']) ? $column['label'] : ''; ?></label>
+                        <div class="form-group" data-column="<?php echo esc_attr($columnName); ?>">
+                            <label><?php echo isset($column['label']) ? esc_html($column['label']) : ''; ?></label>
                             <?php renderTableColumnValue(
                                 $columnName,
                                 $columnValue,
@@ -978,12 +978,12 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
         'file'      => upstream_file_label_plural(),
     );
     $countValue = count($data) > 0 ? count($data) : '';
-    echo "<span class='sub_count p_count' id='" . $itemType . "_count'>" . $countValue . "</span>";
+    echo "<span class='sub_count p_count' id='" . esc_attr($itemType) . "_count'>" . esc_html($countValue) . "</span>";
     ?>
     <span class="p_count">
         <?php
             if (count($data) > 0) {
-                echo sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]);
+                echo esc_html(sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]));
             }
         ?>
     </span>
@@ -1052,7 +1052,7 @@ function renderTableFilter($filterType, $columnName, $args = [], $renderFormGrou
             <?php
             if (isset($args['options']) && is_array($args['options']) && count($args['options'])): ?>
                 <?php foreach ($args['options'] as $optionValue => $optionLabel): ?>
-                    <option value="<?php echo (string)$optionValue; ?>"><?php echo $optionLabel; ?></option>
+                    <option value="<?php echo esc_attr((string)$optionValue); ?>"><?php echo esc_html($optionLabel); ?></option>
                 <?php endforeach; ?>
             <?php endif; ?>
         </select>

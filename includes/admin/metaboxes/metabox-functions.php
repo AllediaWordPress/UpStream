@@ -248,13 +248,13 @@ function upstream_activity_buttons($field_args, $field)
     $_20   = '';
     $_all  = '';
 
-    if ( ! isset($_GET['activity_items']) || (isset($_GET['activity_items']) && $_GET['activity_items'] == '10')) {
+    if ( ! isset($_GET['activity_items']) || (isset($_GET['activity_items']) && sanitize_text_field($_GET['activity_items']) == '10')) {
         $_10 = $class;
     }
-    if (isset($_GET['activity_items']) && $_GET['activity_items'] == '20') {
+    if (isset($_GET['activity_items']) && sanitize_text_field($_GET['activity_items']) == '20') {
         $_20 = $class;
     }
-    if (isset($_GET['activity_items']) && $_GET['activity_items'] == 'all') {
+    if (isset($_GET['activity_items']) && sanitize_text_field($_GET['activity_items']) == 'all') {
         $_all = $class;
     }
 
@@ -314,7 +314,7 @@ function upstream_admin_output_milestone_hidden_data($field_args, $field)
         $progress = $milestone->getProgress();
         if ( ! empty($progress)) {
             // if we have progress
-            echo '<span class="m-progress">' . $progress . '</span>';
+            echo '<span class="m-progress">' . esc_html($progress) . '</span>';
         }
         echo '</li>';
 
@@ -636,7 +636,7 @@ function upstreamRenderCommentsBox(
         printf('<p data-empty><i class="s-text-color-gray">%s</i></p>', __('none', 'upstream'));
     } ?>
 
-    <div class="c-comments" data-type="<?php echo $itemType; ?>" <?php echo $renderControls ? 'data-nonce' : ''; ?>>
+    <div class="c-comments" data-type="<?php echo esc_attr($itemType); ?>" <?php echo $renderControls ? 'data-nonce' : ''; ?>>
         <?php
         if ($commentsCacheCount > 0) {
             if (is_admin()) {
@@ -680,7 +680,7 @@ function upstream_admin_display_message_item($comment, $comments = [], $renderCo
             <div class="o-comment__body__left">
 
                 <?php if (isset($comment->created_by->avatar)) { ?>
-                <img class="o-comment__user_photo" src="<?php echo $comment->created_by->avatar; ?>" width="30">
+                <img class="o-comment__user_photo" src="<?php echo esc_attr($comment->created_by->avatar); ?>" width="30">
                 <?php } ?>
                 <?php if ( ! $isApproved && $currentUserCapabilities->can_moderate): ?>
                     <div class="u-text-center">
@@ -694,10 +694,10 @@ function upstream_admin_display_message_item($comment, $comments = [], $renderCo
             </div>
             <div class="o-comment__body__right">
                 <div class="o-comment__body__head">
-                    <div class="o-comment__user_name"><?php echo  isset($comment->created_by->name) ? $comment->created_by->name : ''; ?></div>
+                    <div class="o-comment__user_name"><?php echo  isset($comment->created_by->name) ? esc_html($comment->created_by->name) : ''; ?></div>
                     <div class="o-comment__reply_info"></div>
-                    <div class="o-comment__date"><?php echo $comment->created_at->humanized; ?>&nbsp;<small>
-                            (<?php echo $comment->created_at->localized; ?>)
+                    <div class="o-comment__date"><?php echo esc_attr($comment->created_at->humanized); ?>&nbsp;<small>
+                            (<?php echo esc_attr($comment->created_at->localized); ?>)
                         </small>
                     </div>
                 </div>
@@ -779,7 +779,7 @@ function upstream_display_message_item($comment, $comments = [], $renderControls
         <div class="o-comment__body">
             <div class="o-comment__body__left">
                 <?php if (isset($comment->created_by->avatar)) { ?>
-                <img class="o-comment__user_photo" src="<?php echo $comment->created_by->avatar; ?>" width="30">
+                <img class="o-comment__user_photo" src="<?php echo esc_url($comment->created_by->avatar); ?>" width="30">
                 <?php } ?>
                 <?php if ( ! $isApproved && $currentUserCapabilities->can_moderate): ?>
                     <div class="u-text-center">
@@ -793,10 +793,10 @@ function upstream_display_message_item($comment, $comments = [], $renderControls
             </div>
             <div class="o-comment__body__right">
                 <div class="o-comment__body__head">
-                    <div class="o-comment__user_name"><?php echo isset($comment->created_by->name) ? $comment->created_by->name : ''; ?></div>
+                    <div class="o-comment__user_name"><?php echo isset($comment->created_by->name) ? esc_html($comment->created_by->name) : ''; ?></div>
                     <div class="o-comment__reply_info"></div>
                     <div class="o-comment__date" data-toggle="tooltip"
-                         title="<?php echo $comment->created_at->localized; ?>"><?php echo $comment->created_at->humanized; ?></div>
+                         title="<?php echo esc_attr($comment->created_at->localized); ?>"><?php echo esc_html($comment->created_at->humanized); ?></div>
                 </div>
                 <div
                         class="o-comment__content"><?php echo $wp_embed->autoembed(wpautop($comment->content)); ?></div>
@@ -912,7 +912,7 @@ function upstream_add_field_attributes($args, $field)
  */
 function upstream_empty_group($type)
 {
-    if (isset($_GET['post_type']) && $_GET['post_type'] != 'project') {
+    if (isset($_GET['post_type']) && sanitize_text_field($_GET['post_type']) != 'project') {
         return '';
     }
 

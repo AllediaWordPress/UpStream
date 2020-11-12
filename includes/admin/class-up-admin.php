@@ -78,9 +78,12 @@ class UpStream_Admin
      */
     public function editMenuOrder()
     {
-        //YYYYYYYYYYYYY
-        //update_metadata('post', $_REQUEST['post_id'], 'upst_order', $_REQUEST['item_val']);
-        $cur_post = array('ID'=>$_REQUEST['post_id'], 'menu_order'=>$_REQUEST['item_val']);
+        //YYYYYYYYYYYYYYY
+        /*update_metadata('post', $_REQUEST['post_id'], 'upst_order', $_REQUEST['item_val']);*/
+        $cur_post = array(
+                'ID'=> (int) $_REQUEST['post_id'],
+                'menu_order'=> (int) $_REQUEST['item_val']
+        );
         wp_update_post( $cur_post );
 
         return 'success';
@@ -92,6 +95,7 @@ class UpStream_Admin
      */
     public function getTaskPercent()
     {
+        // task IDs are alnum
         $task_id = sanitize_text_field($_REQUEST['task_id']);
         $cur_per = (int)$_REQUEST['cur_per'];
 
@@ -100,11 +104,11 @@ class UpStream_Admin
         if ($statuses) {
             foreach ($statuses as $status) {
                 if ($status['id'] == $task_id) {
-                    if (!empty($status['percent']) && $status['percent'] > $cur_per) {
-                        echo $status['percent']; 
+                    if (!empty($status['percent']) && (int)$status['percent'] > $cur_per) {
+                        echo (int)$status['percent'];
                         exit;
                     } else {
-                        echo $cur_per;
+                        echo (int)$cur_per;
                         exit;
                     }
                 }
@@ -119,7 +123,7 @@ class UpStream_Admin
      */
     public function getTaskStatus()
     {
-        $task_percent = $_REQUEST['task_percent'];
+        $task_percent = (int)sanitize_text_field( $_REQUEST['task_percent']);
 
         $option   = get_option('upstream_tasks');
         $statuses = isset($option['statuses']) ? $option['statuses'] : '';
@@ -129,7 +133,7 @@ class UpStream_Admin
             foreach ($statuses as $status) {
                 $sortArr[$status['id']] = $status['percent'];
                 if ($task_percent == '100' && $status['percent'] == '100') {
-                    echo $status['id'];
+                    echo esc_attr($status['id']);
                     exit;
                 }
             }
@@ -138,7 +142,7 @@ class UpStream_Admin
         if ($sortArr) {
             foreach ($sortArr as $id => $percent) {
                 if ($percent > $task_percent) {
-                    echo $selStatus;
+                    echo esc_attr($selStatus);
                     exit;
                 }
                 $selStatus = $id;
@@ -359,11 +363,11 @@ class UpStream_Admin
             $selectors[] = '#' . $id;
 
             $html .= sprintf('<button class="%s" id="%s" data-nonce="%s" data-slug="%s">%s</button>',
-                isset($field->args['class']) ? $field->args['class'] : 'button-secondary',
-                $id,
-                $field->args['nonce'],
-                $field->args['slugs'][$i],
-                $field->args['labels'][$i]);
+                isset($field->args['class']) ? esc_attr($field->args['class']) : 'button-secondary',
+                esc_attr($id),
+                esc_attr($field->args['nonce']),
+                esc_attr($field->args['slugs'][$i]),
+                esc_html($field->args['labels'][$i]));
 
         }
 
@@ -373,7 +377,7 @@ class UpStream_Admin
         $html .= 'jQuery("' . $selector . '").on("click", function(event){event.preventDefault(); ' . $field->args['onclick'] . '});';
         $html .= '</script>';
 
-        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . $field->args['desc'] . '</p>' : '';
+        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . esc_html($field->args['desc']) . '</p>' : '';
 
         echo $html;
     }
@@ -413,12 +417,12 @@ class UpStream_Admin
     {
 
         $html = sprintf('<button class="%s" id="%s" data-nonce="%s">%s</button>',
-            isset($field->args['class']) ? $field->args['class'] : 'button-secondary',
-            $field->args['id'],
-            $field->args['nonce'],
-            $field->args['label']);
+            isset($field->args['class']) ? esc_attr($field->args['class']) : 'button-secondary',
+            esc_attr($field->args['id']),
+            esc_attr($field->args['nonce']),
+            esc_html($field->args['label']));
 
-        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . $field->args['desc'] . '</p>' : '';
+        $html .= isset($field->args['desc']) ? '<p class="cmb2-metabox-description">' . esc_html($field->args['desc']) . '</p>' : '';
 
         $selector = '#' . $field->_id();
 
@@ -524,11 +528,10 @@ class UpStream_Admin
             return false;
         }
 
-        $data = &$_POST['upstream'];
+        $crn = isset($_POST['upstream']['comment_replies_notification']) ? sanitize_text_field($_POST['upstream']['comment_replies_notification']) : '';
 
-        if (isset($data['comment_replies_notification'])) {
-            $receiveNotifications = $data['comment_replies_notification'] !== 'no';
-
+        if ($crn) {
+            $receiveNotifications = $crn !== 'no';
             update_user_meta($user_id, 'upstream_comment_replies_notification', $receiveNotifications ? 'yes' : 'no');
 
             unset($receiveNotifications);
@@ -563,7 +566,7 @@ class UpStream_Admin
                     </div>
                     <p class="description"><?php printf(
                             __('Whether to be notified when someone reply to your comments within %s.', 'upstream'),
-                            upstream_project_label_plural(true)
+                            esc_html(upstream_project_label_plural(true))
                         ); ?></p>
                 </td>
             </tr>
@@ -676,12 +679,13 @@ class UpStream_Admin
 
             $shouldRedirect = false;
 
-            $postType          = isset($_GET['post_type']) ? $_GET['post_type'] : '';
+            // this is checked against a known list of post types later
+            $postType          = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : '';
             $isPostTypeProject = $postType === 'project';
 
             if ($pagenow === 'edit-tags.php') {
                 if (isset($_GET['taxonomy'])
-                    && $_GET['taxonomy'] === 'project_category'
+                    && sanitize_text_field($_GET['taxonomy']) === 'project_category'
                     && $isPostTypeProject
                 ) {
                     $shouldRedirect = true;

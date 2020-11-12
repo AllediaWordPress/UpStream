@@ -108,6 +108,7 @@ class UpStream_Admin_Pointers
             return;
         }
 
+        // only check if it is set
         if (isset($_GET['upstream_dismiss_ver'])) {
             update_user_meta(get_current_user_id(), 'upstream_hide_incompat_notices_' . UPSTREAM_VERSION, 'yes');
         }

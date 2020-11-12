@@ -484,9 +484,9 @@ if ( ! class_exists('UpStream')) :
         {
             $links['settings'] = sprintf(
                 '<a href="%s" title="%2$s" aria-label="%2$s">%3$s</a>',
-                admin_url('admin.php?page=upstream_general'),
-                __('Open Settings Page', 'upstream'),
-                __('Settings', 'upstream')
+                esc_url(admin_url('admin.php?page=upstream_general')),
+                esc_html__('Open Settings Page', 'upstream'),
+                esc_html__('Settings', 'upstream')
             );
 
             return $links;
@@ -533,7 +533,7 @@ if ( ! class_exists('UpStream')) :
         {
             $updateNoticeTitleHtml = sprintf(
                 '<strong style="font-size: 1.25em; display: block; margin-top: 10px;">%s</strong>',
-                __('Update notice:', 'upstream')
+                esc_html__('Update notice:', 'upstream')
             );
 
             if (version_compare(UPSTREAM_VERSION, "1.12.5", "<")) {
@@ -546,7 +546,7 @@ if ( ! class_exists('UpStream')) :
                     ),
                     'v1.12.5',
                     'edit_others_projects',
-                    __('UpStream User', 'upstream')
+                    esc_html__('UpStream User', 'upstream')
                 );
             }
         }

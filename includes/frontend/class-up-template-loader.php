@@ -37,7 +37,7 @@ class UpStream_Template_Loader
 
         if (get_post_type() === false) {
 
-            if (upstream_is_project_base_uri($_SERVER['REQUEST_URI'])) {
+            if (upstream_is_project_base_uri(sanitize_text_field($_SERVER['REQUEST_URI']))) {
 
             }
 
@@ -68,11 +68,11 @@ class UpStream_Template_Loader
             $file = 'archive-project.php';
         }
 
-        if (isset($_GET['action']) && $_GET['action'] === 'logout' && ! isset($_POST['login'])) {
+        if (isset($_GET['action']) && sanitize_text_field($_GET['action']) === 'logout' && ! isset($_POST['login'])) {
             UpStream_Login::doDestroySession();
             $url_base = upstream_get_project_base();
 
-            if (preg_match('/^\/' . $url_base . '/i', $_SERVER['REQUEST_URI'])) {
+            if (preg_match('/^\/' . $url_base . '/i', sanitize_text_field($_SERVER['REQUEST_URI']))) {
                 $redirectTo = wp_login_url(get_post_type_archive_link('project'));
             } else {
                 $redirectTo = get_permalink();

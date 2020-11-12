@@ -76,7 +76,7 @@ switch ($type) {
                                     foreach ($children as $child) {
                                         if (upstream_override_access_object(true, $type, $child->id, UPSTREAM_ITEM_TYPE_PROJECT, $project->id, UPSTREAM_PERMISSIONS_ACTION_VIEW)) {
                                             ?>
-                                            <option value="<?php echo $child->id ?>">
+                                            <option value="<?php echo esc_attr($child->id) ?>">
                                                 &emsp;<?php esc_html_e($child->title); ?></option>
                                             <?php
                                         }

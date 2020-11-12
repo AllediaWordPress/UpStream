@@ -58,7 +58,7 @@ $display_fields = [];
 
     <div class="right_col" role="main">
 
-        <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="post">
+        <form action="<?php esc_url($_SERVER['REQUEST_URI']); ?>" method="post">
 
             <?php foreach ($report->getAllFieldOptions() as $sectionId => $optionInfo): ?>
                 <div id="report-parameters-<?php echo $optionInfo['type'] ?>>">

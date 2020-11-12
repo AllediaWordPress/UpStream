@@ -937,7 +937,8 @@ if ( ! class_exists('UpStream_Options_General')) :
                 'upstream_client_user',
             ];
 
-            if ( ! isset($_POST['role']) || ! in_array($_POST['role'], $validRoles)) {
+            $checkRole = sanitize_text_field($_POST['role']);
+            if ( ! isset($_POST['role']) || ! in_array($checkRole, $validRoles)) {
                 $return = 'error';
                 $abort  = true;
             }
@@ -945,7 +946,7 @@ if ( ! class_exists('UpStream_Options_General')) :
             if ( ! $abort) {
                 // Reset capabilities
                 $roles = new UpStream_Roles();
-                $roles->add_default_caps($_POST['role']);
+                $roles->add_default_caps($checkRole);
 
                 $return = 'success';
             }
@@ -966,7 +967,7 @@ if ( ! class_exists('UpStream_Options_General')) :
 
             $response = wp_remote_post( 'https://www.getdrip.com/forms/934026428/submissions', array(
                 'body' => array(
-                    'fields[email]' => $_POST['email'],
+                    'fields[email]' => sanitize_email( $_POST['email']),
                 )
             ));
 
@@ -1037,8 +1038,10 @@ if ( ! class_exists('UpStream_Options_General')) :
                     $return = ['success' => false, 'message' => __('You must be an administrator to import data.', 'upstream')];
                 } else {
 
-                    $fileId = $_POST['fileId'];
-                    $line_start = $_POST['lineNo'];
+                    $fileId = (int)$_POST['fileId'];
+                    $line_start = (int)$_POST['lineNo'];
+
+                    // returns false if there is no file with that ID
                     $file = get_attached_file($fileId);
 
                     if ($file) {
@@ -1185,6 +1188,7 @@ if ( ! class_exists('UpStream_Options_General')) :
                 wp_die(__('Invalid project id'), 'Project not found', ['response' => 400]);
             }
 
+            // next function will do nothing if project does not exists
             $projectId = (int)$_POST['projectId'];
 
             $return['success'] = \UpStream\Milestones::migrateLegacyMilestonesForProject($projectId);

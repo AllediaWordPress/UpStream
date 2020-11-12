@@ -60,9 +60,9 @@ class Upstream_Task_List extends WP_List_Table
         $views = [];
 
         if ( ! empty($_REQUEST['status'])) {
-            $current = esc_html($_REQUEST['status']);
+            $current = sanitize_text_field($_REQUEST['status']);
         } elseif ( ! empty($_REQUEST['view'])) {
-            $current = esc_html($_REQUEST['view']);
+            $current = sanitize_text_field($_REQUEST['view']);
         } else {
             $current = 'all';
         }
@@ -262,7 +262,7 @@ class Upstream_Task_List extends WP_List_Table
                             ?>
                             <option
                                     value="<?php echo $project_id ?>" <?php isset($_GET['project']) ? selected(
-                                $_GET['project'],
+                                sanitize_text_field($_GET['project']),
                                 $project_id
                             ) : ''; ?>><?php echo esc_html($title) ?></option>
                             <?php
@@ -282,7 +282,7 @@ class Upstream_Task_List extends WP_List_Table
                             ?>
                             <option
                                     value="<?php echo $user_id ?>" <?php isset($_GET['assigned_to']) ? selected(
-                                $_GET['assigned_to'],
+                                (int)$_GET['assigned_to'],
                                 $user_id
                             ) : ''; ?>><?php echo esc_html($user) ?></option>
                             <?php
@@ -309,7 +309,7 @@ class Upstream_Task_List extends WP_List_Table
                             } ?>
                             <option
                                     value="<?php echo $statusId; ?>" <?php isset($_REQUEST['status']) ? selected(
-                                $_REQUEST['status'],
+                                sanitize_text_field($_REQUEST['status']),
                                 $statusId
                             ) : ''; ?>><?php echo esc_html($statusTitle) ?></option>
                             <?php
@@ -615,7 +615,7 @@ class Upstream_Task_List extends WP_List_Table
 
         // filtering
         $the_tasks = $tasks; // store the tasks array
-        $status    = (isset($_REQUEST['status']) && $_REQUEST['status'] ? $_REQUEST['status'] : 'all');
+        $status    = (isset($_REQUEST['status']) && sanitize_text_field($_REQUEST['status']) ? sanitize_text_field($_REQUEST['status']) : 'all');
         if ($status != 'all') {
             if ( ! empty($the_tasks)) {
                 $tasks = []; // reset the tasks array
@@ -629,7 +629,7 @@ class Upstream_Task_List extends WP_List_Table
         }
 
         // NOTE: this is just checking against a known value
-        if (isset($_REQUEST['view']) && $_REQUEST['view'] === 'mine') {
+        if (isset($_REQUEST['view']) && sanitize_text_field($_REQUEST['view']) === 'mine') {
             $currentUserId = (int)get_current_user_id();
 
             foreach ($tasks as $rowIndex => $row) {
@@ -643,7 +643,7 @@ class Upstream_Task_List extends WP_List_Table
 
         // NOTE: this is just checking that the requested project matches the ID already in the
         // array -- there is no real potential for security violation here
-        $project = isset($_REQUEST['project']) && $_REQUEST['project'] ? (int)$_REQUEST['project'] : 0;
+        $project = isset($_REQUEST['project']) && sanitize_text_field($_REQUEST['project']) ? (int)$_REQUEST['project'] : 0;
         if ( ! empty($tasks) && ! empty($project)) {
             foreach ($tasks as $key => $task) {
                 if ($task['project_id'] != $project) {
@@ -652,7 +652,7 @@ class Upstream_Task_List extends WP_List_Table
             }
         }
 
-        $assigned_to = isset($_REQUEST['assigned_to']) && $_REQUEST['assigned_to'] ? (int)$_REQUEST['assigned_to'] : 0;
+        $assigned_to = isset($_REQUEST['assigned_to']) && sanitize_text_field($_REQUEST['assigned_to']) ? (int)$_REQUEST['assigned_to'] : 0;
         if ($assigned_to > 0) {
             foreach ($tasks as $rowIndex => $row) {
                 $assignees = isset($row['assigned_to']) ? array_map('intval', (array)$row['assigned_to']) : [];
@@ -665,17 +665,17 @@ class Upstream_Task_List extends WP_List_Table
 
         // sorting the tasks
         if ( ! empty($_REQUEST['orderby'])) {
-            if ( ! empty($_REQUEST['order']) && $_REQUEST['order'] == 'asc') {
+            if ( ! empty($_REQUEST['order']) && sanitize_text_field($_REQUEST['order']) == 'asc') {
                 $tmp = [];
                 foreach ($tasks as &$ma) {
-                    $tmp[] = &$ma[esc_html($_REQUEST['orderby'])];
+                    $tmp[] = &$ma[esc_html(sanitize_text_field($_REQUEST['orderby']))];
                 }
                 array_multisort($tmp, SORT_ASC, $tasks);
             }
-            if ( ! empty($_REQUEST['order']) && $_REQUEST['order'] == 'desc') {
+            if ( ! empty($_REQUEST['order']) && sanitize_text_field($_REQUEST['order']) == 'desc') {
                 $tmp = [];
                 foreach ($tasks as &$ma) {
-                    $tmp[] = &$ma[esc_html($_REQUEST['orderby'])];
+                    $tmp[] = &$ma[esc_html(sanitize_text_field($_REQUEST['orderby']))];
                 }
                 array_multisort($tmp, SORT_DESC, $tasks);
             }

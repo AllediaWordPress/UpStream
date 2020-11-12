@@ -100,14 +100,14 @@ class UpStream_Ajax
             return;
         }
 
-        if ( ! isset($_POST['state']) || ! in_array($_POST['state'], ['opened', 'closed'])) {
+        if ( ! isset($_POST['state']) || ! in_array(sanitize_text_field($_POST['state']), ['opened', 'closed'])) {
             $this->output('invalid_state');
 
             return;
         }
 
         // already checked for validity
-        $state = $_POST['state'];
+        $state = sanitize_text_field($_POST['state']);
 
         // Sanitize data.
         $section = sanitize_text_field($_POST['section']);
@@ -136,7 +136,10 @@ class UpStream_Ajax
             return;
         }
 
-        $rows = array_map('sanitize_text_field', $_POST['rows']);
+        $rows = [];
+        if (is_array($_POST['rows'])) {
+            $rows = array_map('sanitize_text_field', $_POST['rows']);
+        }
 
         if (empty($rows)) {
             $this->output('error');
