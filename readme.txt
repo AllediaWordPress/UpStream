@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 5.2
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 1.38.1
+Stable tag: 1.38.3
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,12 @@ UpStream includes the following minified libraries. Links to source are below:
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.38.3] - 2020-11-13 =
+* Fixed lowercase filename
+
+= [1.38.2] - 2020-11-12 =
+* Fixed login password sanitization
 
 = [1.38.1] - 2020-11-12 =
 * Fixed additional non-sanitized data reported by directory owners
