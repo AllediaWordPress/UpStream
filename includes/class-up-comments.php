@@ -292,7 +292,7 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment_content = stripslashes(sanitize_textarea_field($_POST['content']));
+            $comment_content = stripslashes(wp_kses_post($_POST['content']));
 
             $item_title = isset($_POST['item_title']) ? sanitize_text_field($_POST['item_title']) : '';
 
@@ -378,7 +378,8 @@ class Comments
                 throw new \Exception(__("Invalid request.", 'upstream'));
             }
 
-            $item_id = (int)$_POST['item_id'];
+            // could be alnum ID
+            $item_id = sanitize_text_field($_POST['item_id']);
 
             // Check if the project exists.
             $project_id = (int)$_POST['project_id'];
@@ -410,7 +411,7 @@ class Comments
 
             $user_id = get_current_user_id();
 
-            $comment                    = new Comment(stripslashes(sanitize_textarea_field( $_POST['content'])), $project_id, $user_id);
+            $comment                    = new Comment(stripslashes(wp_kses_post( $_POST['content'])), $project_id, $user_id);
             $comment->parent_id         = (int)$_POST['parent_id'];
             $comment->created_by->ip    = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
             $comment->created_by->agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_textarea_field($_SERVER['HTTP_USER_AGENT']) : null;

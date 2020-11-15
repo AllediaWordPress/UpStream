@@ -69,7 +69,7 @@ $isClientsDisabled = is_clients_disabled();
                         <p class="title"><?php esc_html_e('Timeframe', 'upstream'); ?></p>
                         <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW) &&
                             upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
-                        <span><?php echo esc_html($projectTimeframe); ?></span>
+                        <span><?php echo $projectTimeframe; /* already sanitized */ ?></span>
                         <?php else: ?>
                             <span class="label up-o-label" style="background-color:#666;color:#fff">(hidden)</span>
                         <?php endif; ?>
