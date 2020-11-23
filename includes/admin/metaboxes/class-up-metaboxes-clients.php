@@ -242,7 +242,9 @@ final class UpStream_Metaboxes_Clients
                         $assignedAt = new DateTime($user->assigned_at); ?>
                         <tr data-id="<?php echo $user->id; ?>">
                             <td>
-                                <?php echo esc_html($user->name); ?>
+                                <a title="<?php echo sprintf(__("Managing %s's Permissions"), $user->name); ?>"
+                                   href="#TB_inline?width=600&height=425&inlineId=modal-user-permissions"
+                                   class="thickbox"><?php echo esc_html($user->name); ?></a>
                             </td>
                             <td><?php echo esc_html($user->email); ?></td>
                             <td><?php echo esc_html($user->assigned_by); ?></td>
@@ -813,6 +815,75 @@ final class UpStream_Metaboxes_Clients
      */
     public static function updateUserPermissions()
     {
+        header('Content-Type: application/json');
+
+        $response = [
+            'success' => false,
+            'err'     => null,
+        ];
+
+        try {
+            if ( ! upstream_admin_permissions('edit_clients')) {
+                throw new \Exception(__("You're not allowed to do this.", 'upstream'));
+            }
+
+            if (empty($_POST) || ! isset($_POST['client'])) {
+                throw new \Exception(__('Invalid request.', 'upstream'));
+            }
+
+            $client_id = (int)$_POST['client'];
+            if ($client_id <= 0) {
+                throw new \Exception(__('Invalid Client ID.', 'upstream'));
+            }
+
+            $client_user_id = isset($_POST['user']) ? (int)$_POST['user'] : 0;
+            if ($client_user_id <= 0) {
+                throw new \Exception(__('Invalid User ID.', 'upstream'));
+            }
+
+            if ( ! upstream_do_client_user_belongs_to_client($client_user_id, $client_id)) {
+                throw new \Exception(__("This Client User is not associated with this Client.", 'upstream'));
+            }
+
+            $clientUser = new \WP_User($client_user_id);
+            if (array_search('upstream_client_user', $clientUser->roles) === false) {
+                throw new \Exception(__("This user doesn't seem to be a valid Client User.", 'upstream'));
+            }
+
+            if (isset($_POST['permissions']) && ! empty($_POST['permissions'])) {
+
+                if (is_array($_POST['permissions'])) {
+                    $newPermissions = \array_map( 'sanitize_text_field', $_POST['permissions'] );
+                } else {
+                    $newPermissions = [sanitize_text_field($_POST['permissions'])];
+                }
+
+                $permissions    = upstream_get_client_users_permissions();
+
+                $deniedPermissions = (array)array_diff(array_keys($permissions), $newPermissions);
+                foreach ($deniedPermissions as $permissionKey) {
+                    /* Make sure this is a valid permission. */
+                    if (isset($permissions[$permissionKey])) {
+                        $clientUser->add_cap($permissionKey, false);
+                    }
+                }
+
+                foreach ($newPermissions as $permissionKey) {
+                    /* Make sure this is a valid permission. */
+                    if (isset($permissions[$permissionKey])) {
+                        $clientUser->add_cap($permissionKey, true);
+                    }
+                }
+            }
+
+            $response['success'] = true;
+        } catch (\Exception $e) {
+            $response['err'] = $e->getMessage();
+        }
+
+        echo wp_json_encode($response);
+
         wp_die();
     }
+
 }

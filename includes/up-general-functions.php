@@ -94,7 +94,7 @@ function upstream_filesytem_enabled()
 
 function upstream_filesystem_max_size()
 {
-    return 10000000;
+    return 100000000;
 }
 
 function upstream_filesystem_path()

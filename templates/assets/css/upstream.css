@@ -511,3 +511,34 @@ td .btn {
 #sidebar-menu {
     margin-bottom: 50px;
 }
+
+.rtl.nav-md .container.body .right_col {
+    margin-left: 0 !important;
+    margin-right: 230px !important;
+}
+
+.rtl .main_container .top_nav {
+    display:none;
+}
+
+.rtl .panel-body div:first-child {
+    margin-right:20px;
+}
+
+.rtl .menu_section > ul.side-menu {
+    padding:0;
+}
+
+rtl.nav-sm .container.body .right_col {
+    margin-left:0;
+}
+
+.rtl.nav-sm ul.nav.child_menu {
+    left: 0;
+    position: relative;
+    width: auto;
+    z-index: 4000;
+    background: inherit;
+    padding: 0;
+    margin: 0;
+}
