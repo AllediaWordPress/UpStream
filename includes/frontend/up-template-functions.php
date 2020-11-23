@@ -52,7 +52,7 @@ function upstream_output_client_users($id = null)
             foreach ($users as $user_id) {
                 if (upstream_show_users_name()) {
                     if ($isAfterFirstItem) {
-                        echo ',&nbsp;';
+                        echo ',&nbsp; ';
                     }
 
                     $isAfterFirstItem = true;
