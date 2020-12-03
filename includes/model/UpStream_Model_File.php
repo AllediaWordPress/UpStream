@@ -12,6 +12,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
 
     protected $upfsFileId = null;
 
+    protected $createdAt = 0;
+
     protected $reminders = [];
 
     protected $metadataKey = '_upstream_project_files';
@@ -32,6 +34,8 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
     protected function loadFromArray($item_metadata)
     {
         parent::loadFromArray($item_metadata);
+
+        $this->createdAt = !empty($item_metadata['created_at']) ? $item_metadata['created_at'] : null;
 
         if (upstream_filesytem_enabled() && isset($item_metadata['file']) && upstream_upfs_info($item_metadata['file'])) {
             $this->upfsFileId = $item_metadata['file'];
@@ -81,6 +85,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
             $item_metadata['file'] = $this->upfsFileId;
         }
 
+        if ($this->createdAt >= 0) $item_metadata['created_at'] = $this->createdAt;
         $item_metadata['reminders'] = [];
 
         foreach ($this->reminders as $reminder) {
@@ -129,6 +134,12 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
                 }
                 return '';
 
+            case 'createdAt':
+                if ($this->createdAt > 0)
+                    return self::timestampToYMD($this->createdAt);
+                else
+                    return '';
+
             default:
                 return parent::__get($property);
         }
@@ -162,6 +173,7 @@ class UpStream_Model_File extends UpStream_Model_Meta_Object
         $fields = parent::fields();
 
         $fields['fileId'] = [ 'type' => 'file', 'title' => __('File'), 'search' => false, 'display' => true ];
+        $fields['createdAt'] = [ 'type' => 'date', 'title' => __('Upload Date'), 'search' => true, 'display' => true ];
 
         $fields = self::customFields($fields, UPSTREAM_ITEM_TYPE_FILE);
 

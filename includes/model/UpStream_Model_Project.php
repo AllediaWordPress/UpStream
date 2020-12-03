@@ -20,6 +20,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
     protected $clientUserIds = [];
 
+    protected $memberUserIds = [];
+
     protected $clientId = 0;
 
     protected $progress = 0;
@@ -39,6 +41,12 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             parent::__construct($id, [
                 'clientUserIds' => function ($m) {
                     $arr = isset($m['_upstream_project_client_users'][0]) ? unserialize($m['_upstream_project_client_users'][0]) : null;
+                    $arr = is_array($arr) ? $arr : [];
+                    $arr = array_filter($arr);
+                    return $arr;
+                },
+                'memberUserIds' => function ($m) {
+                    $arr = isset($m['_upstream_project_members'][0]) ? unserialize($m['_upstream_project_members'][0]) : null;
                     $arr = is_array($arr) ? $arr : [];
                     $arr = array_filter($arr);
                     return $arr;
@@ -318,6 +326,7 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
             case 'statusCode':
             case 'clientId':
             case 'clientUserIds':
+            case 'memberUserIds':
             case 'startDate':
             case 'endDate':
             case 'categoryIds':
@@ -455,6 +464,8 @@ class UpStream_Model_Project extends UpStream_Model_Post_Object
 
         $fields['statusCode'] = [ 'type' => 'select', 'title' => __('Status'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Project::getStatuses' ];
         $fields['categoryIds'] = [ 'type' => 'select', 'title' => __('Categories'), 'search' => true, 'display' => true, 'options_cb' => 'UpStream_Model_Project::getCategories', 'is_array' => 'true' ];
+        $fields['clientUserIds'] = [ 'type' => 'user_id', 'is_array' => true, 'title' => __('Selected Client Users'), 'search' => true, 'display' => true ];
+        $fields['memberUserIds'] = [ 'type' => 'user_id', 'is_array' => true, 'title' => __('Members'), 'search' => true, 'display' => true ];
         $fields['startDate'] = [ 'type' => 'date', 'title' => __('Start Date'), 'search' => true, 'display' => true ];
         $fields['endDate'] = [ 'type' => 'date', 'title' => __('End Date'), 'search' => true, 'display' => true ];
         $fields['progress'] = [ 'type' => 'number', 'title' => __('Progress (%)'), 'search' => true, 'display' => true ];

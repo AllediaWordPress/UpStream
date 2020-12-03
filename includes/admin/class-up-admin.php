@@ -766,6 +766,8 @@ class UpStream_Admin
         ])) {
             return "$classes upstream";
         }
+
+        return $classes;
     }
 
     /**
