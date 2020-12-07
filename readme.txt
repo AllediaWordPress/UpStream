@@ -2,9 +2,9 @@
 Contributors: upstreamplugin, deenison, andergmartins
 Tags: project, manage, management, project management, project manager, wordpress project management, crm, client, client manager, tasks, issue tracker, bug tracker, task manager
 Requires at least: 5.2
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 1.38.4
+Stable tag: 1.39.0
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

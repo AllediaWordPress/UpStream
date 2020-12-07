@@ -99,7 +99,7 @@ class UpStream_Report
             if (!upstream_user_can_access_project(get_current_user_id(), $item->id))
                 return false;
 
-            return (count($ids) == 0 || in_array($item->id, $ids));
+            return (in_array($item->id, $ids));
         };
 
         $optionsInfo = $field_options[$sectionId];
@@ -123,7 +123,7 @@ class UpStream_Report
             if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_TASK, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
                 return false;
 
-            return (count($ids) == 0 || in_array($item->id, $ids));
+            return (in_array($item->id, $ids));
 
         };
 
@@ -148,7 +148,7 @@ class UpStream_Report
             if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_BUG, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
                 return false;
 
-            return (count($ids) == 0 || in_array($item->id, $ids));
+            return (in_array($item->id, $ids));
 
         };
 
@@ -174,7 +174,7 @@ class UpStream_Report
             if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_FILE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parent->id, UPSTREAM_PERMISSIONS_ACTION_VIEW))
                 return false;
 
-            return (count($ids) == 0 || in_array($item->id, $ids));
+            return (in_array($item->id, $ids));
 
 		};
 
@@ -199,7 +199,7 @@ class UpStream_Report
             if (!upstream_override_access_object(true, UPSTREAM_ITEM_TYPE_MILESTONE, $item->id, UPSTREAM_ITEM_TYPE_PROJECT, $item->parentId, UPSTREAM_PERMISSIONS_ACTION_VIEW))
                 return false;
 
-            return (count($ids) == 0 || in_array($item->id, $ids));
+            return (in_array($item->id, $ids));
 
         };
 
