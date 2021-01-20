@@ -12,7 +12,7 @@ if ( ! upstream_are_bugs_disabled()
 
     $collapseBoxState = \UpStream\Frontend\getSectionCollapseState('bugs');
 
-    if ( ! is_null($collapseBoxState)) {
+    if ( $collapseBoxState !== false) {
         $collapseBox = $collapseBoxState === 'closed';
     }
 

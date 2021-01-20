@@ -12,7 +12,7 @@ if ( ! upstream_are_milestones_disabled()
 
     $collapseBoxState = \UpStream\Frontend\getSectionCollapseState('milestones');
 
-    if ( ! is_null($collapseBoxState)) {
+    if ( $collapseBoxState !== false) {
         $collapseBox = $collapseBoxState === 'closed';
     }
 

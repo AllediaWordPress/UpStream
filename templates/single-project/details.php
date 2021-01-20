@@ -59,13 +59,13 @@ $isClientsDisabled = is_clients_disabled();
         </div>
         <div class="x_content" style="display: <?php echo $collapseDetails ? 'none' : 'block'; ?>;">
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-id">
                     <p class="title"><?php esc_html_e('ID', 'upstream'); ?></p>
                     <span><?php echo $project_id; ?></span>
                 </div>
 
                 <?php if (!empty($projectTimeframe)): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-timeframe">
                         <p class="title"><?php esc_html_e('Timeframe', 'upstream'); ?></p>
                         <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'start', UPSTREAM_PERMISSIONS_ACTION_VIEW) &&
                             upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'end', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
@@ -77,7 +77,7 @@ $isClientsDisabled = is_clients_disabled();
                 <?php endif; ?>
 
                 <?php if (!$isClientsDisabled && $project->client_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-client">
                         <p class="title"><?php echo esc_html(upstream_client_label()); ?></p>
                         <span><?php echo $project->client_id > 0 && !empty($project->clientName) ? esc_html($project->clientName) : '<i class="text-muted">(' . esc_html__(
                                     'none',
@@ -86,7 +86,7 @@ $isClientsDisabled = is_clients_disabled();
                     </div>
                 <?php endif; ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-progress">
                     <p class="title"><?php esc_html_e('Progress', 'upstream'); ?></p>
                     <span>
                     <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
@@ -97,7 +97,7 @@ $isClientsDisabled = is_clients_disabled();
                     </span>
                 </div>
                 <?php if ($project->owner_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-owner">
                         <p class="title"><?php esc_html_e('Owner', 'upstream'); ?></p>
                         <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'progress', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
                             <span><?php echo $project->owner_id > 0 ? upstream_user_avatar($project->owner_id) : '<i class="text-muted">(' . esc_html__(
@@ -111,7 +111,7 @@ $isClientsDisabled = is_clients_disabled();
                 <?php endif; ?>
 
                 <?php if (!$isClientsDisabled && $project->client_id > 0): ?>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-clientusers">
                         <p class="title"><?php printf(__('%s Users', 'upstream'), esc_html(upstream_client_label())); ?></p>
                         <?php if (is_array($project->clientUsers) && count($project->clientUsers) > 0): ?>
                             <?php upstream_output_client_users() ?>
@@ -121,7 +121,7 @@ $isClientsDisabled = is_clients_disabled();
                     </div>
                 <?php endif; ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 upstream-pd-members">
                     <p class="title"><?php esc_html_e('Members', 'upstream'); ?></p>
                     <?php upstream_output_project_members(); ?>
                 </div>
@@ -129,7 +129,7 @@ $isClientsDisabled = is_clients_disabled();
                 <?php do_action('upstream:frontend.project.render_details', $project->id); ?>
             </div>
             <?php if (!empty($project->description)): ?>
-                <div>
+                <div class="upstream-pd-description">
                     <p class="title"><?php esc_html_e('Description', 'upstream'); ?></p>
                     <?php if (upstream_override_access_field(true, UPSTREAM_ITEM_TYPE_PROJECT, $project_id, null, 0, 'description', UPSTREAM_PERMISSIONS_ACTION_VIEW)): ?>
                         <blockquote

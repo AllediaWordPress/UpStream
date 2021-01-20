@@ -12,7 +12,7 @@ if ( ! upstream_are_tasks_disabled()
 
     $collapseBoxState = \UpStream\Frontend\getSectionCollapseState('tasks');
 
-    if ( ! is_null($collapseBoxState)) {
+    if ( $collapseBoxState !== false) {
         $collapseBox = $collapseBoxState === 'closed';
     }
 

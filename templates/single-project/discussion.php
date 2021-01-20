@@ -13,7 +13,7 @@ if ( ! defined('ABSPATH')) {
 
     $projectId = upstream_post_id();
 
-    if ( ! is_null($collapseBoxState)) {
+    if ( $collapseBoxState !== false) {
         $collapseBox = $collapseBoxState === 'closed';
     }
     ?>

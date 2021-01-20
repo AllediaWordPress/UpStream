@@ -187,11 +187,17 @@ if ( ! class_exists('UpStream_Admin_Project_Columns')) :
                     if ($owner_id > 0) {
                         if (!isset(self::$usersCache[$owner_id])) {
                             $user = get_user_by('id', $owner_id);
-                            self::$usersCache[$user->ID] = $user->display_name;
+                            if (isset($user) && $user) {
+                                self::$usersCache[$user->ID] = $user->display_name;
+                            }
                             unset($user);
                         }
 
-                        echo self::$usersCache[$owner_id];
+                        if (isset(self::$usersCache[$owner_id])) {
+                            echo self::$usersCache[$owner_id];
+                        } else {
+                            echo self::$noneTag;
+                        }
                     } else {
                         echo self::$noneTag;
                     }

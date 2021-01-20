@@ -391,6 +391,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             ],
                         ],
                         [
+                            'name'    => __('Collapse Project Progress box', 'upstream'),
+                            'id'      => 'collapse_project_progress',
+                            'type'    => 'radio_inline',
+                            'desc'    => __(
+                                'Choose whether to collapse the Project progress box automatically when a user opens a project page.',
+                                'upstream'
+                            ),
+                            'default' => '0',
+                            'options' => [
+                                0 => __('No', 'upstream'),
+                                1 => __('Yes', 'upstream'),
+                            ],
+                        ],
+                        [
                             'name'    => __('Collapse Project Milestones box', 'upstream'),
                             'id'      => 'collapse_project_milestones',
                             'type'    => 'radio_inline',

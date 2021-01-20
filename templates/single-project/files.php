@@ -12,7 +12,7 @@ if ( ! upstream_are_files_disabled()
 
     $collapseBoxState = \UpStream\Frontend\getSectionCollapseState('files');
 
-    if ( ! is_null($collapseBoxState)) {
+    if ( $collapseBoxState !== false) {
         $collapseBox = $collapseBoxState === 'closed';
     }
 

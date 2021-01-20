@@ -113,7 +113,7 @@ unset($options);
  */
 $sections = [
     'details',
-  /*  'progress',*/
+    'progress',
     'milestones',
     'tasks',
     'bugs',

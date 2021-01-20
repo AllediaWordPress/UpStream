@@ -142,10 +142,13 @@ UpStream includes the following minified libraries. Links to source are below:
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+= [1.39.1] - 2021-01-20 =
+*
+
 = [1.39.0] - 2020-12-07 =
 * Made report changes
 * Fixed LTR display bug
-* Added back permissions edit box removed in previous release
+* Added back pefrmissions edit box removed in previous release
 
 = [1.38.4] - 2020-11-15 =
 * Fixed comment posting bug
