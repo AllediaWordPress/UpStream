@@ -4,7 +4,7 @@ Tags: project, manage, management, project management, project manager, wordpres
 Requires at least: 5.2
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 1.39.0
+Stable tag: 1.39.1
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -143,12 +143,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 = [1.39.1] - 2021-01-20 =
-*
+* Added progress box to front end with graphs
+* Fix minor collapse bug in front end
+* Fix warnings when project owner is deleted
 
 = [1.39.0] - 2020-12-07 =
 * Made report changes
 * Fixed LTR display bug
-* Added back pefrmissions edit box removed in previous release
+* Added back permissions edit box removed in previous release
 
 = [1.38.4] - 2020-11-15 =
 * Fixed comment posting bug
