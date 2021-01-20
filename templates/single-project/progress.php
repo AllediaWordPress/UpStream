@@ -145,10 +145,11 @@ $project = $manager->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $projectId);
                     ]);
 
                     var options = {
-                        is3D: true,
                         pieSliceText: 'label',
                         legend: 'none',
-                        height: 300
+                        pieSliceTextStyle: { color: '#aaa' },
+                        height: 300,
+                        pieHole: .5
                     };
 
                     var chart = new google.visualization.PieChart(document.getElementById('task_chart_div'));
@@ -191,9 +192,10 @@ $project = $manager->getByID(UPSTREAM_ITEM_TYPE_PROJECT, $projectId);
                     ]);
 
                     var options = {
-                        is3D: true,
+                        pieHole: .5,
                         legend: 'none',
                         pieSliceText: 'label',
+                        pieSliceTextStyle: { color: '#aaa' },
                         height: 300
                     };
 

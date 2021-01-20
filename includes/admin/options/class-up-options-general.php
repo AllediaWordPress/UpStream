@@ -486,6 +486,20 @@ if ( ! class_exists('UpStream_Options_General')) :
                             'before_row' => '<hr>',
                         ],
                         [
+                            'name'    => __('Disable Project Progress box', 'upstream'),
+                            'id'      => 'disable_project_progress',
+                            'type'    => 'radio_inline',
+                            'desc'    => __(
+                                'Choose whether to disable the Project progress box on the front end.',
+                                'upstream'
+                            ),
+                            'default' => '0',
+                            'options' => [
+                                0 => __('No', 'upstream'),
+                                1 => __('Yes', 'upstream'),
+                            ],
+                        ],
+                        [
                             'name'    => __('Disable Clients and Client Users', 'upstream'),
                             'id'      => 'disable_clients',
                             'type'    => 'radio_inline',

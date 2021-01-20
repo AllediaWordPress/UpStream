@@ -91,6 +91,7 @@ $user = upstream_user_data();
 $options                = (array)get_option('upstream_general');
 $displayOverviewSection = ! isset($options['disable_project_overview']) || (bool)$options['disable_project_overview'] === false;
 $displayDetailsSection  = ! isset($options['disable_project_details']) || (bool)$options['disable_project_details'] === false;
+$displayProgressSection  = ! isset($options['disable_project_progress']) || (bool)$options['disable_project_progress'] === false;
 
 /**
  * @param bool $displayOverviewSection
@@ -113,7 +114,6 @@ unset($options);
  */
 $sections = [
     'details',
-    'progress',
     'milestones',
     'tasks',
     'bugs',
@@ -121,6 +121,10 @@ $sections = [
     'discussion',
 ];
 $sections = apply_filters('upstream_panel_sections', $sections);
+
+if ($displayProgressSection) {
+    array_splice($sections, 1, 0, 'progress');
+}
 
 /* Apply the order to the panels. */
 $sectionsOrder = (array)\UpStream\Frontend\getPanelOrder();
