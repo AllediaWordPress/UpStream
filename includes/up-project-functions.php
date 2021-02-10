@@ -126,10 +126,19 @@ function upstream_project_client_id($id = 0)
 
 function upstream_project_client_name($id = 0)
 {
-    $project = new UpStream_Project($id);
-    $result  = $project->get_client_name();
 
-    return apply_filters('upstream_project_client_name', $result, $id);
+    $res = Upstream_Cache::get_instance()->get('upstream_project_client_name'.$id);
+
+    if ($res === false) {
+        $project = new UpStream_Project($id);
+        $result  = $project->get_client_name();
+
+        $res = apply_filters('upstream_project_client_name', $result, $id);
+        Upstream_Cache::get_instance()->set('upstream_project_client_name'.$id,$res);
+
+    }
+
+    return $res;
 }
 
 function upstream_project_client_users($id = 0)
@@ -428,6 +437,8 @@ function getUpStreamProjectDetailsById($project_id)
         $project->ownerName   = "";
         $project->dateStart   = 0;
         $project->dateEnd     = 0;
+        $project->dateStartYMD   = '';
+        $project->dateEndYMD     = '';
         $project->members     = [];
         $project->clientUsers = [];
 
@@ -457,6 +468,10 @@ function getUpStreamProjectDetailsById($project_id)
                 $project->dateStart = (int)$meta->meta_value;
             } elseif ($meta->meta_key === '_upstream_project_end') {
                 $project->dateEnd = (int)$meta->meta_value;
+            } elseif ($meta->meta_key === '_upstream_project_start.YMD') {
+                $project->dateStartYMD = $meta->meta_value;
+            } elseif ($meta->meta_key === '_upstream_project_end.YMD') {
+                $project->dateEndYMD = $meta->meta_value;
             } elseif ($meta->meta_key === '_upstream_project_members') {
                 $project->members = (array)maybe_unserialize($meta->meta_value);
             } elseif ($meta->meta_key === '_upstream_project_client_users') {

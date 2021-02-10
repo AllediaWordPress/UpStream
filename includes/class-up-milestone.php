@@ -477,6 +477,8 @@ class Milestone extends Struct
             'notes'            => $this->getNotes(),
             'start_date'       => $this->getStartDate('unix'),
             'end_date'         => $this->getEndDate('unix'),
+            'start_date.YMD'       => $this->getStartDate__YMD(),
+            'end_date.YMD'         => $this->getEndDate__YMD(),
             'task_count'       => $this->getTaskCount(),
             'task_open'        => $this->getTaskOpen(),
             'color'            => $this->getColor(),
@@ -802,16 +804,18 @@ class Milestone extends Struct
 
     public function getEndDate__YMD()
     {
-        if (!empty($this->endDate__YMD)) {
-            $this->endDate__YMD = $this->getMetadata('upst_end_date.YMD');
+        if (empty($this->endDate__YMD) && is_array($this->getMetadata('upst_end_date.YMD'))) {
+            $r = $this->getMetadata('upst_end_date.YMD');
+            if (!empty($r) && is_array($r) && count($r) > 0) $this->endDate__YMD = $r[0];
         }
         return $this->endDate__YMD;
     }
 
     public function getStartDate__YMD()
     {
-        if (!empty($this->startDate__YMD)) {
-            $this->startDate__YMD = $this->getMetadata('upst_start_date.YMD');
+        if (empty($this->startDate__YMD) && is_array($this->getMetadata('upst_start_date.YMD'))) {
+            $r = $this->getMetadata('upst_start_date.YMD');
+            if (!empty($r) && is_array($r) && count($r) > 0) $this->startDate__YMD = $r[0];
         }
         return $this->startDate__YMD;
     }

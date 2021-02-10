@@ -688,7 +688,7 @@ jQuery(document).ready(function ($) {
             var filteredRows = $('tbody tr[data-id]:visible', table);
             if (filteredRows.length === 0) {
                 var thsCount = $('thead th', table).length;
-                var tr = $('<tr data-empty-row><td colspan="' + thsCount + '" class="text-center">No results</td></tr>');
+                var tr = $('<tr data-empty-row><td colspan="' + thsCount + '" class="text-center">'+upstream.langs.LB_NO_RESULTS+'</td></tr>');
                 var tBody = $('tbody', table);
 
                 if (tBody.children('[data-empty-row]').length === 0) {

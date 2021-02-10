@@ -99,6 +99,32 @@ function upstream_output_project_owner($id = null)
     }
 }
 
+function upstream_get_project_owner($id = null)
+{
+    $users = [upstream_project_owner_id($id)];
+    $text = "";
+
+    if (count($users) > 0) {
+        $text .= '<ul class="list-inline"><li>';
+                $isAfterFirstItem = false;
+
+                foreach ($users as $user_id) {
+                    if (upstream_show_users_name()) {
+                        if ($isAfterFirstItem) {
+                            $text .= ',&nbsp;';
+                        }
+
+                        $isAfterFirstItem = true;
+                    }
+
+                    $text .= upstream_user_avatar($user_id);
+                }
+       $text.='</li></ul>';
+    } else {
+        $text.= '<span class="text-muted"><i>'.esc_html('(' . __('none', 'upstream') . ')').'</i></span>';
+    }
+    return array($users, $text);
+}
 
 function upstream_output_project_members($id = null)
 {

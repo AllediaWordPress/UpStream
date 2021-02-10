@@ -265,7 +265,7 @@ function upstream_user_avatar($user_id, $displayTooltip = true)
 
 // get data for any user including current
 // can send id
-function upstream_user_data($data = 0, $ignore_current = false)
+function upstream_user_data_uncached($data = 0, $ignore_current = false)
 {
 
     // if no data sent, find current user email
@@ -275,7 +275,13 @@ function upstream_user_data($data = 0, $ignore_current = false)
 
     $user_data = null;
     $type      = is_email($data) ? 'email' : 'id';
-    $wp_user   = get_user_by($type, $data);
+
+    $wp_user = Upstream_Cache::get_instance()->get('upstream_user_data_by'.$type.'.'.$data);
+
+    if ($wp_user === false) {
+        $wp_user = get_user_by($type, $data);
+    }
+    Upstream_Cache::get_instance()->set('upstream_user_data_by'.$type.'.'.$data, $wp_user);
 
     if (empty($wp_user)) {
         $wp_user = wp_get_current_user();
@@ -425,6 +431,18 @@ function upstream_user_data($data = 0, $ignore_current = false)
     }
 
     return $user_data;
+}
+
+function upstream_user_data($data = 0, $ignore_current = false) {
+
+    $res = Upstream_Cache::get_instance()->get('upstream_user_data'.$data.".".$ignore_current);
+
+    if ($res === false) {
+
+        $res = upstream_user_data_uncached($data, $ignore_current);
+        Upstream_Cache::get_instance()->set('upstream_user_data'.$data.".".$ignore_current, $res);
+    }
+    return $res;
 }
 
 

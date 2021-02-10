@@ -130,7 +130,7 @@ class UpStream_Admin_Pointers
                 $pd = @get_plugin_data(WP_PLUGIN_DIR . '/' . strtolower($r[0]));
             }
 
-            if ($pd) {
+            if ($pd && !empty($pd['Name'])) {
 
                 $current_version = $pd['Version'];
                 $reqd_version = $r[1];

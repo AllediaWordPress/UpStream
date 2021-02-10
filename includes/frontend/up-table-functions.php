@@ -639,7 +639,7 @@ function renderTableColumnValue($columnName, $columnValue, $column, $row, $rowTy
 
             if (isset($row[$columnName . '.YMD']) && $row[$columnName . '.YMD']) {
                 $ts = date_create_from_format('Y-m-d', $row[$columnName . '.YMD'])->getTimestamp();
-                $html = esc_html(upstream_format_date($columnValue));
+                $html = esc_html(date_i18n(get_option('date_format'), $ts));
 
             } else {
 
@@ -983,7 +983,7 @@ function renderTable($tableAttrs = [], $columnsSchema = [], $data = [], $itemTyp
     <span class="p_count">
         <?php
             if (count($data) > 0) {
-                echo esc_html(sprintf(_x(' %s found', 'upstream'), $optArr[$itemType]));
+                echo esc_html(sprintf(__(' %s found', 'upstream'), $optArr[$itemType]));
             }
         ?>
     </span>

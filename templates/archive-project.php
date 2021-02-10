@@ -131,6 +131,7 @@ if (isset($currentUser->projects)) {
             if (!$start) $start = 0;
             $end = $project->get_meta('end');
             if (!$end) $end = 0;
+
             $prog = $project->get_meta('progress');
             if (!$prog) $prog = 0;
             $stat =  $project->get_meta('status');
@@ -174,6 +175,18 @@ if (isset($currentUser->projects)) {
 
             $data->startDate = (string)upstream_format_date($data->startDateTimestamp);
             $data->endDate   = (string)upstream_format_date($data->endDateTimestamp);
+
+            if (($ymd = $project->get_meta('start.YMD'))) {
+                if (is_array($ymd)) $ymd = $ymd[0];
+                $data->startDateTimestamp = \UpStream_Model_Object::ymdToTimestamp($ymd);
+                $data->startDate = date_i18n(get_option('date_format'), $data->startDateTimestamp);
+            }
+
+            if (($ymd = $project->get_meta('end.YMD'))) {
+                if (is_array($ymd)) $ymd = $ymd[0];
+                $data->endDateTimestamp = \UpStream_Model_Object::ymdToTimestamp($ymd);
+                $data->endDate = date_i18n(get_option('date_format'), $data->endDateTimestamp);
+            }
 
             if ($areClientsEnabled) {
                 $data->clientName = trim((string)upstream_project_client_name($project_id));
@@ -598,8 +611,9 @@ if ( ! empty($ordering)) {
 
                                                 <?php endif; ?>
 
-                                                <td data-column="owner">
-                                                    <?php upstream_output_project_owner($project->id); ?>
+                                                <?php $powner = upstream_get_project_owner($project->id); ?>
+                                                <td data-column="owner" data-value="<?php echo $powner && is_array($powner) ? esc_attr(implode(',', $powner[0])) : ''; ?>">
+                                                    <?php print $powner[1]; ?>
                                                 </td>
                                                 <td data-column="members">
                                                     <?php upstream_output_project_members($project->id); ?>

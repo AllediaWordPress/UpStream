@@ -283,6 +283,7 @@ function upstream_enqueue_styles_scripts()
                 'LB_DEC'                  => __('Dec', 'upstream'),
                 'LB_TODAY'                => __('Today', 'upstream'),
                 'LB_CLEAR'                => __('Clear', 'upstream'),
+                'LB_NO_RESULTS'           => __('No results', 'upstream')
             ],
         ]));
         do_action('upstream_frontend_enqueue_scripts');

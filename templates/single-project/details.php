@@ -11,6 +11,13 @@ $projectTimeframe = "";
 $projectDateStartIsNotEmpty = $project->dateStart > 0;
 $projectDateEndIsNotEmpty = $project->dateEnd > 0;
 if ($projectDateStartIsNotEmpty || $projectDateEndIsNotEmpty) {
+    if ($project->dateStartYMD) {
+        $project->dateStart = esc_html( \UpStream_Model_Object::ymdToTimestamp($project->dateStartYMD));
+    }
+    if ($project->dateEndYMD) {
+        $project->dateEnd = esc_html( \UpStream_Model_Object::ymdToTimestamp($project->dateEndYMD));
+    }
+
     if (!$projectDateEndIsNotEmpty) {
         $projectTimeframe = '<i class="text-muted">' . __(
                 'Start Date',
@@ -23,6 +30,7 @@ if ($projectDateStartIsNotEmpty || $projectDateEndIsNotEmpty) {
             ) . ': </i>' . esc_html(upstream_format_date($project->dateEnd));
     } else {
         $projectTimeframe = esc_html(upstream_format_date($project->dateStart) . ' - ' . upstream_format_date($project->dateEnd));
+
     }
 }
 
