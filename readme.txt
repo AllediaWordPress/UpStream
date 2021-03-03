@@ -144,6 +144,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 = [1.39.3] - 2021-03-03 =
 * Updated compatibility note for WP 5.7
+* Added support for chart colors
 
 = [1.39.2] - 2021-02-10 =
 * Fixed missing translations
