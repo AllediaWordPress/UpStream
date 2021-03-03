@@ -2,9 +2,9 @@
 Contributors: upstreamplugin, deenison, andergmartins
 Tags: project, manage, management, project management, project manager, wordpress project management, crm, client, client manager, tasks, issue tracker, bug tracker, task manager
 Requires at least: 5.2
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.6.20
-Stable tag: 1.39.1
+Stable tag: 1.39.3
 License: GPL-3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -141,6 +141,13 @@ UpStream includes the following minified libraries. Links to source are below:
 
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
+
+= [1.39.3] - 2021-03-03 =
+* Updated compatibility note for WP 5.7
+
+= [1.39.2] - 2021-02-10 =
+* Fixed missing translations
+* Fixed DST bug that appears in certain circumstances
 
 = [1.39.1] - 2021-01-20 =
 * Added progress box to front end with graphs

@@ -123,7 +123,7 @@ function upstream_load_admin_scripts($hook)
                     'LB_DELETING'                       => __('Deleting...', 'upstream'),
                     'LB_UNAPPROVE'                      => __('Unapprove'),
                     'LB_UNAPPROVING'                    => __('Unapproving...', 'upstream'),
-                    'LB_APPROVE'                        => __('Approve'),
+                    'LB_APPROVE'                        => __('Approve', 'upstream'),
                     'LB_APPROVING'                      => __('Approving...', 'upstream'),
                     'MSG_ARE_YOU_SURE'                  => __('Are you sure? This action cannot be undone.',
                         'upstream'),

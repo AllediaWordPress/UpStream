@@ -285,6 +285,29 @@ if ( ! empty($ordering)) {
 
     <div class="">
         <?php if ($projectsView) : ?>
+        <?php if(false): ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="x_panel" data-section="projects">
+                        <div class="x_title">
+                            <h2><i class="fa fa-bar-chart"></i> <?php echo esc_html(__("Status")); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php endif; ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="x_panel" data-section="projects">
